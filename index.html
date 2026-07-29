@@ -1,248 +1,1670 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>HairOS · Catálogo 60</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0808;--bg-card:#1a1612;--bg-elevated:#1c1814;--text:#f0ebe4;--text-sec:#d4c9bc;--text-muted:#8a8278;--gold:#c9a96e;--gold-light:#e8d5a8;--gold-glow:rgba(201,169,110,.12);--border:rgba(201,169,110,.08);--radius:14px;--t:.35s cubic-bezier(.23,1,.32,1);--transition:0.6s cubic-bezier(0.23,1,0.32,1)}
-html,body{background:var(--bg);font-family:Inter,sans-serif;color:var(--text);min-height:100%}
-body{padding:12px;max-width:1200px;margin:0 auto}
-.header{display:flex;justify-content:space-between;align-items:center;padding:8px 0 12px;border-bottom:1px solid var(--border);margin-bottom:12px}
-.brand{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;font-style:italic}
-.brand span{color:var(--gold)}
-.brand-sub{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted)}
-.count-badge{font-size:.65rem;color:var(--gold);background:var(--gold-glow);padding:3px 10px;border-radius:100px}
-.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
-.filters::-webkit-scrollbar{display:none}
-.filter-btn{flex-shrink:0;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);padding:6px 14px;border-radius:100px;font-size:.75rem;cursor:pointer;transition:all var(--t);font-family:Inter,sans-serif;white-space:nowrap}
-.filter-btn:hover{border-color:var(--gold);color:var(--text)}
-.filter-btn.active{background:var(--gold);color:#0a0808;border-color:var(--gold);font-weight:600}
-.masonry{column-count:2;column-gap:10px}
-@media(min-width:600px){body{padding:20px}.masonry{column-count:3;column-gap:14px}}
-@media(min-width:900px){.masonry{column-count:4;column-gap:16px}}
-.card{break-inside:avoid;margin-bottom:10px;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all var(--t);position:relative}
-.card:hover{border-color:rgba(201,169,110,.25);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-.card-img{width:100%;object-fit:cover;object-position:top center;display:block;transition:transform .5s;background:linear-gradient(135deg,#2a2218,#1a1612)}
-.card:hover .card-img{transform:scale(1.03)}
-.h-sm{height:140px}.h-md{height:200px}.h-lg{height:260px}.h-xl{height:320px}.h-xxl{height:380px}
-.card-info{padding:10px 12px 12px}
-.card-info h3{font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;font-weight:600;margin-bottom:2px;line-height:1.2}
-.card-info .sub{font-size:.65rem;color:var(--text-muted)}
-.card-info .badge{display:inline-block;margin-top:5px;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);background:var(--gold-glow);padding:2px 7px;border-radius:100px}
-.badge.produtos{color:#7ec8e3;background:rgba(126,200,227,.12)}
-.badge.kits{color:#e3a87e;background:rgba(227,168,126,.12)}
-.badge.coloracoes{color:#e37e9a;background:rgba(227,126,154,.12)}
-.fav-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:all var(--t)}
-.fav-btn:hover{transform:scale(1.1)}.fav-btn.favorited{color:#ff4757;background:rgba(255,71,87,.2)}
-.empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-style:italic;column-span:all}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HairOS · Landing Page</title>
+  <style>
+    /* ===== IMPORTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
 
-/* ===== MODAL 9:16 ===== */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);backdrop-filter:blur(0);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:none;transition:background .5s ease,backdrop-filter .5s ease}
-.modal-overlay.open{background:rgba(0,0,0,.85);backdrop-filter:blur(16px);pointer-events:auto}
-.modal-card{position:relative;width:100%;max-width:360px;aspect-ratio:9/16;border-radius:24px;overflow:hidden;transform:scale(.9) translateY(30px);opacity:0;transition:transform .5s cubic-bezier(.23,1,.32,1),opacity .5s ease;box-shadow:0 20px 60px rgba(0,0,0,.8)}
-.modal-overlay.open .modal-card{transform:scale(1) translateY(0);opacity:1}
-.modal-card-img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;background:linear-gradient(135deg,#2a2218,#1a1612)}
-.modal-close-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,71,87,.3);color:#ff4757;border-radius:50%;font-size:1.3rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);z-index:30}
-.modal-close-btn:hover{background:#ff4757;color:#fff;transform:scale(1.08)}
-.modal-toggle-btn{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);backdrop-filter:blur(12px);border:1px solid var(--gold);color:var(--gold-light);padding:10px 28px;border-radius:30px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;transition:all var(--transition);z-index:20;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:1;pointer-events:auto}
-.modal-toggle-btn.hidden{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(20px)}
-.modal-toggle-btn:hover{background:var(--gold);color:#0a0808;transform:translateX(-50%) scale(1.05)}
-.modal-content-sheet{position:absolute;bottom:0;left:0;right:0;height:55%;min-height:200px;max-height:100%;background:rgba(10,8,8,.96);backdrop-filter:blur(24px);border-radius:24px 24px 0 0;padding:28px 20px 24px;transform:translateY(100%);transition:transform .6s cubic-bezier(.23,1,.32,1),height .6s cubic-bezier(.23,1,.32,1),border-radius .6s cubic-bezier(.23,1,.32,1);z-index:25;display:flex;flex-direction:column;border-top:1px solid rgba(201,169,110,.15);overflow:hidden;touch-action:none}
-.modal-content-sheet.show{transform:translateY(0)}
-.modal-content-sheet.full{height:100%;border-radius:0}
-.sheet-handle-wrapper{flex-shrink:0;padding-bottom:12px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
-.sheet-handle-wrapper:active{cursor:grabbing}
-.sheet-handle{width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:0 auto;transition:background .3s}
-.sheet-handle-wrapper:hover .sheet-handle{background:rgba(255,255,255,.4)}
-.sheet-scroll-area{flex:1;overflow-y:auto;padding-right:4px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent;scroll-behavior:smooth}
-.sheet-scroll-area::-webkit-scrollbar{width:3px}
-.sheet-scroll-area::-webkit-scrollbar-track{background:transparent}
-.sheet-scroll-area::-webkit-scrollbar-thumb{background:var(--gold);border-radius:10px}
-.sheet-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.sheet-header h2{font-family:'Playfair Display',serif;font-style:italic;font-size:1.4rem;font-weight:700;color:var(--text)}
-.sheet-header .sub{font-size:.85rem;color:var(--gold);font-weight:400;margin-top:2px}
-.sheet-close-btn{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);color:#ff4757;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);flex-shrink:0}
-.sheet-close-btn:hover{background:#ff4757;color:#fff}
-.sheet-desc{font-size:.82rem;color:var(--text-sec);font-weight:300;line-height:1.55;margin-bottom:14px;border-top:1px solid var(--border);padding-top:12px}
-.sheet-btns{display:flex;gap:8px;margin-bottom:12px}
-.sheet-btns button{flex:1;padding:9px;border-radius:10px;border:1px solid rgba(201,169,110,.25);background:var(--gold-glow);color:var(--gold-light);font-size:.75rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;transition:all var(--transition)}
-.sheet-btns button.cuidados{background:rgba(46,204,113,.08);border-color:rgba(46,204,113,.2);color:#2ecc71}
-.sheet-btns button:hover{opacity:.85;transform:scale(1.02)}
-.kit-lista{display:none;margin-bottom:12px;padding:8px 12px;background:rgba(201,169,110,.04);border-radius:10px;border:1px solid var(--border)}
-.kit-lista.show{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-.kit-lista .kit-title{font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);opacity:.7;margin-bottom:4px;font-weight:600}
-.kit-item{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text-sec);font-size:.75rem;transition:color .2s}
-.kit-item:last-child{border-bottom:none}
-.kit-item:hover{color:var(--text)}
-.kit-item span{color:var(--gold);opacity:.6}
-.sheet-cta{display:block;width:100%;padding:10px;background:var(--gold);color:#0a0808;border:none;border-radius:10px;font-weight:700;font-size:.85rem;text-align:center;cursor:pointer;font-family:Inter,sans-serif;transition:all var(--transition);text-decoration:none;margin-top:12px}
-.sheet-cta:hover{background:var(--gold-light);transform:scale(1.01)}
-</style>
+    /* ===== RESET & VARIÁVEIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0808;
+      --bg-card: #1a1612;
+      --text: #f0ebe4;
+      --text-sec: #d4c9bc;
+      --text-muted: #8a8278;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --gold-glow: rgba(201, 169, 110, .12);
+      --border: rgba(201, 169, 110, .08);
+      --radius: 14px;
+      --transition: .35s cubic-bezier(.23, 1, .32, 1);
+      --t6: .6s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    html,
+    body {
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body {
+      padding: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .brand span {
+      color: var(--gold);
+    }
+
+    .brand-sub {
+      font-size: .6rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* ===== MASONRY HOME ===== */
+    .masonry {
+      column-count: 2;
+      column-gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      .masonry {
+        column-count: 3;
+        column-gap: 14px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .masonry {
+        column-count: 4;
+        column-gap: 16px;
+      }
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: rgba(201, 169, 110, .25);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+    }
+
+    .card-img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform .5s ease;
+    }
+
+    .h-lg {
+      height: 300px;
+    }
+    .h-xl {
+      height: 360px;
+    }
+    .h-xxl {
+      height: 420px;
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.03);
+    }
+
+    .card-action {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 8, 8, .75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 169, 110, .25);
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .card:hover .card-action {
+      background: rgba(26, 22, 18, .95);
+      border-color: var(--gold);
+    }
+
+    .card-action-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .65rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-action-btn {
+      width: 14px;
+      height: 14px;
+      background: var(--gold-glow);
+      border: 1px solid rgba(201, 169, 110, .3);
+      border-radius: 50%;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .5rem;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+
+    .card:hover .card-action-btn {
+      background: var(--gold);
+      color: #0a0808;
+      transform: scale(1.1);
+    }
+
+    .card-actions-top {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .card-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .4);
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+    }
+
+    .card-btn:hover {
+      transform: scale(1.1);
+    }
+    .card-btn.favorited {
+      color: #ff4757;
+      background: rgba(255, 71, 87, .2);
+    }
+    .card-btn.share-btn {
+      color: #4ecdc4;
+    }
+    .card-btn.share-btn:hover {
+      background: rgba(78, 205, 196, .2);
+    }
+
+    /* ===== MODAL FULLSCREEN ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      z-index: 100;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0;
+      pointer-events: none;
+      transition: background .5s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-overlay.open {
+      background: rgba(0, 0, 0, 1);
+      pointer-events: auto;
+    }
+
+    .modal-overlay::-webkit-scrollbar {
+      width: 4px;
+    }
+    .modal-overlay::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .modal-overlay::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      background: var(--bg);
+      border-radius: 0;
+      opacity: 0;
+      transition: opacity .5s ease;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-overlay.open .modal-card {
+      opacity: 1;
+    }
+
+    /* ===== HERO ===== */
+    .modal-hero {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      max-height: 600px;
+      min-height: 400px;
+      overflow: hidden;
+      background: var(--bg-card);
+      flex-shrink: 0;
+    }
+
+    .modal-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: opacity .4s ease;
+    }
+
+    .modal-hero-img.loading {
+      opacity: 0;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 71, 87, .3);
+      color: #ff4757;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--t6);
+      z-index: 30;
+    }
+
+    .modal-close-btn:hover {
+      background: #ff4757;
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    .modal-hero-actions {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 30;
+    }
+
+    .modal-hero-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: rgba(255, 255, 255, .6);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-hero-btn:hover {
+      transform: scale(1.1);
+    }
+    .modal-hero-btn.favorited {
+      color: #ff4757;
+      background: rgba(255, 71, 87, .2);
+      border-color: rgba(255, 71, 87, .3);
+    }
+    .modal-hero-btn.share-btn {
+      color: #4ecdc4;
+    }
+    .modal-hero-btn.share-btn:hover {
+      background: rgba(78, 205, 196, .2);
+    }
+
+    .modal-toggle-btn {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, .75);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 12px 32px;
+      border-radius: 30px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--t6);
+      z-index: 20;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .4);
+      white-space: nowrap;
+    }
+
+    .modal-toggle-btn:hover {
+      background: var(--gold);
+      color: #0a0808;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .modal-toggle-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) translateY(20px);
+    }
+
+    /* ===== SHEET ===== */
+    .modal-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 500px;
+      margin: 0 auto;
+      height: 60%;
+      min-height: 300px;
+      max-height: 90%;
+      background: rgba(10, 8, 8, .98);
+      backdrop-filter: blur(24px);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 20px 30px;
+      transform: translateY(100%);
+      transition: transform var(--t6), height var(--t6);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(201, 169, 110, .15);
+      overflow: hidden;
+      touch-action: none;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, .8);
+    }
+
+    .modal-sheet.show {
+      transform: translateY(0);
+    }
+    .modal-sheet.full {
+      height: 90%;
+      border-radius: 0;
+    }
+
+    .sheet-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(255, 255, 255, .2);
+      border-radius: 4px;
+      margin: 0 auto 16px;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background .3s;
+    }
+
+    .sheet-handle:hover {
+      background: rgba(255, 255, 255, .4);
+    }
+    .sheet-handle:active {
+      cursor: grabbing;
+    }
+
+    .sheet-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-right: -4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
+    }
+
+    .sheet-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+    .sheet-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sheet-scroll::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .sheet-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .sheet-header .sub {
+      font-size: .9rem;
+      color: var(--gold);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .sheet-close-btn {
+      background: rgba(255, 71, 87, .1);
+      border: 1px solid rgba(255, 71, 87, .3);
+      color: #ff4757;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--t6);
+      flex-shrink: 0;
+    }
+
+    .sheet-close-btn:hover {
+      background: #ff4757;
+      color: #fff;
+    }
+
+    .sheet-desc {
+      font-size: .85rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-btns {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .sheet-btns button {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(201, 169, 110, .25);
+      background: var(--gold-glow);
+      color: var(--gold-light);
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--t6);
+    }
+
+    .sheet-btns button.cuidados {
+      background: rgba(46, 204, 113, .08);
+      border-color: rgba(46, 204, 113, .2);
+      color: #2ecc71;
+    }
+
+    .sheet-btns button:hover {
+      opacity: .85;
+      transform: scale(1.02);
+    }
+
+    .kit-lista {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: rgba(201, 169, 110, .04);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .kit-lista.show {
+      display: block;
+      animation: fadeIn .25s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .kit-lista .kit-title {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--gold);
+      opacity: .7;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .kit-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-sec);
+      font-size: .8rem;
+      transition: color .2s;
+    }
+
+    .kit-item:last-child {
+      border-bottom: none;
+    }
+    .kit-item:hover {
+      color: var(--text);
+    }
+    .kit-item span {
+      color: var(--gold);
+      opacity: .6;
+    }
+
+    .sheet-cta {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: var(--gold);
+      color: #0a0808;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: .9rem;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--t6);
+      text-decoration: none;
+      margin-top: 8px;
+    }
+
+    .sheet-cta:hover {
+      background: var(--gold-light);
+      transform: scale(1.01);
+    }
+
+    /* ===== CONTEÚDO ABAIXO DO HERO ===== */
+    .modal-content {
+      padding: 20px 16px 40px;
+      flex: 1;
+    }
+
+    .modal-section-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-sec);
+      margin-bottom: 16px;
+      text-align: center;
+      opacity: .7;
+      letter-spacing: 2px;
+    }
+
+    .modal-content .masonry {
+      column-count: 2;
+      column-gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .modal-content .masonry {
+        column-count: 3;
+        column-gap: 14px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .modal-content .masonry {
+        column-count: 4;
+        column-gap: 16px;
+      }
+    }
+
+    /* ===== CARDS DENTRO DO MODAL ===== */
+    .modal-content .card {
+      margin-bottom: 10px;
+      border-color: rgba(201, 169, 110, .06);
+      border-radius: 12px;
+    }
+
+    .modal-content .card:hover {
+      border-color: rgba(201, 169, 110, .3);
+      transform: translateY(-2px);
+    }
+
+    .modal-content .card .card-img {
+      height: 120px;
+    }
+
+    .modal-content .card .h-lg {
+      height: 160px;
+    }
+    .modal-content .card .h-xl {
+      height: 200px;
+    }
+    .modal-content .card .h-xxl {
+      height: 240px;
+    }
+
+    .modal-content .card .card-actions-top {
+      display: none !important;
+    }
+
+    .modal-content .card .card-action {
+      display: none !important;
+    }
+
+    /* ===== UTILITÁRIOS ===== */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-style: italic;
+      column-span: all;
+    }
+  </style>
 </head>
 <body>
-<header class="header">
-<div><div class="brand">Hair<span>OS</span></div><div class="brand-sub">Catalogo</div></div>
-<span class="count-badge" id="countBadge">60 itens</span>
-</header>
-<div class="filters">
-<button class="filter-btn active" data-cat="all">Todos</button>
-<button class="filter-btn" data-cat="cortes">Cortes</button>
-<button class="filter-btn" data-cat="coloracoes">Coloracoes</button>
-<button class="filter-btn" data-cat="produtos">Produtos</button>
-<button class="filter-btn" data-cat="kits">Kits</button>
-</div>
-<div class="masonry" id="masonry"></div>
+  <header class="header">
+    <div>
+      <div class="brand">Hair<span>OS</span></div>
+      <div class="brand-sub">Inspiração</div>
+    </div>
+  </header>
 
-<!-- MODAL 9:16 -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-card" id="modalCard">
-    <img class="modal-card-img" id="modalImg" src="" alt="">
-    <button class="modal-close-btn" id="modalCloseBtn">×</button>
-    <button class="modal-toggle-btn" id="toggleContentBtn">✨ Ver Detalhes</button>
-    <div class="modal-content-sheet" id="contentSheet">
-      <div class="sheet-handle-wrapper" id="handleWrapper">
-        <div class="sheet-handle"></div>
+  <div class="masonry" id="masonry"></div>
+
+  <!-- ===== MODAL FULLSCREEN ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card" id="modalCard">
+      <div class="modal-hero">
+        <img class="modal-hero-img" id="modalImg" src="" alt="">
+        <button class="modal-close-btn" id="modalCloseBtn">✕</button>
+        <div class="modal-hero-actions">
+          <button class="modal-hero-btn share-btn" id="heroShareBtn" title="Compartilhar">↗</button>
+          <button class="modal-hero-btn fav-btn" id="heroFavBtn" title="Favoritar">♡</button>
+        </div>
+        <button class="modal-toggle-btn" id="toggleSheetBtn">Ver Detalhes</button>
       </div>
-      <div class="sheet-scroll-area" id="scrollArea">
-        <div class="sheet-header">
-          <div>
-            <h2 id="modalTitle"></h2>
-            <div class="sub" id="modalSub"></div>
-          </div>
-          <button class="sheet-close-btn" id="closeContentBtn">×</button>
-        </div>
-        <p class="sheet-desc" id="modalDesc"></p>
-        <div class="sheet-btns">
-          <button id="btnColoracao">🎨 Coloração</button>
-          <button class="cuidados" id="btnCuidados">💧 Cuidados</button>
-        </div>
-        <div class="kit-lista" id="listaColoracao">
-          <div class="kit-title">Kit Coloração</div>
-          <div id="coloracaoItems"></div>
-        </div>
-        <div class="kit-lista" id="listaCuidados">
-          <div class="kit-title">Kit Cuidados</div>
-          <div id="cuidadosItems"></div>
-        </div>
-        <a href="#" class="sheet-cta">Ver todos os produtos</a>
-        <div style="height:20px"></div>
+
+      <div class="modal-content">
+        <div class="modal-section-title" id="modalSectionTitle">✦ Variações ✦</div>
+        <div class="masonry" id="modalMasonry"></div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-const catalog=[{"id": "c01", "cat": "cortes", "name": "Velvet Bob", "sub": "Corte classico aveludado", "desc": "Bob suave com pontas arredondadas e movimento natural.", "badge": "corte", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "c02", "cat": "cortes", "name": "Pixie Cut", "sub": "Curto ousado e moderno", "desc": "Corte pixie com textura e volume. Pratico e cheio de personalidade.", "badge": "corte", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "c03", "cat": "cortes", "name": "Butterfly Cut", "sub": "Camadas leves e movimento", "desc": "Camadas em formato de borboleta que criam volume e leveza.", "badge": "corte", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "c04", "cat": "cortes", "name": "Blunt Cut", "sub": "Reto e marcante", "desc": "Corte reto na ponta, sem camadas. Visual limpo e contemporaneo.", "badge": "corte", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "c05", "cat": "cortes", "name": "Shaggy Hair", "sub": "Despojado e texturizado", "desc": "Camadas desconectadas e pontas esvoacadas. Estilo rocker chic.", "badge": "corte", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "c06", "cat": "cortes", "name": "Long Bob", "sub": "Versatil e elegante", "desc": "Bob alongado na altura dos ombros. Combina com qualquer estilo.", "badge": "corte", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "c07", "cat": "cortes", "name": "French Bob", "sub": "Chic parisiense", "desc": "Bob curto com franja reta. Inspiracao francesa sofisticada.", "badge": "corte", "img": "https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg"}, {"id": "c08", "cat": "cortes", "name": "Italian Bob", "sub": "Volume e curva", "desc": "Bob com curvatura interna e volume nas pontas.", "badge": "corte", "img": "https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg"}, {"id": "c09", "cat": "cortes", "name": "Wolf Cut", "sub": "Selvagem e em camadas", "desc": "Mistura de shaggy e mullet. Camadas pesadas no topo.", "badge": "corte", "img": "https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg"}, {"id": "c10", "cat": "cortes", "name": "Bixie Cut", "sub": "Entre bob e pixie", "desc": "Hibrido de bob e pixie. Pratico e cheio de estilo.", "badge": "corte", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "c11", "cat": "cortes", "name": "Soft Layers", "sub": "Camadas suaves", "desc": "Camadas delicadas que adicionam movimento sem perder comprimento.", "badge": "corte", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "c12", "cat": "cortes", "name": "Modern Mullet", "sub": "Mullet contemporaneo", "desc": "Curto na frente e nos lados, longo atras. Versao fashion.", "badge": "corte", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "c13", "cat": "cortes", "name": "Clavicut", "sub": "Na altura da clavicula", "desc": "Corte na linha da clavicula. Equilibrio entre curto e longo.", "badge": "corte", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "c14", "cat": "cortes", "name": "Octopus Cut", "sub": "Camadas tipo polvo", "desc": "Camadas densas no topo e pontas finas. Volume maximo.", "badge": "corte", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "c15", "cat": "cortes", "name": "Hush Cut", "sub": "Silencioso e suave", "desc": "Camadas internas discretas que criam volume sem parecer cortado.", "badge": "corte", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "co01", "cat": "coloracoes", "name": "Balayage", "sub": "Iluminacao natural", "desc": "Tecnica de iluminacao livre com efeito sol beijado.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "co02", "cat": "coloracoes", "name": "Californianas", "sub": "Luzes de praia", "desc": "Mechas claras nas pontas inspiradas no sol da California.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "co03", "cat": "coloracoes", "name": "Highlights Loira", "sub": "Mechas loiras classicas", "desc": "Mechas loiras bem distribuidas para iluminar o rosto.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "co04", "cat": "coloracoes", "name": "Cherry Cola", "sub": "Vermelho cereja profundo", "desc": "Tom vermelho intenso com fundo cereja. Sofisticado e ousado.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "co05", "cat": "coloracoes", "name": "Copper Hair", "sub": "Cobre radiante", "desc": "Ruivo acobreado com reflexos metalicos. Quente e luminoso.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "co06", "cat": "coloracoes", "name": "Mocha Mousse", "sub": "Marrom cafe cremoso", "desc": "Tom marrom suave com nuances de cafe com leite.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "co07", "cat": "coloracoes", "name": "Expensive Brunette", "sub": "Morena de luxo", "desc": "Castanho rico com reflexos dourados e dimensionais.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg"}, {"id": "co08", "cat": "coloracoes", "name": "Mushroom Brown", "sub": "Marrom cogumelo", "desc": "Tom acinzentado-marrom suave. Neutro e moderno.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg"}, {"id": "co09", "cat": "coloracoes", "name": "Vanilla Blonde", "sub": "Loiro baunilha", "desc": "Loiro cremoso com fundo quente. Suave e luminoso.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg"}, {"id": "co10", "cat": "coloracoes", "name": "Ice Blonde", "sub": "Loiro gelo", "desc": "Loiro platinado frio com nuances acinzentadas.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "co11", "cat": "coloracoes", "name": "Caramelo Glow", "sub": "Caramelo iluminado", "desc": "Tons de caramelo com brilho dourado. Quente e valorizador.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "co12", "cat": "coloracoes", "name": "Chocolate Intenso", "sub": "Castanho chocolate", "desc": "Marrom profundo e brilhante como chocolate amargo.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "co13", "cat": "coloracoes", "name": "Preto Natural", "sub": "Preto profundo", "desc": "Preto intenso e brilhante. Base perfeita para contraste.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "co14", "cat": "coloracoes", "name": "Ruivo Acobreado", "sub": "Ruivo classico", "desc": "Ruivo quente com reflexos cobre. Vibrante e cheio de vida.", "badge": "coloracao", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "co15", "cat": "coloracoes", "name": "Morena Iluminada", "sub": "Morena com luzes", "desc": "Base morena com iluminacao estrategica. Dimensao e brilho.", "badge": "coloracao", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "p01", "cat": "produtos", "name": "Shampoo Joico Moisture", "sub": "Hidratacao profunda", "desc": "Shampoo que limpa suavemente enquanto hidrata.", "badge": "produto", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "p02", "cat": "produtos", "name": "Condicionador Joico Moisture", "sub": "Nutricao e brilho", "desc": "Condicionador rico que sela as cuticulas e devolve maciez.", "badge": "produto", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "p03", "cat": "produtos", "name": "Mascara Joico Moisture", "sub": "Tratamento intensivo", "desc": "Mascara de alta performance para reparacao profunda.", "badge": "produto", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "p04", "cat": "produtos", "name": "Shampoo Absolut Repair", "sub": "Reconstrucao LOreal", "desc": "Shampoo reconstrutor com tecnologia gold quinoa.", "badge": "produto", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "p05", "cat": "produtos", "name": "Mascara Absolut Repair", "sub": "Reparacao total", "desc": "Mascara que constroi a estrutura interna do fio.", "badge": "produto", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "p06", "cat": "produtos", "name": "Metal Detox", "sub": "Remove metais", "desc": "Elimina acumulacao de metais da agua. Essencial para loiros.", "badge": "produto", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "p07", "cat": "produtos", "name": "Vitamino Color", "sub": "Protecao da cor", "desc": "Preserva a cor por mais tempo. Ideal pos-coloracao.", "badge": "produto", "img": "https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg"}, {"id": "p08", "cat": "produtos", "name": "Scalp Advanced", "sub": "Cuidados com o couro", "desc": "Saude do couro cabeludo. Equilibra oleosidade e hidratacao.", "badge": "produto", "img": "https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg"}, {"id": "p09", "cat": "produtos", "name": "Premiere", "sub": "Reparacao molecular", "desc": "Tratamento profissional de reparacao molecular.", "badge": "produto", "img": "https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg"}, {"id": "p10", "cat": "produtos", "name": "Inforcer", "sub": "Anti-quebra", "desc": "Fortalece o fio e reduz a quebra. Perfeito para cabelos frageis.", "badge": "produto", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "p11", "cat": "produtos", "name": "Curl Expression", "sub": "Para cachos", "desc": "Linha para cabelos cacheados. Define, hidrata e controla o frizz.", "badge": "produto", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "p12", "cat": "produtos", "name": "Blondifier", "sub": "Cuidado para loiros", "desc": "Neutraliza amarelados e realca o brilho dos loiros.", "badge": "produto", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "p13", "cat": "produtos", "name": "Serie Expert Pro Longer", "sub": "Pontas longas", "desc": "Cuidado focado nas pontas. Sela e repara o comprimento.", "badge": "produto", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "p14", "cat": "produtos", "name": "Liss Unlimited", "sub": "Anti-frizz total", "desc": "Alisamento e controle de frizz por ate 4 dias.", "badge": "produto", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "p15", "cat": "produtos", "name": "Absolut Repair Molecular", "sub": "Reparacao molecular", "desc": "Tecnologia molecular que reconstrói a fibra de dentro para fora.", "badge": "produto", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "k01", "cat": "kits", "name": "Kit Hidratacao", "sub": "Shampoo + Cond + Mascara", "desc": "Trio completo para devolver umidade e maciez aos fios.", "badge": "kit", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "k02", "cat": "kits", "name": "Kit Reconstrucao", "sub": "Reparacao intensa", "desc": "Produtos com proteinas e aminoacidos para reconstruir o fio.", "badge": "kit", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "k03", "cat": "kits", "name": "Kit Nutricao", "sub": "Oleos e lipidios", "desc": "Nutricao profunda com oleos essenciais. Ideal para cabelos opacos.", "badge": "kit", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "k04", "cat": "kits", "name": "Kit Loiros", "sub": "Manutencao loira", "desc": "Shampoo roxo + mascara + leave-in. Mantem o loiro brilhante.", "badge": "kit", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "k05", "cat": "kits", "name": "Kit Coloracao", "sub": "Tinta + cuidados", "desc": "Tinta profissional + shampoo e mascara protetores de cor.", "badge": "kit", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "k06", "cat": "kits", "name": "Kit Queda Capilar", "sub": "Anti-queda", "desc": "Shampoo + tonico + ampolas para fortalecer a raiz.", "badge": "kit", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}, {"id": "k07", "cat": "kits", "name": "Kit Cabelos Cacheados", "sub": "Definicao e hidratacao", "desc": "Linha completa para cachos: limpeza, hidratacao e definicao.", "badge": "kit", "img": "https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg"}, {"id": "k08", "cat": "kits", "name": "Kit Cabelos Danificados", "sub": "Resgate total", "desc": "Reconstrucao + hidratacao + protecao termica.", "badge": "kit", "img": "https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg"}, {"id": "k09", "cat": "kits", "name": "Kit Anti-Frizz", "sub": "Controle e brilho", "desc": "Produtos que selam a cuticula e eliminam o frizz por dias.", "badge": "kit", "img": "https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg"}, {"id": "k10", "cat": "kits", "name": "Kit Pos-Coloracao", "sub": "Protege a cor", "desc": "Cuidados especificos para logo apos colorir.", "badge": "kit", "img": "https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg"}, {"id": "k11", "cat": "kits", "name": "Kit Crescimento", "sub": "Estimula o crescimento", "desc": "Tonico + shampoo para acelerar o crescimento saudavel.", "badge": "kit", "img": "https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg"}, {"id": "k12", "cat": "kits", "name": "Kit Ruivos", "sub": "Manutencao ruiva", "desc": "Produtos que realcam e protegem tons ruivos e cobre.", "badge": "kit", "img": "https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg"}, {"id": "k13", "cat": "kits", "name": "Kit Morenas Iluminadas", "sub": "Morena com brilho", "desc": "Iluminacao + cuidados para manter o efeito morena iluminada.", "badge": "kit", "img": "https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg"}, {"id": "k14", "cat": "kits", "name": "Kit Detox Capilar", "sub": "Limpeza profunda", "desc": "Remove residuos de produtos, cloro e metais.", "badge": "kit", "img": "https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg"}, {"id": "k15", "cat": "kits", "name": "Kit Uso Diario", "sub": "Rotina completa", "desc": "Shampoo + condicionador + leave-in para o cuidado diario.", "badge": "kit", "img": "https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg"}];
-const heights=['h-sm','h-lg','h-md','h-xl','h-md','h-xxl','h-lg','h-sm','h-xl','h-md','h-lg','h-xxl','h-sm','h-xl','h-md'];
-function safeGet(){try{return JSON.parse(localStorage.getItem('hairos_favorites')||'[]')}catch(e){return[]}}
-function safeSet(a){try{localStorage.setItem('hairos_favorites',JSON.stringify(a))}catch(e){}}
-let favorites=safeGet();
-function isFav(id){return favorites.includes(id)}
-function toggleFav(id,btn){if(isFav(id))favorites=favorites.filter(k=>k!==id);else favorites.push(id);safeSet(favorites);if(btn){btn.classList.toggle('favorited',isFav(id));btn.textContent=isFav(id)?'\u2665':'\u2661'}}
+  <div class="modal-sheet" id="modalSheet">
+    <div class="sheet-handle" id="sheetHandle"></div>
+    <div class="sheet-scroll" id="sheetScroll">
+      <div class="sheet-header">
+        <div>
+          <h2 id="sheetTitle">Pixie</h2>
+          <div class="sub" id="sheetSub">Loira Fria Platinada</div>
+        </div>
+        <button class="sheet-close-btn" id="sheetCloseBtn">✕</button>
+      </div>
+      <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
+      <div class="sheet-btns">
+        <button id="btnColoracao">Coloração</button>
+        <button class="cuidados" id="btnCuidados">Cuidados</button>
+      </div>
+      <div class="kit-lista" id="listaColoracao">
+        <div class="kit-title">Kit Coloração</div>
+        <div id="coloracaoItems"></div>
+      </div>
+      <div class="kit-lista" id="listaCuidados">
+        <div class="kit-title">Kit Cuidados</div>
+        <div id="cuidadosItems"></div>
+      </div>
+      <a href="#" class="sheet-cta" id="sheetCta">Ver todos os produtos</a>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
 
-function render(cat){
-  const c=document.getElementById('masonry');c.innerHTML='';
-  const items=cat==='all'?catalog:catalog.filter(i=>i.cat===cat);
-  document.getElementById('countBadge').textContent=items.length+' itens';
-  if(!items.length){c.innerHTML='<div class="empty">Nenhum item nesta categoria</div>';return}
-  items.forEach((item,idx)=>{
-    const fav=isFav(item.id);const h=heights[idx%heights.length];
-    const card=document.createElement('article');card.className='card';
-    card.innerHTML='<button class="fav-btn '+(fav?'favorited':'')+'" data-id="'+item.id+'">'+(fav?'\u2665':'\u2661')+'</button><img class="card-img '+h+'" src="'+item.img+'" alt="'+item.name+'" loading="lazy"><div class="card-info"><h3>'+item.name+'</h3><div class="sub">'+item.sub+'</div><span class="badge '+item.cat+'">'+item.badge+'</span></div>';
-    card.querySelector('.fav-btn').addEventListener('click',function(e){e.stopPropagation();toggleFav(this.dataset.id,this)});
-    card.addEventListener('click',function(){openModal(item)});c.appendChild(card);
-  });
-}
+  <script>
+    // ===== DADOS COM 60 CARDS =====
+    const styleData = {
+      // ===== CORTES (15) =====
+      'velvet-bob': {
+        corte: 'Velvet Bob',
+        title: 'Corte classico aveludado',
+        desc: 'Bob suave com pontas arredondadas e movimento natural.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/8e/8a/68/8e8a68a9c07e9e7a5a4a8b0f4a5c3e2d.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'pixie': {
+        corte: 'Pixie Cut',
+        title: 'Curto ousado e moderno',
+        desc: 'Corte pixie com textura e volume. Pratico e cheio de personalidade.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/3b/4c/5d/3b4c5d6e7f8a9b0c1d2e3f4a.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'butterfly': {
+        corte: 'Butterfly Cut',
+        title: 'Camadas leves e movimento',
+        desc: 'Camadas em formato de borboleta que criam volume e leveza.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+          'https://i.pinimg.com/1200x/17/26/11/1726112a3b4c5d6e7f8a9b0c.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'blunt-cut': {
+        corte: 'Blunt Cut',
+        title: 'Reto e marcante',
+        desc: 'Corte reto na ponta, sem camadas. Visual limpo e contemporaneo.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+          'https://i.pinimg.com/736x/b3/9c/1e/b3c1e2f3a4b5c6d7e8f9a0b1.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'shaggy': {
+        corte: 'Shaggy Hair',
+        title: 'Despojado e texturizado',
+        desc: 'Camadas desconectadas e pontas esvoacantes. Estilo rocker chic.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'long-bob': {
+        corte: 'Long Bob',
+        title: 'Versatil e elegante',
+        desc: 'Bob alongado na altura dos ombros. Combina com qualquer estilo.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+          'https://i.pinimg.com/1200x/77/cc/37/77cc37485a6b7c8d9e0f1a2b.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'french-bob': {
+        corte: 'French Bob',
+        title: 'Chic parisiense',
+        desc: 'Bob curto com franja reta. Inspiracao francesa sofisticada.',
+        img: 'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+          'https://i.pinimg.com/736x/21/3e/4a/213e4a5b6c7d8e9f0a1b2c3d.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'italian-bob': {
+        corte: 'Italian Bob',
+        title: 'Volume e curva',
+        desc: 'Bob com curvatura interna e volume nas pontas.',
+        img: 'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+          'https://i.pinimg.com/1200x/d5/cc/0f/d5cc0f1a2b3c4d5e6f7a8b9c.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'wolf': {
+        corte: 'Wolf Cut',
+        title: 'Selvagem e em camadas',
+        desc: 'Mistura de shaggy e mullet. Camadas pesadas no topo.',
+        img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+          'https://i.pinimg.com/1200x/gd/88/a7/gd88a7b8c9d0e1f2a3b4c5d6.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'bixie': {
+        corte: 'Bixie Cut',
+        title: 'Entre bob e pixie',
+        desc: 'Hibrido de bob e pixie. Pratico e cheio de estilo.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'soft-layers': {
+        corte: 'Soft Layers',
+        title: 'Camadas suaves',
+        desc: 'Camadas delicadas que adicionam movimento sem perder comprimento.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'modern-mullet': {
+        corte: 'Modern Mullet',
+        title: 'Mullet contemporaneo',
+        desc: 'Curto na frente e nos lados, longo atras. Versao fashion.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'clavicut': {
+        corte: 'Clavicut',
+        title: 'Na altura da clavicula',
+        desc: 'Corte na linha da clavicula. Equilibrio entre curto e longo.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'octopus': {
+        corte: 'Octopus Cut',
+        title: 'Camadas tipo polvo',
+        desc: 'Camadas densas no topo e pontas finas. Volume maximo.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: [
+          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'hush-cut': {
+        corte: 'Hush Cut',
+        title: 'Silencioso e suave',
+        desc: 'Camadas internas discretas que criam volume sem parecer cortado.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: [
+          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'
+        ],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
 
-/* ===== MODAL 9:16 LOGIC ===== */
-const overlay=document.getElementById('modalOverlay');
-const contentSheet=document.getElementById('contentSheet');
-const handleWrapper=document.getElementById('handleWrapper');
-const toggleContentBtn=document.getElementById('toggleContentBtn');
-const closeContentBtn=document.getElementById('closeContentBtn');
-const modalCloseBtn=document.getElementById('modalCloseBtn');
-let isContentOpen=false,isFull=false;
+      // ===== COLORAÇÕES (15) =====
+      'balayage': {
+        corte: 'Balayage',
+        title: 'Iluminacao natural',
+        desc: 'Tecnica de iluminacao livre com efeito sol beijado.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'californianas': {
+        corte: 'Californianas',
+        title: 'Luzes de praia',
+        desc: 'Mechas claras nas pontas inspiradas no sol da California.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'highlights-loira': {
+        corte: 'Highlights Loira',
+        title: 'Mechas loiras classicas',
+        desc: 'Mechas loiras bem distribuidas para iluminar o rosto.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'cherry-cola': {
+        corte: 'Cherry Cola',
+        title: 'Vermelho cereja profundo',
+        desc: 'Tom vermelho intenso com fundo cereja. Sofisticado e ousado.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'copper': {
+        corte: 'Copper Hair',
+        title: 'Cobre radiante',
+        desc: 'Ruivo acobreado com reflexos metalicos. Quente e luminoso.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'mocha-mousse': {
+        corte: 'Mocha Mousse',
+        title: 'Marrom cafe cremoso',
+        desc: 'Tom marrom suave com nuances de cafe com leite.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'expensive-brunette': {
+        corte: 'Expensive Brunette',
+        title: 'Morena de luxo',
+        desc: 'Castanho rico com reflexos dourados e dimensionais.',
+        img: 'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+        variants: ['https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg'],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'mushroom-brown': {
+        corte: 'Mushroom Brown',
+        title: 'Marrom cogumelo',
+        desc: 'Tom acinzentado-marrom suave. Neutro e moderno.',
+        img: 'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+        variants: ['https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'vanilla-blonde': {
+        corte: 'Vanilla Blonde',
+        title: 'Loiro baunilha',
+        desc: 'Loiro cremoso com fundo quente. Suave e luminoso.',
+        img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+        variants: ['https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'ice-blonde': {
+        corte: 'Ice Blonde',
+        title: 'Loiro gelo',
+        desc: 'Loiro platinado frio com nuances acinzentadas.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'caramelo-glow': {
+        corte: 'Caramelo Glow',
+        title: 'Caramelo iluminado',
+        desc: 'Tons de caramelo com brilho dourado. Quente e valorizador.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'chocolate-intenso': {
+        corte: 'Chocolate Intenso',
+        title: 'Castanho chocolate',
+        desc: 'Marrom profundo e brilhante como chocolate amargo.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'preto-natural': {
+        corte: 'Preto Natural',
+        title: 'Preto profundo',
+        desc: 'Preto intenso e brilhante. Base perfeita para contraste.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'ruivo-acobreado': {
+        corte: 'Ruivo Acobreado',
+        title: 'Ruivo classico',
+        desc: 'Ruivo quente com reflexos cobre. Vibrante e cheio de vida.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'morena-iluminada': {
+        corte: 'Morena Iluminada',
+        title: 'Morena com luzes',
+        desc: 'Base morena com iluminacao estrategica. Dimensao e brilho.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Tinta INOA 7 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
 
-const defaultColoracao=['Tinta INOA 8 (Base)','Tinta INOA 10.1 (Nuance)','Tonalizante','Agua Oxigenada 20Vol','Revelador'];
-const defaultCuidados=['Shampoo Vitamino Color','Condicionador Joico Moisture','Mascara Absolut Repair','Leave-in Molecular','Oleo Capilar LOreal'];
+      // ===== PRODUTOS (15) =====
+      'joico-shampoo': {
+        corte: 'Shampoo Joico Moisture',
+        title: 'Hidratacao profunda',
+        desc: 'Shampoo que limpa suavemente enquanto hidrata.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Shampoo Joico Moisture', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }]
+      },
+      'joico-condicionador': {
+        corte: 'Condicionador Joico Moisture',
+        title: 'Nutricao e brilho',
+        desc: 'Condicionador rico que sela as cuticulas e devolve maciez.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Condicionador Joico Moisture', link: '#' }],
+        cuidados: [{ name: 'Shampoo Joico Moisture', link: '#' }]
+      },
+      'joico-mascara': {
+        corte: 'Mascara Joico Moisture',
+        title: 'Tratamento intensivo',
+        desc: 'Mascara de alta performance para reparacao profunda.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Mascara Joico Moisture', link: '#' }],
+        cuidados: [{ name: 'Shampoo Joico Moisture', link: '#' }]
+      },
+      'absolut-shampoo': {
+        corte: 'Shampoo Absolut Repair',
+        title: 'Reconstrucao LOreal',
+        desc: 'Shampoo reconstrutor com tecnologia gold quinoa.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Shampoo Absolut Repair', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }]
+      },
+      'absolut-mascara': {
+        corte: 'Mascara Absolut Repair',
+        title: 'Reparacao total',
+        desc: 'Mascara que constroi a estrutura interna do fio.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Mascara Absolut Repair', link: '#' }],
+        cuidados: [{ name: 'Shampoo Absolut Repair', link: '#' }]
+      },
+      'metal-detox': {
+        corte: 'Metal Detox',
+        title: 'Remove metais',
+        desc: 'Elimina acumulacao de metais da agua. Essencial para loiros.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Metal Detox', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'vitamino-color': {
+        corte: 'Vitamino Color',
+        title: 'Protecao da cor',
+        desc: 'Preserva a cor por mais tempo. Ideal pos-coloracao.',
+        img: 'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+        variants: ['https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg'],
+        coloracao: [{ name: 'Vitamino Color', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'scalp-advanced': {
+        corte: 'Scalp Advanced',
+        title: 'Cuidados com o couro',
+        desc: 'Saude do couro cabeludo. Equilibra oleosidade e hidratacao.',
+        img: 'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+        variants: ['https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg'],
+        coloracao: [{ name: 'Scalp Advanced', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'premiere': {
+        corte: 'Premiere',
+        title: 'Reparacao molecular',
+        desc: 'Tratamento profissional de reparacao molecular.',
+        img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+        variants: ['https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg'],
+        coloracao: [{ name: 'Premiere', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'inforcer': {
+        corte: 'Inforcer',
+        title: 'Anti-quebra',
+        desc: 'Fortalece o fio e reduz a quebra. Perfeito para cabelos frageis.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Inforcer', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'curl-expression': {
+        corte: 'Curl Expression',
+        title: 'Para cachos',
+        desc: 'Linha para cabelos cacheados. Define, hidrata e controla o frizz.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Curl Expression', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'blondifier': {
+        corte: 'Blondifier',
+        title: 'Cuidado para loiros',
+        desc: 'Neutraliza amarelados e realca o brilho dos loiros.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Blondifier', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'pro-longer': {
+        corte: 'Serie Expert Pro Longer',
+        title: 'Pontas longas',
+        desc: 'Cuidado focado nas pontas. Sela e repara o comprimento.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Pro Longer', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'liss-unlimited': {
+        corte: 'Liss Unlimited',
+        title: 'Anti-frizz total',
+        desc: 'Alisamento e controle de frizz por ate 4 dias.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Liss Unlimited', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'absolut-molecular': {
+        corte: 'Absolut Repair Molecular',
+        title: 'Reparacao molecular',
+        desc: 'Tecnologia molecular que reconstrói a fibra de dentro para fora.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Absolut Repair Molecular', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
 
-function openModal(item){
-  document.getElementById('modalImg').src=item.img;
-  document.getElementById('modalTitle').textContent=item.name;
-  document.getElementById('modalSub').textContent=item.sub;
-  document.getElementById('modalDesc').textContent=item.desc;
-  // Populate kit lists
-  document.getElementById('coloracaoItems').innerHTML=defaultColoracao.map(n=>'<a href="#" class="kit-item"><span>'+n+'</span><span>\u2192</span></a>').join('');
-  document.getElementById('cuidadosItems').innerHTML=defaultCuidados.map(n=>'<a href="#" class="kit-item"><span>'+n+'</span><span>\u2192</span></a>').join('');
-  document.getElementById('listaColoracao').classList.remove('show');
-  document.getElementById('listaCuidados').classList.remove('show');
-  closeContent();
-  overlay.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  overlay.classList.remove('open');
-  closeContent();
-  document.body.style.overflow='';
-}
-function openContent(){
-  contentSheet.classList.add('show');
-  toggleContentBtn.classList.add('hidden');
-  isContentOpen=true;
-  contentSheet.classList.remove('full');
-  isFull=false;
-}
-function closeContent(){
-  contentSheet.classList.remove('show');
-  contentSheet.classList.remove('full');
-  toggleContentBtn.classList.remove('hidden');
-  isContentOpen=false;isFull=false;
-}
-function toggleFull(){
-  if(!isContentOpen)return;
-  isFull=!isFull;
-  contentSheet.classList.toggle('full');
-}
+      // ===== KITS (15) =====
+      'kit-hidratacao': {
+        corte: 'Kit Hidratacao',
+        title: 'Shampoo + Cond + Mascara',
+        desc: 'Trio completo para devolver umidade e maciez aos fios.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Shampoo Joico', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico', link: '#' }]
+      },
+      'kit-reconstrucao': {
+        corte: 'Kit Reconstrucao',
+        title: 'Reparacao intensa',
+        desc: 'Produtos com proteinas e aminoacidos para reconstruir o fio.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Shampoo Absolut Repair', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }]
+      },
+      'kit-nutricao': {
+        corte: 'Kit Nutricao',
+        title: 'Oleos e lipidios',
+        desc: 'Nutricao profunda com oleos essenciais. Ideal para cabelos opacos.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Oleo Capilar', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'kit-loiros': {
+        corte: 'Kit Loiros',
+        title: 'Manutencao loira',
+        desc: 'Shampoo roxo + mascara + leave-in. Mantem o loiro brilhante.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Shampoo Roxo', link: '#' }],
+        cuidados: [{ name: 'Leave-in', link: '#' }]
+      },
+      'kit-coloracao': {
+        corte: 'Kit Coloracao',
+        title: 'Tinta + cuidados',
+        desc: 'Tinta profissional + shampoo e mascara protetores de cor.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Tinta INOA', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }]
+      },
+      'kit-queda': {
+        corte: 'Kit Queda Capilar',
+        title: 'Anti-queda',
+        desc: 'Shampoo + tonico + ampolas para fortalecer a raiz.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Shampoo Anti-Queda', link: '#' }],
+        cuidados: [{ name: 'Tonico Capilar', link: '#' }]
+      },
+      'kit-cacheados': {
+        corte: 'Kit Cabelos Cacheados',
+        title: 'Definicao e hidratacao',
+        desc: 'Linha completa para cachos: limpeza, hidratacao e definicao.',
+        img: 'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+        variants: ['https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg'],
+        coloracao: [{ name: 'Shampoo Cachos', link: '#' }],
+        cuidados: [{ name: 'Mascara Cachos', link: '#' }]
+      },
+      'kit-danificados': {
+        corte: 'Kit Cabelos Danificados',
+        title: 'Resgate total',
+        desc: 'Reconstrucao + hidratacao + protecao termica.',
+        img: 'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+        variants: ['https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg'],
+        coloracao: [{ name: 'Shampoo Absolut Repair', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }]
+      },
+      'kit-antifrizz': {
+        corte: 'Kit Anti-Frizz',
+        title: 'Controle e brilho',
+        desc: 'Produtos que selam a cuticula e eliminam o frizz por dias.',
+        img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+        variants: ['https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg'],
+        coloracao: [{ name: 'Shampoo Anti-Frizz', link: '#' }],
+        cuidados: [{ name: 'Condicionador Anti-Frizz', link: '#' }]
+      },
+      'kit-pos-coloracao': {
+        corte: 'Kit Pos-Coloracao',
+        title: 'Protege a cor',
+        desc: 'Cuidados especificos para logo apos colorir.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        variants: ['https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+        coloracao: [{ name: 'Shampoo Vitamino Color', link: '#' }],
+        cuidados: [{ name: 'Mascara Vitamino Color', link: '#' }]
+      },
+      'kit-crescimento': {
+        corte: 'Kit Crescimento',
+        title: 'Estimula o crescimento',
+        desc: 'Tonico + shampoo para acelerar o crescimento saudavel.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        variants: ['https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+        coloracao: [{ name: 'Shampoo Crescimento', link: '#' }],
+        cuidados: [{ name: 'Tonico Crescimento', link: '#' }]
+      },
+      'kit-ruivos': {
+        corte: 'Kit Ruivos',
+        title: 'Manutencao ruiva',
+        desc: 'Produtos que realcam e protegem tons ruivos e cobre.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        variants: ['https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+        coloracao: [{ name: 'Shampoo Ruivo', link: '#' }],
+        cuidados: [{ name: 'Mascara Ruivo', link: '#' }]
+      },
+      'kit-morenas': {
+        corte: 'Kit Morenas Iluminadas',
+        title: 'Morena com brilho',
+        desc: 'Iluminacao + cuidados para manter o efeito morena iluminada.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        variants: ['https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+        coloracao: [{ name: 'Shampoo Morena', link: '#' }],
+        cuidados: [{ name: 'Mascara Morena', link: '#' }]
+      },
+      'kit-detox': {
+        corte: 'Kit Detox Capilar',
+        title: 'Limpeza profunda',
+        desc: 'Remove residuos de produtos, cloro e metais.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        variants: ['https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+        coloracao: [{ name: 'Shampoo Detox', link: '#' }],
+        cuidados: [{ name: 'Mascara Detox', link: '#' }]
+      },
+      'kit-uso-diario': {
+        corte: 'Kit Uso Diario',
+        title: 'Rotina completa',
+        desc: 'Shampoo + condicionador + leave-in para o cuidado diario.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        variants: ['https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+        coloracao: [{ name: 'Shampoo Diario', link: '#' }],
+        cuidados: [{ name: 'Condicionador Diario', link: '#' }]
+      }
+    };
 
-modalCloseBtn.addEventListener('click',closeModal);
-toggleContentBtn.addEventListener('click',openContent);
-closeContentBtn.addEventListener('click',closeContent);
-handleWrapper.addEventListener('click',toggleFull);
-overlay.addEventListener('click',function(e){if(e.target===this)closeModal()});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){if(isContentOpen)closeContent();else closeModal()}
-});
-document.getElementById('btnColoracao').addEventListener('click',function(){
-  document.getElementById('listaCuidados').classList.remove('show');
-  document.getElementById('listaColoracao').classList.toggle('show');
-});
-document.getElementById('btnCuidados').addEventListener('click',function(){
-  document.getElementById('listaColoracao').classList.remove('show');
-  document.getElementById('listaCuidados').classList.toggle('show');
-});
+    // ===== FAVORITOS =====
+    function getFavs() {
+      try { return JSON.parse(localStorage.getItem('hairos_favorites') || '[]'); } catch { return []; }
+    }
 
-/* Drag touch */
-let startY=0,isDragging=false;
-handleWrapper.addEventListener('touchstart',function(e){startY=e.touches[0].clientY;isDragging=true},{passive:true});
-handleWrapper.addEventListener('touchmove',function(e){
-  if(!isDragging)return;
-  const diff=startY-e.touches[0].clientY;
-  if(diff>30&&!isFull&&isContentOpen){toggleFull();isDragging=false}
-  if(diff<-30&&isFull&&isContentOpen){toggleFull();isDragging=false}
-},{passive:true});
-handleWrapper.addEventListener('touchend',function(){isDragging=false},{passive:true});
+    function setFavs(arr) {
+      try { localStorage.setItem('hairos_favorites', JSON.stringify(arr)); } catch {}
+    }
 
-document.querySelectorAll('.filter-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
-    this.classList.add('active');render(this.dataset.cat);
-  });
-});
-render('all');
-</script>
+    let favorites = getFavs();
+
+    function isFav(key) { return favorites.includes(key); }
+
+    function toggleFav(key, btn) {
+      favorites = isFav(key) ?
+        favorites.filter(k => k !== key) :
+        [...favorites, key];
+      setFavs(favorites);
+      if (btn) {
+        btn.classList.toggle('favorited', isFav(key));
+        btn.textContent = isFav(key) ? '♥' : '♡';
+      }
+    }
+
+    // ===== COMPARTILHAR =====
+    function shareStyle(key) {
+      const data = styleData[key];
+      if (!data) return;
+
+      const text = `${data.corte} - ${data.title}\n${data.desc}\n\nVeja mais em HairOS!`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: `HairOS - ${data.corte}`,
+          text: text,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        const fullText = `${text}\n${window.location.href}`;
+        navigator.clipboard.writeText(fullText).then(() => {
+          alert('Link copiado para compartilhar!');
+        }).catch(() => {
+          const textarea = document.createElement('textarea');
+          textarea.value = fullText;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          alert('Link copiado para compartilhar!');
+        });
+      }
+    }
+
+    // ===== RENDER HOME =====
+    function renderMasonry() {
+      const container = document.getElementById('masonry');
+      container.innerHTML = '';
+      const heights = ['h-lg', 'h-xl', 'h-xxl', 'h-lg', 'h-xl', 'h-xxl', 'h-lg', 'h-xl', 'h-xxl'];
+      const keys = Object.keys(styleData);
+
+      keys.forEach((key, idx) => {
+        const data = styleData[key];
+        const fav = isFav(key);
+        const hClass = heights[idx % heights.length];
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.dataset.key = key;
+        card.innerHTML = `
+          <div class="card-actions-top">
+            <button class="card-btn share-btn" data-key="${key}" title="Compartilhar">↗</button>
+            <button class="card-btn fav-btn ${fav ? 'favorited' : ''}" data-key="${key}" title="Favoritar">${fav ? '♥' : '♡'}</button>
+          </div>
+          <img class="card-img ${hClass}" src="${data.img}" alt="${data.corte}" loading="lazy">
+          <div class="card-action">
+            <span class="card-action-title">${data.corte}</span>
+            <div class="card-action-btn">→</div>
+          </div>
+        `;
+
+        const favBtn = card.querySelector('.fav-btn');
+        favBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleFav(this.dataset.key, this);
+        });
+
+        const shareBtn = card.querySelector('.share-btn');
+        shareBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          shareStyle(this.dataset.key);
+        });
+
+        card.addEventListener('click', () => openModal(key));
+        container.appendChild(card);
+      });
+    }
+
+    // ===== RENDER MASONRY DENTRO DO MODAL =====
+    function renderModalMasonry(key) {
+      const container = document.getElementById('modalMasonry');
+      container.innerHTML = '';
+      
+      const data = styleData[key];
+      if (!data) return;
+
+      document.getElementById('modalSectionTitle').textContent = `✦ Variações ${data.corte} ✦`;
+
+      const variants = data.variants || [data.img];
+      const heights = ['h-lg', 'h-xl', 'h-xxl', 'h-lg', 'h-xl', 'h-xxl'];
+
+      variants.forEach((imgUrl, idx) => {
+        const hClass = heights[idx % heights.length];
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.dataset.key = key;
+        card.dataset.variant = idx;
+        card.innerHTML = `
+          <img class="card-img ${hClass}" src="${imgUrl}" alt="${data.corte}" loading="lazy">
+        `;
+
+        card.addEventListener('click', function(e) {
+          if (isSheetOpen) {
+            closeSheet();
+          }
+          
+          const heroImg = document.getElementById('modalImg');
+          heroImg.classList.add('loading');
+          heroImg.src = imgUrl;
+          heroImg.onload = () => heroImg.classList.remove('loading');
+          
+          document.getElementById('modalOverlay').scrollTop = 0;
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // ===== MODAL =====
+    const overlay = document.getElementById('modalOverlay');
+    const sheet = document.getElementById('modalSheet');
+    const toggleBtn = document.getElementById('toggleSheetBtn');
+    const heroFavBtn = document.getElementById('heroFavBtn');
+    const heroShareBtn = document.getElementById('heroShareBtn');
+    let isSheetOpen = false;
+    let isSheetFull = false;
+    let currentKey = null;
+
+    function openModal(key) {
+      const data = styleData[key];
+      if (!data) return;
+
+      currentKey = key;
+
+      if (isSheetOpen) closeSheet();
+
+      const img = document.getElementById('modalImg');
+      img.classList.add('loading');
+      img.src = data.img;
+      img.onload = () => img.classList.remove('loading');
+
+      const isFavorited = isFav(key);
+      heroFavBtn.classList.toggle('favorited', isFavorited);
+      heroFavBtn.textContent = isFavorited ? '♥' : '♡';
+      heroFavBtn.dataset.key = key;
+      heroShareBtn.dataset.key = key;
+
+      document.getElementById('sheetTitle').textContent = data.corte;
+      document.getElementById('sheetSub').textContent = data.title;
+      document.getElementById('sheetDesc').textContent = data.desc;
+
+      document.getElementById('coloracaoItems').innerHTML = (data.coloracao || []).map(p =>
+        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span>${p.name}</span><span>→</span></a>`
+      ).join('');
+
+      document.getElementById('cuidadosItems').innerHTML = (data.cuidados || []).map(p =>
+        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span>${p.name}</span><span>→</span></a>`
+      ).join('');
+
+      document.getElementById('listaColoracao').classList.remove('show');
+      document.getElementById('listaCuidados').classList.remove('show');
+
+      renderModalMasonry(key);
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      overlay.scrollTop = 0;
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      if (isSheetOpen) closeSheet();
+      document.body.style.overflow = '';
+      currentKey = null;
+    }
+
+    // ===== SHEET =====
+    function openSheet() {
+      sheet.classList.add('show');
+      toggleBtn.classList.add('hidden');
+      isSheetOpen = true;
+      sheet.classList.remove('full');
+      isSheetFull = false;
+    }
+
+    function closeSheet() {
+      sheet.classList.remove('show', 'full');
+      toggleBtn.classList.remove('hidden');
+      isSheetOpen = false;
+      isSheetFull = false;
+    }
+
+    function toggleSheetFull() {
+      if (!isSheetOpen) return;
+      isSheetFull = !isSheetFull;
+      sheet.classList.toggle('full');
+    }
+
+    // ===== EVENTOS =====
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    toggleBtn.addEventListener('click', openSheet);
+    document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
+    document.getElementById('sheetHandle').addEventListener('click', toggleSheetFull);
+
+    heroFavBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const key = this.dataset.key;
+      if (key) {
+        toggleFav(key, this);
+      }
+    });
+
+    heroShareBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const key = this.dataset.key;
+      if (key) {
+        shareStyle(key);
+      }
+    });
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (isSheetOpen) closeSheet();
+        else closeModal();
+      }
+    });
+
+    // ===== KITS =====
+    document.getElementById('btnColoracao').addEventListener('click', function() {
+      document.getElementById('listaCuidados').classList.remove('show');
+      document.getElementById('listaColoracao').classList.toggle('show');
+    });
+
+    document.getElementById('btnCuidados').addEventListener('click', function() {
+      document.getElementById('listaColoracao').classList.remove('show');
+      document.getElementById('listaCuidados').classList.toggle('show');
+    });
+
+    // ===== DRAG SHEET =====
+    let startY = 0;
+    let isDragging = false;
+
+    const handle = document.getElementById('sheetHandle');
+
+    handle.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    }, { passive: true });
+
+    handle.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      const diff = startY - e.touches[0].clientY;
+      if (diff > 40 && !isSheetFull && isSheetOpen) {
+        toggleSheetFull();
+        isDragging = false;
+      }
+      if (diff < -40 && isSheetFull && isSheetOpen) {
+        toggleSheetFull();
+        isDragging = false;
+      }
+    }, { passive: true });
+
+    handle.addEventListener('touchend', function() {
+      isDragging = false;
+    }, { passive: true });
+
+    // ===== INIT =====
+    renderMasonry();
+  </script>
 </body>
 </html>
