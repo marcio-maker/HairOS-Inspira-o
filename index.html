@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HairOS · Inspiração</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0808;
+      --bg-card: #1a1612;
+      --bg-elevated: #1c1814;
+      --text: #f0ebe4;
+      --text-sec: #d4c9bc;
+      --text-muted: #8a8278;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --gold-glow: rgba(201, 169, 110, 0.12);
+      --border: rgba(201, 169, 110, 0.08);
+      --radius: 14px;
+      --transition: 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    html, body {
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .brand span { color: var(--gold); }
+
+    .brand-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* Masonry */
+    .masonry {
+      column-count: 2;
+      column-gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      body { padding: 20px; }
+      .masonry { column-count: 3; column-gap: 14px; }
+    }
+
+    @media (min-width: 900px) {
+      .masonry { column-count: 4; column-gap: 16px; }
+    }
+
+    /* Card */
+    .card {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: rgba(201, 169, 110, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    }
+
+    .card-img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .h-sm  { height: 180px; }
+    .h-md  { height: 240px; }
+    .h-lg  { height: 300px; }
+    .h-xl  { height: 360px; }
+    .h-xxl { height: 420px; }
+
+    .card:hover .card-img {
+      transform: scale(1.03);
+    }
+
+    .card-action {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 8, 8, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 169, 110, 0.25);
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .card:hover .card-action {
+      background: rgba(26, 22, 18, 0.95);
+      border-color: var(--gold);
+    }
+
+    .card-action-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-action-btn {
+      width: 14px;
+      height: 14px;
+      background: var(--gold-glow);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      border-radius: 50%;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+
+    .card:hover .card-action-btn {
+      background: var(--gold);
+      color: #0a0808;
+      transform: scale(1.1);
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      z-index: 5;
+    }
+
+    .fav-btn:hover { transform: scale(1.1); }
+    .fav-btn.favorited { color: #ff4757; background: rgba(255,71,87,0.2); }
+
+    /* ===== MODAL CARD 9:16 COM SHEET EXPANSÍVEL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      backdrop-filter: blur(0px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      pointer-events: none;
+      transition: background 0.5s ease, backdrop-filter 0.5s ease;
+    }
+
+    .modal-overlay.open {
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(16px);
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      overflow: hidden;
+      transform: scale(0.9) translateY(30px);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.5s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .modal-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Botão fechar modal */
+    .modal-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,71,87,0.3);
+      color: #ff4757;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      z-index: 30;
+    }
+
+    .modal-close-btn:hover {
+      background: #ff4757;
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    /* Botão abrir conteúdo */
+    .modal-toggle-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 10px 28px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition);
+      z-index: 20;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-toggle-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) translateY(20px);
+    }
+
+    .modal-toggle-btn:hover {
+      background: var(--gold);
+      color: #0a0808;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    /* Sheet expansível */
+    .modal-content-sheet {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 55%;
+      min-height: 200px;
+      max-height: 100%;
+      background: rgba(10,8,8,0.96);
+      backdrop-filter: blur(24px);
+      border-radius: 24px 24px 0 0;
+      padding: 28px 20px 24px;
+      transform: translateY(100%);
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+                  height 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+                  border-radius 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(201,169,110,0.15);
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .modal-content-sheet.show {
+      transform: translateY(0);
+    }
+
+    .modal-content-sheet.full {
+      height: 100%;
+      border-radius: 0;
+    }
+
+    /* Puxador */
+    .sheet-handle-wrapper {
+      flex-shrink: 0;
+      padding-bottom: 12px;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .sheet-handle-wrapper:active {
+      cursor: grabbing;
+    }
+
+    .sheet-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+      margin: 0 auto;
+      transition: background 0.3s;
+    }
+
+    .sheet-handle-wrapper:hover .sheet-handle {
+      background: rgba(255,255,255,0.4);
+    }
+
+    /* Área de scroll */
+    .sheet-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-right: -4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
+    }
+
+    .sheet-scroll-area::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .sheet-scroll-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sheet-scroll-area::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .sheet-scroll-area {
+      scroll-behavior: smooth;
+    }
+
+    /* Conteúdo interno do sheet */
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .sheet-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .sheet-header .sub {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .sheet-close-btn {
+      background: rgba(255,71,87,0.1);
+      border: 1px solid rgba(255,71,87,0.3);
+      color: #ff4757;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .sheet-close-btn:hover {
+      background: #ff4757;
+      color: #fff;
+    }
+
+    .sheet-desc {
+      font-size: 0.82rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      line-height: 1.55;
+      margin-bottom: 14px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .sheet-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .sheet-btns button {
+      flex: 1;
+      padding: 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(201,169,110,0.25);
+      background: var(--gold-glow);
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition);
+    }
+
+    .sheet-btns button.cuidados {
+      background: rgba(46,204,113,0.08);
+      border-color: rgba(46,204,113,0.2);
+      color: #2ecc71;
+    }
+
+    .sheet-btns button:hover {
+      opacity: 0.85;
+      transform: scale(1.02);
+    }
+
+    .kit-lista {
+      display: none;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: rgba(201,169,110,0.04);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .kit-lista.show {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .kit-lista .kit-title {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .kit-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-sec);
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .kit-item:last-child {
+      border-bottom: none;
+    }
+
+    .kit-item:hover {
+      color: var(--text);
+    }
+
+    .kit-item span {
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    .sheet-cta {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: var(--gold);
+      color: #0a0808;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+
+    .sheet-cta:hover {
+      background: var(--gold-light);
+      transform: scale(1.01);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-style: italic;
+      column-span: all;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div>
+      <div class="brand">Hair<span>OS</span></div>
+      <div class="brand-sub">Inspiração</div>
+    </div>
+  </header>
+
+  <div class="masonry" id="masonry"></div>
+
+  <!-- ===== MODAL CARD 9:16 COM SHEET EXPANSÍVEL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card" id="modalCard">
+
+      <!-- IMAGEM 100% -->
+      <img class="modal-card-img" id="modalImg" src="" alt="">
+
+      <!-- FECHAR MODAL -->
+      <button class="modal-close-btn" id="modalCloseBtn">×</button>
+
+      <!-- ABRIR CONTEÚDO -->
+      <button class="modal-toggle-btn" id="toggleContentBtn">✨ Ver Detalhes</button>
+
+      <!-- SHEET EXPANSÍVEL -->
+      <div class="modal-content-sheet" id="contentSheet">
+
+        <div class="sheet-handle-wrapper" id="handleWrapper">
+          <div class="sheet-handle"></div>
+        </div>
+
+        <div class="sheet-scroll-area" id="scrollArea">
+
+          <div class="sheet-header">
+            <div>
+              <h2 id="modalTitle">Pixie</h2>
+              <div class="sub" id="modalSub">Loira Fria Platinada</div>
+            </div>
+            <button class="sheet-close-btn" id="closeContentBtn">×</button>
+          </div>
+
+          <p class="sheet-desc" id="modalDesc">Descrição do estilo</p>
+
+          <div class="sheet-btns">
+            <button id="btnColoracao">🎨 Coloração</button>
+            <button class="cuidados" id="btnCuidados">💧 Cuidados</button>
+          </div>
+
+          <div class="kit-lista" id="listaColoracao">
+            <div class="kit-title">Kit Coloração</div>
+            <div id="coloracaoItems"></div>
+          </div>
+
+          <div class="kit-lista" id="listaCuidados">
+            <div class="kit-title">Kit Cuidados</div>
+            <div id="cuidadosItems"></div>
+          </div>
+
+          <a href="#" class="sheet-cta" id="modalCta">🛍️ Ver todos os produtos</a>
+          <div style="height:20px;"></div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const styleData = {
+      'pixie': {
+        corte: 'Pixie',
+        title: 'Loira Fria Platinada',
+        desc: 'Loira platinada com tons frios e acinzentados. Corte Pixie moderno e prático.',
+        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 8 (Base)', link: '#' },
+          { name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' },
+          { name: 'Tonalizante 10.1', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'wolf': {
+        corte: 'Wolf',
+        title: 'Bege Perolado',
+        desc: 'Bege perolado com fundo sofisticado. Corte Wolf despojado e cheio de camadas.',
+        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 7 (Base)', link: '#' },
+          { name: 'Tinta INOA 9.2 (Nuance Bege)', link: '#' },
+          { name: 'Tonalizante 9.2', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'short-bob': {
+        corte: 'Short Bob',
+        title: 'Morena Iluminada',
+        desc: 'Morena iluminada com luzes quentes e douradas. Short Bob moderno e elegante.',
+        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 5 (Base)', link: '#' },
+          { name: 'Tinta INOA 7.3 (Nuance Quente)', link: '#' },
+          { name: 'Tonalizante 7.3', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'kitty-cut': {
+        corte: 'Kitty Cut',
+        title: 'Loira Bege Claro',
+        desc: 'Loira bege clara com reflexos suaves. Kitty Cut delicado e moderno.',
+        img: 'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 8 (Base)', link: '#' },
+          { name: 'Tinta INOA 9.2 (Nuance Bege)', link: '#' },
+          { name: 'Tonalizante 9.2', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'nirvana': {
+        corte: 'Nirvana',
+        title: 'Grisalho Prateado',
+        desc: 'Efeito grisalho com nuances prateadas. Corte Nirvana com personalidade e atitude.',
+        img: 'https://i.pinimg.com/1200x/c4/bb/9e/c4bb9eb05ed091dc496194f629e26c6e.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 7 (Base)', link: '#' },
+          { name: 'Tinta INOA 9.1 (Nuance Fria)', link: '#' },
+          { name: 'Tonalizante 9.1', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'long-bob': {
+        corte: 'Long Bob',
+        title: 'Loira Dourada',
+        desc: 'Loiríssimo com reflexos dourados. Long Bob versátil e elegante.',
+        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 7 (Base)', link: '#' },
+          { name: 'Tinta INOA 9.3 (Nuance Dourada)', link: '#' },
+          { name: 'Tonalizante 9.3', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'butterfly': {
+        corte: 'Butterfly',
+        title: 'Bege Natural',
+        desc: 'Bege neutro e natural. Corte Butterfly com movimento e leveza.',
+        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 6 (Base)', link: '#' },
+          { name: 'Tinta INOA 8.2 (Nuance Bege)', link: '#' },
+          { name: 'Tonalizante 8.2', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'blunt-cut': {
+        corte: 'Blunt Cut',
+        title: 'Morena Fria',
+        desc: 'Castanho com luzes frias e acinzentadas. Blunt Cut reto e marcante.',
+        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 5 (Base)', link: '#' },
+          { name: 'Tinta INOA 7.1 (Nuance Fria)', link: '#' },
+          { name: 'Tonalizante 7.1', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      },
+      'octopus': {
+        corte: 'Octopus',
+        title: 'Loira Mel',
+        desc: 'Tom loiro com nuances mel e âmbar. Corte Octopus cheio de camadas e volume.',
+        img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+        coloracao: [
+          { name: 'Tinta INOA 7 (Base)', link: '#' },
+          { name: 'Tinta INOA 9.4 (Nuance Mel)', link: '#' },
+          { name: 'Tonalizante 9.4', link: '#' },
+          { name: 'Água Oxigenada 20Vol', link: '#' },
+          { name: 'Revelador para Tonalizante', link: '#' }
+        ],
+        cuidados: [
+          { name: 'Shampoo Vitamino Color', link: '#' },
+          { name: 'Condicionador Joico Moisture', link: '#' },
+          { name: 'Máscara Absolut Repair', link: '#' },
+          { name: 'Leave-in Molecular L\'Oréal', link: '#' },
+          { name: 'Óleo Capilar L\'Oréal Elvive', link: '#' }
+        ]
+      }
+    };
+
+    // ===== FAVORITOS =====
+    function safeGetFavorites() {
+      try {
+        return JSON.parse(localStorage.getItem('hairos_favorites') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function safeSetFavorites(arr) {
+      try {
+        localStorage.setItem('hairos_favorites', JSON.stringify(arr));
+      } catch (e) {}
+    }
+
+    let favorites = safeGetFavorites();
+
+    function isFav(key) {
+      return favorites.includes(key);
+    }
+
+    function toggleFav(key, btn) {
+      if (isFav(key)) {
+        favorites = favorites.filter(k => k !== key);
+      } else {
+        favorites.push(key);
+      }
+      safeSetFavorites(favorites);
+      if (btn) {
+        btn.classList.toggle('favorited', isFav(key));
+        btn.textContent = isFav(key) ? '♥' : '♡';
+      }
+    }
+
+    // ===== RENDER MASONRY =====
+    function renderMasonry() {
+      const container = document.getElementById('masonry');
+      container.innerHTML = '';
+
+      Object.keys(styleData).forEach(key => {
+        const data = styleData[key];
+        const fav = isFav(key);
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.dataset.key = key;
+
+        const heights = ['h-sm', 'h-lg', 'h-md', 'h-xl', 'h-md', 'h-xxl', 'h-lg', 'h-sm', 'h-xl'];
+        const keys = Object.keys(styleData);
+        const hClass = heights[keys.indexOf(key) % heights.length];
+
+        card.innerHTML = `
+          <button class="fav-btn ${fav ? 'favorited' : ''}" data-key="${key}">${fav ? '♥' : '♡'}</button>
+          <img class="card-img ${hClass}" src="${data.img}" alt="${data.corte}" loading="lazy">
+          <div class="card-action">
+            <span class="card-action-title">${data.corte}</span>
+            <div class="card-action-btn">→</div>
+          </div>
+        `;
+
+        card.querySelector('.fav-btn').addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleFav(this.dataset.key, this);
+        });
+
+        card.addEventListener('click', () => openModal(key));
+
+        container.appendChild(card);
+      });
+    }
+
+    // ===== MODAL =====
+    let currentKey = null;
+    let isContentOpen = false;
+    let isFull = false;
+
+    const overlay = document.getElementById('modalOverlay');
+    const contentSheet = document.getElementById('contentSheet');
+    const toggleContentBtn = document.getElementById('toggleContentBtn');
+    const closeContentBtn = document.getElementById('closeContentBtn');
+    const handleWrapper = document.getElementById('handleWrapper');
+
+    function openModal(key) {
+      const data = styleData[key];
+      if (!data) return;
+      currentKey = key;
+
+      // Reset
+      contentSheet.classList.remove('show', 'full');
+      toggleContentBtn.classList.remove('hidden');
+      isContentOpen = false;
+      isFull = false;
+
+      document.getElementById('modalImg').src = data.img;
+      document.getElementById('modalTitle').textContent = data.corte;
+      document.getElementById('modalSub').textContent = data.title;
+      document.getElementById('modalDesc').textContent = data.desc;
+
+      const coloracaoItems = document.getElementById('coloracaoItems');
+      coloracaoItems.innerHTML = (data.coloracao || []).map(p =>
+        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span class="item-name">${p.name}</span><span>→</span></a>`
+      ).join('');
+
+      const cuidadosItems = document.getElementById('cuidadosItems');
+      cuidadosItems.innerHTML = (data.cuidados || []).map(p =>
+        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span class="item-name">${p.name}</span><span>→</span></a>`
+      ).join('');
+
+      document.getElementById('listaColoracao').classList.remove('show');
+      document.getElementById('listaCuidados').classList.remove('show');
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      contentSheet.classList.remove('show', 'full');
+      toggleContentBtn.classList.remove('hidden');
+      isContentOpen = false;
+      isFull = false;
+      document.body.style.overflow = '';
+      currentKey = null;
+    }
+
+    function openContent() {
+      contentSheet.classList.add('show');
+      toggleContentBtn.classList.add('hidden');
+      isContentOpen = true;
+      contentSheet.classList.remove('full');
+      isFull = false;
+    }
+
+    function closeContent() {
+      contentSheet.classList.remove('show', 'full');
+      toggleContentBtn.classList.remove('hidden');
+      isContentOpen = false;
+      isFull = false;
+    }
+
+    function toggleFull() {
+      if (!isContentOpen) return;
+      isFull = !isFull;
+      contentSheet.classList.toggle('full');
+    }
+
+    // ===== EVENTOS =====
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    toggleContentBtn.addEventListener('click', openContent);
+    closeContentBtn.addEventListener('click', closeContent);
+    handleWrapper.addEventListener('click', toggleFull);
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (isContentOpen) {
+          closeContent();
+        } else {
+          closeModal();
+        }
+      }
+    });
+
+    // ===== KITS =====
+    document.getElementById('btnColoracao').addEventListener('click', function() {
+      document.getElementById('listaCuidados').classList.remove('show');
+      document.getElementById('listaColoracao').classList.toggle('show');
+    });
+
+    document.getElementById('btnCuidados').addEventListener('click', function() {
+      document.getElementById('listaColoracao').classList.remove('show');
+      document.getElementById('listaCuidados').classList.toggle('show');
+    });
+
+    // ===== DRAG PARA EXPANDIR =====
+    let startY = 0;
+    let isDragging = false;
+
+    handleWrapper.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    }, { passive: true });
+
+    handleWrapper.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      const diff = startY - e.touches[0].clientY;
+
+      if (diff > 30 && !isFull && isContentOpen) {
+        toggleFull();
+        isDragging = false;
+      }
+      if (diff < -30 && isFull && isContentOpen) {
+        toggleFull();
+        isDragging = false;
+      }
+    }, { passive: true });
+
+    handleWrapper.addEventListener('touchend', function() {
+      isDragging = false;
+    }, { passive: true });
+
+    // ===== INIT =====
+    renderMasonry();
+  </script>
+</body>
+</html>
