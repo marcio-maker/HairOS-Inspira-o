@@ -56,6 +56,12 @@
       margin-bottom: 16px;
     }
 
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
     .brand {
       font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
@@ -66,6 +72,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      line-height: 1;
     }
 
     .brand:hover {
@@ -78,10 +85,17 @@
 
     .brand-sub {
       font-size: .6rem;
-      letter-spacing: .25em;
+      letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--text-muted);
       font-weight: 300;
+      padding-left: 2px;
+      opacity: 0.6;
+    }
+
+    .brand-sub .highlight {
+      color: var(--gold);
+      opacity: 1;
     }
 
     /* ===== HEADER ACTIONS ===== */
@@ -101,9 +115,42 @@
       white-space: nowrap;
       transition: all var(--transition);
       font-family: 'Inter', sans-serif;
+      cursor: pointer;
     }
 
     .header-link:hover {
+      background: rgba(201, 169, 110, .1);
+      border-color: var(--gold);
+    }
+
+    /* Badge "✦ Ver Vitrine" - estilo igual ao header-link, com função de voltar */
+    .vitrine-badge {
+      font-size: .7rem;
+      color: var(--gold);
+      padding: 6px 12px;
+      border: 1px solid rgba(201, 169, 110, .25);
+      border-radius: 100px;
+      white-space: nowrap;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: all var(--transition);
+    }
+
+    .vitrine-badge.visible {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .vitrine-badge:hover {
       background: rgba(201, 169, 110, .1);
       border-color: var(--gold);
     }
@@ -144,31 +191,6 @@
       border-color: #ff4757;
       color: #ff4757;
       background: rgba(255, 71, 87, .08);
-    }
-
-    /* ===== BACK BUTTON ===== */
-    .back-btn {
-      display: none;
-      font-size: .7rem;
-      color: var(--gold);
-      background: rgba(201, 169, 110, .08);
-      border: 1px solid rgba(201, 169, 110, .2);
-      padding: 4px 10px;
-      border-radius: 100px;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: 'Inter', sans-serif;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .back-btn:hover {
-      background: rgba(201, 169, 110, .15);
-      border-color: var(--gold);
-    }
-
-    .back-btn.visible {
-      display: inline-flex;
     }
 
     /* ===== FILTROS ===== */
@@ -1079,11 +1101,20 @@
 </head>
 <body>
   <header class="header">
-    <div class="brand" id="brandLogo">
-      <span>Hair<span>OS</span></span>
+    <div class="header-left">
+      <div class="brand" id="brandLogo">
+        <span>Hair<span>OS</span></span>
+      </div>
+      <div class="brand-sub" id="brandSub">
+        ✦ <span class="highlight">Vitrine de inspirações</span>
+      </div>
     </div>
     <div class="header-actions">
+      <!-- Badge "✦ Ver Vitrine" - aparece apenas na página de favoritos e volta para a home -->
+      <span class="vitrine-badge" id="vitrineBadge">✦ Ver Vitrine</span>
+      
       <a href="Chat.bot.html" class="header-link">✦ Assistente</a>
+      
       <button class="fav-btn-header" id="favToggleBtn">
         <span class="heart-icon">♥</span>
         <span class="fav-count" id="favCount">0</span>
@@ -2676,7 +2707,8 @@
     let showingFavorites = false;
 
     function updateFavCounter() {
-      document.getElementById('favCount').textContent = favorites.length;
+      const count = favorites.length;
+      document.getElementById('favCount').textContent = count;
     }
     updateFavCounter();
 
@@ -2729,18 +2761,36 @@
       return keys.filter(key => styleData[key].categoria === currentFilter);
     }
 
+    // Função para voltar para a home (Inspirações)
+    function goToHome() {
+      if (showingFavorites) {
+        showingFavorites = false;
+        document.getElementById('favToggleBtn').classList.remove('active');
+        document.getElementById('filters').classList.remove('hidden');
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-filter="all"]').classList.add('active');
+        currentFilter = 'all';
+        renderMasonry();
+      }
+    }
+
     function renderMasonry() {
       const container = document.getElementById('masonry');
       const title = document.getElementById('sectionTitle');
+      const vitrineBadge = document.getElementById('vitrineBadge');
+      const brandSub = document.getElementById('brandSub');
       container.innerHTML = '';
       
       const filteredKeys = getFilteredKeys();
 
-      // Atualiza título
       if (showingFavorites) {
         title.innerHTML = `<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>`;
+        vitrineBadge.classList.add('visible');
+        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
       } else {
         title.innerHTML = `<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>`;
+        vitrineBadge.classList.remove('visible');
+        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
       }
 
       if (filteredKeys.length === 0) {
@@ -2977,19 +3027,14 @@
     });
 
     // ============================================================
+    // BADGE "✦ Ver Vitrine" - VOLTA PARA A HOME
+    // ============================================================
+    document.getElementById('vitrineBadge').addEventListener('click', goToHome);
+
+    // ============================================================
     // LOGO CLICK - VOLTAR PARA HOME
     // ============================================================
-    document.getElementById('brandLogo').addEventListener('click', function() {
-      if (showingFavorites) {
-        showingFavorites = false;
-        document.getElementById('favToggleBtn').classList.remove('active');
-        document.getElementById('filters').classList.remove('hidden');
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('[data-filter="all"]').classList.add('active');
-        currentFilter = 'all';
-        renderMasonry();
-      }
-    });
+    document.getElementById('brandLogo').addEventListener('click', goToHome);
 
     // ============================================================
     // EVENTOS
