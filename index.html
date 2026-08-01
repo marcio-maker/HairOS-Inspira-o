@@ -8,7 +8,7 @@
     /* ===== IMPORTS ===== */
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
 
-    /* ===== RESET & VARIÁVEIS ===== */
+    /* ===== RESET & VARIAVEIS ===== */
     * {
       margin: 0;
       padding: 0;
@@ -123,7 +123,6 @@
       border-color: var(--gold);
     }
 
-    /* Badge "✦ Ver Vitrine" - estilo igual ao header-link, com função de voltar */
     .vitrine-badge {
       font-size: .7rem;
       color: var(--gold);
@@ -326,13 +325,17 @@
 
     .badge-corte { border-color: #4ecdc4; color: #4ecdc4; }
     .badge-coloracao { border-color: #ff6b6b; color: #ff6b6b; }
-    .badge-produto { border-color: #feca57; color: #feca57; }
-    .badge-kit { border-color: #a29bfe; color: #a29bfe; }
+    .badge-penteado { border-color: #a29bfe; color: #a29bfe; }
+    .badge-acessorio { border-color: #feca57; color: #feca57; }
+    .badge-produto { border-color: #45b7d1; color: #45b7d1; }
+    .badge-kit { border-color: #ff9ff3; color: #ff9ff3; }
 
     .card:hover .badge-corte { background: #4ecdc4; color: #0a0808; }
     .card:hover .badge-coloracao { background: #ff6b6b; color: #0a0808; }
-    .card:hover .badge-produto { background: #feca57; color: #0a0808; }
-    .card:hover .badge-kit { background: #a29bfe; color: #0a0808; }
+    .card:hover .badge-penteado { background: #a29bfe; color: #0a0808; }
+    .card:hover .badge-acessorio { background: #feca57; color: #0a0808; }
+    .card:hover .badge-produto { background: #45b7d1; color: #0a0808; }
+    .card:hover .badge-kit { background: #ff9ff3; color: #0a0808; }
 
     .card-actions-top {
       position: absolute;
@@ -496,7 +499,7 @@
     }
 
     /* ============================================================
-       MODAL - HERO EM PROPORÇÃO 3:4 (PORTRAIT)
+       MODAL - HERO EM PROPORCAO 3:4 (PORTRAIT)
     ============================================================ */
     .modal-overlay {
       position: fixed;
@@ -985,7 +988,7 @@
     }
 
     /* ============================================================
-       CONTEÚDO DO MODAL - CARDS COM ALTURAS VARIADAS
+       CONTEUDO DO MODAL - CARDS COM ALTURAS VARIADAS
     ============================================================ */
     .modal-content {
       padding: 20px 16px 40px;
@@ -1056,7 +1059,7 @@
       display: none !important;
     }
 
-    /* ===== ANIMAÇÃO ===== */
+    /* ===== ANIMACAO ===== */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -1106,15 +1109,12 @@
         <span>Hair<span>OS</span></span>
       </div>
       <div class="brand-sub" id="brandSub">
-        ✦ <span class="highlight">Vitrine de inspirações</span>
+        Vitrine de inspiracoes
       </div>
     </div>
     <div class="header-actions">
-      <!-- Badge "✦ Ver Vitrine" - aparece apenas na página de favoritos e volta para a home -->
-      <span class="vitrine-badge" id="vitrineBadge">✦ Ver Vitrine</span>
-      
-      <a href="Chat.bot.html" class="header-link">✦ Assistente</a>
-      
+      <span class="vitrine-badge" id="vitrineBadge">Ver Vitrine</span>
+      <a href="Chat.bot.html" class="header-link">Assistente</a>
       <button class="fav-btn-header" id="favToggleBtn">
         <span class="heart-icon">♥</span>
         <span class="fav-count" id="favCount">0</span>
@@ -1125,13 +1125,15 @@
   <div class="filters" id="filters">
     <button class="filter-btn active" data-filter="all">Todos</button>
     <button class="filter-btn" data-filter="corte">Cortes</button>
-    <button class="filter-btn" data-filter="coloracao">Colorações</button>
+    <button class="filter-btn" data-filter="coloracao">Coloracoes</button>
+    <button class="filter-btn" data-filter="penteado">Penteados</button>
+    <button class="filter-btn" data-filter="acessorio">Acessorios</button>
     <button class="filter-btn" data-filter="produto">Produtos</button>
     <button class="filter-btn" data-filter="kit">Kits</button>
   </div>
 
   <div class="section-title" id="sectionTitle">
-    <span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>
+    <span class="highlight">Inspiracoes</span>
   </div>
 
   <div class="masonry" id="masonry"></div>
@@ -1156,11 +1158,11 @@
           <button class="modal-hero-btn share-btn" id="heroShareBtn" title="Compartilhar">↗</button>
           <button class="modal-hero-btn fav-btn" id="heroFavBtn" title="Favoritar">♡</button>
         </div>
-        <button class="modal-toggle-btn" id="toggleSheetBtn">✨ Ver Detalhes</button>
+        <button class="modal-toggle-btn" id="toggleSheetBtn">Ver Detalhes</button>
       </div>
 
       <div class="modal-content">
-        <div class="modal-section-title" id="modalSectionTitle">✦ Variações ✦</div>
+        <div class="modal-section-title" id="modalSectionTitle">Variacoes</div>
         <div class="masonry" id="modalMasonry"></div>
       </div>
     </div>
@@ -1184,13 +1186,13 @@
         </div>
         <button class="sheet-close-btn" id="sheetCloseBtn">✕</button>
       </div>
-      <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
+      <p class="sheet-desc" id="sheetDesc">Descricao do estilo</p>
       <div class="sheet-btns">
-        <button id="btnColoracao">🎨 Coloração</button>
-        <button class="cuidados" id="btnCuidados">💧 Cuidados</button>
+        <button id="btnColoracao">Coloracao</button>
+        <button class="cuidados" id="btnCuidados">Cuidados</button>
       </div>
       <div class="kit-lista" id="listaColoracao">
-        <div class="kit-title">Kit Coloração</div>
+        <div class="kit-title">Kit Coloracao</div>
         <div id="coloracaoItems"></div>
       </div>
       <div class="kit-lista" id="listaCuidados">
@@ -1204,8 +1206,33 @@
 
   <script>
     // ============================================================
-    // DADOS COM 60 CARDS - TODOS COM LINKS NOS PRODUTOS
+    // MAPEAMENTO DE SUBSTITUICOES DE IMAGENS
     // ============================================================
+    const IMAGE_FIXES = {
+      'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+      'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0': 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+      'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+      'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+      'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000': 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+      'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+      'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+      'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg': 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+      'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0': 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+      'https://tse4.mm.bing.net/th/id/OIP.4CYgPmI6kHvfZB8Iw_jRWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+    };
+
+    function fixImageUrl(url) {
+      if (!url) return url;
+      if (IMAGE_FIXES[url]) return IMAGE_FIXES[url];
+      if (url.includes('bing.net') || 
+          url.includes('vtexassets.com') || 
+          url.includes('lorealpartnershop.com') ||
+          url.includes('cloudinary.com') ||
+          url.includes('conceptcshop.com')) {
+        return 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
+      }
+      return url;
+    }
 
     const alturas = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl'];
 
@@ -1218,98 +1245,18 @@
       return 'h-xxl';
     }
 
-    // PRODUTOS COM LINKS REAIS (exemplo - você pode substituir pelos links reais)
-    const PRODUTOS = {
-      // Tintas
-      'tinta-inoa-8': { name: 'Tinta INOA 8 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/8' },
-      'tinta-inoa-10.1': { name: 'Tinta INOA 10.1 (Nuance Fria)', link: 'https://www.lorealprofessionnel.com.br/inoa/10-1' },
-      'tinta-inoa-9.2': { name: 'Tinta INOA 9.2 (Nuance Bege)', link: 'https://www.lorealprofessionnel.com.br/inoa/9-2' },
-      'tinta-inoa-5': { name: 'Tinta INOA 5 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/5' },
-      'tinta-inoa-9': { name: 'Tinta INOA 9 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/9' },
-      'tinta-inoa-9.3': { name: 'Tinta INOA 9.3 (Nuance Dourada)', link: 'https://www.lorealprofessionnel.com.br/inoa/9-3' },
-      'tinta-inoa-4': { name: 'Tinta INOA 4 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/4' },
-      'tinta-inoa-6': { name: 'Tinta INOA 6 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/6' },
-      'tinta-inoa-9.4': { name: 'Tinta INOA 9.4 (Nuance Mel)', link: 'https://www.lorealprofessionnel.com.br/inoa/9-4' },
-      'tinta-inoa-7.4': { name: 'Tinta INOA 7.4 (Nuance Cobre)', link: 'https://www.lorealprofessionnel.com.br/inoa/7-4' },
-      'tinta-inoa-8.4': { name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: 'https://www.lorealprofessionnel.com.br/inoa/8-4' },
-      'tinta-inoa-3': { name: 'Tinta INOA 3 (Base)', link: 'https://www.lorealprofessionnel.com.br/inoa/3' },
-      'tinta-inoa-8.2': { name: 'Tinta INOA 8.2 (Nuance Bege)', link: 'https://www.lorealprofessionnel.com.br/inoa/8-2' },
-      
-      // Shampoos e Condicionadores
-      'shampoo-vitamino-color': { name: 'Shampoo Vitamino Color', link: 'https://www.lorealprofessionnel.com.br/vitamino-color/shampoo' },
-      'shampoo-absolut-repair': { name: 'Shampoo Absolut Repair', link: 'https://www.lorealprofessionnel.com.br/absolut-repair/shampoo' },
-      'shampoo-metal-detox': { name: 'Shampoo Metal Detox', link: 'https://www.lorealprofessionnel.com.br/metal-detox/shampoo' },
-      'shampoo-scalp-advanced': { name: 'Shampoo Scalp Advanced', link: 'https://www.lorealprofessionnel.com.br/scalp-advanced/shampoo' },
-      'shampoo-premiere': { name: 'Shampoo Premiere', link: 'https://www.lorealprofessionnel.com.br/premiere/shampoo' },
-      'shampoo-inforcer': { name: 'Shampoo Inforcer', link: 'https://www.lorealprofessionnel.com.br/inforcer/shampoo' },
-      'shampoo-curl-expression': { name: 'Shampoo Curl Expression', link: 'https://www.lorealprofessionnel.com.br/curl-expression/shampoo' },
-      'shampoo-blondifier': { name: 'Shampoo Blondifier', link: 'https://www.lorealprofessionnel.com.br/blondifier/shampoo' },
-      'shampoo-pro-longer': { name: 'Shampoo Pro Longer', link: 'https://www.lorealprofessionnel.com.br/pro-longer/shampoo' },
-      'shampoo-liss-unlimited': { name: 'Shampoo Liss Unlimited', link: 'https://www.lorealprofessionnel.com.br/liss-unlimited/shampoo' },
-      'shampoo-absolut-repair-molecular': { name: 'Shampoo Absolut Repair Molecular', link: 'https://www.lorealprofessionnel.com.br/absolut-repair-molecular/shampoo' },
-      
-      'condicionador-joico-moisture': { name: 'Condicionador Joico Moisture', link: 'https://www.joico.com.br/moisture/conditioner' },
-      
-      // Máscaras
-      'mascara-absolut-repair': { name: 'Máscara Absolut Repair', link: 'https://www.lorealprofessionnel.com.br/absolut-repair/mascara' },
-      'mascara-joico-moisture': { name: 'Máscara Joico Moisture', link: 'https://www.joico.com.br/moisture/mask' },
-      
-      // Kits
-      'kit-balayage': { name: 'Kit Balayage Profissional', link: 'https://www.lorealprofessionnel.com.br/kits/balayage' },
-      'kit-californianas': { name: 'Kit Californianas', link: 'https://www.lorealprofessionnel.com.br/kits/californianas' },
-      'kit-highlights': { name: 'Kit Highlights Loira', link: 'https://www.lorealprofessionnel.com.br/kits/highlights' },
-      'kit-cherry-cola': { name: 'Kit Cherry Cola', link: 'https://www.lorealprofessionnel.com.br/kits/cherry-cola' },
-      'kit-copper': { name: 'Kit Copper Hair', link: 'https://www.lorealprofessionnel.com.br/kits/copper' },
-      'kit-mocha': { name: 'Kit Mocha Mousse', link: 'https://www.lorealprofessionnel.com.br/kits/mocha' },
-      'kit-expensive-brunette': { name: 'Kit Expensive Brunette', link: 'https://www.lorealprofessionnel.com.br/kits/expensive-brunette' },
-      'kit-mushroom': { name: 'Kit Mushroom Brown', link: 'https://www.lorealprofessionnel.com.br/kits/mushroom' },
-      'kit-vanilla': { name: 'Kit Vanilla Blonde', link: 'https://www.lorealprofessionnel.com.br/kits/vanilla' },
-      'kit-ice': { name: 'Kit Ice Blonde', link: 'https://www.lorealprofessionnel.com.br/kits/ice' },
-      'kit-caramelo': { name: 'Kit Caramelo Glow', link: 'https://www.lorealprofessionnel.com.br/kits/caramelo' },
-      'kit-chocolate': { name: 'Kit Chocolate Intenso', link: 'https://www.lorealprofessionnel.com.br/kits/chocolate' },
-      'kit-preto': { name: 'Kit Preto Natural', link: 'https://www.lorealprofessionnel.com.br/kits/preto' },
-      'kit-ruivo': { name: 'Kit Ruivo Acobreado', link: 'https://www.lorealprofessionnel.com.br/kits/ruivo' },
-      'kit-morena-iluminada': { name: 'Kit Morena Iluminada', link: 'https://www.lorealprofessionnel.com.br/kits/morena-iluminada' },
-      
-      // Kits de tratamento
-      'kit-hidratacao': { name: 'Kit Hidratação Completo', link: 'https://www.lorealprofessionnel.com.br/kits/hidratacao' },
-      'kit-reconstrucao': { name: 'Kit Reconstrução Completo', link: 'https://www.lorealprofessionnel.com.br/kits/reconstrucao' },
-      'kit-nutricao': { name: 'Kit Nutrição Completo', link: 'https://www.lorealprofessionnel.com.br/kits/nutricao' },
-      'kit-loiros': { name: 'Kit Loiros Completo', link: 'https://www.lorealprofessionnel.com.br/kits/loiros' },
-      'kit-coloracao-protecao': { name: 'Kit Coloração Completo', link: 'https://www.lorealprofessionnel.com.br/kits/coloracao' },
-      'kit-queda': { name: 'Kit Queda Capilar Completo', link: 'https://www.lorealprofessionnel.com.br/kits/queda' },
-      'kit-cacheados': { name: 'Kit Cacheados Completo', link: 'https://www.lorealprofessionnel.com.br/kits/cacheados' },
-      'kit-danificados': { name: 'Kit Danificados Completo', link: 'https://www.lorealprofessionnel.com.br/kits/danificados' },
-      'kit-anti-frizz': { name: 'Kit Anti-Frizz Completo', link: 'https://www.lorealprofessionnel.com.br/kits/anti-frizz' },
-      'kit-pos-coloracao': { name: 'Kit Pós-Coloração Completo', link: 'https://www.lorealprofessionnel.com.br/kits/pos-coloracao' },
-      'kit-crescimento': { name: 'Kit Crescimento Completo', link: 'https://www.lorealprofessionnel.com.br/kits/crescimento' },
-      'kit-ruivos-completo': { name: 'Kit Ruivos Completo', link: 'https://www.lorealprofessionnel.com.br/kits/ruivos' },
-      'kit-morenas': { name: 'Kit Morenas Completo', link: 'https://www.lorealprofessionnel.com.br/kits/morenas' },
-      'kit-detox': { name: 'Kit Detox Capilar Completo', link: 'https://www.lorealprofessionnel.com.br/kits/detox' },
-      'kit-uso-diario': { name: 'Kit Uso Diário Completo', link: 'https://www.lorealprofessionnel.com.br/kits/uso-diario' }
-    };
-
-    // Função para buscar produto pelo nome
-    function getProduto(nome) {
-      for (let key in PRODUTOS) {
-        if (PRODUTOS[key].name === nome) {
-          return PRODUTOS[key];
-        }
-      }
-      // Se não encontrar, retorna um link padrão
-      return { name: nome, link: '#' };
-    }
+    // ============================================================
+    // DADOS COMPLETOS - IMAGENS SUBSTITUIDAS DOS ARQUIVOS
+    // socortes.html, socores.html, soprodutos.html
+    // ============================================================
 
     const styleData = {
-      // ===== CORTES (15) =====
+      // ===== CORTES (15) - IMAGENS DO socortes.html =====
       'velvet-bob': {
-        id: 'c01',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Velvet Bob',
-        title: 'Bob Texturizado',
+        id: 'c01', categoria: 'corte', badge: 'Corte',
+        corte: 'Velvet Bob', title: 'Bob Texturizado',
         desc: 'Bob com camadas suaves e textura volumosa. Perfeito para cabelos finos.',
-        img: 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
         variants: [
           'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
           'https://i.pinimg.com/1200x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
@@ -1317,23 +1264,16 @@
           'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
           'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
           'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 8 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+8+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'pixie-cut': {
-        id: 'c02',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Pixie Cut',
-        title: 'Loira Fria Platinada',
+        id: 'c02', categoria: 'corte', badge: 'Corte',
+        corte: 'Pixie Cut', title: 'Loira Fria Platinada',
         desc: 'Corte curto e moderno com textura despojada. Loira platinada com tons frios.',
-        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
         variants: [
           'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
           'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
@@ -1341,23 +1281,16 @@
           'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
           'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg',
           'https://i.pinimg.com/736x/52/14/d8/5214d86331dfdb322632ee2cf579688d.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 10.1 (Nuance Fria)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+10.1+%28Nuance+Fria%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Absolut Repair', link: 'https://lista.mercadolivre.com.br/Shampoo+Absolut+Repair' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'butterfly-cut': {
-        id: 'c03',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Butterfly Cut',
-        title: 'Bege Natural',
+        id: 'c03', categoria: 'corte', badge: 'Corte',
+        corte: 'Butterfly Cut', title: 'Bege Natural',
         desc: 'Corte com camadas que lembram asas de borboleta. Bege neutro e natural.',
-        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
           'https://i.pinimg.com/736x/64/b9/1f/64b91f2e6d9ce5414ec4f2977c44406c.jpg',
@@ -1365,23 +1298,16 @@
           'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
           'https://i.pinimg.com/736x/fc/24/fa/fc24fa3a3e0246aafed5f39b6dd56ccb.jpg',
           'https://i.pinimg.com/736x/12/48/b5/1248b5fbb7d9763b70522492135872e5.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 8.2 (Nuance Bege)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+8.2+%28Nuance+Bege%29' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8.2 (Nuance Bege)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'blunt-cut': {
-        id: 'c04',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Blunt Cut',
-        title: 'Morena Fria',
+        id: 'c04', categoria: 'corte', badge: 'Corte',
+        corte: 'Blunt Cut', title: 'Morena Fria',
         desc: 'Corte reto e marcante com acabamento preciso. Castanho com luzes frias.',
-        img: 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'),
         variants: [
           'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
           'https://i.pinimg.com/1200x/e4/4b/da/e44bdac8a5105bfec972ba9a543bfeec.jpg',
@@ -1389,23 +1315,16 @@
           'https://i.pinimg.com/736x/55/18/d6/5518d672ff60f93587e2f1c2f37ac2f0.jpg',
           'https://i.pinimg.com/736x/ce/b4/31/ceb43137708f1b4ee99b4cb5f1ec4fcf.jpg',
           'https://i.pinimg.com/736x/70/63/94/7063948d175317a01f5a6462abea937c.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 5 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+5+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Metal Detox', link: 'https://lista.mercadolivre.com.br/Shampoo+Metal+Detox' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'shaggy-hair': {
-        id: 'c05',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Shaggy Hair',
-        title: 'Loira Despojada',
+        id: 'c05', categoria: 'corte', badge: 'Corte',
+        corte: 'Shaggy Hair', title: 'Loira Despojada',
         desc: 'Corte despojado com muitas camadas e movimento. Loira natural e texturizada.',
-        img: 'https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
           'https://i.pinimg.com/736x/93/f8/33/93f833f887285c9641b001fc2bb588a9.jpg',
@@ -1413,23 +1332,16 @@
           'https://i.pinimg.com/736x/d4/67/84/d46784e0dc04de67a08747d9dc00557f.jpg',
           'https://i.pinimg.com/736x/52/e9/4d/52e94de7d2a15d8a802e067f3dc2cf25.jpg',
           'https://i.pinimg.com/736x/79/32/60/7932608cf203ea5fa576657590c2f37e.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 9 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+9+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Máscara Absolut Repair', link: 'https://lista.mercadolivre.com.br/M%C3%A1scara+Absolut+Repair' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9 (Base)', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'long-bob': {
-        id: 'c06',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Long Bob',
-        title: 'Loira Dourada',
-        desc: 'Loiríssimo com reflexos dourados. Long Bob versátil e elegante.',
-        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        id: 'c06', categoria: 'corte', badge: 'Corte',
+        corte: 'Long Bob', title: 'Loira Dourada',
+        desc: 'Loirissimo com reflexos dourados. Long Bob versatil e elegante.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
           'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
@@ -1437,23 +1349,16 @@
           'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
           'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg',
           'https://i.pinimg.com/736x/74/e1/20/74e120bb06a82239012d7fcf6baa60f6.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 9.3 (Nuance Dourada)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+9.3+%28Nuance+Dourada%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9.3 (Nuance Dourada)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'french-bob': {
-        id: 'c07',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'French Bob',
-        title: 'Castanho Elegante',
-        desc: 'Bob francês clássico com franja. Castanho intenso e sofisticado.',
-        img: 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        id: 'c07', categoria: 'corte', badge: 'Corte',
+        corte: 'French Bob', title: 'Castanho Elegante',
+        desc: 'Bob frances classico com franja. Castanho intenso e sofisticado.',
+        img: fixImageUrl('https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'),
         variants: [
           'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
           'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg',
@@ -1461,23 +1366,16 @@
           'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
           'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg',
           'https://i.pinimg.com/736x/23/86/da/2386da4faa473138d1264899e8f01cf8.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 4 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+4+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 4 (Base)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'italian-bob': {
-        id: 'c08',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Italian Bob',
-        title: 'Morena Iluminada',
-        desc: 'Bob italiano com ondas suaves. Morena com luzes estratégicas.',
-        img: 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        id: 'c08', categoria: 'corte', badge: 'Corte',
+        corte: 'Italian Bob', title: 'Morena Iluminada',
+        desc: 'Bob italiano com ondas suaves. Morena com luzes estrategicas.',
+        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
         variants: [
           'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
           'https://i.pinimg.com/1200x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
@@ -1485,23 +1383,16 @@
           'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
           'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
           'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 6 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+6+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Scalp Advanced', link: 'https://lista.mercadolivre.com.br/Shampoo+Scalp+Advanced' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'wolf-cut': {
-        id: 'c09',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Wolf Cut',
-        title: 'Bege Perolado',
+        id: 'c09', categoria: 'corte', badge: 'Corte',
+        corte: 'Wolf Cut', title: 'Bege Perolado',
         desc: 'Corte com camadas selvagens e muito volume. Bege perolado sofisticado.',
-        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
           'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
           'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
@@ -1509,23 +1400,16 @@
           'https://i.pinimg.com/736x/94/98/ee/9498ee7c6015d49ec67b08cf458ef4c6.jpg',
           'https://i.pinimg.com/736x/c6/06/11/c6061183c371a0acad15697d31d7048f.jpg',
           'https://i.pinimg.com/736x/7d/16/9e/7d169e211595927642fa43f45aef9001.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 9.2 (Nuance Bege)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+9.2+%28Nuance+Bege%29' }
-        ],
-        cuidados: [
-          { name: 'Máscara Absolut Repair', link: 'https://lista.mercadolivre.com.br/M%C3%A1scara+Absolut+Repair' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9.2 (Nuance Bege)', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'bixie-cut': {
-        id: 'c10',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Bixie Cut',
-        title: 'Loira Mel',
-        desc: 'Mix de Pixie e Bob. Loira com nuances mel e âmbar.',
-        img: 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        id: 'c10', categoria: 'corte', badge: 'Corte',
+        corte: 'Bixie Cut', title: 'Loira Mel',
+        desc: 'Mix de Pixie e Bob. Loira com nuances mel e ambar.',
+        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
         variants: [
           'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
           'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
@@ -1533,23 +1417,16 @@
           'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
           'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg',
           'https://i.pinimg.com/736x/52/14/d8/5214d86331dfdb322632ee2cf579688d.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 9.4 (Nuance Mel)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+9.4+%28Nuance+Mel%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9.4 (Nuance Mel)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'soft-layers': {
-        id: 'c11',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Soft Layers',
-        title: 'Cobre Natural',
+        id: 'c11', categoria: 'corte', badge: 'Corte',
+        corte: 'Soft Layers', title: 'Cobre Natural',
         desc: 'Camadas suaves e movimento natural. Cobre acobreado e vibrante.',
-        img: 'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'),
         variants: [
           'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
           'https://i.pinimg.com/736x/29/9e/a8/299ea87e158f4270f4bd39c9a3a13c10.jpg',
@@ -1557,23 +1434,16 @@
           'https://i.pinimg.com/736x/4c/37/56/4c37568c50b992cd4cbe53f306a5b651.jpg',
           'https://i.pinimg.com/736x/06/e0/95/06e095258705e1db3daa77232e1e216f.jpg',
           'https://i.pinimg.com/736x/3b/f8/89/3bf88971f9363c92b973cc9bdc4e9698.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 7.4 (Nuance Cobre)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+7.4+%28Nuance+Cobre%29' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 7.4 (Nuance Cobre)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'modern-mullet': {
-        id: 'c12',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Modern Mullet',
-        title: 'Platinado Radical',
+        id: 'c12', categoria: 'corte', badge: 'Corte',
+        corte: 'Modern Mullet', title: 'Platinado Radical',
         desc: 'Mullet moderno e descolado. Platinado com tons acinzentados.',
-        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
           'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
           'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
@@ -1581,23 +1451,16 @@
           'https://i.pinimg.com/736x/94/98/ee/9498ee7c6015d49ec67b08cf458ef4c6.jpg',
           'https://i.pinimg.com/736x/c6/06/11/c6061183c371a0acad15697d31d7048f.jpg',
           'https://i.pinimg.com/736x/7d/16/9e/7d169e211595927642fa43f45aef9001.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 10.1 (Nuance Fria)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+10.1+%28Nuance+Fria%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Metal Detox', link: 'https://lista.mercadolivre.com.br/Shampoo+Metal+Detox' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'clavicut': {
-        id: 'c13',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Clavicut',
-        title: 'Caramelo Glow',
-        desc: 'Corte na altura da clavícula. Caramelo com luzes douradas.',
-        img: 'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        id: 'c13', categoria: 'corte', badge: 'Corte',
+        corte: 'Clavicut', title: 'Caramelo Glow',
+        desc: 'Corte na altura da clavicula. Caramelo com luzes douradas.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
           'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
@@ -1605,23 +1468,16 @@
           'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
           'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg',
           'https://i.pinimg.com/736x/74/e1/20/74e120bb06a82239012d7fcf6baa60f6.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+8.4+%28Nuance+Caramelo%29' }
-        ],
-        cuidados: [
-          { name: 'Máscara Absolut Repair', link: 'https://lista.mercadolivre.com.br/M%C3%A1scara+Absolut+Repair' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'octopus-cut': {
-        id: 'c14',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Octopus Cut',
-        title: 'Loira Mel',
-        desc: 'Corte com camadas que lembram tentáculos. Loira mel e muito volume.',
-        img: 'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
+        id: 'c14', categoria: 'corte', badge: 'Corte',
+        corte: 'Octopus Cut', title: 'Loira Mel',
+        desc: 'Corte com camadas que lembram tentaculos. Loira mel e muito volume.',
+        img: fixImageUrl('https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg'),
         variants: [
           'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
           'https://i.pinimg.com/1200x/f5/92/fc/f592fc5b01136dfbbd657939d7c36c81.jpg',
@@ -1629,23 +1485,16 @@
           'https://i.pinimg.com/736x/f7/df/57/f7df57b4f1e937592ac7a5fe1516ed76.jpg',
           'https://i.pinimg.com/736x/3b/14/dd/3b14dd41a08c9dadff2c01359373acae.jpg',
           'https://i.pinimg.com/736x/5b/f7/5d/5bf75d7b83b29b91a4c9c1fc17636ec5.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 9.4 (Nuance Mel)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+9.4+%28Nuance+Mel%29' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9.4 (Nuance Mel)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'hush-cut': {
-        id: 'c15',
-        categoria: 'corte',
-        badge: 'Corte',
-        corte: 'Hush Cut',
-        title: 'Preto Natural',
+        id: 'c15', categoria: 'corte', badge: 'Corte',
+        corte: 'Hush Cut', title: 'Preto Natural',
         desc: 'Corte silencioso e cheio de estilo. Preto natural e intenso.',
-        img: 'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
           'https://i.pinimg.com/736x/64/b9/1f/64b91f2e6d9ce5414ec4f2977c44406c.jpg',
@@ -1653,145 +1502,103 @@
           'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
           'https://i.pinimg.com/736x/fc/24/fa/fc24fa3a3e0246aafed5f39b6dd56ccb.jpg',
           'https://i.pinimg.com/736x/12/48/b5/1248b5fbb7d9763b70522492135872e5.jpg'
-        ],
-        coloracao: [
-          { name: 'Tinta INOA 3 (Base)', link: 'https://lista.mercadolivre.com.br/Tinta+INOA+3+%28Base%29' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 3 (Base)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
 
-      // ===== COLORAÇÕES (15) =====
+      // ===== COLORACOES (15) - IMAGENS DO socores.html =====
       'balayage': {
-        id: 'co01',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Balayage',
-        title: 'Luzes Naturais',
-        desc: 'Técnica de luzes com efeito natural e degradê suave.',
-        img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        id: 'co01', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Balayage', title: 'Luzes Naturais',
+        desc: 'Tecnica de luzes com efeito natural e degrade suave.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
           'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-          'https://i.pinimg.com/736x/64/b9/1f/64b91f2e6d9ce5414ec4f2977c44406c.jpg',
-          'https://i.pinimg.com/1200x/b0/de/95/b0de952a5d2eea7092b6272e94f0083b.jpg',
-          'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-          'https://i.pinimg.com/736x/fc/24/fa/fc24fa3a3e0246aafed5f39b6dd56ccb.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Balayage Profissional', link: 'https://lista.mercadolivre.com.br/Kit+Balayage+Profissional' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+          'https://i.pinimg.com/1200x/9c/38/2e/9c382e31a4eaafd69ce5d685d82f238b.jpg',
+          'https://i.pinimg.com/1200x/85/03/4b/85034b9e76143badec90e47cdac4ae36.jpg',
+          'https://i.pinimg.com/736x/3b/6d/9d/3b6d9d2f7a7b9bc0a3f8ef282dd819e3.jpg',
+          'https://i.pinimg.com/736x/ca/5e/6d/ca5e6da41e62004c9d86a778870b1c01.jpg',
+          'https://i.pinimg.com/736x/9a/3f/11/9a3f1102c5f58c82a91a77cc40682530.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Balayage Profissional', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'californianas': {
-        id: 'co02',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Californianas',
-        title: 'Efeito Sol',
+        id: 'co02', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Californianas', title: 'Efeito Sol',
         desc: 'Luzes estilo californiano com efeito de sol nos fios.',
-        img: 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
         variants: [
           'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-          'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
-          'https://i.pinimg.com/1200x/ec/97/85/ec9785ae609edd9958245167b09b776a.jpg',
-          'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
-          'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Californianas', link: 'https://lista.mercadolivre.com.br/Kit+Californianas' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+          'https://i.pinimg.com/736x/9b/30/3c/9b303c2040de9482f8391090b7cf8cfa.jpg',
+          'https://i.pinimg.com/1200x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg',
+          'https://i.pinimg.com/736x/8d/17/3d/8d173df061a1a0c8a63da159bbf30d74.jpg',
+          'https://i.pinimg.com/736x/4d/61/d6/4d61d6b05d5b57cc746172d13507b0a4.jpg',
+          'https://i.pinimg.com/736x/42/1f/31/421f31239606c21a76c37213f5e4a372.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Californianas', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'highlights-loira': {
-        id: 'co03',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Highlights Loira',
-        title: 'Luzes Loiras',
-        desc: 'Mechas loiras para iluminar e dar dimensão aos fios.',
-        img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        id: 'co03', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Highlights Loira', title: 'Luzes Loiras',
+        desc: 'Mechas loiras para iluminar e dar dimensao aos fios.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
-          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg',
-          'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
-          'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Highlights Loira', link: 'https://lista.mercadolivre.com.br/Kit+Highlights+Loira' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Blondifier', link: 'https://lista.mercadolivre.com.br/Shampoo+Blondifier' }
-        ],
+          'https://i.pinimg.com/736x/23/ed/1a/23ed1a0d684e9c188c09ae26b62ff6cb.jpg',
+          'https://i.pinimg.com/736x/c8/68/95/c8689579f77d930f3cb347d695ef9cdf.jpg',
+          'https://i.pinimg.com/736x/6a/2b/a3/6a2ba31616da32c52a78bc7f6c681134.jpg',
+          'https://i.pinimg.com/736x/74/ca/f2/74caf212d7e5e710ae77a6c18428470f.jpg',
+          'https://i.pinimg.com/736x/8d/1b/47/8d1b47a13974241ddf3fc22f2517f62b.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Highlights Loira', link: '#' }],
+        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'cherry-cola': {
-        id: 'co04',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Cherry Cola',
-        title: 'Vermelho Cereja',
+        id: 'co04', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Cherry Cola', title: 'Vermelho Cereja',
         desc: 'Tom vermelho intenso com fundo cereja e muita personalidade.',
-        img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
           'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-          'https://i.pinimg.com/1200x/e4/4b/da/e44bdac8a5105bfec972ba9a543bfeec.jpg',
-          'https://i.pinimg.com/736x/3c/e7/6d/3ce76d862b49b6857675718fa3a9b118.jpg',
-          'https://i.pinimg.com/736x/55/18/d6/5518d672ff60f93587e2f1c2f37ac2f0.jpg',
-          'https://i.pinimg.com/736x/ce/b4/31/ceb43137708f1b4ee99b4cb5f1ec4fcf.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Cherry Cola', link: 'https://lista.mercadolivre.com.br/Kit+Cherry+Cola' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+          'https://i.pinimg.com/1200x/82/47/a6/8247a6d404fefa0a7455646bb3ff74a7.jpg',
+          'https://i.pinimg.com/1200x/33/57/b2/3357b2fd2041dd93adda096095757b2b.jpg',
+          'https://i.pinimg.com/736x/45/2e/30/452e3073887ea0cf5d3542e4b729db2a.jpg',
+          'https://i.pinimg.com/736x/1a/03/8f/1a038f70b77cfcf2a00d890716f28db1.jpg',
+          'https://i.pinimg.com/736x/03/86/2f/03862f6e7221eebda5e3572e8ff31ab0.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Cherry Cola', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'copper-hair': {
-        id: 'co05',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Copper Hair',
-        title: 'Cobre Vibrante',
+        id: 'co05', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Copper Hair', title: 'Cobre Vibrante',
         desc: 'Cobre intenso e vibrante que ilumina qualquer pele.',
-        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
-          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg',
-          'https://i.pinimg.com/736x/94/98/ee/9498ee7c6015d49ec67b08cf458ef4c6.jpg',
-          'https://i.pinimg.com/736x/c6/06/11/c6061183c371a0acad15697d31d7048f.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Copper Hair', link: 'https://lista.mercadolivre.com.br/Kit+Copper+Hair' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Premiere', link: 'https://lista.mercadolivre.com.br/Shampoo+Premiere' }
-        ],
+          'https://i.pinimg.com/1200x/02/ba/8e/02ba8e2d674cab825f832834658f7416.jpg',
+          'https://i.pinimg.com/736x/3e/08/65/3e0865833599c47473882c25165ecbfc.jpg',
+          'https://i.pinimg.com/736x/4b/1b/1f/4b1b1f9af40c9cddd3a8920be95d6a4f.jpg',
+          'https://i.pinimg.com/736x/3b/76/13/3b761394a95a6d05a99a357871e33345.jpg',
+          'https://i.pinimg.com/736x/0b/77/70/0b7770ab19c1224a95c7091ea1c9b2f1.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Copper Hair', link: '#' }],
+        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'mocha-mousse': {
-        id: 'co06',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Mocha Mousse',
-        title: 'Marrom Café',
-        desc: 'Marrom intenso com nuances de café e sofisticação.',
-        img: 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        id: 'co06', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Mocha Mousse', title: 'Marrom Cafe',
+        desc: 'Marrom intenso com nuances de cafe e sofisticacao.',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
           'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
           'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
@@ -1799,23 +1606,16 @@
           'https://i.pinimg.com/1200x/ba/4b/96/ba4b961cd4aa33b125eb482565088cf8.jpg',
           'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
           'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Mocha Mousse', link: 'https://lista.mercadolivre.com.br/Kit+Mocha+Mousse' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Mocha Mousse', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'expensive-brunette': {
-        id: 'co07',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Expensive Brunette',
-        title: 'Morena Premium',
+        id: 'co07', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Expensive Brunette', title: 'Morena Premium',
         desc: 'Morena sofisticada com reflexos caros e profundos.',
-        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'),
         variants: [
           'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
           'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
@@ -1823,47 +1623,33 @@
           'https://i.pinimg.com/736x/17/6d/2f/176d2f2cb767e40b4763231c666bd8e6.jpg',
           'https://i.pinimg.com/736x/39/63/2a/39632a922b4409395efce32512cb9864.jpg',
           'https://i.pinimg.com/736x/bc/58/6a/bc586a31df885073258fa4c6d318bdc7.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Expensive Brunette', link: 'https://lista.mercadolivre.com.br/Kit+Expensive+Brunette' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Expensive Brunette', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'mushroom-brown': {
-        id: 'co08',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Mushroom Brown',
-        title: 'Castanho Cogumelo',
-        desc: 'Castanho acinzentado com nuances de cogumelo e elegância.',
-        img: 'https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        id: 'co08', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Mushroom Brown', title: 'Castanho Cogumelo',
+        desc: 'Castanho acinzentado com nuances de cogumelo e elegancia.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-          'https://i.pinimg.com/736x/bc/6e/36/bc6e36d5a0499c3fb34c6fedb7745c89.jpg',
-          'https://i.pinimg.com/736x/98/6f/3b/986f3b7f6ece364be7d82c4748a47d19.jpg',
-          'https://i.pinimg.com/736x/00/15/b1/0015b15cdba2fca92fb77fd9cb5cb88f.jpg',
-          'https://i.pinimg.com/736x/cb/d0/03/cbd003364d8285eb7453c138cf28858d.jpg',
-          'https://i.pinimg.com/736x/f8/4f/bf/f84fbf9d3a73fc6c2e9fa68943907f7b.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Mushroom Brown', link: 'https://lista.mercadolivre.com.br/Kit+Mushroom+Brown' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Inforcer', link: 'https://lista.mercadolivre.com.br/Shampoo+Inforcer' }
-        ],
+          'https://i.pinimg.com/736x/15/08/58/150858c430b1700f450781e3c093375c.jpg',
+          'https://i.pinimg.com/736x/b0/f1/d6/b0f1d6fdfc4df443e6409aeea819567d.jpg',
+          'https://i.pinimg.com/736x/92/04/5a/92045afc6f9a4040d62e57c9f3238625.jpg',
+          'https://i.pinimg.com/736x/db/b4/da/dbb4da6f46551f47c2bc1027186a947b.jpg',
+          'https://i.pinimg.com/736x/15/f8/1e/15f81ed8db7341a6f943447f19b2a31f.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Mushroom Brown', link: '#' }],
+        cuidados: [{ name: 'Shampoo Inforcer', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'vanilla-blonde': {
-        id: 'co09',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Vanilla Blonde',
-        title: 'Loira Baunilha',
+        id: 'co09', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Vanilla Blonde', title: 'Loira Baunilha',
         desc: 'Loira suave com tons de baunilha e cremosidade.',
-        img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
           'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
           'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
@@ -1871,23 +1657,16 @@
           'https://i.pinimg.com/736x/b3/6c/d3/b36cd33b1ed1393de79c40882a7d51c7.jpg',
           'https://i.pinimg.com/736x/4c/37/56/4c37568c50b992cd4cbe53f306a5b651.jpg',
           'https://i.pinimg.com/736x/06/e0/95/06e095258705e1db3daa77232e1e216f.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Vanilla Blonde', link: 'https://lista.mercadolivre.com.br/Kit+Vanilla+Blonde' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Blondifier', link: 'https://lista.mercadolivre.com.br/Shampoo+Blondifier' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Vanilla Blonde', link: '#' }],
+        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'ice-blonde': {
-        id: 'co10',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Ice Blonde',
-        title: 'Loira Gelo',
+        id: 'co10', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Ice Blonde', title: 'Loira Gelo',
         desc: 'Loira platinada com tons gelados e impacto visual.',
-        img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
           'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
@@ -1895,23 +1674,16 @@
           'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg',
           'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
           'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Ice Blonde', link: 'https://lista.mercadolivre.com.br/Kit+Ice+Blonde' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Metal Detox', link: 'https://lista.mercadolivre.com.br/Shampoo+Metal+Detox' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Ice Blonde', link: '#' }],
+        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'caramelo-glow': {
-        id: 'co11',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Caramelo Glow',
-        title: 'Caramelo Brilhante',
+        id: 'co11', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Caramelo Glow', title: 'Caramelo Brilhante',
         desc: 'Caramelo com brilho intenso e efeito luminoso.',
-        img: 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
         variants: [
           'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
           'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
@@ -1919,23 +1691,16 @@
           'https://i.pinimg.com/1200x/ec/97/85/ec9785ae609edd9958245167b09b776a.jpg',
           'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
           'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Caramelo Glow', link: 'https://lista.mercadolivre.com.br/Kit+Caramelo+Glow' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Caramelo Glow', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'chocolate-intenso': {
-        id: 'co12',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Chocolate Intenso',
-        title: 'Chocolate Escuro',
+        id: 'co12', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Chocolate Intenso', title: 'Chocolate Escuro',
         desc: 'Chocolate intenso e profundo com muita luminosidade.',
-        img: 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
           'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
           'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
@@ -1943,23 +1708,16 @@
           'https://i.pinimg.com/1200x/ba/4b/96/ba4b961cd4aa33b125eb482565088cf8.jpg',
           'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
           'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Chocolate Intenso', link: 'https://lista.mercadolivre.com.br/Kit+Chocolate+Intenso' }
-        ],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Chocolate Intenso', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'preto-natural': {
-        id: 'co13',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Preto Natural',
-        title: 'Preto Profundo',
+        id: 'co13', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Preto Natural', title: 'Preto Profundo',
         desc: 'Preto intenso com fundo natural e brilho excepcional.',
-        img: 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'),
         variants: [
           'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
           'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
@@ -1967,47 +1725,33 @@
           'https://i.pinimg.com/736x/3c/e7/6d/3ce76d862b49b6857675718fa3a9b118.jpg',
           'https://i.pinimg.com/736x/55/18/d6/5518d672ff60f93587e2f1c2f37ac2f0.jpg',
           'https://i.pinimg.com/736x/ce/b4/31/ceb43137708f1b4ee99b4cb5f1ec4fcf.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Preto Natural', link: 'https://lista.mercadolivre.com.br/Kit+Preto+Natural' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Scalp Advanced', link: 'https://lista.mercadolivre.com.br/Shampoo+Scalp+Advanced' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Preto Natural', link: '#' }],
+        cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'ruivo-acobreado': {
-        id: 'co14',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Ruivo Acobreado',
-        title: 'Ruivo Cobre',
+        id: 'co14', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Ruivo Acobreado', title: 'Ruivo Cobre',
         desc: 'Ruivo com tonalidades acobreadas e muito brilho.',
-        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-          'https://i.pinimg.com/1200x/f5/92/fc/f592fc5b01136dfbbd657939d7c36c81.jpg',
-          'https://i.pinimg.com/736x/ff/5a/7e/ff5a7eb07eb5263b20a8f8d4e3b03669.jpg',
-          'https://i.pinimg.com/736x/f7/df/57/f7df57b4f1e937592ac7a5fe1516ed76.jpg',
-          'https://i.pinimg.com/736x/3b/14/dd/3b14dd41a08c9dadff2c01359373acae.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Ruivo Acobreado', link: 'https://lista.mercadolivre.com.br/Kit+Ruivo+Acobreado' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Premiere', link: 'https://lista.mercadolivre.com.br/Shampoo+Premiere' }
-        ],
+          'https://i.pinimg.com/1200x/18/9b/bd/189bbd0413031b38fafb74f1061a0213.jpg',
+          'https://i.pinimg.com/736x/23/30/46/233046bbedfc1312e61ba72b32ac6c12.jpg',
+          'https://i.pinimg.com/736x/89/3d/99/893d998853e05a1524b597da5fb24e66.jpg',
+          'https://i.pinimg.com/736x/13/1f/17/131f17189e9a91a25163aa0874f14c49.jpg',
+          'https://i.pinimg.com/736x/77/ba/9d/77ba9da6f62f2f3b3679a386d726e3c3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Ruivo Acobreado', link: '#' }],
+        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'morena-iluminada': {
-        id: 'co15',
-        categoria: 'coloracao',
-        badge: 'Coloração',
-        corte: 'Morena Iluminada',
-        title: 'Morena com Luzes',
-        desc: 'Morena com luzes estratégicas para iluminar o rosto.',
-        img: 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        id: 'co15', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Morena Iluminada', title: 'Morena com Luzes',
+        desc: 'Morena com luzes estrategicas para iluminar o rosto.',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
           'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
           'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
@@ -2015,683 +1759,777 @@
           'https://i.pinimg.com/736x/17/6d/2f/176d2f2cb767e40b4763231c666bd8e6.jpg',
           'https://i.pinimg.com/736x/39/63/2a/39632a922b4409395efce32512cb9864.jpg',
           'https://i.pinimg.com/736x/bc/58/6a/bc586a31df885073258fa4c6d318bdc7.jpg'
-        ],
-        coloracao: [
-          { name: 'Kit Morena Iluminada', link: 'https://lista.mercadolivre.com.br/Kit+Morena+Iluminada' }
-        ],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Morena Iluminada', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
 
-      // ===== PRODUTOS (15) =====
+      // ===== PRODUTOS (15) - IMAGENS DO soprodutos.html =====
       'joico-moisture-shampoo': {
-        id: 'p01',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Shampoo Joico Moisture',
-        title: 'Hidratação Profunda',
+        id: 'p01', categoria: 'produto', badge: 'Produto',
+        corte: 'Shampoo Joico Moisture', title: 'Hidratacao Profunda',
         desc: 'Shampoo hidratante que restaura a umidade dos fios.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Joico Moisture', link: 'https://lista.mercadolivre.com.br/Shampoo+Joico+Moisture' }
-        ],
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/1200x/49/13/db/4913db0aeb90eaa39af627682e595518.jpg',
+          'https://i.pinimg.com/736x/da/fe/12/dafe123ec0af05e28c1284fa75b7413d.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'joico-moisture-conditioner': {
-        id: 'p02',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Condicionador Joico Moisture',
-        title: 'Condicionador Hidratante',
-        desc: 'Condicionador que nutre e desembaraça os fios.',
-        img: 'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
+        id: 'p02', categoria: 'produto', badge: 'Produto',
+        corte: 'Condicionador Joico Moisture', title: 'Condicionador Hidratante',
+        desc: 'Condicionador que nutre e desembaraca os fios.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Condicionador Joico Moisture', link: 'https://lista.mercadolivre.com.br/Condicionador+Joico+Moisture' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/9a/aa/9d/9aaa9db9764ac6550439b1d9f9fd8368.jpg',
+          'https://i.pinimg.com/1200x/5b/53/8f/5b538f30589b753ff074ef689bc5d13c.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'joico-moisture-mask': {
-        id: 'p03',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Máscara Joico Moisture',
-        title: 'Máscara Nutritiva',
-        desc: 'Máscara de tratamento intensivo para cabelos secos.',
-        img: 'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        id: 'p03', categoria: 'produto', badge: 'Produto',
+        corte: 'Mascara Joico Moisture', title: 'Mascara Nutritiva',
+        desc: 'Mascara de tratamento intensivo para cabelos secos.',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Máscara Joico Moisture', link: 'https://lista.mercadolivre.com.br/M%C3%A1scara+Joico+Moisture' }
-        ],
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
+          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Mascara Joico Moisture', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'absolut-repair-shampoo': {
-        id: 'p04',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Shampoo Absolut Repair',
-        title: 'Reparação Intensa',
+        id: 'p04', categoria: 'produto', badge: 'Produto',
+        corte: 'Shampoo Absolut Repair', title: 'Reparacao Intensa',
         desc: 'Shampoo que repara danos profundos nos fios.',
-        img: 'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
         variants: [
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Absolut Repair', link: 'https://lista.mercadolivre.com.br/Shampoo+Absolut+Repair' }
-        ],
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/1200x/78/dd/06/78dd0605f1f607b98881d9b62cdefe8a.jpg',
+          'https://i.pinimg.com/736x/ee/5d/ab/ee5dabfab9fa5b8e016ebc8931dd3492.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'absolut-repair-mask': {
-        id: 'p05',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Máscara Absolut Repair',
-        title: 'Máscara Reparadora',
-        desc: 'Máscara de reconstrução para cabelos danificados.',
-        img: 'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        id: 'p05', categoria: 'produto', badge: 'Produto',
+        corte: 'Mascara Absolut Repair', title: 'Mascara Reparadora',
+        desc: 'Mascara de reconstrucao para cabelos danificados.',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Máscara Absolut Repair', link: 'https://lista.mercadolivre.com.br/M%C3%A1scara+Absolut+Repair' }
-        ],
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
+          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'metal-detox': {
-        id: 'p06',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Metal Detox',
-        title: 'Detox de Metais',
+        id: 'p06', categoria: 'produto', badge: 'Produto',
+        corte: 'Metal Detox', title: 'Detox de Metais',
         desc: 'Tratamento que remove metais pesados dos fios.',
-        img: 'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
         variants: [
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Metal Detox', link: 'https://lista.mercadolivre.com.br/Shampoo+Metal+Detox' }
-        ],
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://thekit.ca/wp-content/uploads/2023/07/Sized-Inline-2-Metal-Detox.jpg',
+          'https://th.bing.com/th/id/R.27e90a1a88881a68840a4957b92b49e5?rik=adiD0OgEGiT0%2fQ&riu=http%3a%2f%2fhighfy.pk%2fcdn%2fshop%2ffiles%2fMetal-Detox_Mask-1.jpg%3fv%3d1726648606&ehk=9Hk9YakC%2bQote4uryYitwpdBG6AfrS0mbvdkUzTBdkU%3d&risl=&pid=ImgRaw&r=0'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'vitamino-color': {
-        id: 'p07',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Vitamino Color',
-        title: 'Proteção de Cor',
+        id: 'p07', categoria: 'produto', badge: 'Produto',
+        corte: 'Vitamino Color', title: 'Protecao de Cor',
         desc: 'Linha que protege e prolonga a cor dos fios.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Vitamino Color', link: 'https://lista.mercadolivre.com.br/Shampoo+Vitamino+Color' }
-        ],
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/1200x/49/13/db/4913db0aeb90eaa39af627682e595518.jpg',
+          'https://i.pinimg.com/736x/da/fe/12/dafe123ec0af05e28c1284fa75b7413d.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'scalp-advanced': {
-        id: 'p08',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Scalp Advanced',
-        title: 'Cuidado com o Couro Cabeludo',
-        desc: 'Tratamento especial para saúde do couro cabeludo.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        id: 'p08', categoria: 'produto', badge: 'Produto',
+        corte: 'Scalp Advanced', title: 'Cuidado com o Couro Cabeludo',
+        desc: 'Tratamento especial para saude do couro cabeludo.',
+        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Scalp Advanced', link: 'https://lista.mercadolivre.com.br/Shampoo+Scalp+Advanced' }
-        ],
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+          'https://i.pinimg.com/1200x/9c/38/2e/9c382e31a4eaafd69ce5d685d82f238b.jpg',
+          'https://i.pinimg.com/1200x/85/03/4b/85034b9e76143badec90e47cdac4ae36.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'premiere': {
-        id: 'p09',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Premiere',
-        title: 'Linha Premiere',
+        id: 'p09', categoria: 'produto', badge: 'Produto',
+        corte: 'Premiere', title: 'Linha Premiere',
         desc: 'Linha de alta performance para cabelos exigentes.',
-        img: 'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
+        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
         variants: [
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Premiere', link: 'https://lista.mercadolivre.com.br/Shampoo+Premiere' }
-        ],
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
+          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'inforcer': {
-        id: 'p10',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Inforcer',
-        title: 'Fortalecimento',
+        id: 'p10', categoria: 'produto', badge: 'Produto',
+        corte: 'Inforcer', title: 'Fortalecimento',
         desc: 'Linha que fortalece e previne a quebra dos fios.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Inforcer', link: 'https://lista.mercadolivre.com.br/Shampoo+Inforcer' }
-        ],
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
+          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Inforcer', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'curl-expression': {
-        id: 'p11',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Curl Expression',
-        title: 'Cachos Definidos',
+        id: 'p11', categoria: 'produto', badge: 'Produto',
+        corte: 'Curl Expression', title: 'Cachos Definidos',
         desc: 'Linha especial para cabelos cacheados e crespos.',
-        img: 'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Curl Expression', link: 'https://lista.mercadolivre.com.br/Shampoo+Curl+Expression' }
-        ],
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Curl Expression', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'blondifier': {
-        id: 'p12',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Blondifier',
-        title: 'Cuidado para Loiros',
-        desc: 'Linha que cuida e mantém a saúde dos fios loiros.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        id: 'p12', categoria: 'produto', badge: 'Produto',
+        corte: 'Blondifier', title: 'Cuidado para Loiros',
+        desc: 'Linha que cuida e mantem a saude dos fios loiros.',
+        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Blondifier', link: 'https://lista.mercadolivre.com.br/Shampoo+Blondifier' }
-        ],
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+          'https://i.pinimg.com/736x/9b/30/3c/9b303c2040de9482f8391090b7cf8cfa.jpg',
+          'https://i.pinimg.com/1200x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'pro-longer': {
-        id: 'p13',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Série Expert Pro Longer',
-        title: 'Crescimento',
+        id: 'p13', categoria: 'produto', badge: 'Produto',
+        corte: 'Serie Expert Pro Longer', title: 'Crescimento',
         desc: 'Linha que estimula o crescimento dos fios.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Pro Longer', link: 'https://lista.mercadolivre.com.br/Shampoo+Pro+Longer' }
-        ],
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
+          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Pro Longer', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'liss-unlimited': {
-        id: 'p14',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Liss Unlimited',
-        title: 'Fios Lisos',
+        id: 'p14', categoria: 'produto', badge: 'Produto',
+        corte: 'Liss Unlimited', title: 'Fios Lisos',
         desc: 'Linha para cabelos lisos e sem frizz.',
-        img: 'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Liss Unlimited', link: 'https://lista.mercadolivre.com.br/Shampoo+Liss+Unlimited' }
-        ],
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Liss Unlimited', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'absolut-repair-molecular': {
-        id: 'p15',
-        categoria: 'produto',
-        badge: 'Produto',
-        corte: 'Absolut Repair Molecular',
-        title: 'Reparação Molecular',
+        id: 'p15', categoria: 'produto', badge: 'Produto',
+        corte: 'Absolut Repair Molecular', title: 'Reparacao Molecular',
         desc: 'Tratamento que repara a estrutura molecular do cabelo.',
-        img: 'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Shampoo Absolut Repair Molecular', link: 'https://lista.mercadolivre.com.br/Shampoo+Absolut+Repair+Molecular' }
-        ],
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
+          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Shampoo Absolut Repair Molecular', link: '#' }],
         altura: getAlturaAleatoria()
       },
 
       // ===== KITS (15) =====
       'kit-hidratacao': {
-        id: 'k01',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Hidratação',
-        title: 'Hidratação Completa',
-        desc: 'Kit completo para hidratação profunda dos fios.',
-        img: 'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
+        id: 'k01', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Hidratacao', title: 'Hidratacao Completa',
+        desc: 'Kit completo para hidratacao profunda dos fios.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.4CYgPmI6kHvfZB8Iw_jRWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Hidratação Completo', link: 'https://lista.mercadolivre.com.br/Kit+Hidrata%C3%A7%C3%A3o+Completo' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Hidratacao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-reconstrucao': {
-        id: 'k02',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Reconstrução',
-        title: 'Reconstrução Capilar',
-        desc: 'Kit para reconstrução de cabelos danificados.',
-        img: 'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
+        id: 'k02', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Reconstrucao', title: 'Reconstrucao Capilar',
+        desc: 'Kit para reconstrucao de cabelos danificados.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
         variants: [
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.4CYgPmI6kHvfZB8Iw_jRWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Reconstrução Completo', link: 'https://lista.mercadolivre.com.br/Kit+Reconstru%C3%A7%C3%A3o+Completo' }
-        ],
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Reconstrucao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-nutricao': {
-        id: 'k03',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Nutrição',
-        title: 'Nutrição Profunda',
-        desc: 'Kit para nutrir e restaurar a saúde dos fios.',
-        img: 'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
+        id: 'k03', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Nutricao', title: 'Nutricao Profunda',
+        desc: 'Kit para nutrir e restaurar a saude dos fios.',
+        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
         variants: [
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Nutrição Completo', link: 'https://lista.mercadolivre.com.br/Kit+Nutri%C3%A7%C3%A3o+Completo' }
-        ],
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Nutricao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-loiros': {
-        id: 'k04',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Loiros',
-        title: 'Cuidado com Loiros',
+        id: 'k04', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Loiros', title: 'Cuidado com Loiros',
         desc: 'Kit especial para cabelos loiros platinados.',
-        img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
           'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
           'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
           'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Loiros Completo', link: 'https://lista.mercadolivre.com.br/Kit+Loiros+Completo' }
-        ],
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Loiros Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-coloracao': {
-        id: 'k05',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Coloração',
-        title: 'Proteção de Cor',
+        id: 'k05', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Coloracao', title: 'Protecao de Cor',
         desc: 'Kit para proteger e prolongar a cor dos fios.',
-        img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
           'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Coloração Completo', link: 'https://lista.mercadolivre.com.br/Kit+Colora%C3%A7%C3%A3o+Completo' }
-        ],
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Coloracao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-queda-capilar': {
-        id: 'k06',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Queda Capilar',
-        title: 'Contra Queda',
+        id: 'k06', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Queda Capilar', title: 'Contra Queda',
         desc: 'Kit para prevenir e tratar a queda de cabelo.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Queda Capilar Completo', link: 'https://lista.mercadolivre.com.br/Kit+Queda+Capilar+Completo' }
-        ],
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Queda Capilar Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-cacheados': {
-        id: 'k07',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Cabelos Cacheados',
-        title: 'Cachos Definidos',
+        id: 'k07', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Cabelos Cacheados', title: 'Cachos Definidos',
         desc: 'Kit para cuidar e definir cabelos cacheados.',
-        img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
           'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
           'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Cacheados Completo', link: 'https://lista.mercadolivre.com.br/Kit+Cacheados+Completo' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Cacheados Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-danificados': {
-        id: 'k08',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Cabelos Danificados',
-        title: 'Reparação Intensa',
+        id: 'k08', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Cabelos Danificados', title: 'Reparacao Intensa',
         desc: 'Kit para cabelos muito danificados e frágeis.',
-        img: 'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse4.mm.bing.net/th/id/OIP.4CYgPmI6kHvfZB8Iw_jRWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Danificados Completo', link: 'https://lista.mercadolivre.com.br/Kit+Danificados+Completo' }
-        ],
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Danificados Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-anti-frizz': {
-        id: 'k09',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Anti-Frizz',
-        title: 'Controle de Frizz',
+        id: 'k09', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Anti-Frizz', title: 'Controle de Frizz',
         desc: 'Kit para controlar o frizz e os fios arrepiados.',
-        img: 'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Anti-Frizz Completo', link: 'https://lista.mercadolivre.com.br/Kit+Anti-Frizz+Completo' }
-        ],
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Anti-Frizz Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-pos-coloracao': {
-        id: 'k10',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Pós-Coloração',
-        title: 'Pós-Coloração',
-        desc: 'Kit para cuidar dos fios após a coloração.',
-        img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        id: 'k10', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Pos-Coloracao', title: 'Pos-Coloracao',
+        desc: 'Kit para cuidar dos fios apos a coloracao.',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
         variants: [
           'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
           'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Pós-Coloração Completo', link: 'https://lista.mercadolivre.com.br/Kit+P%C3%B3s-Colora%C3%A7%C3%A3o+Completo' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Pos-Coloracao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-crescimento': {
-        id: 'k11',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Crescimento',
-        title: 'Estímulo ao Crescimento',
+        id: 'k11', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Crescimento', title: 'Estimulo ao Crescimento',
         desc: 'Kit para estimular o crescimento dos fios.',
-        img: 'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
         variants: [
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Crescimento Completo', link: 'https://lista.mercadolivre.com.br/Kit+Crescimento+Completo' }
-        ],
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Crescimento Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-ruivos': {
-        id: 'k12',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Ruivos',
-        title: 'Cuidado para Ruivos',
+        id: 'k12', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Ruivos', title: 'Cuidado para Ruivos',
         desc: 'Kit para manter a intensidade dos cabelos ruivos.',
-        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
         variants: [
           'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
           'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/8a/7c/d4/8a7cd4c0523d1384c8ac71d6b97b1541.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Ruivos Completo', link: 'https://lista.mercadolivre.com.br/Kit+Ruivos+Completo' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Ruivos Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-morenas': {
-        id: 'k13',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Morenas Iluminadas',
-        title: 'Morenas com Luzes',
+        id: 'k13', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Morenas Iluminadas', title: 'Morenas com Luzes',
         desc: 'Kit para morenas que querem iluminar os fios.',
-        img: 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
         variants: [
           'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
           'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-          'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Morenas Completo', link: 'https://lista.mercadolivre.com.br/Kit+Morenas+Completo' }
-        ],
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Morenas Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-detox': {
-        id: 'k14',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Detox Capilar',
-        title: 'Detox dos Fios',
+        id: 'k14', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Detox Capilar', title: 'Detox dos Fios',
         desc: 'Kit para limpeza profunda e detox dos fios.',
-        img: 'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
         variants: [
-          'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Detox Capilar Completo', link: 'https://lista.mercadolivre.com.br/Kit+Detox+Capilar+Completo' }
-        ],
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Detox Capilar Completo', link: '#' }],
         altura: getAlturaAleatoria()
       },
       'kit-uso-diario': {
-        id: 'k15',
-        categoria: 'kit',
-        badge: 'Kit',
-        corte: 'Kit Uso Diário',
-        title: 'Cuidado Diário',
-        desc: 'Kit para manutenção diária da saúde dos fios.',
-        img: 'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
+        id: 'k15', categoria: 'kit', badge: 'Kit',
+        corte: 'Kit Uso Diario', title: 'Cuidado Diario',
+        desc: 'Kit para manutencao diaria da saude dos fios.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
         variants: [
-          'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000',
-          'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
-          'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0'
-        ],
-        coloracao: [],
-        cuidados: [
-          { name: 'Kit Uso Diário Completo', link: 'https://lista.mercadolivre.com.br/Kit+Uso+Di%C3%A1rio+Completo' }
-        ],
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Uso Diario Completo', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+
+      // ===== NOVOS CARDS: FRANJAS (6) - MANTIDAS =====
+      'franja-reta': {
+        id: 'f01', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Reta', title: 'Franja Reta Classica',
+        desc: 'Franja reta e precisa que emoldura o rosto com elegancia.',
+        img: fixImageUrl('https://i.pinimg.com/736x/6e/78/c9/6e78c9df6a2f0f6bb7e93c1b09e6d1b2.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/6e/78/c9/6e78c9df6a2f0f6bb7e93c1b09e6d1b2.jpg',
+          'https://i.pinimg.com/736x/52/68/61/5268618f5caadcf4b85a36d9c3f07ca4.jpg',
+          'https://i.pinimg.com/736x/0b/5e/9c/0b5e9cfcc02a68c1a19ca1382e3672c8.jpg',
+          'https://i.pinimg.com/736x/34/2f/cb/342fcb0ffa7aacb4449a53c7ecafcb0f.jpg',
+          'https://i.pinimg.com/736x/ea/2f/35/ea2f35be90a50c837e8717be1842640b.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'franja-lateral': {
+        id: 'f02', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Lateral', title: 'Franja Lateral Despojada',
+        desc: 'Franja lateral que cai suavemente sobre o rosto com estilo despojado.',
+        img: fixImageUrl('https://i.pinimg.com/736x/1d/9d/b2/1d9db2b416b66ea52a30ac645eacb4c3.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/1d/9d/b2/1d9db2b416b66ea52a30ac645eacb4c3.jpg',
+          'https://i.pinimg.com/736x/6a/42/d3/6a42d3dde26ae79bd7cf0a80ec55149a.jpg',
+          'https://i.pinimg.com/736x/9a/1b/35/9a1b35422468480379e2e07dda539af8.jpg',
+          'https://i.pinimg.com/736x/0f/5a/7a/0f5a7ad558e3b953a8e1bcd9cd1de7bc.jpg',
+          'https://i.pinimg.com/736x/32/62/a6/3262a6bc78a3f9b9bb93441aa03b7ec5.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9 (Base)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'franja-desfiada': {
+        id: 'f03', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Desfiada', title: 'Franja Desfiada Moderna',
+        desc: 'Franja com textura desfiada e movimento, perfeita para looks modernos.',
+        img: fixImageUrl('https://i.pinimg.com/736x/fb/56/18/fb56180bdfdde693cf3e40446ecf1ec6.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/fb/56/18/fb56180bdfdde693cf3e40446ecf1ec6.jpg',
+          'https://i.pinimg.com/736x/9d/9d/2b/9d9d2b3c53b1207551aa67a8caeaa4c0.jpg',
+          'https://i.pinimg.com/736x/a8/f5/03/a8f5034b7264af1036833188a3c97d4c.jpg',
+          'https://i.pinimg.com/736x/4f/1e/d2/4f1ed2a182a58a4db55ae819035abfa0.jpg',
+          'https://i.pinimg.com/736x/db/37/93/db37934a9a961faa7e3ad5d0f0fa9900.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8.2 (Nuance Bege)', link: '#' }],
+        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'franja-curta': {
+        id: 'f04', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Curta', title: 'Franja Curta Baby',
+        desc: 'Franja curta e ousada que destaca os olhos e traz atitude.',
+        img: fixImageUrl('https://i.pinimg.com/736x/2c/97/42/2c974299ec460270b4bfb70b8c1703cb.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/2c/97/42/2c974299ec460270b4bfb70b8c1703cb.jpg',
+          'https://i.pinimg.com/736x/16/e9/b5/16e9b56c0e599e00cb31f1406009d2a7.jpg',
+          'https://i.pinimg.com/736x/b9/24/38/b9243853f662d7cce15ce64de2792288.jpg',
+          'https://i.pinimg.com/736x/07/19/31/07193195b630b61642843ebae67b178b.jpg',
+          'https://i.pinimg.com/736x/ba/d4/cf/bad4cfe7a272ee5605ad29757fbd4c56.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'franja-longa': {
+        id: 'f05', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Longa', title: 'Franja Longa Romantica',
+        desc: 'Franja longa que cai elegantemente, criando um look romantico.',
+        img: fixImageUrl('https://i.pinimg.com/736x/ba/07/65/ba07651d6c0cd0b22ed9aedf84d4a784.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/ba/07/65/ba07651d6c0cd0b22ed9aedf84d4a784.jpg',
+          'https://i.pinimg.com/736x/d4/1d/33/d41d332456bca2fbf244ea97a8501a1e.jpg',
+          'https://i.pinimg.com/736x/97/8d/59/978d59bd94f86535be8b1d579aaf2fc5.jpg',
+          'https://i.pinimg.com/736x/94/34/bd/9434bd27dc20646766c1590303169a07.jpg',
+          'https://i.pinimg.com/736x/73/6a/4c/736a4c19cc3ca70f1d6d1ae1281cb4ea.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 9.3 (Nuance Dourada)', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'franja-cortina': {
+        id: 'f06', categoria: 'corte', badge: 'Corte',
+        corte: 'Franja Cortina', title: 'Franja Cortina Versatil',
+        desc: 'Franja cortina que abre no centro, perfeita para todos os tipos de rosto.',
+        img: fixImageUrl('https://i.pinimg.com/736x/3c/6f/14/3c6f1493c7cd2fbe5145743cdcd53933.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/3c/6f/14/3c6f1493c7cd2fbe5145743cdcd53933.jpg',
+          'https://i.pinimg.com/736x/03/11/68/03116805c2b0c018a49e353000b02c1f.jpg',
+          'https://i.pinimg.com/736x/28/94/fc/2894fc6234c22c9bb9b379f7ca04ec17.jpg',
+          'https://i.pinimg.com/736x/95/1e/56/951e56c0d7ba349a80f1e68f99bb4a42.jpg',
+          'https://i.pinimg.com/736x/9a/97/2f/9a972f3402834612f312970a313c2498.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: '#' }],
+        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+
+      // ===== NOVOS CARDS: PENTEADOS (4) - MANTIDOS =====
+      'penteado-coque': {
+        id: 'pe01', categoria: 'penteado', badge: 'Penteado',
+        corte: 'Coque', title: 'Coque Elegante',
+        desc: 'Coque classico e elegante para ocasioes especiais.',
+        img: fixImageUrl('https://i.pinimg.com/736x/f5/93/fa/f593fade96c8af23cf55efdf6a9b90d5.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/f5/93/fa/f593fade96c8af23cf55efdf6a9b90d5.jpg',
+          'https://i.pinimg.com/736x/2b/eb/53/2beb530cf4cb31d552b685fbfbe1e473.jpg',
+          'https://i.pinimg.com/736x/60/dd/fd/60ddfd9ba93a4f8bb00a3a93a5d088f6.jpg',
+          'https://i.pinimg.com/736x/50/bf/6d/50bf6dfaef470b2ccc15c3829f55a48c.jpg',
+          'https://i.pinimg.com/736x/00/ed/98/00ed98f5f0ecacf86e1e4d04389c18d6.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Uso Diario Completo', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'penteado-rabo-cortina': {
+        id: 'pe02', categoria: 'penteado', badge: 'Penteado',
+        corte: 'Rabo de Cavalo', title: 'Rabo de Cavalo Moderno',
+        desc: 'Rabo de cavalo alto e moderno com volume e movimento.',
+        img: fixImageUrl('https://i.pinimg.com/736x/6c/2d/47/6c2d47dbd90b159218569868327c2cb1.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/6c/2d/47/6c2d47dbd90b159218569868327c2cb1.jpg',
+          'https://i.pinimg.com/736x/89/c1/ab/89c1abca776fdebe0d1cb78a54ed8860.jpg',
+          'https://i.pinimg.com/736x/5c/ba/fa/5cbafa23be7ddfd85d3d528f5fdcb01e.jpg',
+          'https://i.pinimg.com/736x/99/9a/99/999a99c579312170fc7c6d275f53d151.jpg',
+          'https://i.pinimg.com/736x/e0/e6/0c/e0e60c5d28905030013623a72b36592b.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Crescimento Completo', link: '#' }],
+        cuidados: [{ name: 'Shampoo Pro Longer', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'penteado-tranca': {
+        id: 'pe03', categoria: 'penteado', badge: 'Penteado',
+        corte: 'Tranca', title: 'Tranca Boho',
+        desc: 'Tranca lateral com estilo boho e despojado.',
+        img: fixImageUrl('https://i.pinimg.com/736x/5f/27/02/5f2702b0bdc1b2ec248d81b6d2d6a796.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/5f/27/02/5f2702b0bdc1b2ec248d81b6d2d6a796.jpg',
+          'https://i.pinimg.com/736x/fe/46/46/fe4646ff00f2a924a2f11f029ccbbda3.jpg',
+          'https://i.pinimg.com/736x/7a/c2/d3/7ac2d3cb69c51026702a54517ec18330.jpg',
+          'https://i.pinimg.com/736x/5f/07/c3/5f07c3461cc0d86c846f92d6b3db4d68.jpg',
+          'https://i.pinimg.com/736x/3f/bd/e2/3fbde2fa9985e507f2a24f902dcb58ea.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Cacheados Completo', link: '#' }],
+        cuidados: [{ name: 'Shampoo Curl Expression', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'penteado-preso': {
+        id: 'pe04', categoria: 'penteado', badge: 'Penteado',
+        corte: 'Preso Elegante', title: 'Preso Sofisticado',
+        desc: 'Penteado preso com elegancia e sofisticacao para eventos.',
+        img: fixImageUrl('https://i.pinimg.com/736x/e0/83/7a/e0837a82bc93c46c385248f09ea6463b.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/e0/83/7a/e0837a82bc93c46c385248f09ea6463b.jpg',
+          'https://i.pinimg.com/736x/4f/f8/d2/4ff8d2e0aa590e6b46440ad6a4edb0d2.jpg',
+          'https://i.pinimg.com/736x/b3/d7/22/b3d7224521986955fc88f6144b4dc319.jpg',
+          'https://i.pinimg.com/736x/f2/58/77/f25877eabed97ee887f6f870ae09a5d8.jpg',
+          'https://i.pinimg.com/736x/06/e4/fc/06e4fc447e6f4f47cc50a36b4bf2f3dc.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Nutricao Completo', link: '#' }],
+        cuidados: [{ name: 'Mascara Joico Moisture', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+
+      // ===== NOVOS CARDS: COLORACOES (5) - MANTIDAS =====
+      'coloracao-luzes': {
+        id: 'cl01', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Luzes', title: 'Luzes Naturais',
+        desc: 'Luzes sutis que iluminam o rosto com efeito natural.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Loiros Completo', link: '#' }],
+        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'coloracao-mechas': {
+        id: 'cl02', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Mechas', title: 'Mechas Estrategicas',
+        desc: 'Mechas que criam profundidade e dimensao aos fios.',
+        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Coloracao Completo', link: '#' }],
+        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'coloracao-ombre': {
+        id: 'cl03', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Ombre', title: 'Ombre Degrade',
+        desc: 'Degrade suave da raiz para as pontas com efeito ombre.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
+        variants: [
+          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Ice Blonde', link: '#' }],
+        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'coloracao-sombre': {
+        id: 'cl04', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Sombre', title: 'Sombre Suave',
+        desc: 'Transicao suave de cor com efeito sombre mais sutil.',
+        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
+        variants: [
+          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Balayage Profissional', link: '#' }],
+        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'coloracao-babylights': {
+        id: 'cl05', categoria: 'coloracao', badge: 'Coloracao',
+        corte: 'Babylights', title: 'Babylights Sutil',
+        desc: 'Mechas finas e sutis que imitam o efeito natural do sol.',
+        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [{ name: 'Kit Vanilla Blonde', link: '#' }],
+        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+
+      // ===== NOVOS CARDS: ACESSORIOS (5) - MANTIDOS =====
+      'acessorio-secador': {
+        id: 'ac01', categoria: 'acessorio', badge: 'Acessorio',
+        corte: 'Secador Profissional', title: 'Secador Ionico',
+        desc: 'Secador profissional com tecnologia ionica para secagem rapida e brilho.',
+        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Uso Diario Completo', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'acessorio-escova-giratoria': {
+        id: 'ac02', categoria: 'acessorio', badge: 'Acessorio',
+        corte: 'Escova Giratoria', title: 'Escova Automatica',
+        desc: 'Escova giratoria que modela e seca os fios ao mesmo tempo.',
+        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Anti-Frizz Completo', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'acessorio-escova-pentear': {
+        id: 'ac03', categoria: 'acessorio', badge: 'Acessorio',
+        corte: 'Escova de Pentear', title: 'Escova Desembaracadora',
+        desc: 'Escova ideal para desembaracar fios com suavidade e sem quebrar.',
+        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Danificados Completo', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'acessorio-babyliss': {
+        id: 'ac04', categoria: 'acessorio', badge: 'Acessorio',
+        corte: 'Babyliss', title: 'Modelador de Fios',
+        desc: 'Modelador profissional para criar ondas e cachos perfeitos.',
+        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Cacheados Completo', link: '#' }],
+        altura: getAlturaAleatoria()
+      },
+      'acessorio-prancha': {
+        id: 'ac05', categoria: 'acessorio', badge: 'Acessorio',
+        corte: 'Prancha Alisadora', title: 'Prancha Alisadora',
+        desc: 'Prancha para alisar e selar os fios com acabamento profissional.',
+        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
+        variants: [
+          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
+        ].map(fixImageUrl),
+        coloracao: [], cuidados: [{ name: 'Kit Reconstrucao Completo', link: '#' }],
         altura: getAlturaAleatoria()
       }
     };
 
     // ============================================================
-    // LÓGICA DA APLICAÇÃO
+    // LOGICA DA APLICACAO (MANTIDA INTEGRALMENTE)
     // ============================================================
 
     function getFavs() {
@@ -2707,17 +2545,14 @@
     let showingFavorites = false;
 
     function updateFavCounter() {
-      const count = favorites.length;
-      document.getElementById('favCount').textContent = count;
+      document.getElementById('favCount').textContent = favorites.length;
     }
     updateFavCounter();
 
     function isFav(key) { return favorites.includes(key); }
 
     function toggleFav(key, btn) {
-      favorites = isFav(key) ?
-        favorites.filter(k => k !== key) :
-        [...favorites, key];
+      favorites = isFav(key) ? favorites.filter(k => k !== key) : [...favorites, key];
       setFavs(favorites);
       updateFavCounter();
       if (btn) {
@@ -2731,37 +2566,29 @@
       if (!data) return;
       const text = `${data.corte} - ${data.title}\n${data.desc}\n\nVeja mais em HairOS!`;
       if (navigator.share) {
-        navigator.share({
-          title: `HairOS - ${data.corte}`,
-          text: text,
-          url: window.location.href
-        }).catch(() => {});
+        navigator.share({ title: `HairOS - ${data.corte}`, text: text, url: window.location.href }).catch(() => {});
       } else {
-        const fullText = `${text}\n${window.location.href}`;
-        navigator.clipboard.writeText(fullText).then(() => {
-          alert('Link copiado para compartilhar! 📋');
+        navigator.clipboard.writeText(`${text}\n${window.location.href}`).then(() => {
+          alert('Link copiado para compartilhar!');
         }).catch(() => {
           const textarea = document.createElement('textarea');
-          textarea.value = fullText;
+          textarea.value = `${text}\n${window.location.href}`;
           document.body.appendChild(textarea);
           textarea.select();
           document.execCommand('copy');
           document.body.removeChild(textarea);
-          alert('Link copiado para compartilhar! 📋');
+          alert('Link copiado para compartilhar!');
         });
       }
     }
 
     function getFilteredKeys() {
-      if (showingFavorites) {
-        return favorites;
-      }
+      if (showingFavorites) return favorites;
       const keys = Object.keys(styleData);
       if (currentFilter === 'all') return keys;
       return keys.filter(key => styleData[key].categoria === currentFilter);
     }
 
-    // Função para voltar para a home (Inspirações)
     function goToHome() {
       if (showingFavorites) {
         showingFavorites = false;
@@ -2784,13 +2611,13 @@
       const filteredKeys = getFilteredKeys();
 
       if (showingFavorites) {
-        title.innerHTML = `<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>`;
+        title.innerHTML = `<span class="highlight">♥ Favoritos</span>`;
         vitrineBadge.classList.add('visible');
-        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
+        brandSub.innerHTML = `Vitrine de inspiracoes`;
       } else {
-        title.innerHTML = `<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>`;
+        title.innerHTML = `<span class="highlight">Inspiracoes</span>`;
         vitrineBadge.classList.remove('visible');
-        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
+        brandSub.innerHTML = `Vitrine de inspiracoes`;
       }
 
       if (filteredKeys.length === 0) {
@@ -2800,7 +2627,7 @@
             <div class="empty-icon">${isFavView ? '💔' : '✨'}</div>
             <div class="empty-title">${isFavView ? 'Nenhum card reservado' : 'Nenhum card encontrado'}</div>
             <div class="empty-sub">${isFavView ? 'Comece a favoritar seus estilos favoritos!' : 'Tente outra categoria ou filtro'}</div>
-            ${isFavView ? '<div class="empty-hint">💡 Clique no ♥ nos cards para favoritar</div>' : ''}
+            ${isFavView ? '<div class="empty-hint">Clique no ♥ nos cards para favoritar</div>' : ''}
           </div>
         `;
         return;
@@ -2822,24 +2649,20 @@
             <button class="card-btn fav-btn ${fav ? 'favorited' : ''}" data-key="${key}" title="Favoritar">${fav ? '♥' : '♡'}</button>
           </div>
           <div class="card-badge badge-${data.categoria}">${data.badge}</div>
-          <img class="card-img ${altura}" src="${data.img}" alt="${data.corte}" loading="lazy">
+          <img class="card-img ${altura}" src="${data.img}" alt="${data.corte}" loading="lazy" onerror="this.src='https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'">
           <div class="card-action">
             <span class="card-action-title">${data.corte}</span>
             <div class="card-action-btn">→</div>
           </div>
         `;
 
-        const favBtn = card.querySelector('.fav-btn');
-        favBtn.addEventListener('click', function(e) {
+        card.querySelector('.fav-btn').addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFav(this.dataset.key, this);
-          if (showingFavorites) {
-            renderMasonry();
-          }
+          if (showingFavorites) renderMasonry();
         });
 
-        const shareBtn = card.querySelector('.share-btn');
-        shareBtn.addEventListener('click', function(e) {
+        card.querySelector('.share-btn').addEventListener('click', function(e) {
           e.stopPropagation();
           shareStyle(this.dataset.key);
         });
@@ -2858,8 +2681,8 @@
 
       const isProdutoKit = data.categoria === 'produto' || data.categoria === 'kit';
       document.getElementById('modalSectionTitle').textContent = isProdutoKit
-        ? `✦ Itens relacionados · ${data.corte} ✦`
-        : `✦ Variações ${data.corte} ✦`;
+        ? `Itens relacionados · ${data.corte}`
+        : `Variacoes ${data.corte}`;
 
       const imgToKey = {};
       Object.keys(styleData).forEach(k => {
@@ -2883,27 +2706,22 @@
         card.dataset.variant = idx;
         if (relatedKey) card.dataset.relatedKey = relatedKey;
 
-        const label = relatedData
-          ? relatedData.corte
-          : (isProdutoKit ? data.corte : '');
+        const label = relatedData ? relatedData.corte : (isProdutoKit ? data.corte : '');
         card.innerHTML = `
           ${label ? `<div class="card-badge badge-${relatedData ? relatedData.categoria : data.categoria}">${label}</div>` : ''}
-          <img class="card-img ${hClass}" src="${imgUrl}" alt="${label || data.corte}" loading="lazy">
+          <img class="card-img ${hClass}" src="${imgUrl}" alt="${label || data.corte}" loading="lazy" onerror="this.src='https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'">
         `;
 
         card.addEventListener('click', function(e) {
           if (isSheetOpen) closeSheet();
-
           if (isProdutoKit && relatedKey && relatedKey !== key) {
             openModal(relatedKey);
             return;
           }
-
           const heroImg = document.getElementById('modalImg');
           heroImg.classList.add('loading');
           heroImg.src = imgUrl;
           heroImg.onload = () => heroImg.classList.remove('loading');
-
           document.getElementById('heroTitle').textContent = data.corte;
           document.getElementById('heroSub').textContent = data.title;
           document.getElementById('heroCategoria').textContent = data.badge;
@@ -2947,11 +2765,7 @@
       heroFavBtn.dataset.key = key;
       heroShareBtn.dataset.key = key;
 
-      const toggleBtn = document.getElementById('toggleSheetBtn');
-      toggleBtn.textContent = '✨ Ver Detalhes';
-      toggleBtn.dataset.mode = 'sheet';
-      toggleBtn.dataset.link = data.link || '#';
-
+      document.getElementById('toggleSheetBtn').textContent = 'Ver Detalhes';
       document.getElementById('sheetTitle').textContent = data.corte;
       document.getElementById('sheetSub').textContent = data.title;
       document.getElementById('sheetDesc').textContent = data.desc;
@@ -2968,7 +2782,6 @@
       document.getElementById('listaCuidados').classList.remove('show');
 
       renderModalMasonry(key);
-
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
       overlay.scrollTop = 0;
@@ -3003,14 +2816,11 @@
     }
 
     // ============================================================
-    // FAVORITOS TOGGLE
+    // EVENTOS
     // ============================================================
-    const favToggleBtn = document.getElementById('favToggleBtn');
-
-    favToggleBtn.addEventListener('click', function() {
+    document.getElementById('favToggleBtn').addEventListener('click', function() {
       showingFavorites = !showingFavorites;
       this.classList.toggle('active', showingFavorites);
-      
       const filters = document.getElementById('filters');
       if (showingFavorites) {
         filters.classList.add('hidden');
@@ -3022,23 +2832,11 @@
         document.querySelector('[data-filter="all"]').classList.add('active');
         currentFilter = 'all';
       }
-      
       renderMasonry();
     });
 
-    // ============================================================
-    // BADGE "✦ Ver Vitrine" - VOLTA PARA A HOME
-    // ============================================================
     document.getElementById('vitrineBadge').addEventListener('click', goToHome);
-
-    // ============================================================
-    // LOGO CLICK - VOLTAR PARA HOME
-    // ============================================================
     document.getElementById('brandLogo').addEventListener('click', goToHome);
-
-    // ============================================================
-    // EVENTOS
-    // ============================================================
     document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
     toggleBtn.addEventListener('click', openSheet);
     document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
@@ -3056,9 +2854,7 @@
     heroShareBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       const key = this.dataset.key;
-      if (key) {
-        shareStyle(key);
-      }
+      if (key) shareStyle(key);
     });
 
     overlay.addEventListener('click', function(e) {
@@ -3123,24 +2919,7 @@
       isDragging = false;
     }, { passive: true });
 
-    renderMasonry();
-  
-    function openFromHash() {
-      const hash = location.hash || '';
-      const m = hash.match(/card=([^&]+)/);
-      if (!m) return;
-      const key = decodeURIComponent(m[1]);
-      if (styleData[key]) {
-        setTimeout(() => openModal(key), 300);
-      }
-    }
-    window.addEventListener('hashchange', openFromHash);
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', openFromHash);
-    } else {
-      openFromHash();
-    }
-
+    // ZOOM
     function toggleZoom() {
       const zo = document.getElementById('zoomOverlay');
       if (!zo) return;
@@ -3149,32 +2928,42 @@
       const heroInfo = document.getElementById('heroInfo');
       const heroActions = document.getElementById('heroActions');
       const closeBtn = document.getElementById('modalCloseBtn');
-      const toggleBtn = document.getElementById('toggleSheetBtn');
+      const toggleBtnEl = document.getElementById('toggleSheetBtn');
       if (zo.classList.contains('active')) {
         zo.classList.remove('active');
         if (heroInfo) heroInfo.classList.remove('hidden');
         if (heroActions) heroActions.classList.remove('hidden');
         if (closeBtn) closeBtn.classList.remove('hidden');
-        if (toggleBtn) toggleBtn.classList.remove('hidden');
+        if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
       } else {
         zoomImg.src = heroImg.src;
         zo.classList.add('active');
         if (heroInfo) heroInfo.classList.add('hidden');
         if (heroActions) heroActions.classList.add('hidden');
         if (closeBtn) closeBtn.classList.add('hidden');
-        if (toggleBtn) toggleBtn.classList.add('hidden');
+        if (toggleBtnEl) toggleBtnEl.classList.add('hidden');
       }
     }
-    (function setupZoom() {
-      const heroImg = document.getElementById('modalImg');
-      const zo = document.getElementById('zoomOverlay');
-      if (heroImg) heroImg.addEventListener('click', toggleZoom);
-      if (zo) zo.addEventListener('click', toggleZoom);
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && zo && zo.classList.contains('active')) toggleZoom();
-      });
-    })();
 
+    document.getElementById('modalImg').addEventListener('click', toggleZoom);
+    document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
+
+    // HASH
+    function openFromHash() {
+      const hash = location.hash || '';
+      const m = hash.match(/card=([^&]+)/);
+      if (!m) return;
+      const key = decodeURIComponent(m[1]);
+      if (styleData[key]) setTimeout(() => openModal(key), 300);
+    }
+    window.addEventListener('hashchange', openFromHash);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', openFromHash);
+    } else {
+      openFromHash();
+    }
+
+    renderMasonry();
   </script>
 </body>
 </html>
