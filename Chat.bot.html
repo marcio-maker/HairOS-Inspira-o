@@ -4,31 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>HairOS · Assistente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0c0c0e;
-      --surface: #16161a;
-      --surface2: #1e1e24;
-      --gold: #c9a84c;
-      --gold-dim: rgba(201,168,76,0.15);
+      --bg: #0a0808;
+      --surface: #12100e;
+      --surface2: #1a1612;
+      --gold: #c9a96e;
+      --gold-dim: rgba(201,169,110,0.15);
       --gold-light: #e8d5a8;
-      --text: #f5f5f7;
-      --muted: #9a9aa3;
-      --border: rgba(255,255,255,0.08);
-      --user: #2a2a32;
-      --bot: #1a1a20;
+      --text: #f0ebe4;
+      --text-sec: #d4c9bc;
+      --muted: #8a8278;
+      --border: rgba(255,255,255,0.04);
+      --border-gold: rgba(201,169,110,0.12);
+      --user: #1a1612;
+      --bot: #12100e;
       --green: #3d9a6a;
       --radius: 16px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
     .header {
       flex-shrink: 0;
@@ -45,31 +51,60 @@
       background: linear-gradient(135deg, var(--gold), #8b6914);
       display: flex; align-items: center; justify-content: center;
       font-size: 18px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #0a0808;
+      font-weight: 700;
     }
-    .header-info h1 { font-size: 15px; font-weight: 600; }
-    .header-info p { font-size: 12px; color: var(--muted); }
+    .header-info h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .header-info p {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      opacity: 0.6;
+    }
     .header-status {
       margin-left: auto;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--green);
-      display: flex; align-items: center; gap: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
     .header-status::before {
       content: '';
       width: 7px; height: 7px;
       background: var(--green);
       border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
     .header-link {
-      margin-left: 12px;
+      margin-left: 6px;
       font-size: 11px;
       color: var(--gold);
       text-decoration: none;
-      padding: 5px 12px;
-      border: 1px solid rgba(201,169,110,0.2);
-      border-radius: 20px;
+      padding: 5px 14px;
+      border: 1px solid var(--border-gold);
+      border-radius: 100px;
       white-space: nowrap;
       transition: all 0.3s;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      font-family: 'Inter', sans-serif;
     }
     .header-link:hover {
       background: var(--gold-dim);
@@ -81,19 +116,30 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       scroll-behavior: smooth;
+    }
+    .chat::-webkit-scrollbar {
+      width: 3px;
+    }
+    .chat::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .chat::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
     }
     .msg {
       max-width: 88%;
-      padding: 12px 14px;
+      padding: 12px 16px;
       border-radius: var(--radius);
       font-size: 14px;
-      line-height: 1.45;
-      animation: fadeIn .25s ease;
+      line-height: 1.5;
+      animation: fadeIn .3s ease;
+      font-weight: 300;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
     .msg.bot {
@@ -105,28 +151,45 @@
     .msg.user {
       align-self: flex-end;
       background: var(--user);
+      border: 1px solid var(--border-gold);
       border-bottom-right-radius: 4px;
     }
-    .msg strong { color: var(--gold); }
+    .msg strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
     
     /* Result Card */
     .result-card {
       margin-top: 10px;
       background: var(--surface2);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       border-radius: 12px;
       overflow: hidden;
     }
     .result-card .body { padding: 14px; }
     .result-card .badge {
-      font-size: 10px;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: .06em;
+      letter-spacing: .1em;
       color: var(--gold);
       margin-bottom: 4px;
+      font-weight: 600;
     }
-    .result-card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text); }
-    .result-card p { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+    .result-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .result-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+      font-weight: 300;
+    }
     .result-card .result-actions {
       display: flex;
       flex-direction: column;
@@ -139,22 +202,32 @@
       gap: 8px;
       padding: 12px 14px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       border-radius: 10px;
       text-decoration: none;
       transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
     }
-    /* Botão Principal Mercado Livre */
     .result-card a.btn-ml {
       background: var(--gold);
-      color: #111;
+      color: #0a0808;
       border: none;
-      width: 100%;
     }
     .result-card a.btn-ml:hover {
       background: var(--gold-light);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+      box-shadow: 0 4px 12px var(--gold-dim);
+    }
+    .result-card a.btn-vitrine {
+      background: var(--surface2);
+      border: 1px solid var(--border-gold);
+      color: var(--gold);
+    }
+    .result-card a.btn-vitrine:hover {
+      background: var(--gold-dim);
+      border-color: var(--gold);
+      transform: translateY(-1px);
     }
 
     /* Quick Actions */
@@ -167,44 +240,65 @@
       border-top: 1px solid var(--border);
       background: var(--surface);
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .quick::-webkit-scrollbar {
+      display: none;
     }
     .quick button {
       flex-shrink: 0;
-      padding: 8px 14px;
+      padding: 7px 16px;
       background: var(--surface2);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 20px;
+      border-radius: 100px;
       font-size: 12px;
+      font-weight: 500;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.04em;
     }
-    .quick button:active, .quick button:hover { border-color: var(--gold); color: var(--gold); }
+    .quick button:active,
+    .quick button:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
     
     /* Options inside chat */
     .options {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .options button {
       text-align: left;
-      padding: 12px 14px;
+      padding: 12px 16px;
       background: var(--surface2);
       border: 1px solid var(--border);
       color: var(--text);
       border-radius: 12px;
       font-size: 13px;
+      font-weight: 400;
       cursor: pointer;
       transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
     }
     .options button:active,
     .options button:hover {
       border-color: var(--gold);
       background: var(--gold-dim);
       color: var(--gold);
+    }
+    .options button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      border-color: var(--border);
+      background: transparent;
+      color: var(--muted);
     }
 
     /* Composer */
@@ -223,126 +317,148 @@
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 10px 14px;
+      padding: 10px 16px;
       color: var(--text);
       font-size: 14px;
-      font-family: inherit;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
       max-height: 100px;
       outline: none;
+      transition: border 0.2s;
     }
-    .composer textarea:focus { border-color: var(--gold); }
+    .composer textarea:focus {
+      border-color: var(--gold);
+    }
+    .composer textarea::placeholder {
+      color: var(--muted);
+      opacity: 0.4;
+    }
     .composer button.send {
       width: 42px; height: 42px;
       border-radius: 50%;
       border: none;
       background: var(--gold);
-      color: #111;
+      color: #0a0808;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
       flex-shrink: 0;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .composer button.send:hover {
+      background: var(--gold-light);
+      transform: scale(1.03);
+    }
+    .composer button.send:active {
+      transform: scale(0.95);
+    }
+
+    .chat {
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
     }
   </style>
 </head>
 <body>
   <header class="header">
-    <div class="header-avatar">✦</div>
+    <div class="header-avatar">H</div>
     <div class="header-info">
       <h1>HairOS Assistente</h1>
-      <p>Vitrine de sugestão · tire suas dúvidas</p>
+      <p>recomendacoes personalizadas</p>
     </div>
-    <a href="index.html" class="header-link" target="_blank">✦ Ver Vitrine</a>
+    <a href="index.html" class="header-link">Ver Vitrine</a>
     <div class="header-status">online</div>
   </header>
   
   <main class="chat" id="chat"></main>
   
   <div class="quick" id="quick">
-    <button data-action="quiz-corte">✂️ Quiz de corte</button>
-    <button data-action="quiz-cor">🎨 Quiz de cor</button>
-    <button data-action="quiz-produto">🧴 Quiz de produto</button>
-    <button data-action="quiz-kit">📦 Quiz de kit</button>
-    <button data-action="duvidas">💬 Dúvidas comuns</button>
+    <button data-action="quiz-corte">Cortes</button>
+    <button data-action="quiz-cor">Cores</button>
+    <button data-action="quiz-produto">Produtos</button>
+    <button data-action="quiz-kit">Kits</button>
+    <button data-action="duvidas">Duvidas</button>
   </div>
   
   <div class="composer">
-    <textarea id="input" rows="1" placeholder="Digite sua dúvida ou peça uma sugestão..."></textarea>
+    <textarea id="input" rows="1" placeholder="Digite sua duvida ou peca uma sugestao..."></textarea>
     <button class="send" id="sendBtn" aria-label="Enviar">↑</button>
   </div>
 
 <script>
 /* ============================================================
-   HAIR OS ASSISTENTE — Lógica Completa e Corrigida
+   HAIR OS ASSISTENTE — Logica Completa
    ============================================================ */
 
 const CATALOGO = {
   cortes: {
-    'velvet-bob': { nome: 'Velvet Bob', desc: 'Bob texturizado com volume suave. Ideal para leveza e sofisticação.', ml: 'shampoo Loreal Absolut Repair' },
-    'pixie-cut': { nome: 'Pixie Cut', desc: 'Curto ousado, pouco volume no topo. Moderno e prático.', ml: 'shampoo Loreal Vitamino Color' },
+    'velvet-bob': { nome: 'Velvet Bob', desc: 'Bob texturizado com volume suave. Ideal para leveza e sofisticacao.', ml: 'shampoo Loreal Absolut Repair' },
+    'pixie-cut': { nome: 'Pixie Cut', desc: 'Curto ousado, pouco volume no topo. Moderno e pratico.', ml: 'shampoo Loreal Vitamino Color' },
     'butterfly-cut': { nome: 'Butterfly Cut', desc: 'Camadas longas que abrem como asas, trazendo movimento.', ml: 'mascara Loreal Absolut Repair' },
     'wolf-cut': { nome: 'Wolf Cut', desc: 'Mullet moderno com franja e textura despojada.', ml: 'shampoo Loreal Curl Expression' },
-    'long-bob': { nome: 'Long Bob', desc: 'Bob alongado na clavícula. Versátil e clássico.', ml: 'shampoo Joico Moisture' },
+    'long-bob': { nome: 'Long Bob', desc: 'Bob alongado na clavicula. Versatil e classico.', ml: 'shampoo Joico Moisture' },
     'shaggy-hair': { nome: 'Shaggy', desc: 'Camadas desfiadas, visual rocker com muito movimento.', ml: 'leave in Loreal' },
     'blunt-cut': { nome: 'Blunt Cut', desc: 'Corte reto de pontas limpas. Ideal para lisos e densos.', ml: 'shampoo Loreal Metal Detox' },
-    'soft-layers': { nome: 'Soft Layers', desc: 'Camadas suaves naturais e românticas.', ml: 'leave in Loreal Pro Longer' },
-    'french-bob': { nome: 'French Bob', desc: 'Bob francês clássico com franja charmosa.', ml: 'shampoo Loreal Vitamino Color' },
+    'soft-layers': { nome: 'Soft Layers', desc: 'Camadas suaves naturais e romanticas.', ml: 'leave in Loreal Pro Longer' },
+    'french-bob': { nome: 'French Bob', desc: 'Bob frances classico com franja charmosa.', ml: 'shampoo Loreal Vitamino Color' },
     'italian-bob': { nome: 'Italian Bob', desc: 'Bob italiano com ondas suaves e elegantes.', ml: 'shampoo Scalp Advanced' },
     'bixie-cut': { nome: 'Bixie Cut', desc: 'Mistura moderna de Pixie e Bob.', ml: 'shampoo Vitamino Color' },
     'modern-mullet': { nome: 'Modern Mullet', desc: 'Mullet estilizado e urbano.', ml: 'shampoo Metal Detox' },
-    'clavicut': { nome: 'Clavicut', desc: 'Na altura exata da clavícula.', ml: 'mascara Absolut Repair' },
+    'clavicut': { nome: 'Clavicut', desc: 'Na altura exata da clavicula.', ml: 'mascara Absolut Repair' },
     'octopus-cut': { nome: 'Octopus Cut', desc: 'Camadas cheias de atitude e volume.', ml: 'shampoo Vitamino Color' },
     'hush-cut': { nome: 'Hush Cut', desc: 'Leve, fluido e cheio de estilo.', ml: 'condicionador Joico Moisture' },
   },
   cores: {
-    'balayage': { nome: 'Balayage', desc: 'Iluminação natural pintada à mão, sol-kissed.', ml: 'tinta Loreal Inoa loiro' },
+    'balayage': { nome: 'Balayage', desc: 'Iluminacao natural pintada a mao, sol-kissed.', ml: 'tinta Loreal Inoa loiro' },
     'californianas': { nome: 'Californianas', desc: 'Pontas mais claras com raiz preservada.', ml: 'tinta Loreal Inoa californianas' },
     'cherry-cola': { nome: 'Cherry Cola', desc: 'Ruivo escuro profundo com reflexo cereja.', ml: 'tinta Loreal ruivo cherry' },
-    'copper-hair': { nome: 'Copper / Acobreado', desc: 'Cobre quente e luminoso.', ml: 'tinta Loreal cobre' },
+    'copper-hair': { nome: 'Copper Acobreado', desc: 'Cobre quente e luminoso.', ml: 'tinta Loreal cobre' },
     'mocha-mousse': { nome: 'Mocha Mousse', desc: 'Castanho frio aconchegante e sofisticado.', ml: 'tinta Loreal castanho mocha' },
     'ice-blonde': { nome: 'Ice Blonde', desc: 'Loiro platinado frio de alto impacto.', ml: 'shampoo Loreal Silver' },
     'morena-iluminada': { nome: 'Morena Iluminada', desc: 'Castanho com luzes suaves e luminosas.', ml: 'tinta Loreal morena iluminada' },
-    'chocolate-intenso': { nome: 'Chocolate Intenso', desc: 'Castanho rico, brilhante e clássico.', ml: 'tinta Loreal chocolate' },
-    'highlights-loira': { nome: 'Highlights Loira', desc: 'Mechas tradicionais para dimensão.', ml: 'tinta Loreal loiro' },
+    'chocolate-intenso': { nome: 'Chocolate Intenso', desc: 'Castanho rico, brilhante e classico.', ml: 'tinta Loreal chocolate' },
+    'highlights-loira': { nome: 'Highlights Loira', desc: 'Mechas tradicionais para dimensao.', ml: 'tinta Loreal loiro' },
     'expensive-brunette': { nome: 'Expensive Brunette', desc: 'Morena sofisticada com reflexos profundos.', ml: 'tinta Loreal castanho escuro' },
     'mushroom-brown': { nome: 'Mushroom Brown', desc: 'Castanho acinzentado super elegante.', ml: 'tinta Loreal castanho' },
     'vanilla-blonde': { nome: 'Vanilla Blonde', desc: 'Loiro suave com tons de baunilha.', ml: 'tinta Loreal loiro' },
     'caramelo-glow': { nome: 'Caramelo Glow', desc: 'Caramelo vibrante de alto brilho.', ml: 'tinta Loreal caramelo' },
-    'preto-natural': { nome: 'Preto Natural', desc: 'Preto intenso com fundo orgânico.', ml: 'tinta Loreal preto' },
+    'preto-natural': { nome: 'Preto Natural', desc: 'Preto intenso com fundo organico.', ml: 'tinta Loreal preto' },
     'ruivo-acobreado': { nome: 'Ruivo Acobreado', desc: 'Ruivo vibrante cheio de vida.', ml: 'tinta Loreal ruivo' },
   },
   produtos: {
-    'metal-detox': { nome: 'Metal Detox', desc: 'Remove metais da água que danificam a cor.', ml: 'Loreal Metal Detox' },
-    'absolut-repair-shampoo': { nome: 'Absolut Repair Shampoo', desc: 'Reconstrução profunda para fios danificados.', ml: 'Loreal Absolut Repair Shampoo' },
-    'absolut-repair-mask': { nome: 'Absolut Repair Máscara', desc: 'Tratamento intensivo reconstrutor.', ml: 'Loreal Absolut Repair Mask' },
+    'metal-detox': { nome: 'Metal Detox', desc: 'Remove metais da agua que danificam a cor.', ml: 'Loreal Metal Detox' },
+    'absolut-repair-shampoo': { nome: 'Absolut Repair Shampoo', desc: 'Reconstrucao profunda para fios danificados.', ml: 'Loreal Absolut Repair Shampoo' },
+    'absolut-repair-mask': { nome: 'Absolut Repair Mascara', desc: 'Tratamento intensivo reconstrutor.', ml: 'Loreal Absolut Repair Mask' },
     'vitamino-color': { nome: 'Vitamino Color', desc: 'Protege a cor e evita o desbotamento.', ml: 'Loreal Vitamino Color' },
-    'joico-moisture-shampoo': { nome: 'Joico Moisture Shampoo', desc: 'Repõe a umidade dos cabelos secos.', ml: 'Joico Moisture Recovery Shampoo' },
-    'joico-moisture-conditioner': { nome: 'Joico Moisture Condicionador', desc: 'Desembaraça e nutre profundamente.', ml: 'Joico Moisture Recovery Conditioner' },
-    'joico-moisture-mask': { nome: 'Joico Moisture Máscara', desc: 'Máscara de alta hidratação.', ml: 'Joico Moisture Recovery Mask' },
-    'blondifier': { nome: 'Blondifier / Silver', desc: 'Neutraliza tons indesejados em loiros.', ml: 'Loreal Silver shampoo' },
+    'joico-moisture-shampoo': { nome: 'Joico Moisture Shampoo', desc: 'Repoe a umidade dos cabelos secos.', ml: 'Joico Moisture Recovery Shampoo' },
+    'joico-moisture-conditioner': { nome: 'Joico Moisture Condicionador', desc: 'Desembaraca e nutre profundamente.', ml: 'Joico Moisture Recovery Conditioner' },
+    'joico-moisture-mask': { nome: 'Joico Moisture Mascara', desc: 'Mascara de alta hidratacao.', ml: 'Joico Moisture Recovery Mask' },
+    'blondifier': { nome: 'Blondifier Silver', desc: 'Neutraliza tons indesejados em loiros.', ml: 'Loreal Silver shampoo' },
     'curl-expression': { nome: 'Curl Expression', desc: 'Define cachos com leveza.', ml: 'Loreal Curl Expression' },
-    'scalp-advanced': { nome: 'Scalp Advanced', desc: 'Equilíbrio para o couro cabeludo.', ml: 'Loreal Scalp Advanced' },
-    'premiere': { nome: 'Premiere', desc: 'Reparação avançada antidense.', ml: 'Loreal Premiere' },
+    'scalp-advanced': { nome: 'Scalp Advanced', desc: 'Equilibrio para o couro cabeludo.', ml: 'Loreal Scalp Advanced' },
+    'premiere': { nome: 'Premiere', desc: 'Reparacao avancada antidense.', ml: 'Loreal Premiere' },
     'inforcer': { nome: 'Inforcer', desc: 'Antiquebra e fortalecimento.', ml: 'Loreal Inforcer' },
     'pro-longer': { nome: 'Pro Longer', desc: 'Renovador de pontas longas.', ml: 'Loreal Pro Longer' },
     'liss-unlimited': { nome: 'Liss Unlimited', desc: 'Controle de frizz e alinhamento.', ml: 'Loreal Liss Unlimited' },
     'absolut-repair-molecular': { nome: 'Absolut Repair Molecular', desc: 'Restaura a estrutura molecular.', ml: 'Loreal Absolut Repair Molecular' },
   },
   kits: {
-    'kit-hidratacao': { nome: 'Kit Hidratação', desc: 'Devolve maciez, água e brilho.', ml: 'kit hidratacao cabelo Loreal' },
-    'kit-reconstrucao': { nome: 'Kit Reconstrução', desc: 'Para fios elásticos ou quimicamente danificados.', ml: 'kit reconstrucao Loreal Absolut Repair' },
-    'kit-loiros': { nome: 'Kit Loiros', desc: 'Mantém o tom limpo e tratado.', ml: 'kit loiro Loreal Silver' },
-    'kit-pos-coloracao': { nome: 'Kit Pós-Coloração', desc: 'Preserva o pigmento por mais tempo.', ml: 'kit pos coloracao Vitamino Color' },
+    'kit-hidratacao': { nome: 'Kit Hidratacao', desc: 'Devolve maciez, agua e brilho.', ml: 'kit hidratacao cabelo Loreal' },
+    'kit-reconstrucao': { nome: 'Kit Reconstrucao', desc: 'Para fios elasticos ou quimicamente danificados.', ml: 'kit reconstrucao Loreal Absolut Repair' },
+    'kit-loiros': { nome: 'Kit Loiros', desc: 'Mantem o tom limpo e tratado.', ml: 'kit loiro Loreal Silver' },
+    'kit-pos-coloracao': { nome: 'Kit Pos-Coloracao', desc: 'Preserva o pigmento por mais tempo.', ml: 'kit pos coloracao Vitamino Color' },
     'kit-detox': { nome: 'Kit Detox', desc: 'Limpeza profunda de impurezas e metais.', ml: 'Loreal Metal Detox kit' },
-    'kit-cacheados': { nome: 'Kit Cacheados', desc: 'Hidratação e definição sob medida.', ml: 'kit cabelo cacheado Loreal' },
-    'kit-nutricao': { nome: 'Kit Nutrição', desc: 'Nutre e devolve a oleosidade saudável.', ml: 'kit nutricao cabelo' },
-    'kit-coloracao': { nome: 'Kit Coloração', desc: 'Proteção total para cabelos tingidos.', ml: 'kit coloracao cabelo' },
+    'kit-cacheados': { nome: 'Kit Cacheados', desc: 'Hidratacao e definicao sob medida.', ml: 'kit cabelo cacheado Loreal' },
+    'kit-nutricao': { nome: 'Kit Nutricao', desc: 'Nutre e devolve a oleosidade saudavel.', ml: 'kit nutricao cabelo' },
+    'kit-coloracao': { nome: 'Kit Coloracao', desc: 'Protecao total para cabelos tingidos.', ml: 'kit coloracao cabelo' },
     'kit-queda-capilar': { nome: 'Kit Queda Capilar', desc: 'Fortalece a raiz e previne a quebra.', ml: 'kit queda capilar' },
-    'kit-danificados': { nome: 'Kit Danificados', desc: 'Recuperação global da fibra.', ml: 'kit danificados cabelo' },
+    'kit-danificados': { nome: 'Kit Danificados', desc: 'Recuperacao global da fibra.', ml: 'kit danificados cabelo' },
     'kit-anti-frizz': { nome: 'Kit Anti-Frizz', desc: 'Disciplina e controle dos fios.', ml: 'kit anti frizz cabelo' },
     'kit-crescimento': { nome: 'Kit Crescimento', desc: 'Estimula o bulbo capilar.', ml: 'kit crescimento capilar' },
-    'kit-ruivos': { nome: 'Kit Ruivos', desc: 'Proteção de cor para tons acobreados.', ml: 'kit ruivo cabelo' },
-    'kit-morenas': { nome: 'Kit Morenas', desc: 'Realça o brilho de bases escuras.', ml: 'kit morena cabelo' },
-    'kit-uso-diario': { nome: 'Kit Uso Diário', desc: 'Praticidade e cuidado equilibrado.', ml: 'kit uso diario cabelo' },
+    'kit-ruivos': { nome: 'Kit Ruivos', desc: 'Protecao de cor para tons acobreados.', ml: 'kit ruivo cabelo' },
+    'kit-morenas': { nome: 'Kit Morenas', desc: 'Realca o brilho de bases escuras.', ml: 'kit morena cabelo' },
+    'kit-uso-diario': { nome: 'Kit Uso Diario', desc: 'Praticidade e cuidado equilibrado.', ml: 'kit uso diario cabelo' },
   }
 };
 
@@ -350,10 +466,10 @@ const QUIZZES = {
   corte: {
     titulo: 'Quiz de Corte',
     perguntas: [
-      { q: 'Qual o comprimento atual do seu cabelo?', opcoes: [{ t: 'Curto (acima dos ombros)', v: 'curto' }, { t: 'Médio (ombros / clavícula)', v: 'medio' }, { t: 'Longo (abaixo da clavícula)', v: 'longo' }] },
-      { q: 'Como é a textura natural?', opcoes: [{ t: 'Liso', v: 'liso' }, { t: 'Ondulado', v: 'ondulado' }, { t: 'Cacheado / crespo', v: 'cacheado' }] },
-      { q: 'Quanto tempo você quer gastar no visual do dia a dia?', opcoes: [{ t: 'Mínimo — prático', v: 'baixo' }, { t: 'Médio — um pouco de styling', v: 'medio' }, { t: 'Alto — gosto de finalizar', v: 'alto' }] },
-      { q: 'Qual estilo combina mais com você?', opcoes: [{ t: 'Clássico / elegante', v: 'classico' }, { t: 'Moderno / clean', v: 'moderno' }, { t: 'Despojado / alternativo', v: 'alternativo' }] },
+      { q: 'Qual o comprimento atual do seu cabelo?', opcoes: [{ t: 'Curto (acima dos ombros)', v: 'curto' }, { t: 'Medio (ombros / clavicula)', v: 'medio' }, { t: 'Longo (abaixo da clavicula)', v: 'longo' }] },
+      { q: 'Como e a textura natural?', opcoes: [{ t: 'Liso', v: 'liso' }, { t: 'Ondulado', v: 'ondulado' }, { t: 'Cacheado / crespo', v: 'cacheado' }] },
+      { q: 'Quanto tempo voce quer gastar no visual do dia a dia?', opcoes: [{ t: 'Minimo — pratico', v: 'baixo' }, { t: 'Medio — um pouco de styling', v: 'medio' }, { t: 'Alto — gosto de finalizar', v: 'alto' }] },
+      { q: 'Qual estilo combina mais com voce?', opcoes: [{ t: 'Classico / elegante', v: 'classico' }, { t: 'Moderno / clean', v: 'moderno' }, { t: 'Despojado / alternativo', v: 'alternativo' }] },
     ],
     resolver(a) {
       if (a[0] === 'curto' && a[3] === 'moderno') return 'pixie-cut';
@@ -375,9 +491,9 @@ const QUIZZES = {
     titulo: 'Quiz de Cor',
     perguntas: [
       { q: 'Qual a cor base do seu cabelo hoje?', opcoes: [{ t: 'Loiro / claro', v: 'loiro' }, { t: 'Castanho', v: 'castanho' }, { t: 'Preto / escuro', v: 'escuro' }, { t: 'Ruivo / cobre', v: 'ruivo' }] },
-      { q: 'Quanto de manutenção você aceita?', opcoes: [{ t: 'Baixa (retoca pouco)', v: 'baixa' }, { t: 'Média', v: 'media' }, { t: 'Alta (topo de loiro/platinado)', v: 'alta' }] },
-      { q: 'Qual resultado você busca?', opcoes: [{ t: 'Natural, como no sol', v: 'natural' }, { t: 'Marcante, com contraste', v: 'marcante' }, { t: 'Sofisticado e uniforme', v: 'uniforme' }] },
-      { q: 'Tom de pele aproximado?', opcoes: [{ t: 'Frio (rosado / azeitonado)', v: 'frio' }, { t: 'Quente (dourado / pêssego)', v: 'quente' }, { t: 'Neutro', v: 'neutro' }] },
+      { q: 'Quanto de manutencao voce aceita?', opcoes: [{ t: 'Baixa (retoca pouco)', v: 'baixa' }, { t: 'Media', v: 'media' }, { t: 'Alta (topo de loiro/platinado)', v: 'alta' }] },
+      { q: 'Qual resultado voce busca?', opcoes: [{ t: 'Natural, como no sol', v: 'natural' }, { t: 'Marcante, com contraste', v: 'marcante' }, { t: 'Sofisticado e uniforme', v: 'uniforme' }] },
+      { q: 'Tom de pele aproximado?', opcoes: [{ t: 'Frio (rosado / azeitonado)', v: 'frio' }, { t: 'Quente (dourado / pessego)', v: 'quente' }, { t: 'Neutro', v: 'neutro' }] },
     ],
     resolver(a) {
       if (a[0] === 'loiro' && a[1] === 'alta') return 'ice-blonde';
@@ -399,10 +515,10 @@ const QUIZZES = {
   produto: {
     titulo: 'Quiz de Produto',
     perguntas: [
-      { q: 'Qual a maior queixa do seu cabelo hoje?', opcoes: [{ t: 'Ressecado / sem brilho', v: 'seco' }, { t: 'Quebrando / elástico', v: 'danificado' }, { t: 'Cor desbotando', v: 'cor' }, { t: 'Opaco / água pesada', v: 'metais' }, { t: 'Amarelou', v: 'amarelo' }, { t: 'Cachos sem definição', v: 'cacho' }, { t: 'Queda ou afinamento', v: 'queda' }, { t: 'Frizz / arrepiado', v: 'frizz' }] },
-      { q: 'Você faz coloração com frequência?', opcoes: [{ t: 'Sim', v: 'sim' }, { t: 'Às vezes', v: 'asvezes' }, { t: 'Não', v: 'nao' }] },
-      { q: 'Usa chapinha, secador ou babyliss?', opcoes: [{ t: 'Todo dia / quase todo dia', v: 'muito' }, { t: 'Às vezes', v: 'medio' }, { t: 'Raramente', v: 'pouco' }] },
-      { q: 'Prefere rotina simples ou tratamento semanal?', opcoes: [{ t: 'Simples (shampoo + cond)', v: 'simples' }, { t: 'Com máscara 1x por semana', v: 'mascara' }, { t: 'Protocolo completo', v: 'completo' }] },
+      { q: 'Qual a maior queixa do seu cabelo hoje?', opcoes: [{ t: 'Ressecado / sem brilho', v: 'seco' }, { t: 'Quebrando / elastico', v: 'danificado' }, { t: 'Cor desbotando', v: 'cor' }, { t: 'Opaco / agua pesada', v: 'metais' }, { t: 'Amarelou', v: 'amarelo' }, { t: 'Cachos sem definicao', v: 'cacho' }, { t: 'Queda ou afinamento', v: 'queda' }, { t: 'Frizz / arrepiado', v: 'frizz' }] },
+      { q: 'Voce faz coloracao com frequencia?', opcoes: [{ t: 'Sim', v: 'sim' }, { t: 'As vezes', v: 'asvezes' }, { t: 'Nao', v: 'nao' }] },
+      { q: 'Usa chapinha, secador ou babyliss?', opcoes: [{ t: 'Todo dia / quase todo dia', v: 'muito' }, { t: 'As vezes', v: 'medio' }, { t: 'Raramente', v: 'pouco' }] },
+      { q: 'Prefere rotina simples ou tratamento semanal?', opcoes: [{ t: 'Simples (shampoo + cond)', v: 'simples' }, { t: 'Com mascara 1x por semana', v: 'mascara' }, { t: 'Protocolo completo', v: 'completo' }] },
     ],
     resolver(a) {
       if (a[0] === 'metais') return 'metal-detox';
@@ -420,10 +536,10 @@ const QUIZZES = {
   kit: {
     titulo: 'Quiz de Kit',
     perguntas: [
-      { q: 'Qual o foco principal agora?', opcoes: [{ t: 'Hidratação e maciez', v: 'hidro' }, { t: 'Reconstrução / força', v: 'recon' }, { t: 'Manter loiro limpo', v: 'loiro' }, { t: 'Proteger a coloração', v: 'cor' }, { t: 'Detox / limpeza profunda', v: 'detox' }, { t: 'Cachos definidos', v: 'cacho' }, { t: 'Crescimento / queda', v: 'crescimento' }, { t: 'Cuidado diário', v: 'diario' }] },
-      { q: 'Seu cabelo passou por química recente?', opcoes: [{ t: 'Sim', v: 'sim' }, { t: 'Não', v: 'nao' }] },
-      { q: 'Quantos passos você aceita na rotina?', opcoes: [{ t: '2 (shampoo + cond)', v: '2' }, { t: '3 (com máscara)', v: '3' }, { t: '4+ (leave-in, óleo...)', v: '4' }] },
-      { q: 'Orçamento aproximado para um kit?', opcoes: [{ t: 'Até R$ 150', v: 'baixo' }, { t: 'R$ 150–300', v: 'medio' }, { t: 'Acima de R$ 300', v: 'alto' }] },
+      { q: 'Qual o foco principal agora?', opcoes: [{ t: 'Hidratacao e maciez', v: 'hidro' }, { t: 'Reconstrucao / forca', v: 'recon' }, { t: 'Manter loiro limpo', v: 'loiro' }, { t: 'Proteger a coloracao', v: 'cor' }, { t: 'Detox / limpeza profunda', v: 'detox' }, { t: 'Cachos definidos', v: 'cacho' }, { t: 'Crescimento / queda', v: 'crescimento' }, { t: 'Cuidado diario', v: 'diario' }] },
+      { q: 'Seu cabelo passou por quimica recente?', opcoes: [{ t: 'Sim', v: 'sim' }, { t: 'Nao', v: 'nao' }] },
+      { q: 'Quantos passos voce aceita na rotina?', opcoes: [{ t: '2 (shampoo + cond)', v: '2' }, { t: '3 (com mascara)', v: '3' }, { t: '4+ (leave-in, oleo...)', v: '4' }] },
+      { q: 'Orcamento aproximado para um kit?', opcoes: [{ t: 'Ate R$ 150', v: 'baixo' }, { t: 'R$ 150–300', v: 'medio' }, { t: 'Acima de R$ 300', v: 'alto' }] },
     ],
     resolver(a) {
       if (a[0] === 'detox') return 'kit-detox';
@@ -441,14 +557,14 @@ const QUIZZES = {
 };
 
 const DUVIDAS = [
-  { q: '💇‍♀️ Como escolher o corte ideal?', a: 'O corte ideal depende do formato do seu rosto e textura. Use nosso <strong>Quiz de Corte</strong> no menu superior para receber uma recomendação personalizada baseada no seu perfil!' },
-  { q: '🎨 Qual cor não agride tanto o fio?', a: 'Técnicas como <strong>Balayage</strong> e <strong>Morena Iluminada</strong> agridem menos, pois não aplicam descolorante na raiz e mantêm a base natural. Use sempre o <strong>Kit Pós-Coloração</strong> para manter a saúde!' },
-  { q: '🧴 Os produtos são originais?', a: 'Sim! Trabalhamos apenas com distribuidores oficiais e parceiros certificados. Todos os produtos são 100% originais e lacrados.' },
-  { q: '📦 Qual o prazo de entrega?', a: 'O prazo varia conforme sua região e é calculado diretamente no checkout do <strong>Mercado Livre</strong>, garantindo segurança e rastreio em cada etapa.' }
+  { q: 'Como escolher o corte ideal?', a: 'O corte ideal depende do formato do seu rosto e textura. Use nosso <strong>Quiz de Corte</strong> no menu superior para receber uma recomendacao personalizada baseada no seu perfil!' },
+  { q: 'Qual cor nao agride tanto o fio?', a: 'Tecnicas como <strong>Balayage</strong> e <strong>Morena Iluminada</strong> agridem menos, pois nao aplicam descolorante na raiz e mantem a base natural. Use sempre o <strong>Kit Pos-Coloracao</strong> para manter a saude!' },
+  { q: 'Os produtos sao originais?', a: 'Sim! Trabalhamos apenas com distribuidores oficiais e parceiros certificados. Todos os produtos sao 100% originais e lacrados.' },
+  { q: 'Qual o prazo de entrega?', a: 'O prazo varia conforme sua regiao e e calculado diretamente no checkout do <strong>Mercado Livre</strong>, garantindo seguranca e rastreio em cada etapa.' }
 ];
 
 /* ============================================================
-   ESTADO E CONTROLE DE FLUXO (Correção do Bug de Mensagens)
+   ESTADO E CONTROLE DE FLUXO
    ============================================================ */
 let state = { mode: 'idle', quiz: null, step: 0, answers: [] };
 
@@ -474,10 +590,10 @@ function resetState() {
    FLUXO DOS QUIZZES
    ============================================================ */
 function startQuiz(tipo) {
-  resetState(); // Garante que não há resíduos de outros fluxos
+  resetState();
   state.mode = 'quiz';
   state.quiz = tipo;
-  addMsg(`Vamos iniciar o <strong>${QUIZZES[tipo].titulo}</strong>! Responda às perguntas para receber sua recomendação personalizada. ✨`, 'bot');
+  addMsg(`Vamos iniciar o <strong>${QUIZZES[tipo].titulo}</strong>! Responda as perguntas para receber sua recomendacao personalizada.`, 'bot');
   setTimeout(askNextQuestion, 600);
 }
 
@@ -497,13 +613,33 @@ function askNextQuestion() {
   addMsg(p.q, 'bot', optsHtml);
 }
 
+/* ============================================================
+   FUNCAO PRINCIPAL: showResult COM 2 BOTOES PARA CORTES E CORES
+   ============================================================ */
 function showResult(tipo, key, label) {
   const item = CATALOGO[tipo][key];
   if (!item) return;
   
-  // Gera o link de busca direto para o Mercado Livre
   const mlQuery = encodeURIComponent(item.ml);
   const mlLink = `https://www.mercadolivre.com.br/busca?word=${mlQuery}`;
+  
+  // Link para a vitrine (index.html com hash)
+  const vitrineLink = `index.html#card=${key}`;
+  
+  // Define se mostra 2 botoes (cortes e cores) ou 1 (produtos e kits)
+  const isCorteOuCor = (tipo === 'cortes' || tipo === 'cores');
+  
+  let botoesHtml = '';
+  if (isCorteOuCor) {
+    botoesHtml = `
+      <a href="${vitrineLink}" class="btn-vitrine" target="_blank">Ver na Vitrine</a>
+      <a href="${mlLink}" class="btn-ml" target="_blank" rel="noopener">Ver no Mercado Livre</a>
+    `;
+  } else {
+    botoesHtml = `
+      <a href="${mlLink}" class="btn-ml" target="_blank" rel="noopener">Ver no Mercado Livre</a>
+    `;
+  }
   
   const cardHtml = `
     <div class="result-card">
@@ -512,20 +648,18 @@ function showResult(tipo, key, label) {
         <h3>${item.nome}</h3>
         <p>${item.desc}</p>
         <div class="result-actions">
-          <a href="${mlLink}" class="btn-ml" target="_blank" rel="noopener">🛒 Ver no Mercado Livre</a>
+          ${botoesHtml}
         </div>
       </div>
     </div>
   `;
   
-  addMsg(`✨ Encontrei a recomendação perfeita para você!`, 'bot', cardHtml);
-  
-  // IMPORTANTE: Reseta o estado para evitar mensagens extras ou bugs
+  addMsg('Encontrei a recomendacao perfeita para voce!', 'bot', cardHtml);
   resetState();
 }
 
 /* ============================================================
-   FLUXO DE DÚVIDAS
+   FLUXO DE DUVIDAS
    ============================================================ */
 function showDuvidasMenu() {
   resetState();
@@ -534,11 +668,11 @@ function showDuvidasMenu() {
     html += `<button data-action="doubt-${i}">${d.q}</button>`;
   });
   html += '</div>';
-  addMsg('Qual sua dúvida? Escolha uma das opções abaixo:', 'bot', html);
+  addMsg('Qual sua duvida? Escolha uma das opcoes abaixo:', 'bot', html);
 }
 
 /* ============================================================
-   EVENT LISTENERS (Cliques e Envio de Texto)
+   EVENT LISTENERS
    ============================================================ */
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-action]');
@@ -546,37 +680,32 @@ document.addEventListener('click', (e) => {
   
   const action = btn.dataset.action;
 
-  // Menu Rápido
   if (action === 'quiz-corte') return startQuiz('corte');
   if (action === 'quiz-cor') return startQuiz('cor');
   if (action === 'quiz-produto') return startQuiz('produto');
   if (action === 'quiz-kit') return startQuiz('kit');
   if (action === 'duvidas') return showDuvidasMenu();
   
-  // Respostas do Quiz
   if (action.startsWith('opt-') && state.mode === 'quiz') {
     const idx = parseInt(action.split('-')[1]);
     const val = QUIZZES[state.quiz].perguntas[state.step].opcoes[idx].v;
     state.answers.push(val);
     state.step++;
     
-    // Desabilita botões da pergunta anterior para não clicar de novo
     btn.closest('.options').querySelectorAll('button').forEach(b => b.disabled = true);
     
     setTimeout(askNextQuestion, 500);
     return;
   }
 
-  // Respostas de Dúvidas
   if (action.startsWith('doubt-')) {
     const idx = parseInt(action.split('-')[1]);
     addMsg(DUVIDAS[idx].a, 'bot');
-    resetState(); // Limpa o estado após responder
+    resetState();
     return;
   }
 });
 
-// Envio por texto
 document.getElementById('sendBtn').addEventListener('click', sendMessage);
 inputEl.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
@@ -592,18 +721,16 @@ function sendMessage() {
   addMsg(text, 'user');
   inputEl.value = '';
   
-  // Se estiver no meio de um quiz, ignora texto livre (ou poderia tratar, mas aqui focamos nos botões)
   if (state.mode === 'quiz') return;
 
-  // Match simples de intenções
   const lower = text.toLowerCase();
   if (lower.includes('corte')) return startQuiz('corte');
   if (lower.includes('cor') || lower.includes('mecha') || lower.includes('color')) return startQuiz('cor');
   if (lower.includes('produto') || lower.includes('shampoo') || lower.includes('creme')) return startQuiz('produto');
   if (lower.includes('kit')) return startQuiz('kit');
-  if (lower.includes('dúvida') || lower.includes('duvida') || lower.includes('ajuda') || lower.includes('dúvidas')) return showDuvidasMenu();
+  if (lower.includes('duvida') || lower.includes('ajuda')) return showDuvidasMenu();
   
-  addMsg('Posso te ajudar com um <strong>Quiz de Corte, Cor, Produto ou Kit</strong>, ou tirar suas <strong>Dúvidas</strong>. Use os botões acima ou digite o que precisa! ✨', 'bot');
+  addMsg('Posso te ajudar com um <strong>Quiz de Corte, Cor, Produto ou Kit</strong>, ou tirar suas <strong>Duvidas</strong>. Use os botoes acima ou digite o que precisa!', 'bot');
 }
 
 /* ============================================================
@@ -611,7 +738,7 @@ function sendMessage() {
    ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-    addMsg('Olá! Sou o <strong>HairOS</strong>, seu assistente de beleza. ✦<br><br>Posso te ajudar a descobrir o corte, cor ou produto ideal através dos nossos <strong>Quizzes</strong>, ou tirar dúvidas rápidas. Como posso te ajudar hoje?', 'bot');
+    addMsg('Ola! Sou o <strong>HairOS</strong>, seu assistente de beleza.<br><br>Posso te ajudar a descobrir o corte, cor ou produto ideal atraves dos nossos <strong>Quizzes</strong>, ou tirar duvidas rapidas. Como posso te ajudar hoje?', 'bot');
   }, 400);
 });
 </script>
