@@ -146,6 +146,43 @@
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast {
+      background: rgba(10, 8, 8, .95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: .8rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all .4s cubic-bezier(.23, 1, .32, 1);
+      pointer-events: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .6);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     /* ===== HEADER ===== */
     .header {
       display: flex;
@@ -387,15 +424,16 @@
       display: block;
       transition: transform .6s cubic-bezier(.25, .46, .45, .94);
       will-change: transform;
+      object-fit: cover;
+      object-position: center top;
     }
 
     .card-home:hover .card-home-img {
       transform: scale(1.06);
     }
 
-    /* ===== 2 TAMANHOS DOS CARDS HOME ===== */
-    .h-md { height: 340px; }
-    .h-lg { height: 400px; }
+    .h-md { height: 260px; }
+    .h-lg { height: 320px; }
 
     .card-home-badge {
       position: absolute;
@@ -872,16 +910,17 @@
       width: 100%;
       display: block;
       transition: transform .6s cubic-bezier(.25, .46, .45, .94);
+      object-fit: cover;
+      object-position: center top;
     }
 
     .modal-card-item:hover img {
       transform: scale(1.04);
     }
 
-    /* ===== 3 TAMANHOS DOS CARDS MODAL - MASONRY ===== */
-    .modal-card-item .h-md { height: 220px; object-fit: cover; }
-    .modal-card-item .h-lg { height: 280px; object-fit: cover; }
-    .modal-card-item .h-xl { height: 340px; object-fit: cover; }
+    .modal-card-item .h-md { height: 220px; }
+    .modal-card-item .h-lg { height: 280px; }
+    .modal-card-item .h-xl { height: 340px; }
 
     .modal-card-item .item-label {
       position: absolute;
@@ -1222,17 +1261,16 @@
       display: none !important;
     }
 
-    .modal-hero-side-left.hidden,
-    .modal-hero-side-right.hidden,
-    .modal-close-btn.hidden,
-    .modal-toggle-btn.hidden,
-    .modal-hero-info.hidden {
-      opacity: 0;
-      pointer-events: none;
+    .fade-out {
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
   </style>
 </head>
 <body>
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div class="toast-container" id="toastContainer"></div>
+
   <!-- ===== LOADING SCREEN ===== -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-logo">Hair<span>OS</span><span class="dot">.</span></div>
@@ -1350,12 +1388,133 @@
 
   <script>
     // ============================================================
+    // TOAST SYSTEM
+    // ============================================================
+    function showToast(message, duration) {
+      duration = duration || 2500;
+      var container = document.getElementById('toastContainer');
+      var toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      container.appendChild(toast);
+      
+      requestAnimationFrame(function() {
+        toast.classList.add('show');
+      });
+
+      setTimeout(function() {
+        toast.classList.remove('show');
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 400);
+      }, duration);
+    }
+
+    // ============================================================
     // DADOS
     // ============================================================
 
-    const FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
+    var FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
 
-    const VARIACOES_PINTEREST = [
+    // ============================================================
+    // POOLS POR CATEGORIA
+    // ============================================================
+    var IMAGE_POOLS = {
+      corte: [
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg',
+        'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
+      ],
+      coloracao: [
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'
+      ],
+      penteado: [
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'
+      ],
+      acessorio: [
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
+      ],
+      produto: [
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
+      ],
+      kit: [
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg'
+      ]
+    };
+
+    var GLOBAL_FALLBACK = [
       'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
       'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
       'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
@@ -1363,216 +1522,537 @@
       'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
       'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
       'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-      'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-      'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-      'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg',
-      'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-      'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-      'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-      'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-      'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-      'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-      'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-      'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-      'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-      'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-      'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-      'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-      'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-      'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
+      'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'
     ];
 
-    const alturasHome = ['h-md', 'h-lg'];
+    var alturasHome = ['h-md', 'h-lg'];
 
     function getAlturaHome() {
-      const r = Math.random();
-      if (r < 0.50) return 'h-md';
-      return 'h-lg';
-    }
-
-    const alturasModal = ['h-md', 'h-lg', 'h-xl'];
-
-    function getAlturaModal() {
-      const r = Math.random();
-      if (r < 0.33) return 'h-md';
-      if (r < 0.66) return 'h-lg';
-      return 'h-xl';
+      return Math.random() < 0.5 ? 'h-md' : 'h-lg';
     }
 
     function getProdutoLink(nome) {
       return 'https://lista.mercadolivre.com.br/' + encodeURIComponent(nome);
     }
 
-    function gerar10Variacoes(baseUrl) {
-      const result = [baseUrl];
-      const shuffled = [...VARIACOES_PINTEREST].sort(() => Math.random() - 0.5);
-      for (let i = 0; i < shuffled.length && result.length < 10; i++) {
-        if (shuffled[i] !== baseUrl) {
+    function gerarVariacoes(baseUrl, categoria, quantidade) {
+      quantidade = quantidade || 10;
+      var pool = IMAGE_POOLS[categoria] || GLOBAL_FALLBACK;
+      var result = [baseUrl];
+      var shuffled = pool.slice().sort(function() { return Math.random() - 0.5; });
+      
+      for (var i = 0; i < shuffled.length && result.length < quantidade; i++) {
+        if (shuffled[i] !== baseUrl && result.indexOf(shuffled[i]) === -1) {
           result.push(shuffled[i]);
         }
       }
-      while (result.length < 10) {
-        result.push(VARIACOES_PINTEREST[result.length % VARIACOES_PINTEREST.length]);
+      
+      while (result.length < quantidade) {
+        var fallback = GLOBAL_FALLBACK[result.length % GLOBAL_FALLBACK.length];
+        if (result.indexOf(fallback) === -1) {
+          result.push(fallback);
+        } else {
+          result.push(GLOBAL_FALLBACK[(result.length + 1) % GLOBAL_FALLBACK.length]);
+        }
       }
+      
       return result;
     }
 
-    const styleData = {};
+    var styleData = {};
 
     function createCard(id, categoria, badge, corte, title, desc, img, coloracao, cuidados) {
       return {
-        id,
-        categoria,
-        badge,
-        corte,
-        title,
-        desc,
-        img,
-        variants: gerar10Variacoes(img),
+        id: id,
+        categoria: categoria,
+        badge: badge,
+        corte: corte,
+        title: title,
+        desc: desc,
+        img: img,
+        variants: gerarVariacoes(img, categoria, 10),
         coloracao: coloracao || [],
         cuidados: cuidados || [],
         altura: getAlturaHome()
       };
     }
 
-    // CORTES
-    const cortes = [
-      ['velvet-bob', 'corte', 'Corte', 'Velvet Bob', 'Bob Texturizado', 'Bob com camadas suaves e textura volumosa.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', ['Tinta INOA 8'], ['Shampoo Vitamino Color']],
-      ['pixie-cut', 'corte', 'Corte', 'Pixie Cut', 'Loira Fria Platinada', 'Corte curto e moderno com textura despojada.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', ['Tinta INOA 10.1'], ['Shampoo Absolut Repair']],
-      ['butterfly-cut', 'corte', 'Corte', 'Butterfly Cut', 'Bege Natural', 'Corte com camadas que lembram asas de borboleta.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', ['Tinta INOA 8.2'], ['Condicionador Joico Moisture']],
-      ['blunt-cut', 'corte', 'Corte', 'Blunt Cut', 'Morena Fria', 'Corte reto e marcante com acabamento preciso.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg', ['Tinta INOA 5'], ['Shampoo Metal Detox']],
-      ['shaggy-hair', 'corte', 'Corte', 'Shaggy Hair', 'Loira Despojada', 'Corte despojado com muitas camadas e movimento.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', ['Tinta INOA 9'], ['Máscara Absolut Repair']],
-      ['long-bob', 'corte', 'Corte', 'Long Bob', 'Loira Dourada', 'Loiríssimo com reflexos dourados.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg', ['Tinta INOA 9.3'], ['Shampoo Vitamino Color']],
-      ['french-bob', 'corte', 'Corte', 'French Bob', 'Castanho Elegante', 'Bob francês clássico com franja.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg', ['Tinta INOA 4'], ['Condicionador Joico Moisture']],
-      ['italian-bob', 'corte', 'Corte', 'Italian Bob', 'Morena Iluminada', 'Bob italiano com ondas suaves.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', ['Tinta INOA 6'], ['Shampoo Scalp Advanced']],
-      ['wolf-cut', 'corte', 'Corte', 'Wolf Cut', 'Bege Perolado', 'Corte com camadas selvagens e muito volume.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', ['Tinta INOA 9.2'], ['Máscara Absolut Repair']],
-      ['bixie-cut', 'corte', 'Corte', 'Bixie Cut', 'Loira Mel', 'Mix de Pixie e Bob.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', ['Tinta INOA 9.4'], ['Shampoo Vitamino Color']],
-      ['soft-layers', 'corte', 'Corte', 'Soft Layers', 'Cobre Natural', 'Camadas suaves e movimento natural.', 'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg', ['Tinta INOA 7.4'], ['Condicionador Joico Moisture']],
-      ['modern-mullet', 'corte', 'Corte', 'Modern Mullet', 'Platinado Radical', 'Mullet moderno e descolado.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', ['Tinta INOA 10.1'], ['Shampoo Metal Detox']],
-      ['clavicut', 'corte', 'Corte', 'Clavicut', 'Caramelo Glow', 'Corte na altura da clavícula.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg', ['Tinta INOA 8.4'], ['Máscara Absolut Repair']],
-      ['octopus-cut', 'corte', 'Corte', 'Octopus Cut', 'Loira Mel', 'Corte com camadas que lembram tentáculos.', 'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg', ['Tinta INOA 9.4'], ['Shampoo Vitamino Color']],
-      ['hush-cut', 'corte', 'Corte', 'Hush Cut', 'Preto Natural', 'Corte silencioso e cheio de estilo.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', ['Tinta INOA 3'], ['Condicionador Joico Moisture']]
+    // ============================================================
+    // CORTES (15)
+    // ============================================================
+    var cortesData = [
+      ['velvet-bob', 'corte', 'Corte', 'Velvet Bob', 'Bob Texturizado', 
+        'Bob com camadas internas que criam volume sem peso, resultando em um movimento natural e sofisticado. A finalização com cera de textura define cada fio individualmente, garantindo um efeito moderno e despojado.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        ['L\'Oréal Professionnel INOA 8 (loiro natural)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Joico Moisture Recovery Leave-In']],
+      ['pixie-cut', 'corte', 'Corte', 'Pixie Cut', 'Loira Fria Platinada',
+        'Corte curto com textura despojada e volume no topo, ideal para quem busca praticidade com estilo. O loiro platinado foi obtido com descoloração controlada e matização precisa para neutralizar tons quentes.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['butterfly-cut', 'corte', 'Corte', 'Butterfly Cut', 'Bege Natural',
+        'Corte com camadas estratégicas que lembram asas de borboleta, criando movimento e leveza em todo o comprimento. O bege natural foi obtido com matização precisa para neutralizar reflexos indesejados.',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        ['L\'Oréal Professionnel INOA 8.21 (bege)', 'L\'Oréal Professionnel Dia Richesse 8.21'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
+      ['blunt-cut', 'corte', 'Corte', 'Blunt Cut', 'Morena Fria',
+        'Corte reto com acabamento preciso e pontas perfeitamente retas, transmitindo elegância e modernidade. O tom moreno frio foi obtido com base escura e luzes estratégicas para criar dimensão sem calor.',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        ['L\'Oréal Professionnel INOA 5 (castanho)', 'L\'Oréal Professionnel Dia Richesse 5.1'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Joico K-PAK Leave-In']],
+      ['shaggy-hair', 'corte', 'Corte', 'Shaggy Hair', 'Loira Despojada',
+        'Corte despojado com muitas camadas e textura natural, perfeito para um visual autêntico e cheio de personalidade. O loiro foi construído com mechas californianas e finalização com spray de textura.',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.01'],
+        ['L\'Oréal Professionnel Blondifier Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Wella EIMI Texture Touch']],
+      ['long-bob', 'corte', 'Corte', 'Long Bob', 'Loira Dourada',
+        'Long Bob versátil com movimento e brilho intenso, que se adapta a diferentes ocasiões. A coloração loira dourada foi obtida com descoloração suave e matização com pigmentos dourados.',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        ['L\'Oréal Professionnel INOA 9.3 (loiro dourado)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
+      ['french-bob', 'corte', 'Corte', 'French Bob', 'Castanho Elegante',
+        'Bob francês clássico com franja reta e acabamento preciso, evocando a elegância parisiense. O castanho intenso foi obtido com base uniforme e brilho profundo.',
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        ['L\'Oréal Professionnel INOA 4 (castanho escuro)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
+      ['italian-bob', 'corte', 'Corte', 'Italian Bob', 'Morena Iluminada',
+        'Bob italiano com ondas suaves e movimento natural, inspirado no estilo mediterrâneo. A morena iluminada foi obtida com luzes estratégicas para dar dimensão e brilho.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        ['L\'Oréal Professionnel INOA 6 (castanho claro)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['wolf-cut', 'corte', 'Corte', 'Wolf Cut', 'Bege Perolado',
+        'Corte com camadas selvagens e muito volume no topo, criando um visual ousado e contemporâneo. O bege perolado foi obtido com descoloração e matização precisa para tom frio e luminoso.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.21'],
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Wella EIMI Perfect Me']],
+      ['bixie-cut', 'corte', 'Corte', 'Bixie Cut', 'Loira Mel',
+        'Mix de Pixie e Bob com textura e movimento, ideal para quem busca versatilidade. A loira mel foi obtida com descoloração e pigmentos mel para aquecer o tom sem perder a luminosidade.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        ['L\'Oréal Professionnel INOA 9.4 (loiro mel)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
+      ['soft-layers', 'corte', 'Corte', 'Soft Layers', 'Cobre Natural',
+        'Camadas suaves e movimento natural com acabamento luminoso, proporcionando um visual leve e fluido. O cobre natural foi obtido com pigmentos quentes para um tom vibrante e sofisticado.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['modern-mullet', 'corte', 'Corte', 'Modern Mullet', 'Platinado Radical',
+        'Mullet moderno com volume e atitude, resgatando um estilo icônico com um toque contemporâneo. O platinado radical foi obtido com descoloração máxima e matização com pigmentos violeta.',
+        'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['clavicut', 'corte', 'Corte', 'Clavicut', 'Caramelo Glow',
+        'Corte na altura da clavícula com movimento e leveza, alongando a silhueta. O caramelo glow foi obtido com luzes douradas para iluminar o rosto e aquecer a base.',
+        'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
+        ['L\'Oréal Professionnel INOA 8.4 (caramelo)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
+      ['octopus-cut', 'corte', 'Corte', 'Octopus Cut', 'Loira Mel',
+        'Corte com camadas que lembram tentáculos, criando movimento e volume em todo o cabelo. A loira mel foi obtida com descoloração suave e pigmentos mel para um tom quente e luminoso.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        ['L\'Oréal Professionnel INOA 9.4 (loiro mel)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Wella EIMI Texture Touch']],
+      ['hush-cut', 'corte', 'Corte', 'Hush Cut', 'Preto Natural',
+        'Corte silencioso e cheio de estilo com acabamento natural, perfeito para quem busca um visual discreto e elegante. O preto intenso foi obtido com base uniforme e brilho profundo.',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
+        ['L\'Oréal Professionnel INOA 3 (preto)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']]
     ];
 
-    cortes.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
-        color.map(c => ({ name: c, link: getProdutoLink(c) })),
-        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
-      );
+    cortesData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
-    // COLORAÇÕES
-    const coloracoes = [
-      ['balayage', 'coloracao', 'Coloração', 'Balayage', 'Luzes Naturais', 'Técnica de luzes com efeito natural.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', ['Kit Balayage'], ['Shampoo Vitamino Color']],
-      ['californianas', 'coloracao', 'Coloração', 'Californianas', 'Efeito Sol', 'Luzes estilo californiano.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', ['Kit Californianas'], ['Condicionador Joico Moisture']],
-      ['highlights-loira', 'coloracao', 'Coloração', 'Highlights Loira', 'Luzes Loiras', 'Mechas loiras para iluminar.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', ['Kit Highlights Loira'], ['Shampoo Blondifier']],
-      ['cherry-cola', 'coloracao', 'Coloração', 'Cherry Cola', 'Vermelho Cereja', 'Tom vermelho intenso.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', ['Kit Cherry Cola'], ['Shampoo Vitamino Color']],
-      ['copper-hair', 'coloracao', 'Coloração', 'Copper Hair', 'Cobre Vibrante', 'Cobre intenso e vibrante.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', ['Kit Copper Hair'], ['Shampoo Premiere']],
-      ['mocha-mousse', 'coloracao', 'Coloração', 'Mocha Mousse', 'Marrom Café', 'Marrom intenso com nuances de café.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Mocha Mousse'], ['Condicionador Joico Moisture']],
-      ['expensive-brunette', 'coloracao', 'Coloração', 'Expensive Brunette', 'Morena Premium', 'Morena sofisticada.', 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg', ['Kit Expensive Brunette'], ['Shampoo Vitamino Color']],
-      ['mushroom-brown', 'coloracao', 'Coloração', 'Mushroom Brown', 'Castanho Cogumelo', 'Castanho acinzentado.', 'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg', ['Kit Mushroom Brown'], ['Shampoo Inforcer']],
-      ['vanilla-blonde', 'coloracao', 'Coloração', 'Vanilla Blonde', 'Loira Baunilha', 'Loira suave e cremosa.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', ['Kit Vanilla Blonde'], ['Shampoo Blondifier']],
-      ['ice-blonde', 'coloracao', 'Coloração', 'Ice Blonde', 'Loira Gelo', 'Loira platinada com tons gelados.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', ['Kit Ice Blonde'], ['Shampoo Metal Detox']],
-      ['caramelo-glow', 'coloracao', 'Coloração', 'Caramelo Glow', 'Caramelo Brilhante', 'Caramelo com brilho intenso.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', ['Kit Caramelo Glow'], ['Shampoo Vitamino Color']],
-      ['chocolate-intenso', 'coloracao', 'Coloração', 'Chocolate Intenso', 'Chocolate Escuro', 'Chocolate intenso e profundo.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Chocolate Intenso'], ['Condicionador Joico Moisture']],
-      ['preto-natural', 'coloracao', 'Coloração', 'Preto Natural', 'Preto Profundo', 'Preto intenso com brilho excepcional.', 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg', ['Kit Preto Natural'], ['Shampoo Scalp Advanced']],
-      ['ruivo-acobreado', 'coloracao', 'Coloração', 'Ruivo Acobreado', 'Ruivo Cobre', 'Ruivo com tonalidades acobreadas.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', ['Kit Ruivo Acobreado'], ['Shampoo Premiere']],
-      ['morena-iluminada', 'coloracao', 'Coloração', 'Morena Iluminada', 'Morena com Luzes', 'Morena com luzes estratégicas.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Morena Iluminada'], ['Shampoo Vitamino Color']]
+    // ============================================================
+    // COLORAÇÕES (15)
+    // ============================================================
+    var coloracoesData = [
+      ['balayage', 'coloracao', 'Coloração', 'Balayage', 'Luzes Naturais',
+        'Técnica de luzes com efeito natural e degradê suave, criando um visual iluminado e orgânico. A descoloração foi aplicada à mão livre para um resultado gradiente e sem marcas.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 9.01'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
+      ['californianas', 'coloracao', 'Coloração', 'Californianas', 'Efeito Sol',
+        'Luzes estilo californiano com efeito de sol nos fios, remetendo ao verão eterno. A descoloração foi aplicada em mechas largas para um resultado natural e luminoso.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.01'],
+        ['L\'Oréal Professionnel Blondifier Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['highlights-loira', 'coloracao', 'Coloração', 'Highlights Loira', 'Luzes Loiras',
+        'Mechas loiras para iluminar e dar dimensão aos fios, criando profundidade e movimento. A descoloração foi aplicada em mechas finas para um resultado preciso e luminoso.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 10.01'],
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['cherry-cola', 'coloracao', 'Coloração', 'Cherry Cola', 'Vermelho Cereja',
+        'Tom vermelho intenso com fundo cereja e muita personalidade, perfeito para quem deseja se destacar. A coloração foi aplicada sobre base clara para máxima vibração.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        ['L\'Oréal Professionnel Majirel 5.62 (vermelho cereja)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
+      ['copper-hair', 'coloracao', 'Coloração', 'Copper Hair', 'Cobre Vibrante',
+        'Cobre intenso e vibrante que ilumina qualquer pele, trazendo calor e sofisticação. A coloração foi aplicada com pigmentos quentes para um tom rico e luminoso.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['mocha-mousse', 'coloracao', 'Coloração', 'Mocha Mousse', 'Marrom Café',
+        'Marrom intenso com nuances de café e sofisticação, um clássico atemporal. A coloração foi aplicada com pigmentos neutros para um tom profundo e elegante.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        ['L\'Oréal Professionnel INOA 5.3 (marrom)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
+      ['expensive-brunette', 'coloracao', 'Coloração', 'Expensive Brunette', 'Morena Premium',
+        'Morena sofisticada com reflexos caros e profundos, transmitindo luxo e elegância. A coloração foi aplicada com pigmentos frios para um tom luxuoso e luminoso.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        ['L\'Oréal Professionnel INOA 5.1 (castanho frio)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken One United Leave-In']],
+      ['mushroom-brown', 'coloracao', 'Coloração', 'Mushroom Brown', 'Castanho Cogumelo',
+        'Castanho acinzentado com nuances de cogumelo e elegância, uma tendência sofisticada. A coloração foi aplicada com pigmentos frios para um tom neutro e moderno.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        ['L\'Oréal Professionnel INOA 6.1 (castanho acinzentado)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['vanilla-blonde', 'coloracao', 'Coloração', 'Vanilla Blonde', 'Loira Baunilha',
+        'Loira suave com tons de baunilha e cremosidade, um visual doce e luminoso. A descoloração foi controlada para um tom claro e natural com matização precisa.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 10.01'],
+        ['L\'Oréal Professionnel Blondifier Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['ice-blonde', 'coloracao', 'Coloração', 'Ice Blonde', 'Loira Gelo',
+        'Loira platinada com tons gelados e impacto visual, um statement de estilo. A descoloração foi levada ao máximo com matização violeta para neutralizar tons amarelos.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['caramelo-glow', 'coloracao', 'Coloração', 'Caramelo Glow', 'Caramelo Brilhante',
+        'Caramelo com brilho intenso e efeito luminoso, iluminando a pele e os fios. A coloração foi aplicada com pigmentos quentes para um tom vibrante e sofisticado.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        ['L\'Oréal Professionnel INOA 8.4 (caramelo)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
+      ['chocolate-intenso', 'coloracao', 'Coloração', 'Chocolate Intenso', 'Chocolate Escuro',
+        'Chocolate intenso e profundo com muita luminosidade, um clássico sofisticado. A coloração foi aplicada com pigmentos ricos para um tom vibrante e elegante.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        ['L\'Oréal Professionnel INOA 5.3 (chocolate)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['preto-natural', 'coloracao', 'Coloração', 'Preto Natural', 'Preto Profundo',
+        'Preto intenso com fundo natural e brilho excepcional, a base de toda beleza. A coloração foi aplicada com pigmentos neutros para um tom profundo e elegante.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        ['L\'Oréal Professionnel INOA 3 (preto)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
+      ['ruivo-acobreado', 'coloracao', 'Coloração', 'Ruivo Acobreado', 'Ruivo Cobre',
+        'Ruivo com tonalidades acobreadas e muito brilho, um visual vibrante e cheio de personalidade. A coloração foi aplicada com pigmentos quentes para um tom luminoso.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
+      ['morena-iluminada', 'coloracao', 'Coloração', 'Morena Iluminada', 'Morena com Luzes',
+        'Morena com luzes estratégicas para iluminar o rosto, criando um efeito lifting natural. A coloração foi aplicada com mechas precisas para criar dimensão e movimento.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        ['L\'Oréal Professionnel INOA 6 (castanho claro)'],
+        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']]
     ];
 
-    coloracoes.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
-        color.map(c => ({ name: c, link: getProdutoLink(c) })),
-        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
-      );
+    coloracoesData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
-    // PENTEADOS
-    const penteados = [
-      ['coque-elegante', 'penteado', 'Penteado', 'Coque Elegante', 'Coque clássico', 'Coque clássico e elegante.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
-      ['tranca-lateral', 'penteado', 'Penteado', 'Trança Lateral', 'Trança Boho', 'Trança lateral com estilo boho.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
-      ['semi-preso', 'penteado', 'Penteado', 'Semi Preso', 'Look Romântico', 'Semi preso com volume e movimento.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
-      ['ondas-sol', 'penteado', 'Penteado', 'Ondas Sol', 'Efeito Praiano', 'Ondas naturais com efeito praiano.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
-      ['penteado-retro', 'penteado', 'Penteado', 'Retrô Wave', 'Ondas Vintage', 'Penteado retrô com ondas vintage.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'],
-      ['rabo-de-cavalo', 'penteado', 'Penteado', 'Rabo de Cavalo', 'Moderno', 'Rabo de cavalo alto e moderno.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'],
-      ['coque-baixo', 'penteado', 'Penteado', 'Coque Baixo', 'Elegante', 'Coque baixo elegante e sofisticado.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
-      ['tranca-embutida', 'penteado', 'Penteado', 'Trança Embutida', 'Estilo', 'Trança embutida com estilo.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
-      ['penteado-festival', 'penteado', 'Penteado', 'Festival Glam', 'Acessórios', 'Penteado com acessórios e estilo festival.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
-      ['moicano', 'penteado', 'Penteado', 'Moicano Moderno', 'Atitude', 'Moicano moderno com volume e atitude.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg']
+    // ============================================================
+    // PENTEADOS (10)
+    // ============================================================
+    var penteadosData = [
+      ['coque-elegante', 'penteado', 'Penteado', 'Coque Elegante', 'Coque Clássico',
+        'Coque clássico e elegante para ocasiões especiais, com acabamento impecável. O cabelo foi preso com grampos invisíveis e finalizado com spray de fixação forte para durabilidade.',
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        [],
+        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken Frizz Dismiss Leave-In']],
+      ['tranca-lateral', 'penteado', 'Penteado', 'Trança Lateral', 'Trança Boho',
+        'Trança lateral com estilo boho e despojado, perfeita para looks românticos. O cabelo foi trançado com fios soltos para um efeito natural e leve, fixado com gel de fixação.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        [],
+        ['Wella EIMI Root Shoot (gel fixador)', 'Wella EIMI Perfect Me (spray de brilho)', 'Redken One United Leave-In']],
+      ['semi-preso', 'penteado', 'Penteado', 'Semi Preso', 'Look Romântico',
+        'Semi preso com volume e movimento para um look romântico e sofisticado. O cabelo foi preso com grampos e finalizado com spray de fixação média para manter o estilo.',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        [],
+        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
+      ['ondas-sol', 'penteado', 'Penteado', 'Ondas Sol', 'Efeito Praiano',
+        'Ondas naturais com efeito praiano e muito movimento, como se o cabelo tivesse sido beijado pelo sol. O cabelo foi ondulado com babyliss e finalizado com spray de textura.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        [],
+        ['Wella EIMI Texture Touch (spray texturizante)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
+      ['penteado-retro', 'penteado', 'Penteado', 'Retrô Wave', 'Ondas Vintage',
+        'Penteado retrô com ondas vintage e glamour, resgatando a elegância de outras épocas. O cabelo foi modelado com babyliss e finalizado com laquê profissional para fixação total.',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        [],
+        ['Wella EIMI Super Set (laquê)', 'Joico Moisture Recovery Oil', 'Wella EIMI Texture Touch']],
+      ['rabo-de-cavalo', 'penteado', 'Penteado', 'Rabo de Cavalo', 'Moderno',
+        'Rabo de cavalo alto e moderno com volume e movimento, um clássico renovado. O cabelo foi preso com elástico e finalizado com spray de fixação média.',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        [],
+        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
+      ['coque-baixo', 'penteado', 'Penteado', 'Coque Baixo', 'Elegante',
+        'Coque baixo elegante e sofisticado para eventos, com um toque de modernidade. O cabelo foi preso com grampos e finalizado com spray de fixação forte.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        [],
+        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken Frizz Dismiss Leave-In']],
+      ['tranca-embutida', 'penteado', 'Penteado', 'Trança Embutida', 'Estilo',
+        'Trança embutida que mantém os fios no lugar com estilo, ideal para dias quentes. O cabelo foi trançado rente ao couro cabeludo para um resultado preciso e duradouro.',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        [],
+        ['Wella EIMI Root Shoot (gel fixador)', 'Wella EIMI Perfect Me (spray de brilho)', 'Redken One United Leave-In']],
+      ['penteado-festival', 'penteado', 'Penteado', 'Festival Glam', 'Acessórios',
+        'Penteado com acessórios e estilo festival, cheio de personalidade e atitude. O cabelo foi preso com grampos e finalizado com spray de textura para um visual despojado.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        [],
+        ['Wella EIMI Texture Touch (spray texturizante)', 'Joico Moisture Recovery Oil', 'Wella EIMI Perfect Me']],
+      ['moicano', 'penteado', 'Penteado', 'Moicano Moderno', 'Atitude',
+        'Moicano moderno com volume e atitude, um visual ousado e contemporâneo. O cabelo foi modelado com babyliss e finalizado com spray de fixação forte.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        [],
+        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Wella EIMI Texture Touch']]
     ];
 
-    penteados.forEach(([id, cat, badge, corte, title, desc, img]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, [], []);
+    penteadosData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
-    // ACESSÓRIOS
-    const acessorios = [
-      ['tiara-perola', 'acessorio', 'Acessório', 'Tiara de Pérolas', 'Pérolas', 'Tiara elegante com pérolas.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
-      ['grampo-cristal', 'acessorio', 'Acessório', 'Grampo Cristal', 'Cristais', 'Grampo com cristais que adiciona brilho.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
-      ['laco-seda', 'acessorio', 'Acessório', 'Laço de Seda', 'Seda', 'Laço de seda para um toque romântico.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
-      ['pente-ouro', 'acessorio', 'Acessório', 'Pente Ouro', 'Dourado', 'Pente dourado para prender os fios.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
-      ['fita-veludo', 'acessorio', 'Acessório', 'Fita Veludo', 'Veludo', 'Fita de veludo para amarrar os fios.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'],
-      ['tiara-metal', 'acessorio', 'Acessório', 'Tiara Metal', 'Metálica', 'Tiara metálica moderna.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'],
-      ['presilha-floral', 'acessorio', 'Acessório', 'Presilha Floral', 'Flores', 'Presilha com flores para um toque natural.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
-      ['grampo-pedra', 'acessorio', 'Acessório', 'Grampo Pedraria', 'Pedrarias', 'Grampo com pedrarias para um visual glamoroso.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
-      ['laco-marrom', 'acessorio', 'Acessório', 'Laço Marrom', 'Neutro', 'Laço em tom marrom para looks neutros.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
-      ['pente-cristal', 'acessorio', 'Acessório', 'Pente Cristal', 'Cristais', 'Pente com cristais que ilumina.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg']
+    // ============================================================
+    // ACESSÓRIOS (10)
+    // ============================================================
+    var acessoriosData = [
+      ['tiara-perola', 'acessorio', 'Acessório', 'Tiara de Pérolas', 'Pérolas',
+        'Tiara elegante com pérolas para ocasiões especiais, adicionando um toque de sofisticação. O acessório foi posicionado sobre o cabelo para um efeito clássico e atemporal.',
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+        [],
+        ['Tiara de Pérolas para Cabelo', 'Grampo de Cristal para Cabelo', 'Pente Dourado para Cabelo']],
+      ['grampo-cristal', 'acessorio', 'Acessório', 'Grampo Cristal', 'Cristais',
+        'Grampo com cristais que adiciona brilho ao penteado, criando um ponto de luz. O acessório foi preso lateralmente para um efeito glamoroso e sofisticado.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        [],
+        ['Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo', 'Pente Dourado para Cabelo']],
+      ['laco-seda', 'acessorio', 'Acessório', 'Laço de Seda', 'Seda',
+        'Laço de seda para um toque romântico no cabelo, suave e delicado. O acessório foi amarrado em um rabo de cavalo para um efeito feminino e charmoso.',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+        [],
+        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
+      ['pente-ouro', 'acessorio', 'Acessório', 'Pente Ouro', 'Dourado',
+        'Pente dourado para prender os fios com elegância, um acessório versátil. O acessório foi posicionado lateralmente para um efeito sofisticado e discreto.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        [],
+        ['Pente Dourado para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']],
+      ['fita-veludo', 'acessorio', 'Acessório', 'Fita Veludo', 'Veludo',
+        'Fita de veludo para amarrar os fios com charme, um toque de textura e cor. O acessório foi amarrado em um coque para um efeito romântico e sofisticado.',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+        [],
+        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
+      ['tiara-metal', 'acessorio', 'Acessório', 'Tiara Metal', 'Metálica',
+        'Tiara metálica moderna para looks contemporâneos, minimalista e elegante. O acessório foi posicionado sobre o cabelo para um efeito atual e estiloso.',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+        [],
+        ['Tiara Metálica para Cabelo', 'Grampo de Cristal para Cabelo', 'Pente Dourado para Cabelo']],
+      ['presilha-floral', 'acessorio', 'Acessório', 'Presilha Floral', 'Flores',
+        'Presilha com flores para um toque natural e delicado, trazendo a natureza para o cabelo. O acessório foi preso lateralmente para um efeito romântico e fresco.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        [],
+        ['Presilha Floral para Cabelo', 'Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo']],
+      ['grampo-pedra', 'acessorio', 'Acessório', 'Grampo Pedraria', 'Pedrarias',
+        'Grampo com pedrarias para um visual glamoroso e cheio de brilho. O acessório foi preso lateralmente para um efeito sofisticado e impactante.',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+        [],
+        ['Grampo com Pedrarias para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']],
+      ['laco-marrom', 'acessorio', 'Acessório', 'Laço Marrom', 'Neutro',
+        'Laço em tom marrom para looks neutros e elegantes, um acessório versátil. O acessório foi amarrado em um rabo de cavalo para um efeito discreto e sofisticado.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        [],
+        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
+      ['pente-cristal', 'acessorio', 'Acessório', 'Pente Cristal', 'Cristais',
+        'Pente com cristais que ilumina qualquer penteado, adicionando brilho e elegância. O acessório foi posicionado lateralmente para um efeito glamoroso e sofisticado.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        [],
+        ['Pente com Cristais para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']]
     ];
 
-    acessorios.forEach(([id, cat, badge, corte, title, desc, img]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, [], []);
+    acessoriosData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
-    // PRODUTOS
-    const produtos = [
-      ['joico-moisture-shampoo', 'produto', 'Produto', 'Shampoo Joico Moisture', 'Hidratação', 'Shampoo hidratante que restaura a umidade.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', [], ['Shampoo Joico Moisture']],
-      ['joico-moisture-conditioner', 'produto', 'Produto', 'Condicionador Joico Moisture', 'Nutrição', 'Condicionador que nutre e desembaraça.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Condicionador Joico Moisture']],
-      ['joico-moisture-mask', 'produto', 'Produto', 'Máscara Joico Moisture', 'Tratamento', 'Máscara de tratamento intensivo.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Máscara Joico Moisture']],
-      ['absolut-repair-shampoo', 'produto', 'Produto', 'Shampoo Absolut Repair', 'Reparação', 'Shampoo que repara danos profundos.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Shampoo Absolut Repair']],
-      ['absolut-repair-mask', 'produto', 'Produto', 'Máscara Absolut Repair', 'Reconstrução', 'Máscara de reconstrução para cabelos danificados.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Máscara Absolut Repair']],
-      ['metal-detox', 'produto', 'Produto', 'Metal Detox', 'Detox', 'Tratamento que remove metais pesados.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Shampoo Metal Detox']],
-      ['vitamino-color', 'produto', 'Produto', 'Vitamino Color', 'Proteção', 'Linha que protege e prolonga a cor.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', [], ['Shampoo Vitamino Color']],
-      ['scalp-advanced', 'produto', 'Produto', 'Scalp Advanced', 'Couro Cabeludo', 'Tratamento para saúde do couro cabeludo.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', [], ['Shampoo Scalp Advanced']],
-      ['premiere', 'produto', 'Produto', 'Premiere', 'Performance', 'Linha de alta performance.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', [], ['Shampoo Premiere']],
-      ['inforcer', 'produto', 'Produto', 'Inforcer', 'Fortificação', 'Linha que fortalece e previne a quebra.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Shampoo Inforcer']],
-      ['curl-expression', 'produto', 'Produto', 'Curl Expression', 'Cacheados', 'Linha especial para cabelos cacheados.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Shampoo Curl Expression']],
-      ['blondifier', 'produto', 'Produto', 'Blondifier', 'Loiros', 'Linha que cuida dos fios loiros.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', [], ['Shampoo Blondifier']],
-      ['pro-longer', 'produto', 'Produto', 'Pro Longer', 'Crescimento', 'Linha que estimula o crescimento.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Shampoo Pro Longer']],
-      ['liss-unlimited', 'produto', 'Produto', 'Liss Unlimited', 'Liso', 'Linha para cabelos lisos e sem frizz.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Shampoo Liss Unlimited']],
-      ['absolut-repair-molecular', 'produto', 'Produto', 'Absolut Repair Molecular', 'Reparação Avançada', 'Tratamento que repara a estrutura molecular.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Shampoo Absolut Repair Molecular']]
+    // ============================================================
+    // PRODUTOS (15)
+    // ============================================================
+    var produtosData = [
+      ['joico-moisture-shampoo', 'produto', 'Produto', 'Shampoo Joico Moisture Recovery', 'Hidratação Intensa',
+        'Shampoo hidratante que restaura a umidade dos fios, deixando-os macios e sedosos. Ideal para cabelos secos e danificados, com fórmula enriquecida com óleos nutritivos.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+        ['Joico Moisture Recovery Shampoo 1L'],
+        ['Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask']],
+      ['joico-moisture-conditioner', 'produto', 'Produto', 'Condicionador Joico Moisture Recovery', 'Nutrição',
+        'Condicionador que nutre e desembaraça os fios, preparando-os para o estilo. Ideal para cabelos secos que precisam de hidratação intensa e duradoura.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        ['Joico Moisture Recovery Conditioner 1L'],
+        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Mask']],
+      ['joico-moisture-mask', 'produto', 'Produto', 'Máscara Joico Moisture Recovery', 'Tratamento Profundo',
+        'Máscara de tratamento intensivo para cabelos secos, restaurando a umidade e a maciez. Proporciona recuperação profunda e brilho duradouro.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        ['Joico Moisture Recovery Mask 500ml'],
+        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner']],
+      ['absolut-repair-shampoo', 'produto', 'Produto', 'Shampoo Absolut Repair', 'Reparação',
+        'Shampoo que repara danos profundos nos fios, restaurando a estrutura capilar. Ideal para cabelos danificados por processos químicos e agressões externas.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        ['L\'Oréal Professionnel Absolut Repair Shampoo 1L'],
+        ['L\'Oréal Professionnel Absolut Repair Conditioner', 'L\'Oréal Professionnel Absolut Repair Mask']],
+      ['absolut-repair-conditioner', 'produto', 'Produto', 'Condicionador Absolut Repair', 'Reconstrução',
+        'Condicionador que reconstrói a fibra capilar, devolvendo força e elasticidade. Ideal para cabelos fragilizados que precisam de reconstrução intensa.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        ['L\'Oréal Professionnel Absolut Repair Conditioner 1L'],
+        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask']],
+      ['absolut-repair-mask', 'produto', 'Produto', 'Máscara Absolut Repair', 'Reconstrução Profunda',
+        'Máscara de reconstrução profunda para cabelos severamente danificados. Restaura a integridade da fibra capilar, devolvendo força e elasticidade.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+        ['L\'Oréal Professionnel Absolut Repair Mask 500ml'],
+        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner']],
+      ['redken-acidic-bonding', 'produto', 'Produto', 'Redken Acidic Bonding Concentrate', 'Reparação Ácida',
+        'Sistema de reparação ácida que reconstrói as ligações internas do cabelo. Ideal para cabelos danificados, devolvendo força e brilho.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        ['Redken Acidic Bonding Concentrate Shampoo'],
+        ['Redken Acidic Bonding Concentrate Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
+      ['redken-one-united', 'produto', 'Produto', 'Redken One United', 'Multi-benefícios',
+        'Leave-in multi-benefícios que hidrata, protege e finaliza os fios em um único passo. Com 25 benefícios comprovados para todos os tipos de cabelo.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        ['Redken One United Leave-In 150ml'],
+        ['Redken All Soft Shampoo', 'Redken All Soft Conditioner']],
+      ['wellas-eimi-super-set', 'produto', 'Produto', 'Wella EIMI Super Set', 'Fixação',
+        'Spray de fixação forte que mantém o penteado no lugar por horas. Proporciona acabamento profissional e brilho intenso.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        ['Wella EIMI Super Set 300ml'],
+        ['Wella EIMI Perfect Me', 'Wella EIMI Texture Touch']],
+      ['wellas-eimi-texture-touch', 'produto', 'Produto', 'Wella EIMI Texture Touch', 'Textura',
+        'Spray de textura que cria movimento e volume nos fios. Ideal para penteados com efeito natural e despojado.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        ['Wella EIMI Texture Touch 250ml'],
+        ['Wella EIMI Super Set', 'Wella EIMI Perfect Me']],
+      ['wellas-eimi-perfect-me', 'produto', 'Produto', 'Wella EIMI Perfect Me', 'Brilho',
+        'Spray finalizador que adiciona brilho e maciez aos fios. Proporciona acabamento profissional e movimento natural.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        ['Wella EIMI Perfect Me 250ml'],
+        ['Wella EIMI Super Set', 'Wella EIMI Texture Touch']],
+      ['redken-frizz-dismiss', 'produto', 'Produto', 'Redken Frizz Dismiss', 'Antifrizz',
+        'Sistema antifrizz que controla o volume e o frizz por até 72 horas. Ideal para cabelos indisciplinados e com frizz.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        ['Redken Frizz Dismiss Shampoo'],
+        ['Redken Frizz Dismiss Conditioner', 'Redken Frizz Dismiss Leave-In']],
+      ['joico-color-endure', 'produto', 'Produto', 'Joico Color Endure', 'Proteção de Cor',
+        'Sistema de proteção de cor que prolonga a duração da coloração. Ideal para cabelos tingidos que precisam de cuidados específicos.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        ['Joico Color Endure Shampoo'],
+        ['Joico Color Endure Conditioner', 'Joico Color Endure Mask']],
+      ['loreal-metal-detox', 'produto', 'Produto', 'L\'Oréal Metal Detox', 'Desintoxicação',
+        'Tratamento que remove partículas metálicas dos fios, prevenindo danos. Ideal para cabelos descoloridos e com química.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        ['L\'Oréal Professionnel Metal Detox Shampoo'],
+        ['L\'Oréal Professionnel Metal Detox Conditioner', 'L\'Oréal Professionnel Metal Detox Mask']],
+      ['loreal-vitamino-color', 'produto', 'Produto', 'L\'Oréal Vitamino Color', 'Proteção de Cor',
+        'Sistema de proteção de cor que preserva a intensidade e o brilho. Ideal para cabelos coloridos que precisam de cuidados diários.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        ['L\'Oréal Professionnel Vitamino Color Shampoo'],
+        ['L\'Oréal Professionnel Vitamino Color Conditioner', 'L\'Oréal Professionnel Vitamino Color Mask']]
     ];
 
-    produtos.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
-        color.map(c => ({ name: c, link: getProdutoLink(c) })),
-        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
-      );
+    produtosData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
-    // KITS
-    const kits = [
-      ['kit-hidratacao', 'kit', 'Kit', 'Kit Hidratação', 'Hidratação Completa', 'Kit completo para hidratação profunda.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Hidratação Completo']],
-      ['kit-reconstrucao', 'kit', 'Kit', 'Kit Reconstrução', 'Reconstrução Completa', 'Kit para reconstrução de cabelos danificados.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Kit Reconstrução Completo']],
-      ['kit-nutricao', 'kit', 'Kit', 'Kit Nutrição', 'Nutrição Completa', 'Kit para nutrir e restaurar os fios.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', [], ['Kit Nutrição Completo']],
-      ['kit-loiros', 'kit', 'Kit', 'Kit Loiros', 'Loiros Platinados', 'Kit especial para cabelos loiros.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Loiros Completo']],
-      ['kit-coloracao', 'kit', 'Kit', 'Kit Coloração', 'Proteção da Cor', 'Kit para proteger e prolongar a cor.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Kit Coloração Completo']],
-      ['kit-queda-capilar', 'kit', 'Kit', 'Kit Queda Capilar', 'Prevenção', 'Kit para prevenir e tratar a queda.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Queda Capilar Completo']],
-      ['kit-cacheados', 'kit', 'Kit', 'Kit Cacheados', 'Definição', 'Kit para cuidar e definir cabelos cacheados.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Cacheados Completo']],
-      ['kit-danificados', 'kit', 'Kit', 'Kit Danificados', 'Reparação', 'Kit para cabelos muito danificados.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Kit Danificados Completo']],
-      ['kit-anti-frizz', 'kit', 'Kit', 'Kit Anti-Frizz', 'Controle', 'Kit para controlar o frizz.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Kit Anti-Frizz Completo']],
-      ['kit-pos-coloracao', 'kit', 'Kit', 'Kit Pós-Coloração', 'Pós-Coloração', 'Kit para cuidar dos fios após a coloração.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Kit Pós-Coloração Completo']],
-      ['kit-crescimento', 'kit', 'Kit', 'Kit Crescimento', 'Crescimento', 'Kit para estimular o crescimento.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Crescimento Completo']],
-      ['kit-ruivos', 'kit', 'Kit', 'Kit Ruivos', 'Ruivos', 'Kit para manter a intensidade dos ruivos.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Kit Ruivos Completo']],
-      ['kit-morenas', 'kit', 'Kit', 'Kit Morenas', 'Morenas', 'Kit para morenas que querem iluminar.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Kit Morenas Completo']],
-      ['kit-detox', 'kit', 'Kit', 'Kit Detox', 'Detox', 'Kit para limpeza profunda e detox.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Kit Detox Completo']],
-      ['kit-uso-diario', 'kit', 'Kit', 'Kit Uso Diário', 'Manutenção', 'Kit para manutenção diária dos fios.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Uso Diário Completo']]
+    // ============================================================
+    // KITS (15)
+    // ============================================================
+    var kitsData = [
+      ['kit-hidratacao', 'kit', 'Kit', 'Kit Hidratação Completa', 'Hidratação Profunda',
+        'Kit completo para hidratação profunda dos fios, restaurando a umidade e a maciez. Ideal para cabelos secos que precisam de restauração intensa.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask'],
+        ['Joico Moisture Recovery Leave-In']],
+      ['kit-reconstrucao', 'kit', 'Kit', 'Kit Reconstrução Completa', 'Reconstrução',
+        'Kit para reconstrução de cabelos danificados, restaurando a estrutura capilar. Ideal para fios fragilizados por processos químicos e agressões externas.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'L\'Oréal Professionnel Absolut Repair Mask'],
+        ['Redken Acidic Bonding Concentrate Leave-In']],
+      ['kit-nutricao', 'kit', 'Kit', 'Kit Nutrição Completa', 'Nutrição',
+        'Kit para nutrir e restaurar a saúde dos fios, devolvendo a vitalidade perdida. Ideal para cabelos ressecados e sem vida que precisam de cuidados intensos.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask'],
+        ['Joico Moisture Recovery Oil']],
+      ['kit-protecao-cor', 'kit', 'Kit', 'Kit Proteção de Cor', 'Proteção',
+        'Kit para proteção da cor e brilho intenso, prolongando a duração da coloração. Ideal para cabelos tingidos que precisam de cuidados específicos.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'L\'Oréal Professionnel Vitamino Color Conditioner', 'Joico Color Endure Mask'],
+        ['Redken One United Leave-In']],
+      ['kit-reparacao-acida', 'kit', 'Kit', 'Kit Reparação Ácida', 'Reparação',
+        'Kit com sistema de reparação ácida para cabelos danificados, reconstruindo as ligações internas. Ideal para fios quebradiços e com danos profundos.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+        ['Redken Acidic Bonding Concentrate Shampoo', 'Redken Acidic Bonding Concentrate Conditioner', 'Redken Acidic Bonding Concentrate Leave-In'],
+        ['Redken One United Leave-In']],
+      ['kit-fixacao', 'kit', 'Kit', 'Kit Fixação Completa', 'Fixação',
+        'Kit com produtos de fixação para penteados duradouros e perfeitos. Ideal para quem busca acabamento profissional e estilo impecável.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        ['Wella EIMI Super Set', 'Wella EIMI Perfect Me', 'Wella EIMI Texture Touch'],
+        ['Joico Moisture Recovery Oil']],
+      ['kit-textura', 'kit', 'Kit', 'Kit Textura e Volume', 'Textura',
+        'Kit para criar textura e volume nos fios, proporcionando movimento e estilo. Ideal para penteados com efeito natural e despojado.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+        ['Wella EIMI Texture Touch', 'Wella EIMI Root Shoot', 'Wella EIMI Perfect Me'],
+        ['Redken One United Leave-In']],
+      ['kit-antifrizz', 'kit', 'Kit', 'Kit Antifrizz Completo', 'Antifrizz',
+        'Kit para controlar o frizz e o volume por até 72 horas, mantendo os fios disciplinados. Ideal para cabelos indisciplinados e com frizz.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+        ['Redken Frizz Dismiss Shampoo', 'Redken Frizz Dismiss Conditioner', 'Redken Frizz Dismiss Leave-In'],
+        ['Redken One United Leave-In']],
+      ['kit-metaldetox', 'kit', 'Kit', 'Kit Metal Detox', 'Desintoxicação',
+        'Kit para remoção de metais dos fios, prevenindo danos e quebras. Ideal para cabelos descoloridos e com química.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Metal Detox Conditioner', 'L\'Oréal Professionnel Metal Detox Mask'],
+        ['L\'Oréal Professionnel Absolut Repair Leave-In']],
+      ['kit-coloracao-intensa', 'kit', 'Kit', 'Kit Coloração Intensa', 'Coloração',
+        'Kit para coloração intensa e duradoura, com pigmentos de alta performance. Ideal para quem busca um tom vibrante e duradouro.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+        ['L\'Oréal Professionnel INOA 8', 'L\'Oréal Professionnel Dia Richesse 9.01', 'Wella Blondor Freelights'],
+        ['Joico Color Endure Leave-In']],
+      ['kit-brilho', 'kit', 'Kit', 'Kit Brilho Intenso', 'Brilho',
+        'Kit para intensificar o brilho dos fios, deixando-os com aspecto saudável e luminoso. Ideal para todos os tipos de cabelo.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+        ['Wella EIMI Perfect Me', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In'],
+        ['Redken Frizz Dismiss Leave-In']],
+      ['kit-reconstrucao-profunda', 'kit', 'Kit', 'Kit Reconstrução Profunda', 'Reconstrução',
+        'Kit para reconstrução profunda de cabelos severamente danificados. Restaura a integridade da fibra capilar com ação intensa.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+        ['L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In', 'Joico K-PAK Leave-In'],
+        ['L\'Oréal Professionnel Absolut Repair Conditioner']],
+      ['kit-hidratacao-light', 'kit', 'Kit', 'Kit Hidratação Leve', 'Hidratação',
+        'Kit para hidratação leve e diária, mantendo os fios macios e hidratados. Ideal para cabelos que precisam de manutenção constante.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+        ['Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Leave-In', 'Redken One United Leave-In'],
+        ['Joico Moisture Recovery Shampoo']],
+      ['kit-nutricao-intensa', 'kit', 'Kit', 'Kit Nutrição Intensa', 'Nutrição',
+        'Kit para nutrição intensa de cabelos ressecados, restaurando a saúde e a vitalidade. Ideal para fios que precisam de cuidados profundos.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
+        ['Joico Moisture Recovery Mask', 'Joico Moisture Recovery Oil', 'L\'Oréal Professionnel Absolut Repair Mask'],
+        ['Redken One United Leave-In']],
+      ['kit-protecao-termica', 'kit', 'Kit', 'Kit Proteção Térmica', 'Proteção',
+        'Kit para proteger os fios do calor de ferramentas térmicas, prevenindo danos. Ideal para quem usa secador, babyliss e chapinha.',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
+        ['Redken One United Leave-In', 'Wella EIMI Perfect Me', 'Joico Moisture Recovery Oil'],
+        ['Redken Frizz Dismiss Leave-In']]
     ];
 
-    kits.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
-        color.map(c => ({ name: c, link: getProdutoLink(c) })),
-        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
-      );
+    kitsData.forEach(function(item) {
+      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
+      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
     });
 
     // ============================================================
@@ -1587,22 +2067,27 @@
       try { localStorage.setItem('hairos_favorites', JSON.stringify(arr)); } catch {}
     }
 
-    let favorites = getFavs();
-    let currentFilter = 'all';
-    let showingFavorites = false;
-    let isSheetOpen = false;
-    let isSheetFull = false;
-    let currentKey = null;
+    var favorites = getFavs();
+    var currentFilter = 'all';
+    var showingFavorites = false;
+    var isSheetOpen = false;
+    var isSheetFull = false;
+    var currentKey = null;
 
     function updateFavCounter() {
       document.getElementById('favCount').textContent = favorites.length;
     }
     updateFavCounter();
 
-    function isFav(key) { return favorites.includes(key); }
+    function isFav(key) { return favorites.indexOf(key) !== -1; }
 
     function toggleFav(key, btn) {
-      favorites = isFav(key) ? favorites.filter(k => k !== key) : [...favorites, key];
+      var idx = favorites.indexOf(key);
+      if (idx !== -1) {
+        favorites.splice(idx, 1);
+      } else {
+        favorites.push(key);
+      }
       setFavs(favorites);
       updateFavCounter();
       if (btn) {
@@ -1612,39 +2097,43 @@
     }
 
     function shareStyle(key) {
-      const data = styleData[key];
+      var data = styleData[key];
       if (!data) return;
-      const text = `${data.corte} - ${data.title}\n${data.desc}\n\nVeja mais em HairOS!`;
+      var text = data.corte + ' - ' + data.title + '\n' + data.desc + '\n\nVeja mais em HairOS!';
       if (navigator.share) {
-        navigator.share({ title: `HairOS - ${data.corte}`, text: text }).catch(() => {});
+        navigator.share({ title: 'HairOS - ' + data.corte, text: text }).catch(function() {});
       } else {
-        navigator.clipboard.writeText(text).then(() => {
-          alert('Link copiado para compartilhar! 📋');
-        }).catch(() => {
-          const textarea = document.createElement('textarea');
+        navigator.clipboard.writeText(text).then(function() {
+          showToast('📋 Link copiado para compartilhar!');
+        }).catch(function() {
+          var textarea = document.createElement('textarea');
           textarea.value = text;
           document.body.appendChild(textarea);
           textarea.select();
           document.execCommand('copy');
           document.body.removeChild(textarea);
-          alert('Link copiado para compartilhar! 📋');
+          showToast('📋 Link copiado para compartilhar!');
         });
       }
     }
 
     function getFilteredKeys() {
       if (showingFavorites) return favorites;
-      const keys = Object.keys(styleData);
+      var keys = Object.keys(styleData);
       if (currentFilter === 'all') return keys;
-      return keys.filter(key => styleData[key].categoria === currentFilter);
+      return keys.filter(function(key) { return styleData[key].categoria === currentFilter; });
     }
 
     function goToHome() {
+      if (document.getElementById('modalOverlay').classList.contains('open')) {
+        closeModal();
+      }
+      
       if (showingFavorites) {
         showingFavorites = false;
         document.getElementById('favToggleBtn').classList.remove('active');
         document.getElementById('filters').classList.remove('hidden');
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('[data-filter="all"]').classList.add('active');
         currentFilter = 'all';
         renderHome();
@@ -1652,130 +2141,161 @@
     }
 
     // ============================================================
-    // RENDER HOME - MASONRY
+    // RENDER HOME
     // ============================================================
     function renderHome() {
-      const container = document.getElementById('masonryHome');
-      const title = document.getElementById('sectionTitle');
-      const vitrineBadge = document.getElementById('vitrineBadge');
-      const brandSub = document.getElementById('brandSub');
+      var container = document.getElementById('masonryHome');
+      var title = document.getElementById('sectionTitle');
+      var vitrineBadge = document.getElementById('vitrineBadge');
+      var brandSub = document.getElementById('brandSub');
       container.innerHTML = '';
 
-      const filteredKeys = getFilteredKeys();
+      var filteredKeys = getFilteredKeys();
 
       if (showingFavorites) {
-        title.innerHTML = `<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>`;
+        title.innerHTML = '<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>';
         vitrineBadge.classList.add('visible');
-        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
+        brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
       } else {
-        title.innerHTML = `<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>`;
+        title.innerHTML = '<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>';
         vitrineBadge.classList.remove('visible');
-        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
+        brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
       }
 
       if (filteredKeys.length === 0) {
-        const isFavView = showingFavorites;
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">${isFavView ? '💔' : '✨'}</div>
-            <div class="empty-title">${isFavView ? 'Nenhum favorito' : 'Nenhum item encontrado'}</div>
-            <div class="empty-sub">${isFavView ? 'Comece a favoritar seus estilos!' : 'Tente outra categoria'}</div>
-            ${isFavView ? '<div class="empty-hint">Clique no ♥ nos cards para favoritar</div>' : ''}
-          </div>
-        `;
+        var isFavView = showingFavorites;
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + (isFavView ? '💔' : '✨') + '</div><div class="empty-title">' + (isFavView ? 'Nenhum favorito' : 'Nenhum item encontrado') + '</div><div class="empty-sub">' + (isFavView ? 'Comece a favoritar seus estilos!' : 'Tente outra categoria') + '</div>' + (isFavView ? '<div class="empty-hint">Clique no ♥ nos cards para favoritar</div>' : '') + '</div>';
         return;
       }
 
-      filteredKeys.forEach(key => {
-        const data = styleData[key];
+      filteredKeys.forEach(function(key) {
+        var data = styleData[key];
         if (!data) return;
-        const fav = isFav(key);
-        const altura = data.altura || 'h-md';
+        var fav = isFav(key);
+        var altura = data.altura || 'h-md';
 
-        const card = document.createElement('article');
+        var card = document.createElement('article');
         card.className = 'card-home';
         card.dataset.key = key;
-        card.innerHTML = `
-          <div class="card-home-actions">
-            <button class="card-home-btn share-btn" data-key="${key}" title="Compartilhar">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            </button>
-            <button class="card-home-btn fav-btn ${fav ? 'favorited' : ''}" data-key="${key}" title="Favoritar">${fav ? '♥' : '♡'}</button>
-          </div>
-          <div class="card-home-badge badge-${data.categoria}">${data.badge}</div>
-          <img class="card-home-img ${altura}" src="${data.img}" alt="${data.corte}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
-          <div class="card-home-title">${data.corte}</div>
-        `;
 
-        card.querySelector('.fav-btn').addEventListener('click', function(e) {
+        var actions = document.createElement('div');
+        actions.className = 'card-home-actions';
+
+        var shareBtn = document.createElement('button');
+        shareBtn.className = 'card-home-btn share-btn';
+        shareBtn.dataset.key = key;
+        shareBtn.title = 'Compartilhar';
+        shareBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
+        shareBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          shareStyle(this.dataset.key);
+        });
+        actions.appendChild(shareBtn);
+
+        var favBtn = document.createElement('button');
+        favBtn.className = 'card-home-btn fav-btn' + (fav ? ' favorited' : '');
+        favBtn.dataset.key = key;
+        favBtn.title = 'Favoritar';
+        favBtn.textContent = fav ? '♥' : '♡';
+        favBtn.addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFav(this.dataset.key, this);
           if (showingFavorites) renderHome();
         });
+        actions.appendChild(favBtn);
 
-        card.querySelector('.share-btn').addEventListener('click', function(e) {
-          e.stopPropagation();
-          shareStyle(this.dataset.key);
+        card.appendChild(actions);
+
+        var badge = document.createElement('div');
+        badge.className = 'card-home-badge badge-' + data.categoria;
+        badge.textContent = data.badge;
+        card.appendChild(badge);
+
+        var img = document.createElement('img');
+        img.className = 'card-home-img ' + altura;
+        img.src = data.img;
+        img.alt = data.corte;
+        img.loading = 'lazy';
+        img.addEventListener('error', function() {
+          this.src = FALLBACK_IMG;
         });
+        card.appendChild(img);
 
-        card.addEventListener('click', () => openModal(key));
+        var titleEl = document.createElement('div');
+        titleEl.className = 'card-home-title';
+        titleEl.textContent = data.corte;
+        card.appendChild(titleEl);
+
+        card.addEventListener('click', function() { openModal(key); });
         container.appendChild(card);
       });
     }
 
     // ============================================================
-    // RENDER MODAL MASONRY - COM ALTURAS VARIADAS (MOSAICO)
+    // RENDER MODAL MASONRY
     // ============================================================
     function renderModalMasonry(key) {
-      const container = document.getElementById('modalMasonry');
+      var container = document.getElementById('modalMasonry');
       container.innerHTML = '';
 
-      const data = styleData[key];
+      var data = styleData[key];
       if (!data) return;
 
-      let variants = data.variants || [data.img];
+      var variants = data.variants || [data.img];
       while (variants.length < 10) {
-        variants.push(VARIACOES_PINTEREST[variants.length % VARIACOES_PINTEREST.length]);
+        variants.push(GLOBAL_FALLBACK[variants.length % GLOBAL_FALLBACK.length]);
       }
       variants = variants.slice(0, 10);
 
-      const alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
+      var alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
 
-      variants.forEach((imgUrl, idx) => {
-        const hClass = alturasModal[idx % alturasModal.length];
-        const card = document.createElement('div');
+      variants.forEach(function(imgUrl, idx) {
+        var hClass = alturasModal[idx % alturasModal.length];
+        var card = document.createElement('div');
         card.className = 'modal-card-item';
         card.dataset.imgUrl = imgUrl;
-        card.innerHTML = `
-          <img class="${hClass}" src="${imgUrl}" alt="${data.corte}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
-          <div class="item-label">#${idx + 1}</div>
-        `;
+
+        var img = document.createElement('img');
+        img.className = hClass;
+        img.src = imgUrl;
+        img.alt = data.corte;
+        img.loading = 'lazy';
+        img.addEventListener('error', function() {
+          this.src = FALLBACK_IMG;
+        });
+        card.appendChild(img);
+
+        var label = document.createElement('div');
+        label.className = 'item-label';
+        label.textContent = '#' + (idx + 1);
+        card.appendChild(label);
 
         card.addEventListener('click', function(e) {
           e.stopPropagation();
           if (isSheetOpen) closeSheet();
 
-          const imgSrc = this.dataset.imgUrl;
-
-          let targetKey = null;
-          for (let k in styleData) {
-            const d = styleData[k];
-            if (d && d.variants && d.variants.includes(imgSrc)) {
-              targetKey = k;
-              break;
+          var imgSrc = this.dataset.imgUrl;
+          
+          var currentData = styleData[currentKey];
+          if (currentData && currentData.variants && currentData.variants.indexOf(imgSrc) !== -1) {
+            var heroImg = document.getElementById('modalImg');
+            heroImg.classList.add('loading');
+            heroImg.src = imgSrc;
+            heroImg.onload = function() { heroImg.classList.remove('loading'); };
+            document.getElementById('modalOverlay').scrollTop = 0;
+          } else {
+            var targetKey = null;
+            for (var k in styleData) {
+              var d = styleData[k];
+              if (d && d.variants && d.variants.indexOf(imgSrc) !== -1) {
+                targetKey = k;
+                break;
+              }
+            }
+            if (targetKey && targetKey !== key) {
+              openModal(targetKey);
             }
           }
-
-          if (targetKey && targetKey !== key) {
-            openModal(targetKey);
-            return;
-          }
-
-          const heroImg = document.getElementById('modalImg');
-          heroImg.classList.add('loading');
-          heroImg.src = imgSrc;
-          heroImg.onload = () => heroImg.classList.remove('loading');
-          document.getElementById('modalOverlay').scrollTop = 0;
         });
 
         container.appendChild(card);
@@ -1786,16 +2306,19 @@
     // MODAL
     // ============================================================
     function openModal(key) {
-      const data = styleData[key];
+      var data = styleData[key];
       if (!data) return;
       currentKey = key;
       if (isSheetOpen) closeSheet();
 
-      const img = document.getElementById('modalImg');
+      var img = document.getElementById('modalImg');
       img.classList.add('loading');
       img.src = data.img;
-      img.onload = () => img.classList.remove('loading');
-      img.onerror = () => { img.src = FALLBACK_IMG; img.classList.remove('loading'); };
+      img.onload = function() { img.classList.remove('loading'); };
+      img.onerror = function() {
+        this.src = FALLBACK_IMG;
+        this.classList.remove('loading');
+      };
 
       document.getElementById('heroCategoria').textContent = data.badge;
       document.getElementById('heroTitle').textContent = data.corte;
@@ -1803,7 +2326,7 @@
       document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
       document.getElementById('sideYear').textContent = '2026';
 
-      const isFavorited = isFav(key);
+      var isFavorited = isFav(key);
       heroFavBtn.classList.toggle('favorited', isFavorited);
       heroFavBtn.textContent = isFavorited ? '♥' : '♡';
       heroFavBtn.dataset.key = key;
@@ -1813,13 +2336,29 @@
       document.getElementById('sheetSub').textContent = data.title;
       document.getElementById('sheetDesc').textContent = data.desc;
 
-      document.getElementById('coloracaoItems').innerHTML = (data.coloracao || []).map(p =>
-        `<a href="${p.link}" class="kit-item" target="_blank"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
-      ).join('');
+      var coloracaoContainer = document.getElementById('coloracaoItems');
+      coloracaoContainer.innerHTML = '';
+      (data.coloracao || []).forEach(function(p) {
+        var a = document.createElement('a');
+        a.className = 'kit-item';
+        a.href = p.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.innerHTML = '<span>' + p.name + '</span><span class="ml-badge">ML</span>';
+        coloracaoContainer.appendChild(a);
+      });
 
-      document.getElementById('cuidadosItems').innerHTML = (data.cuidados || []).map(p =>
-        `<a href="${p.link}" class="kit-item" target="_blank"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
-      ).join('');
+      var cuidadosContainer = document.getElementById('cuidadosItems');
+      cuidadosContainer.innerHTML = '';
+      (data.cuidados || []).forEach(function(p) {
+        var a = document.createElement('a');
+        a.className = 'kit-item';
+        a.href = p.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.innerHTML = '<span>' + p.name + '</span><span class="ml-badge">ML</span>';
+        cuidadosContainer.appendChild(a);
+      });
 
       document.getElementById('listaColoracao').classList.remove('show');
       document.getElementById('listaCuidados').classList.remove('show');
@@ -1862,30 +2401,30 @@
     // ZOOM
     // ============================================================
     function toggleZoom() {
-      const zo = document.getElementById('zoomOverlay');
-      const zoomImg = document.getElementById('zoomImage');
-      const heroImg = document.getElementById('modalImg');
-      const sideLeft = document.getElementById('heroSideLeft');
-      const sideRight = document.getElementById('heroSideRight');
-      const closeBtn = document.getElementById('modalCloseBtn');
-      const toggleBtn = document.getElementById('toggleSheetBtn');
-      const heroInfo = document.getElementById('heroInfo');
+      var zo = document.getElementById('zoomOverlay');
+      var zoomImg = document.getElementById('zoomImage');
+      var heroImg = document.getElementById('modalImg');
+      var sideLeft = document.getElementById('heroSideLeft');
+      var sideRight = document.getElementById('heroSideRight');
+      var closeBtn = document.getElementById('modalCloseBtn');
+      var toggleBtn = document.getElementById('toggleSheetBtn');
+      var heroInfo = document.getElementById('heroInfo');
 
       if (zo.classList.contains('active')) {
         zo.classList.remove('active');
-        sideLeft.classList.remove('hidden');
-        sideRight.classList.remove('hidden');
-        closeBtn.classList.remove('hidden');
-        toggleBtn.classList.remove('hidden');
-        heroInfo.classList.remove('hidden');
+        sideLeft.classList.remove('fade-out');
+        sideRight.classList.remove('fade-out');
+        closeBtn.classList.remove('fade-out');
+        toggleBtn.classList.remove('fade-out');
+        heroInfo.classList.remove('fade-out');
       } else {
         zoomImg.src = heroImg.src;
         zo.classList.add('active');
-        sideLeft.classList.add('hidden');
-        sideRight.classList.add('hidden');
-        closeBtn.classList.add('hidden');
-        toggleBtn.classList.add('hidden');
-        heroInfo.classList.add('hidden');
+        sideLeft.classList.add('fade-out');
+        sideRight.classList.add('fade-out');
+        closeBtn.classList.add('fade-out');
+        toggleBtn.classList.add('fade-out');
+        heroInfo.classList.add('fade-out');
       }
     }
 
@@ -1893,20 +2432,20 @@
     // LOADING
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-      const loadingScreen = document.getElementById('loadingScreen');
-      const loadingBar = document.getElementById('loadingBar');
-      const loadingPercent = document.getElementById('loadingPercent');
-      const mainContent = document.getElementById('mainContent');
+      var loadingScreen = document.getElementById('loadingScreen');
+      var loadingBar = document.getElementById('loadingBar');
+      var loadingPercent = document.getElementById('loadingPercent');
+      var mainContent = document.getElementById('mainContent');
 
-      let progress = 0;
-      const interval = setInterval(() => {
+      var progress = 0;
+      var interval = setInterval(function() {
         progress += Math.random() * 8 + 2;
         if (progress > 100) progress = 100;
         loadingBar.style.width = progress + '%';
         loadingPercent.textContent = Math.round(progress) + '%';
         if (progress >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
+          setTimeout(function() {
             loadingScreen.classList.add('hidden');
             mainContent.classList.add('visible');
             renderHome();
@@ -1914,7 +2453,7 @@
         }
       }, 120);
 
-      setTimeout(() => {
+      setTimeout(function() {
         if (progress < 100) {
           progress = 100;
           loadingBar.style.width = '100%';
@@ -1938,28 +2477,28 @@
     document.getElementById('favToggleBtn').addEventListener('click', function() {
       showingFavorites = !showingFavorites;
       this.classList.toggle('active', showingFavorites);
-      const filters = document.getElementById('filters');
+      var filters = document.getElementById('filters');
       if (showingFavorites) {
         filters.classList.add('hidden');
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('[data-filter="all"]').classList.add('active');
       } else {
         filters.classList.remove('hidden');
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
         document.querySelector('[data-filter="all"]').classList.add('active');
         currentFilter = 'all';
       }
       renderHome();
     });
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         if (showingFavorites) {
           showingFavorites = false;
           document.getElementById('favToggleBtn').classList.remove('active');
           document.getElementById('filters').classList.remove('hidden');
         }
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
         this.classList.add('active');
         currentFilter = this.dataset.filter;
         renderHome();
@@ -1976,12 +2515,12 @@
       document.getElementById('listaCuidados').classList.toggle('show');
     });
 
-    const heroFavBtn = document.getElementById('heroFavBtn');
-    const heroShareBtn = document.getElementById('heroShareBtn');
+    var heroFavBtn = document.getElementById('heroFavBtn');
+    var heroShareBtn = document.getElementById('heroShareBtn');
 
     heroFavBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      const key = this.dataset.key;
+      var key = this.dataset.key;
       if (key) {
         toggleFav(key, this);
         if (showingFavorites) renderHome();
@@ -1990,7 +2529,7 @@
 
     heroShareBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      const key = this.dataset.key;
+      var key = this.dataset.key;
       if (key) shareStyle(key);
     });
 
@@ -2000,16 +2539,24 @@
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        if (isSheetOpen) closeSheet();
-        else closeModal();
-        if (document.getElementById('zoomOverlay').classList.contains('active')) toggleZoom();
+        var zoomActive = document.getElementById('zoomOverlay').classList.contains('active');
+        if (zoomActive) {
+          toggleZoom();
+          return;
+        }
+        if (isSheetOpen) {
+          closeSheet();
+          return;
+        }
+        if (document.getElementById('modalOverlay').classList.contains('open')) {
+          closeModal();
+        }
       }
     });
 
-    // Sheet Drag
-    let startY = 0;
-    let isDragging = false;
-    const handle = document.getElementById('sheetHandle');
+    var startY = 0;
+    var isDragging = false;
+    var handle = document.getElementById('sheetHandle');
 
     handle.addEventListener('touchstart', function(e) {
       startY = e.touches[0].clientY;
@@ -2018,7 +2565,7 @@
 
     handle.addEventListener('touchmove', function(e) {
       if (!isDragging) return;
-      const diff = startY - e.touches[0].clientY;
+      var diff = startY - e.touches[0].clientY;
       if (diff > 40 && !isSheetFull && isSheetOpen) {
         toggleSheetFull();
         isDragging = false;
@@ -2033,14 +2580,13 @@
       isDragging = false;
     }, { passive: true });
 
-    // Hash routing
     function openFromHash() {
-      const hash = location.hash || '';
-      const m = hash.match(/card=([^&]+)/);
+      var hash = location.hash || '';
+      var m = hash.match(/card=([^&]+)/);
       if (!m) return;
-      const key = decodeURIComponent(m[1]);
+      var key = decodeURIComponent(m[1]);
       if (styleData[key]) {
-        setTimeout(() => openModal(key), 300);
+        setTimeout(function() { openModal(key); }, 300);
       }
     }
 
