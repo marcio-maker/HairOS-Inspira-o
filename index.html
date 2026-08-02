@@ -393,12 +393,10 @@
       transform: scale(1.06);
     }
 
-    /* ===== NOVOS TAMANHOS DOS CARDS HOME ===== */
-    .h-sm { height: 280px; }
+    /* ===== 3 TAMANHOS DOS CARDS HOME ===== */
     .h-md { height: 340px; }
     .h-lg { height: 400px; }
     .h-xl { height: 460px; }
-    .h-xxl { height: 520px; }
 
     .card-home-badge {
       position: absolute;
@@ -881,12 +879,10 @@
       transform: scale(1.04);
     }
 
-    /* ===== NOVOS TAMANHOS DOS CARDS MODAL ===== */
-    .modal-card-item .h-sm { height: 180px; object-fit: cover; }
+    /* ===== 3 TAMANHOS DOS CARDS MODAL - MASONRY ===== */
     .modal-card-item .h-md { height: 220px; object-fit: cover; }
-    .modal-card-item .h-lg { height: 260px; object-fit: cover; }
-    .modal-card-item .h-xl { height: 300px; object-fit: cover; }
-    .modal-card-item .h-xxl { height: 340px; object-fit: cover; }
+    .modal-card-item .h-lg { height: 280px; object-fit: cover; }
+    .modal-card-item .h-xl { height: 340px; object-fit: cover; }
 
     .modal-card-item .item-label {
       position: absolute;
@@ -1387,15 +1383,13 @@
       'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
     ];
 
-    const alturas = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl'];
+    const alturas = ['h-md', 'h-lg', 'h-xl'];
 
     function getAlturaAleatoria() {
       const r = Math.random();
-      if (r < 0.20) return 'h-sm';
-      if (r < 0.50) return 'h-md';
-      if (r < 0.75) return 'h-lg';
-      if (r < 0.90) return 'h-xl';
-      return 'h-xxl';
+      if (r < 0.33) return 'h-md';
+      if (r < 0.66) return 'h-lg';
+      return 'h-xl';
     }
 
     function getProdutoLink(nome) {
@@ -1723,7 +1717,7 @@
     }
 
     // ============================================================
-    // RENDER MODAL MASONRY - COM ALTURAS VARIADAS
+    // RENDER MODAL MASONRY - COM ALTURAS VARIADAS (MOSAICO)
     // ============================================================
     function renderModalMasonry(key) {
       const container = document.getElementById('modalMasonry');
@@ -1738,7 +1732,8 @@
       }
       variants = variants.slice(0, 10);
 
-      const alturasModal = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl', 'h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl'];
+      // Distribuição equilibrada das 3 alturas em mosaico
+      const alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
 
       variants.forEach((imgUrl, idx) => {
         const hClass = alturasModal[idx % alturasModal.length];
