@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>HairOS · Landing Page</title>
+  <title>HairOS · Inspirações</title>
   <style>
     /* ===== IMPORTS ===== */
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
@@ -30,8 +30,7 @@
       --t6: .6s cubic-bezier(.23, 1, .32, 1);
     }
 
-    html,
-    body {
+    html, body {
       background: var(--bg);
       font-family: 'Inter', sans-serif;
       color: var(--text);
@@ -44,6 +43,107 @@
       padding: 12px;
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    /* ===== LOADING SCREEN ===== */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loading-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .loading-logo span {
+      color: var(--gold);
+      text-shadow: 0 0 60px var(--gold-glow);
+    }
+
+    .loading-logo .dot {
+      color: var(--gold);
+      font-size: 3rem;
+    }
+
+    .loading-loader {
+      margin-top: 28px;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-bar {
+      margin-top: 16px;
+      width: 160px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loading-bar-inner {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .loading-text {
+      margin-top: 12px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 300;
+      opacity: 0.4;
+    }
+
+    .loading-percent {
+      margin-top: 4px;
+      font-size: 0.65rem;
+      color: var(--gold);
+      font-weight: 400;
+      opacity: 0.6;
+    }
+
+    .main-content {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .main-content.visible {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
     /* ===== HEADER ===== */
@@ -98,7 +198,6 @@
       opacity: 1;
     }
 
-    /* ===== HEADER ACTIONS ===== */
     .header-actions {
       display: flex;
       align-items: center;
@@ -116,11 +215,20 @@
       transition: all var(--transition);
       font-family: 'Inter', sans-serif;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .header-link:hover {
       background: rgba(201, 169, 110, .1);
       border-color: var(--gold);
+    }
+
+    .header-link svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--gold);
     }
 
     .vitrine-badge {
@@ -140,7 +248,6 @@
       opacity: 0;
       transform: scale(0.9);
       pointer-events: none;
-      transition: all var(--transition);
     }
 
     .vitrine-badge.visible {
@@ -201,6 +308,7 @@
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
       transition: all var(--transition);
+      scroll-snap-type: x mandatory;
     }
 
     .filters.hidden {
@@ -224,6 +332,7 @@
       white-space: nowrap;
       font-family: 'Inter', sans-serif;
       flex-shrink: 0;
+      scroll-snap-align: start;
     }
 
     .filter-btn:hover {
@@ -237,31 +346,23 @@
       border-color: var(--gold);
     }
 
-    /* ===== MASONRY ===== */
-    .masonry {
+    /* ===== MASONRY HOME ===== */
+    .masonry-home {
       column-count: 2;
       column-gap: 12px;
     }
 
     @media (min-width: 600px) {
-      body {
-        padding: 20px;
-      }
-      .masonry {
-        column-count: 3;
-        column-gap: 16px;
-      }
+      body { padding: 20px; }
+      .masonry-home { column-count: 3; column-gap: 16px; }
     }
 
     @media (min-width: 900px) {
-      .masonry {
-        column-count: 4;
-        column-gap: 18px;
-      }
+      .masonry-home { column-count: 4; column-gap: 18px; }
     }
 
-    /* ===== CARDS ===== */
-    .card {
+    /* ===== CARDS HOME - MASONRY ===== */
+    .card-home {
       break-inside: avoid;
       margin-bottom: 12px;
       background: var(--bg-card);
@@ -274,33 +375,32 @@
       transform: translateY(0);
     }
 
-    .card:hover {
+    .card-home:hover {
       border-color: rgba(201, 169, 110, .35);
-      transform: translateY(-6px) scale(1.01);
+      transform: translateY(-6px) scale(1.02);
       box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
       z-index: 10;
     }
 
-    .card-img {
+    .card-home-img {
       width: 100%;
-      object-fit: cover;
-      object-position: center center;
       display: block;
       transition: transform .6s cubic-bezier(.25, .46, .45, .94);
       will-change: transform;
     }
 
-    .card:hover .card-img {
+    .card-home:hover .card-home-img {
       transform: scale(1.06);
     }
 
-    .h-sm { height: 320px; }
-    .h-md { height: 380px; }
-    .h-lg { height: 440px; }
-    .h-xl { height: 520px; }
-    .h-xxl { height: 600px; }
+    /* ALTURAS VARIADAS PARA MASONRY */
+    .h-sm { height: 280px; }
+    .h-md { height: 340px; }
+    .h-lg { height: 400px; }
+    .h-xl { height: 460px; }
+    .h-xxl { height: 520px; }
 
-    .card-badge {
+    .card-home-badge {
       position: absolute;
       top: 10px;
       left: 10px;
@@ -318,7 +418,7 @@
       transition: all var(--transition);
     }
 
-    .card:hover .card-badge {
+    .card-home:hover .card-home-badge {
       background: var(--gold);
       color: #0a0808;
     }
@@ -330,14 +430,14 @@
     .badge-produto { border-color: #45b7d1; color: #45b7d1; }
     .badge-kit { border-color: #ff9ff3; color: #ff9ff3; }
 
-    .card:hover .badge-corte { background: #4ecdc4; color: #0a0808; }
-    .card:hover .badge-coloracao { background: #ff6b6b; color: #0a0808; }
-    .card:hover .badge-penteado { background: #a29bfe; color: #0a0808; }
-    .card:hover .badge-acessorio { background: #feca57; color: #0a0808; }
-    .card:hover .badge-produto { background: #45b7d1; color: #0a0808; }
-    .card:hover .badge-kit { background: #ff9ff3; color: #0a0808; }
+    .card-home:hover .badge-corte { background: #4ecdc4; color: #0a0808; }
+    .card-home:hover .badge-coloracao { background: #ff6b6b; color: #0a0808; }
+    .card-home:hover .badge-penteado { background: #a29bfe; color: #0a0808; }
+    .card-home:hover .badge-acessorio { background: #feca57; color: #0a0808; }
+    .card-home:hover .badge-produto { background: #45b7d1; color: #0a0808; }
+    .card-home:hover .badge-kit { background: #ff9ff3; color: #0a0808; }
 
-    .card-actions-top {
+    .card-home-actions {
       position: absolute;
       top: 10px;
       right: 10px;
@@ -349,12 +449,12 @@
       transition: all var(--transition);
     }
 
-    .card:hover .card-actions-top {
+    .card-home:hover .card-home-actions {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .card-btn {
+    .card-home-btn {
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -371,23 +471,26 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .card-btn:hover {
+    .card-home-btn:hover {
       transform: scale(1.15);
       border-color: rgba(255, 255, 255, .3);
     }
-    .card-btn.favorited {
+
+    .card-home-btn.favorited {
       color: #ff4757;
       background: rgba(255, 71, 87, .25);
       border-color: rgba(255, 71, 87, .3);
     }
-    .card-btn.share-btn {
+
+    .card-home-btn.share-btn {
       color: #4ecdc4;
     }
-    .card-btn.share-btn:hover {
+
+    .card-home-btn.share-btn:hover {
       background: rgba(78, 205, 196, .2);
     }
 
-    .card-action {
+    .card-home-title {
       position: absolute;
       bottom: 12px;
       left: 50%;
@@ -395,24 +498,11 @@
       background: rgba(10, 8, 8, .8);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(201, 169, 110, .2);
-      padding: 5px 14px 5px 16px;
+      padding: 5px 14px;
       border-radius: 24px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       transition: all var(--transition);
       white-space: nowrap;
       opacity: 0;
-    }
-
-    .card:hover .card-action {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      border-color: var(--gold);
-      background: rgba(10, 8, 8, .95);
-    }
-
-    .card-action-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-size: .7rem;
@@ -421,86 +511,14 @@
       letter-spacing: .02em;
     }
 
-    .card-action-btn {
-      width: 18px;
-      height: 18px;
-      background: var(--gold-glow);
-      border: 1px solid rgba(201, 169, 110, .3);
-      border-radius: 50%;
-      color: var(--gold-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .55rem;
-      flex-shrink: 0;
-      transition: all var(--transition);
-    }
-
-    .card:hover .card-action-btn {
-      background: var(--gold);
-      color: #0a0808;
-      transform: scale(1.1);
-      border-color: var(--gold);
-    }
-
-    /* ===== SECTION TITLE ===== */
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.4rem;
-      color: var(--text-sec);
-      text-align: center;
-      padding: 8px 0 4px;
-      opacity: .6;
-      letter-spacing: 1px;
-      transition: all var(--transition);
-    }
-
-    .section-title .highlight {
-      color: var(--gold);
+    .card-home:hover .card-home-title {
       opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      border-color: var(--gold);
+      background: rgba(10, 8, 8, .95);
     }
 
-    /* ===== EMPTY STATE ===== */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-      column-span: all;
-    }
-
-    .empty-state .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 12px;
-      opacity: .3;
-    }
-
-    .empty-state .empty-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.2rem;
-      color: var(--text-sec);
-      margin-bottom: 8px;
-    }
-
-    .empty-state .empty-sub {
-      font-size: .85rem;
-      opacity: .7;
-    }
-
-    .empty-state .empty-hint {
-      margin-top: 16px;
-      font-size: .75rem;
-      background: var(--bg-card);
-      padding: 8px 20px;
-      border-radius: 20px;
-      display: inline-block;
-      border: 1px solid var(--border);
-    }
-
-    /* ============================================================
-       MODAL - HERO EM PROPORCAO 3:4 (PORTRAIT)
-    ============================================================ */
+    /* ===== MODAL ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -535,7 +553,7 @@
     .modal-card {
       position: relative;
       width: 100%;
-      max-width: 420px;
+      max-width: 1200px;
       min-height: 100vh;
       background: var(--bg);
       border-radius: 0;
@@ -545,31 +563,54 @@
       display: flex;
       flex-direction: column;
       margin: 0 auto;
+      padding: 0 16px;
     }
 
     .modal-overlay.open .modal-card {
       opacity: 1;
     }
 
-    /* ===== HERO 3:4 ===== */
+    /* ===== HERO - MAIS COMPRIDO (RETRATO 2:3) ===== */
     .modal-hero {
       position: relative;
       width: 100%;
-      aspect-ratio: 3 / 4;
-      max-height: 70vh;
+      max-width: 380px;
+      margin: 0 auto;
+      aspect-ratio: 2 / 3;
+      max-height: 75vh;
+      min-height: 400px;
       overflow: hidden;
       background: var(--bg-card);
       flex-shrink: 0;
-      border-radius: 0;
+      border-radius: var(--radius);
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .modal-hero {
+        max-width: 420px;
+        max-height: 72vh;
+        min-height: 420px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .modal-hero {
+        max-width: 460px;
+        max-height: 68vh;
+        min-height: 440px;
+      }
     }
 
     .modal-hero-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center center;
+      object-position: center top;
       display: block;
       transition: opacity .4s ease;
+      cursor: zoom-in;
     }
 
     .modal-hero-img.loading {
@@ -581,27 +622,112 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(10, 8, 8, 0) 40%,
-        rgba(10, 8, 8, 0.2) 60%,
-        rgba(10, 8, 8, 0.6) 80%,
+        rgba(10, 8, 8, 0) 50%,
+        rgba(10, 8, 8, 0.3) 70%,
+        rgba(10, 8, 8, 0.7) 90%,
         rgba(10, 8, 8, 0.9) 100%
       );
       pointer-events: none;
       z-index: 2;
     }
 
-    .modal-hero-info {
+    .modal-hero-side-left {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 10;
       pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-hero-side-left .side-label {
+      font-size: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: var(--text-muted);
+      opacity: 0.4;
+      writing-mode: vertical-rl;
+      font-weight: 300;
+    }
+
+    .modal-hero-side-left .side-year {
+      font-size: .5rem;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.5;
+      writing-mode: vertical-rl;
+      letter-spacing: .1em;
+    }
+
+    .modal-hero-side-right {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: all;
+    }
+
+    .modal-hero-side-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .12);
+      color: rgba(255, 255, 255, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 1rem;
+    }
+
+    .modal-hero-side-btn:hover {
+      transform: scale(1.1);
+      border-color: rgba(255, 255, 255, .3);
+    }
+
+    .modal-hero-side-btn.favorited {
+      color: #ff4757;
+      background: rgba(255, 71, 87, .2);
+      border-color: rgba(255, 71, 87, .3);
+    }
+
+    .modal-hero-side-btn.share-btn {
+      color: #4ecdc4;
+    }
+
+    .modal-hero-side-btn.share-btn:hover {
+      background: rgba(78, 205, 196, .2);
+    }
+
+    .modal-hero-side-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .modal-hero-info {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      pointer-events: none;
+      text-align: center;
+      width: 90%;
     }
 
     .modal-hero-info .hero-categoria {
       display: inline-block;
-      font-size: .6rem;
+      font-size: .55rem;
       text-transform: uppercase;
       letter-spacing: .15em;
       color: var(--gold);
@@ -610,14 +736,14 @@
       padding: 2px 12px;
       border-radius: 12px;
       border: 1px solid rgba(201, 169, 110, .2);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
 
     .modal-hero-info .hero-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text);
       line-height: 1.1;
@@ -625,7 +751,7 @@
     }
 
     .modal-hero-info .hero-sub {
-      font-size: .85rem;
+      font-size: .8rem;
       color: var(--text-sec);
       opacity: .8;
       font-weight: 300;
@@ -634,16 +760,16 @@
 
     .modal-close-btn {
       position: absolute;
-      top: 16px;
-      left: 16px;
-      width: 40px;
-      height: 40px;
+      top: 12px;
+      left: 12px;
+      width: 36px;
+      height: 36px;
       background: rgba(0, 0, 0, .7);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 71, 87, .3);
       color: #ff4757;
       border-radius: 50%;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -660,60 +786,18 @@
       transform: scale(1.08);
     }
 
-    .modal-hero-actions {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      display: flex;
-      gap: 8px;
-      z-index: 30;
-      pointer-events: all;
-    }
-
-    .modal-hero-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, .7);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, .15);
-      color: rgba(255, 255, 255, .6);
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: 'Inter', sans-serif;
-    }
-
-    .modal-hero-btn:hover {
-      transform: scale(1.1);
-    }
-    .modal-hero-btn.favorited {
-      color: #ff4757;
-      background: rgba(255, 71, 87, .2);
-      border-color: rgba(255, 71, 87, .3);
-    }
-    .modal-hero-btn.share-btn {
-      color: #4ecdc4;
-    }
-    .modal-hero-btn.share-btn:hover {
-      background: rgba(78, 205, 196, .2);
-    }
-
     .modal-toggle-btn {
       position: absolute;
-      bottom: 90px;
+      bottom: 70px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, .8);
       backdrop-filter: blur(12px);
       border: 1px solid var(--gold);
       color: var(--gold-light);
-      padding: 10px 28px;
+      padding: 8px 24px;
       border-radius: 30px;
-      font-size: .8rem;
+      font-size: .75rem;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
@@ -736,15 +820,103 @@
       transform: translateX(-50%) translateY(20px);
     }
 
-    /* ============================================================
-       SHEET (SLIDE UP)
-    ============================================================ */
+    /* ===== CONTEÚDO DO MODAL - MASONRY ===== */
+    .modal-content {
+      padding: 0 0 40px;
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .modal-section-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-sec);
+      margin-bottom: 16px;
+      text-align: center;
+      opacity: .7;
+      letter-spacing: 2px;
+    }
+
+    .modal-masonry {
+      column-count: 2;
+      column-gap: 12px;
+    }
+
+    @media (min-width: 600px) {
+      .modal-masonry { column-count: 3; column-gap: 16px; }
+    }
+
+    @media (min-width: 900px) {
+      .modal-masonry { column-count: 4; column-gap: 18px; }
+    }
+
+    .modal-card-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(201, 169, 110, .06);
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .modal-card-item:hover {
+      border-color: rgba(201, 169, 110, .3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+    }
+
+    .modal-card-item img {
+      width: 100%;
+      display: block;
+      transition: transform .6s cubic-bezier(.25, .46, .45, .94);
+    }
+
+    .modal-card-item:hover img {
+      transform: scale(1.04);
+    }
+
+    /* ALTURAS VARIADAS PARA O MODAL */
+    .modal-card-item .h-sm { height: 200px; object-fit: cover; }
+    .modal-card-item .h-md { height: 260px; object-fit: cover; }
+    .modal-card-item .h-lg { height: 320px; object-fit: cover; }
+    .modal-card-item .h-xl { height: 380px; object-fit: cover; }
+    .modal-card-item .h-xxl { height: 440px; object-fit: cover; }
+
+    .modal-card-item .item-label {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 8, 8, .8);
+      backdrop-filter: blur(8px);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: .5rem;
+      color: var(--text-sec);
+      white-space: nowrap;
+      opacity: 0;
+      transition: all var(--transition);
+      font-weight: 400;
+      letter-spacing: .02em;
+    }
+
+    .modal-card-item:hover .item-label {
+      opacity: 1;
+    }
+
+    /* ===== SHEET ===== */
     .modal-sheet {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      max-width: 420px;
+      max-width: 500px;
       margin: 0 auto;
       height: 55%;
       min-height: 300px;
@@ -911,14 +1083,8 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .kit-lista .kit-title {
@@ -987,101 +1153,7 @@
       transform: scale(1.01);
     }
 
-    /* ============================================================
-       CONTEUDO DO MODAL - CARDS COM ALTURAS VARIADAS
-    ============================================================ */
-    .modal-content {
-      padding: 20px 16px 40px;
-      flex: 1;
-    }
-
-    .modal-section-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--text-sec);
-      margin-bottom: 16px;
-      text-align: center;
-      opacity: .7;
-      letter-spacing: 2px;
-    }
-
-    .modal-content .masonry {
-      column-count: 2;
-      column-gap: 10px;
-    }
-
-    @media (min-width: 600px) {
-      .modal-content .masonry {
-        column-count: 2;
-        column-gap: 12px;
-      }
-    }
-
-    .modal-content .card {
-      margin-bottom: 10px;
-      border-color: rgba(201, 169, 110, .06);
-      border-radius: 12px;
-    }
-
-    .modal-content .card:hover {
-      border-color: rgba(201, 169, 110, .3);
-      transform: translateY(-2px);
-    }
-
-    .modal-content .card .card-img {
-      width: 100%;
-      object-fit: cover;
-      object-position: center center;
-      display: block;
-      transition: transform .6s cubic-bezier(.25, .46, .45, .94);
-    }
-
-    .modal-content .card:hover .card-img {
-      transform: scale(1.04);
-    }
-
-    .modal-content .card .h-sm { height: 320px; }
-    .modal-content .card .h-md { height: 380px; }
-    .modal-content .card .h-lg { height: 440px; }
-    .modal-content .card .h-xl { height: 520px; }
-    .modal-content .card .h-xxl { height: 600px; }
-
-    .modal-content .card .card-actions-top {
-      display: none !important;
-    }
-
-    .modal-content .card .card-action {
-      display: none !important;
-    }
-
-    .modal-content .card .card-badge {
-      display: none !important;
-    }
-
-    /* ===== ANIMACAO ===== */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card {
-      animation: fadeInUp .5s ease forwards;
-    }
-
-    .card:nth-child(1) { animation-delay: 0.02s; }
-    .card:nth-child(2) { animation-delay: 0.04s; }
-    .card:nth-child(3) { animation-delay: 0.06s; }
-    .card:nth-child(4) { animation-delay: 0.08s; }
-    .card:nth-child(5) { animation-delay: 0.10s; }
-    .card:nth-child(6) { animation-delay: 0.12s; }
-  
+    /* ===== ZOOM ===== */
     .zoom-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 200;
       display: flex; align-items: center; justify-content: center;
@@ -1095,144 +1167,227 @@
       border-radius: 6px; box-shadow: 0 20px 60px rgba(0,0,0,.8); cursor: zoom-out;
     }
     .zoom-overlay.active img { transform: scale(1); }
-    .modal-hero-img { cursor: zoom-in; }
-    .modal-hero-info.hidden, .modal-hero-actions.hidden, .modal-close-btn.hidden, .modal-toggle-btn.hidden {
-      opacity: 0; pointer-events: none;
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      column-span: all;
     }
 
+    .empty-state .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: .3;
+    }
+
+    .empty-state .empty-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-sec);
+      margin-bottom: 8px;
+    }
+
+    .empty-state .empty-sub {
+      font-size: .85rem;
+      opacity: .7;
+    }
+
+    .empty-state .empty-hint {
+      margin-top: 16px;
+      font-size: .75rem;
+      background: var(--bg-card);
+      padding: 8px 20px;
+      border-radius: 20px;
+      display: inline-block;
+      border: 1px solid var(--border);
+    }
+
+    /* ===== UTILITÁRIOS ===== */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--text-sec);
+      text-align: center;
+      padding: 8px 0 4px;
+      opacity: .6;
+      letter-spacing: 1px;
+      transition: all var(--transition);
+    }
+
+    .section-title .highlight {
+      color: var(--gold);
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .modal-hero-side-left.hidden,
+    .modal-hero-side-right.hidden,
+    .modal-close-btn.hidden,
+    .modal-toggle-btn.hidden,
+    .modal-hero-info.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-left">
-      <div class="brand" id="brandLogo">
-        <span>Hair<span>OS</span></span>
-      </div>
-      <div class="brand-sub" id="brandSub">
-        Vitrine de inspiracoes
-      </div>
-    </div>
-    <div class="header-actions">
-      <span class="vitrine-badge" id="vitrineBadge">Ver Vitrine</span>
-      <a href="Chat.bot.html" class="header-link">Assistente</a>
-      <button class="fav-btn-header" id="favToggleBtn">
-        <span class="heart-icon">♥</span>
-        <span class="fav-count" id="favCount">0</span>
-      </button>
-    </div>
-  </header>
-
-  <div class="filters" id="filters">
-    <button class="filter-btn active" data-filter="all">Todos</button>
-    <button class="filter-btn" data-filter="corte">Cortes</button>
-    <button class="filter-btn" data-filter="coloracao">Coloracoes</button>
-    <button class="filter-btn" data-filter="penteado">Penteados</button>
-    <button class="filter-btn" data-filter="acessorio">Acessorios</button>
-    <button class="filter-btn" data-filter="produto">Produtos</button>
-    <button class="filter-btn" data-filter="kit">Kits</button>
+  <!-- ===== LOADING SCREEN ===== -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo">Hair<span>OS</span><span class="dot">.</span></div>
+    <div class="loading-loader"></div>
+    <div class="loading-bar"><div class="loading-bar-inner" id="loadingBar"></div></div>
+    <div class="loading-text">carregando inspirações</div>
+    <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
 
-  <div class="section-title" id="sectionTitle">
-    <span class="highlight">Inspiracoes</span>
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-content" id="mainContent">
+    <header class="header">
+      <div class="header-left">
+        <div class="brand" id="brandLogo">
+          <span>Hair<span>OS</span></span>
+        </div>
+        <div class="brand-sub" id="brandSub">✦ <span class="highlight">Vitrine de inspirações</span></div>
+      </div>
+      <div class="header-actions">
+        <span class="vitrine-badge" id="vitrineBadge">✦ Ver Vitrine</span>
+        <a href="Chat.bot.html" class="header-link" id="assistantLink">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          Assistente
+        </a>
+        <button class="fav-btn-header" id="favToggleBtn">
+          <span class="heart-icon">♥</span>
+          <span class="fav-count" id="favCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== FILTROS ===== -->
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="corte">Cortes</button>
+      <button class="filter-btn" data-filter="coloracao">Colorações</button>
+      <button class="filter-btn" data-filter="penteado">Penteados</button>
+      <button class="filter-btn" data-filter="acessorio">Acessórios</button>
+      <button class="filter-btn" data-filter="produto">Produtos</button>
+      <button class="filter-btn" data-filter="kit">Kits</button>
+    </div>
+
+    <div class="section-title" id="sectionTitle"><span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span></div>
+    <div class="masonry-home" id="masonryHome"></div>
   </div>
 
-  <div class="masonry" id="masonry"></div>
-
-  <!-- ============================================================
-    MODAL
-  ============================================================ -->
+  <!-- ===== MODAL ===== -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card" id="modalCard">
+      <!-- HERO MAIS COMPRIDO (2:3) -->
       <div class="modal-hero">
         <img class="modal-hero-img" id="modalImg" src="" alt="">
         <div class="modal-hero-overlay"></div>
 
+        <div class="modal-hero-side-left" id="heroSideLeft">
+          <span class="side-label" id="sideCollection">Coleção</span>
+          <span class="side-year" id="sideYear">2026</span>
+        </div>
+
+        <div class="modal-hero-side-right" id="heroSideRight">
+          <button class="modal-hero-side-btn share-btn" id="heroShareBtn" title="Compartilhar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+          <button class="modal-hero-side-btn fav-btn" id="heroFavBtn" title="Favoritar">♡</button>
+        </div>
+
         <div class="modal-hero-info" id="heroInfo">
           <span class="hero-categoria" id="heroCategoria">Corte</span>
-          <h1 class="hero-title" id="heroTitle">Pixie Cut</h1>
-          <div class="hero-sub" id="heroSub">Loira Fria Platinada</div>
+          <h1 class="hero-title" id="heroTitle">Velvet Bob</h1>
+          <div class="hero-sub" id="heroSub">Bob Texturizado</div>
         </div>
 
         <button class="modal-close-btn" id="modalCloseBtn">✕</button>
-        <div class="modal-hero-actions" id="heroActions">
-          <button class="modal-hero-btn share-btn" id="heroShareBtn" title="Compartilhar">↗</button>
-          <button class="modal-hero-btn fav-btn" id="heroFavBtn" title="Favoritar">♡</button>
-        </div>
-        <button class="modal-toggle-btn" id="toggleSheetBtn">Ver Detalhes</button>
+        <button class="modal-toggle-btn" id="toggleSheetBtn">✨ Ver Detalhes</button>
       </div>
 
+      <!-- CONTEÚDO - MASONRY -->
       <div class="modal-content">
-        <div class="modal-section-title" id="modalSectionTitle">Variacoes</div>
-        <div class="masonry" id="modalMasonry"></div>
+        <div class="modal-section-title" id="modalSectionTitle">✦ Variações ✦</div>
+        <div class="modal-masonry" id="modalMasonry"></div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================
-    SHEET
-  ============================================================ -->
-  
+  <!-- ===== ZOOM ===== -->
   <div class="zoom-overlay" id="zoomOverlay">
     <img id="zoomImage" src="" alt="">
   </div>
 
+  <!-- ===== SHEET ===== -->
   <div class="modal-sheet" id="modalSheet">
     <div class="sheet-handle" id="sheetHandle"></div>
     <div class="sheet-scroll" id="sheetScroll">
       <div class="sheet-header">
         <div>
-          <h2 id="sheetTitle">Pixie</h2>
-          <div class="sub" id="sheetSub">Loira Fria Platinada</div>
+          <h2 id="sheetTitle">Velvet Bob</h2>
+          <div class="sub" id="sheetSub">Bob Texturizado</div>
         </div>
         <button class="sheet-close-btn" id="sheetCloseBtn">✕</button>
       </div>
-      <p class="sheet-desc" id="sheetDesc">Descricao do estilo</p>
+      <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
       <div class="sheet-btns">
-        <button id="btnColoracao">Coloracao</button>
-        <button class="cuidados" id="btnCuidados">Cuidados</button>
+        <button id="btnColoracao">🎨 Coloração</button>
+        <button class="cuidados" id="btnCuidados">💧 Cuidados</button>
       </div>
       <div class="kit-lista" id="listaColoracao">
-        <div class="kit-title">Kit Coloracao</div>
+        <div class="kit-title">Kit Coloração</div>
         <div id="coloracaoItems"></div>
       </div>
       <div class="kit-lista" id="listaCuidados">
         <div class="kit-title">Kit Cuidados</div>
         <div id="cuidadosItems"></div>
       </div>
-
       <div style="height:20px;"></div>
     </div>
   </div>
 
   <script>
     // ============================================================
-    // MAPEAMENTO DE SUBSTITUICOES DE IMAGENS
+    // DADOS
     // ============================================================
-    const IMAGE_FIXES = {
-      'https://tse1.mm.bing.net/th/id/OIP.TxO0qEbQMc0PYD3JTacZ7wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-      'https://th.bing.com/th/id/R.092399c54f14c855e2149acc7924af60?rik=JzIwXFcQei6vAQ&riu=http%3a%2f%2fconceptcshop.com%2fcdn%2fshop%2ffiles%2fkerastase-nutritive-nectar-thermique-150-ml-582017.png%3fv%3d1750310904%26width%3d2048&ehk=dtp43%2fbNlCZmYdcz1BaoB5hJqL2AlOGbFfCj3FcM3fw%3d&risl=&pid=ImgRaw&r=0': 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-      'https://tse1.mm.bing.net/th/id/OIP.C0eAjizwHfjxbNPx3FhuDgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-      'https://tse3.mm.bing.net/th/id/OIP.-ivouUWSbPJDNla69_AtdAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-      'https://lojasrede.vtexassets.com/arquivos/ids/347466/801981-1-Condicionar-Joico-Moisture-Recovery-250ml.jpg?v=638207070979630000': 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-      'https://tse4.mm.bing.net/th/id/OIP.VVzZ4UhEwk8SXWoJKdxCQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-      'https://tse1.mm.bing.net/th/id/OIP.iuk1wVxNLMu52ff_CTMqwQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-      'https://br.lorealpartnershop.com/on/demandware.static/-/Sites-master-PPD-BR/default/dwd0e6bb9d/products/30163478_EN_1.jpg': 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-      'https://th.bing.com/th/id/R.f9d652792a4ba474bc1cbd1207ec9d8f?rik=jkQEXMiKnvuXCQ&riu=http%3a%2f%2fres.cloudinary.com%2fbeleza-na-web%2fimage%2fupload%2fw_297%2cc_lpad%2cw_600%2ch_315%2fg_south_west%2cl_label-free-shipping%2cx_10%2cy_-60%2co_0%2fv1%2fimagens%2fproduct%2f7908966507768%2f72316377-32e8-4f81-a2cc-d28bfd7479fe-7908966507768-662a5215d79233777c9ad58d-6647efaf-723f-49c0-b8eb-4b19208cfe78.jpg&ehk=YfKlWqswYh1KHsjInacQrHFPUmmOxfNRa4GnVFFKBOU%3d&risl=&pid=ImgRaw&r=0': 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-      'https://tse4.mm.bing.net/th/id/OIP.4CYgPmI6kHvfZB8Iw_jRWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3': 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-    };
 
-    function fixImageUrl(url) {
-      if (!url) return url;
-      if (IMAGE_FIXES[url]) return IMAGE_FIXES[url];
-      if (url.includes('bing.net') || 
-          url.includes('vtexassets.com') || 
-          url.includes('lorealpartnershop.com') ||
-          url.includes('cloudinary.com') ||
-          url.includes('conceptcshop.com')) {
-        return 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
-      }
-      return url;
-    }
+    const FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
+
+    const VARIACOES_PINTEREST = [
+      'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
+      'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
+      'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
+      'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
+      'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
+      'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
+      'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
+      'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
+      'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
+      'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg',
+      'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
+      'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
+      'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
+      'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+      'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+      'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+      'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
+      'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
+      'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
+      'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
+      'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
+      'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
+      'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
+      'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
+    ];
 
     const alturas = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl'];
 
@@ -1245,1291 +1400,184 @@
       return 'h-xxl';
     }
 
-    // ============================================================
-    // DADOS COMPLETOS - IMAGENS SUBSTITUIDAS DOS ARQUIVOS
-    // socortes.html, socores.html, soprodutos.html
-    // ============================================================
+    function getProdutoLink(nome) {
+      return 'https://lista.mercadolivre.com.br/' + encodeURIComponent(nome);
+    }
 
-    const styleData = {
-      // ===== CORTES (15) - IMAGENS DO socortes.html =====
-      'velvet-bob': {
-        id: 'c01', categoria: 'corte', badge: 'Corte',
-        corte: 'Velvet Bob', title: 'Bob Texturizado',
-        desc: 'Bob com camadas suaves e textura volumosa. Perfeito para cabelos finos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-          'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-          'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-          'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-          'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'pixie-cut': {
-        id: 'c02', categoria: 'corte', badge: 'Corte',
-        corte: 'Pixie Cut', title: 'Loira Fria Platinada',
-        desc: 'Corte curto e moderno com textura despojada. Loira platinada com tons frios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
-          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg',
-          'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
-          'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg',
-          'https://i.pinimg.com/736x/52/14/d8/5214d86331dfdb322632ee2cf579688d.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'butterfly-cut': {
-        id: 'c03', categoria: 'corte', badge: 'Corte',
-        corte: 'Butterfly Cut', title: 'Bege Natural',
-        desc: 'Corte com camadas que lembram asas de borboleta. Bege neutro e natural.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-          'https://i.pinimg.com/736x/64/b9/1f/64b91f2e6d9ce5414ec4f2977c44406c.jpg',
-          'https://i.pinimg.com/1200x/b0/de/95/b0de952a5d2eea7092b6272e94f0083b.jpg',
-          'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-          'https://i.pinimg.com/736x/fc/24/fa/fc24fa3a3e0246aafed5f39b6dd56ccb.jpg',
-          'https://i.pinimg.com/736x/12/48/b5/1248b5fbb7d9763b70522492135872e5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8.2 (Nuance Bege)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'blunt-cut': {
-        id: 'c04', categoria: 'corte', badge: 'Corte',
-        corte: 'Blunt Cut', title: 'Morena Fria',
-        desc: 'Corte reto e marcante com acabamento preciso. Castanho com luzes frias.',
-        img: fixImageUrl('https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-          'https://i.pinimg.com/1200x/e4/4b/da/e44bdac8a5105bfec972ba9a543bfeec.jpg',
-          'https://i.pinimg.com/736x/3c/e7/6d/3ce76d862b49b6857675718fa3a9b118.jpg',
-          'https://i.pinimg.com/736x/55/18/d6/5518d672ff60f93587e2f1c2f37ac2f0.jpg',
-          'https://i.pinimg.com/736x/ce/b4/31/ceb43137708f1b4ee99b4cb5f1ec4fcf.jpg',
-          'https://i.pinimg.com/736x/70/63/94/7063948d175317a01f5a6462abea937c.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 5 (Base)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'shaggy-hair': {
-        id: 'c05', categoria: 'corte', badge: 'Corte',
-        corte: 'Shaggy Hair', title: 'Loira Despojada',
-        desc: 'Corte despojado com muitas camadas e movimento. Loira natural e texturizada.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-          'https://i.pinimg.com/736x/93/f8/33/93f833f887285c9641b001fc2bb588a9.jpg',
-          'https://i.pinimg.com/736x/ee/72/aa/ee72aa6c1ce777382e3b75ad447b957e.jpg',
-          'https://i.pinimg.com/736x/d4/67/84/d46784e0dc04de67a08747d9dc00557f.jpg',
-          'https://i.pinimg.com/736x/52/e9/4d/52e94de7d2a15d8a802e067f3dc2cf25.jpg',
-          'https://i.pinimg.com/736x/79/32/60/7932608cf203ea5fa576657590c2f37e.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9 (Base)', link: '#' }],
-        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'long-bob': {
-        id: 'c06', categoria: 'corte', badge: 'Corte',
-        corte: 'Long Bob', title: 'Loira Dourada',
-        desc: 'Loirissimo com reflexos dourados. Long Bob versatil e elegante.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-          'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
-          'https://i.pinimg.com/1200x/ec/97/85/ec9785ae609edd9958245167b09b776a.jpg',
-          'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
-          'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg',
-          'https://i.pinimg.com/736x/74/e1/20/74e120bb06a82239012d7fcf6baa60f6.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9.3 (Nuance Dourada)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'french-bob': {
-        id: 'c07', categoria: 'corte', badge: 'Corte',
-        corte: 'French Bob', title: 'Castanho Elegante',
-        desc: 'Bob frances classico com franja. Castanho intenso e sofisticado.',
-        img: fixImageUrl('https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg',
-          'https://i.pinimg.com/1200x/ba/4b/96/ba4b961cd4aa33b125eb482565088cf8.jpg',
-          'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
-          'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg',
-          'https://i.pinimg.com/736x/23/86/da/2386da4faa473138d1264899e8f01cf8.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 4 (Base)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'italian-bob': {
-        id: 'c08', categoria: 'corte', badge: 'Corte',
-        corte: 'Italian Bob', title: 'Morena Iluminada',
-        desc: 'Bob italiano com ondas suaves. Morena com luzes estrategicas.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-          'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-          'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-          'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-          'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 6 (Base)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'wolf-cut': {
-        id: 'c09', categoria: 'corte', badge: 'Corte',
-        corte: 'Wolf Cut', title: 'Bege Perolado',
-        desc: 'Corte com camadas selvagens e muito volume. Bege perolado sofisticado.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
-          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg',
-          'https://i.pinimg.com/736x/94/98/ee/9498ee7c6015d49ec67b08cf458ef4c6.jpg',
-          'https://i.pinimg.com/736x/c6/06/11/c6061183c371a0acad15697d31d7048f.jpg',
-          'https://i.pinimg.com/736x/7d/16/9e/7d169e211595927642fa43f45aef9001.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9.2 (Nuance Bege)', link: '#' }],
-        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'bixie-cut': {
-        id: 'c10', categoria: 'corte', badge: 'Corte',
-        corte: 'Bixie Cut', title: 'Loira Mel',
-        desc: 'Mix de Pixie e Bob. Loira com nuances mel e ambar.',
-        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
-          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg',
-          'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
-          'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg',
-          'https://i.pinimg.com/736x/52/14/d8/5214d86331dfdb322632ee2cf579688d.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9.4 (Nuance Mel)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'soft-layers': {
-        id: 'c11', categoria: 'corte', badge: 'Corte',
-        corte: 'Soft Layers', title: 'Cobre Natural',
-        desc: 'Camadas suaves e movimento natural. Cobre acobreado e vibrante.',
-        img: fixImageUrl('https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-          'https://i.pinimg.com/736x/29/9e/a8/299ea87e158f4270f4bd39c9a3a13c10.jpg',
-          'https://i.pinimg.com/736x/b3/6c/d3/b36cd33b1ed1393de79c40882a7d51c7.jpg',
-          'https://i.pinimg.com/736x/4c/37/56/4c37568c50b992cd4cbe53f306a5b651.jpg',
-          'https://i.pinimg.com/736x/06/e0/95/06e095258705e1db3daa77232e1e216f.jpg',
-          'https://i.pinimg.com/736x/3b/f8/89/3bf88971f9363c92b973cc9bdc4e9698.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 7.4 (Nuance Cobre)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'modern-mullet': {
-        id: 'c12', categoria: 'corte', badge: 'Corte',
-        corte: 'Modern Mullet', title: 'Platinado Radical',
-        desc: 'Mullet moderno e descolado. Platinado com tons acinzentados.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
-          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg',
-          'https://i.pinimg.com/736x/94/98/ee/9498ee7c6015d49ec67b08cf458ef4c6.jpg',
-          'https://i.pinimg.com/736x/c6/06/11/c6061183c371a0acad15697d31d7048f.jpg',
-          'https://i.pinimg.com/736x/7d/16/9e/7d169e211595927642fa43f45aef9001.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'clavicut': {
-        id: 'c13', categoria: 'corte', badge: 'Corte',
-        corte: 'Clavicut', title: 'Caramelo Glow',
-        desc: 'Corte na altura da clavicula. Caramelo com luzes douradas.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-          'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
-          'https://i.pinimg.com/1200x/ec/97/85/ec9785ae609edd9958245167b09b776a.jpg',
-          'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
-          'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg',
-          'https://i.pinimg.com/736x/74/e1/20/74e120bb06a82239012d7fcf6baa60f6.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: '#' }],
-        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'octopus-cut': {
-        id: 'c14', categoria: 'corte', badge: 'Corte',
-        corte: 'Octopus Cut', title: 'Loira Mel',
-        desc: 'Corte com camadas que lembram tentaculos. Loira mel e muito volume.',
-        img: fixImageUrl('https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-          'https://i.pinimg.com/1200x/f5/92/fc/f592fc5b01136dfbbd657939d7c36c81.jpg',
-          'https://i.pinimg.com/736x/ff/5a/7e/ff5a7eb07eb5263b20a8f8d4e3b03669.jpg',
-          'https://i.pinimg.com/736x/f7/df/57/f7df57b4f1e937592ac7a5fe1516ed76.jpg',
-          'https://i.pinimg.com/736x/3b/14/dd/3b14dd41a08c9dadff2c01359373acae.jpg',
-          'https://i.pinimg.com/736x/5b/f7/5d/5bf75d7b83b29b91a4c9c1fc17636ec5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9.4 (Nuance Mel)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'hush-cut': {
-        id: 'c15', categoria: 'corte', badge: 'Corte',
-        corte: 'Hush Cut', title: 'Preto Natural',
-        desc: 'Corte silencioso e cheio de estilo. Preto natural e intenso.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-          'https://i.pinimg.com/736x/64/b9/1f/64b91f2e6d9ce5414ec4f2977c44406c.jpg',
-          'https://i.pinimg.com/1200x/b0/de/95/b0de952a5d2eea7092b6272e94f0083b.jpg',
-          'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-          'https://i.pinimg.com/736x/fc/24/fa/fc24fa3a3e0246aafed5f39b6dd56ccb.jpg',
-          'https://i.pinimg.com/736x/12/48/b5/1248b5fbb7d9763b70522492135872e5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 3 (Base)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== COLORACOES (15) - IMAGENS DO socores.html =====
-      'balayage': {
-        id: 'co01', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Balayage', title: 'Luzes Naturais',
-        desc: 'Tecnica de luzes com efeito natural e degrade suave.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/1200x/9c/38/2e/9c382e31a4eaafd69ce5d685d82f238b.jpg',
-          'https://i.pinimg.com/1200x/85/03/4b/85034b9e76143badec90e47cdac4ae36.jpg',
-          'https://i.pinimg.com/736x/3b/6d/9d/3b6d9d2f7a7b9bc0a3f8ef282dd819e3.jpg',
-          'https://i.pinimg.com/736x/ca/5e/6d/ca5e6da41e62004c9d86a778870b1c01.jpg',
-          'https://i.pinimg.com/736x/9a/3f/11/9a3f1102c5f58c82a91a77cc40682530.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Balayage Profissional', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'californianas': {
-        id: 'co02', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Californianas', title: 'Efeito Sol',
-        desc: 'Luzes estilo californiano com efeito de sol nos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/9b/30/3c/9b303c2040de9482f8391090b7cf8cfa.jpg',
-          'https://i.pinimg.com/1200x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg',
-          'https://i.pinimg.com/736x/8d/17/3d/8d173df061a1a0c8a63da159bbf30d74.jpg',
-          'https://i.pinimg.com/736x/4d/61/d6/4d61d6b05d5b57cc746172d13507b0a4.jpg',
-          'https://i.pinimg.com/736x/42/1f/31/421f31239606c21a76c37213f5e4a372.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Californianas', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'highlights-loira': {
-        id: 'co03', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Highlights Loira', title: 'Luzes Loiras',
-        desc: 'Mechas loiras para iluminar e dar dimensao aos fios.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/23/ed/1a/23ed1a0d684e9c188c09ae26b62ff6cb.jpg',
-          'https://i.pinimg.com/736x/c8/68/95/c8689579f77d930f3cb347d695ef9cdf.jpg',
-          'https://i.pinimg.com/736x/6a/2b/a3/6a2ba31616da32c52a78bc7f6c681134.jpg',
-          'https://i.pinimg.com/736x/74/ca/f2/74caf212d7e5e710ae77a6c18428470f.jpg',
-          'https://i.pinimg.com/736x/8d/1b/47/8d1b47a13974241ddf3fc22f2517f62b.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Highlights Loira', link: '#' }],
-        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'cherry-cola': {
-        id: 'co04', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Cherry Cola', title: 'Vermelho Cereja',
-        desc: 'Tom vermelho intenso com fundo cereja e muita personalidade.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/1200x/82/47/a6/8247a6d404fefa0a7455646bb3ff74a7.jpg',
-          'https://i.pinimg.com/1200x/33/57/b2/3357b2fd2041dd93adda096095757b2b.jpg',
-          'https://i.pinimg.com/736x/45/2e/30/452e3073887ea0cf5d3542e4b729db2a.jpg',
-          'https://i.pinimg.com/736x/1a/03/8f/1a038f70b77cfcf2a00d890716f28db1.jpg',
-          'https://i.pinimg.com/736x/03/86/2f/03862f6e7221eebda5e3572e8ff31ab0.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Cherry Cola', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'copper-hair': {
-        id: 'co05', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Copper Hair', title: 'Cobre Vibrante',
-        desc: 'Cobre intenso e vibrante que ilumina qualquer pele.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/1200x/02/ba/8e/02ba8e2d674cab825f832834658f7416.jpg',
-          'https://i.pinimg.com/736x/3e/08/65/3e0865833599c47473882c25165ecbfc.jpg',
-          'https://i.pinimg.com/736x/4b/1b/1f/4b1b1f9af40c9cddd3a8920be95d6a4f.jpg',
-          'https://i.pinimg.com/736x/3b/76/13/3b761394a95a6d05a99a357871e33345.jpg',
-          'https://i.pinimg.com/736x/0b/77/70/0b7770ab19c1224a95c7091ea1c9b2f1.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Copper Hair', link: '#' }],
-        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'mocha-mousse': {
-        id: 'co06', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Mocha Mousse', title: 'Marrom Cafe',
-        desc: 'Marrom intenso com nuances de cafe e sofisticacao.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg',
-          'https://i.pinimg.com/1200x/ba/4b/96/ba4b961cd4aa33b125eb482565088cf8.jpg',
-          'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
-          'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Mocha Mousse', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'expensive-brunette': {
-        id: 'co07', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Expensive Brunette', title: 'Morena Premium',
-        desc: 'Morena sofisticada com reflexos caros e profundos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-          'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
-          'https://i.pinimg.com/736x/5d/2b/99/5d2b99b04c57a5512011b5ee0a1a9bb0.jpg',
-          'https://i.pinimg.com/736x/17/6d/2f/176d2f2cb767e40b4763231c666bd8e6.jpg',
-          'https://i.pinimg.com/736x/39/63/2a/39632a922b4409395efce32512cb9864.jpg',
-          'https://i.pinimg.com/736x/bc/58/6a/bc586a31df885073258fa4c6d318bdc7.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Expensive Brunette', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'mushroom-brown': {
-        id: 'co08', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Mushroom Brown', title: 'Castanho Cogumelo',
-        desc: 'Castanho acinzentado com nuances de cogumelo e elegancia.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-          'https://i.pinimg.com/736x/15/08/58/150858c430b1700f450781e3c093375c.jpg',
-          'https://i.pinimg.com/736x/b0/f1/d6/b0f1d6fdfc4df443e6409aeea819567d.jpg',
-          'https://i.pinimg.com/736x/92/04/5a/92045afc6f9a4040d62e57c9f3238625.jpg',
-          'https://i.pinimg.com/736x/db/b4/da/dbb4da6f46551f47c2bc1027186a947b.jpg',
-          'https://i.pinimg.com/736x/15/f8/1e/15f81ed8db7341a6f943447f19b2a31f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Mushroom Brown', link: '#' }],
-        cuidados: [{ name: 'Shampoo Inforcer', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'vanilla-blonde': {
-        id: 'co09', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Vanilla Blonde', title: 'Loira Baunilha',
-        desc: 'Loira suave com tons de baunilha e cremosidade.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-          'https://i.pinimg.com/736x/29/9e/a8/299ea87e158f4270f4bd39c9a3a13c10.jpg',
-          'https://i.pinimg.com/736x/b3/6c/d3/b36cd33b1ed1393de79c40882a7d51c7.jpg',
-          'https://i.pinimg.com/736x/4c/37/56/4c37568c50b992cd4cbe53f306a5b651.jpg',
-          'https://i.pinimg.com/736x/06/e0/95/06e095258705e1db3daa77232e1e216f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Vanilla Blonde', link: '#' }],
-        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'ice-blonde': {
-        id: 'co10', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Ice Blonde', title: 'Loira Gelo',
-        desc: 'Loira platinada com tons gelados e impacto visual.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
-          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg',
-          'https://i.pinimg.com/736x/29/6c/55/296c55e90285f1da1b1adb5a995ee08b.jpg',
-          'https://i.pinimg.com/736x/92/6b/3a/926b3a953ed0b63c2fde6013a09b6b77.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Ice Blonde', link: '#' }],
-        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'caramelo-glow': {
-        id: 'co11', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Caramelo Glow', title: 'Caramelo Brilhante',
-        desc: 'Caramelo com brilho intenso e efeito luminoso.',
-        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/1200x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-          'https://i.pinimg.com/736x/88/27/2c/88272c86c739b50408bc6372972a7dba.jpg',
-          'https://i.pinimg.com/1200x/ec/97/85/ec9785ae609edd9958245167b09b776a.jpg',
-          'https://i.pinimg.com/736x/02/f6/96/02f696e9de855d9b0cef825a155ac119.jpg',
-          'https://i.pinimg.com/736x/ae/62/6a/ae626a1b58f1c32ed8426853f32e9431.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Caramelo Glow', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'chocolate-intenso': {
-        id: 'co12', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Chocolate Intenso', title: 'Chocolate Escuro',
-        desc: 'Chocolate intenso e profundo com muita luminosidade.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg',
-          'https://i.pinimg.com/1200x/ba/4b/96/ba4b961cd4aa33b125eb482565088cf8.jpg',
-          'https://i.pinimg.com/736x/fd/a6/59/fda6599a9ecb7cb0e92fe7cc3b16f12a.jpg',
-          'https://i.pinimg.com/736x/0e/67/64/0e6764f94638c14f49184be78696e78f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Chocolate Intenso', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'preto-natural': {
-        id: 'co13', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Preto Natural', title: 'Preto Profundo',
-        desc: 'Preto intenso com fundo natural e brilho excepcional.',
-        img: fixImageUrl('https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-          'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-          'https://i.pinimg.com/1200x/e4/4b/da/e44bdac8a5105bfec972ba9a543bfeec.jpg',
-          'https://i.pinimg.com/736x/3c/e7/6d/3ce76d862b49b6857675718fa3a9b118.jpg',
-          'https://i.pinimg.com/736x/55/18/d6/5518d672ff60f93587e2f1c2f37ac2f0.jpg',
-          'https://i.pinimg.com/736x/ce/b4/31/ceb43137708f1b4ee99b4cb5f1ec4fcf.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Preto Natural', link: '#' }],
-        cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'ruivo-acobreado': {
-        id: 'co14', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Ruivo Acobreado', title: 'Ruivo Cobre',
-        desc: 'Ruivo com tonalidades acobreadas e muito brilho.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/1200x/18/9b/bd/189bbd0413031b38fafb74f1061a0213.jpg',
-          'https://i.pinimg.com/736x/23/30/46/233046bbedfc1312e61ba72b32ac6c12.jpg',
-          'https://i.pinimg.com/736x/89/3d/99/893d998853e05a1524b597da5fb24e66.jpg',
-          'https://i.pinimg.com/736x/13/1f/17/131f17189e9a91a25163aa0874f14c49.jpg',
-          'https://i.pinimg.com/736x/77/ba/9d/77ba9da6f62f2f3b3679a386d726e3c3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Ruivo Acobreado', link: '#' }],
-        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'morena-iluminada': {
-        id: 'co15', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Morena Iluminada', title: 'Morena com Luzes',
-        desc: 'Morena com luzes estrategicas para iluminar o rosto.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/10/5d/21/105d2125f58a53877f6ac4655275e79e.jpg',
-          'https://i.pinimg.com/736x/5d/2b/99/5d2b99b04c57a5512011b5ee0a1a9bb0.jpg',
-          'https://i.pinimg.com/736x/17/6d/2f/176d2f2cb767e40b4763231c666bd8e6.jpg',
-          'https://i.pinimg.com/736x/39/63/2a/39632a922b4409395efce32512cb9864.jpg',
-          'https://i.pinimg.com/736x/bc/58/6a/bc586a31df885073258fa4c6d318bdc7.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Morena Iluminada', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== PRODUTOS (15) - IMAGENS DO soprodutos.html =====
-      'joico-moisture-shampoo': {
-        id: 'p01', categoria: 'produto', badge: 'Produto',
-        corte: 'Shampoo Joico Moisture', title: 'Hidratacao Profunda',
-        desc: 'Shampoo hidratante que restaura a umidade dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/49/13/db/4913db0aeb90eaa39af627682e595518.jpg',
-          'https://i.pinimg.com/736x/da/fe/12/dafe123ec0af05e28c1284fa75b7413d.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'joico-moisture-conditioner': {
-        id: 'p02', categoria: 'produto', badge: 'Produto',
-        corte: 'Condicionador Joico Moisture', title: 'Condicionador Hidratante',
-        desc: 'Condicionador que nutre e desembaraca os fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/9a/aa/9d/9aaa9db9764ac6550439b1d9f9fd8368.jpg',
-          'https://i.pinimg.com/1200x/5b/53/8f/5b538f30589b753ff074ef689bc5d13c.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'joico-moisture-mask': {
-        id: 'p03', categoria: 'produto', badge: 'Produto',
-        corte: 'Mascara Joico Moisture', title: 'Mascara Nutritiva',
-        desc: 'Mascara de tratamento intensivo para cabelos secos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
-          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Mascara Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'absolut-repair-shampoo': {
-        id: 'p04', categoria: 'produto', badge: 'Produto',
-        corte: 'Shampoo Absolut Repair', title: 'Reparacao Intensa',
-        desc: 'Shampoo que repara danos profundos nos fios.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/1200x/78/dd/06/78dd0605f1f607b98881d9b62cdefe8a.jpg',
-          'https://i.pinimg.com/736x/ee/5d/ab/ee5dabfab9fa5b8e016ebc8931dd3492.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'absolut-repair-mask': {
-        id: 'p05', categoria: 'produto', badge: 'Produto',
-        corte: 'Mascara Absolut Repair', title: 'Mascara Reparadora',
-        desc: 'Mascara de reconstrucao para cabelos danificados.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
-          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'metal-detox': {
-        id: 'p06', categoria: 'produto', badge: 'Produto',
-        corte: 'Metal Detox', title: 'Detox de Metais',
-        desc: 'Tratamento que remove metais pesados dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://thekit.ca/wp-content/uploads/2023/07/Sized-Inline-2-Metal-Detox.jpg',
-          'https://th.bing.com/th/id/R.27e90a1a88881a68840a4957b92b49e5?rik=adiD0OgEGiT0%2fQ&riu=http%3a%2f%2fhighfy.pk%2fcdn%2fshop%2ffiles%2fMetal-Detox_Mask-1.jpg%3fv%3d1726648606&ehk=9Hk9YakC%2bQote4uryYitwpdBG6AfrS0mbvdkUzTBdkU%3d&risl=&pid=ImgRaw&r=0'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'vitamino-color': {
-        id: 'p07', categoria: 'produto', badge: 'Produto',
-        corte: 'Vitamino Color', title: 'Protecao de Cor',
-        desc: 'Linha que protege e prolonga a cor dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/49/13/db/4913db0aeb90eaa39af627682e595518.jpg',
-          'https://i.pinimg.com/736x/da/fe/12/dafe123ec0af05e28c1284fa75b7413d.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'scalp-advanced': {
-        id: 'p08', categoria: 'produto', badge: 'Produto',
-        corte: 'Scalp Advanced', title: 'Cuidado com o Couro Cabeludo',
-        desc: 'Tratamento especial para saude do couro cabeludo.',
-        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/1200x/9c/38/2e/9c382e31a4eaafd69ce5d685d82f238b.jpg',
-          'https://i.pinimg.com/1200x/85/03/4b/85034b9e76143badec90e47cdac4ae36.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Scalp Advanced', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'premiere': {
-        id: 'p09', categoria: 'produto', badge: 'Produto',
-        corte: 'Premiere', title: 'Linha Premiere',
-        desc: 'Linha de alta performance para cabelos exigentes.',
-        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/de/4d/24/de4d244b7955694a245cfdb0d916a70c.jpg',
-          'https://i.pinimg.com/1200x/f4/b1/a4/f4b1a44654f6f063ed5056c5550537e5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'inforcer': {
-        id: 'p10', categoria: 'produto', badge: 'Produto',
-        corte: 'Inforcer', title: 'Fortalecimento',
-        desc: 'Linha que fortalece e previne a quebra dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
-          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Inforcer', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'curl-expression': {
-        id: 'p11', categoria: 'produto', badge: 'Produto',
-        corte: 'Curl Expression', title: 'Cachos Definidos',
-        desc: 'Linha especial para cabelos cacheados e crespos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Curl Expression', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'blondifier': {
-        id: 'p12', categoria: 'produto', badge: 'Produto',
-        corte: 'Blondifier', title: 'Cuidado para Loiros',
-        desc: 'Linha que cuida e mantem a saude dos fios loiros.',
-        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/9b/30/3c/9b303c2040de9482f8391090b7cf8cfa.jpg',
-          'https://i.pinimg.com/1200x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'pro-longer': {
-        id: 'p13', categoria: 'produto', badge: 'Produto',
-        corte: 'Serie Expert Pro Longer', title: 'Crescimento',
-        desc: 'Linha que estimula o crescimento dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/b7/95/84/b79584466268e95b4d99080cffff97bf.jpg',
-          'https://i.pinimg.com/1200x/cc/d4/b9/ccd4b9468a39ef0669e9c1ec22b13ff5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Pro Longer', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'liss-unlimited': {
-        id: 'p14', categoria: 'produto', badge: 'Produto',
-        corte: 'Liss Unlimited', title: 'Fios Lisos',
-        desc: 'Linha para cabelos lisos e sem frizz.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-          'https://i.pinimg.com/736x/db/62/5d/db625dc302efc77fe3db0543ceb06937.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Liss Unlimited', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'absolut-repair-molecular': {
-        id: 'p15', categoria: 'produto', badge: 'Produto',
-        corte: 'Absolut Repair Molecular', title: 'Reparacao Molecular',
-        desc: 'Tratamento que repara a estrutura molecular do cabelo.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/34/59/ce/3459cebc3044e956410bb887d8a53457.jpg',
-          'https://i.pinimg.com/736x/5c/fb/bc/5cfbbc5d6d6967494e0c536185551fac.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Shampoo Absolut Repair Molecular', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== KITS (15) =====
-      'kit-hidratacao': {
-        id: 'k01', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Hidratacao', title: 'Hidratacao Completa',
-        desc: 'Kit completo para hidratacao profunda dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Hidratacao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-reconstrucao': {
-        id: 'k02', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Reconstrucao', title: 'Reconstrucao Capilar',
-        desc: 'Kit para reconstrucao de cabelos danificados.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Reconstrucao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-nutricao': {
-        id: 'k03', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Nutricao', title: 'Nutricao Profunda',
-        desc: 'Kit para nutrir e restaurar a saude dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Nutricao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-loiros': {
-        id: 'k04', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Loiros', title: 'Cuidado com Loiros',
-        desc: 'Kit especial para cabelos loiros platinados.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Loiros Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-coloracao': {
-        id: 'k05', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Coloracao', title: 'Protecao de Cor',
-        desc: 'Kit para proteger e prolongar a cor dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Coloracao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-queda-capilar': {
-        id: 'k06', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Queda Capilar', title: 'Contra Queda',
-        desc: 'Kit para prevenir e tratar a queda de cabelo.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Queda Capilar Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-cacheados': {
-        id: 'k07', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Cabelos Cacheados', title: 'Cachos Definidos',
-        desc: 'Kit para cuidar e definir cabelos cacheados.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Cacheados Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-danificados': {
-        id: 'k08', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Cabelos Danificados', title: 'Reparacao Intensa',
-        desc: 'Kit para cabelos muito danificados e frágeis.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Danificados Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-anti-frizz': {
-        id: 'k09', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Anti-Frizz', title: 'Controle de Frizz',
-        desc: 'Kit para controlar o frizz e os fios arrepiados.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Anti-Frizz Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-pos-coloracao': {
-        id: 'k10', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Pos-Coloracao', title: 'Pos-Coloracao',
-        desc: 'Kit para cuidar dos fios apos a coloracao.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Pos-Coloracao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-crescimento': {
-        id: 'k11', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Crescimento', title: 'Estimulo ao Crescimento',
-        desc: 'Kit para estimular o crescimento dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Crescimento Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-ruivos': {
-        id: 'k12', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Ruivos', title: 'Cuidado para Ruivos',
-        desc: 'Kit para manter a intensidade dos cabelos ruivos.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Ruivos Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-morenas': {
-        id: 'k13', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Morenas Iluminadas', title: 'Morenas com Luzes',
-        desc: 'Kit para morenas que querem iluminar os fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Morenas Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-detox': {
-        id: 'k14', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Detox Capilar', title: 'Detox dos Fios',
-        desc: 'Kit para limpeza profunda e detox dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Detox Capilar Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'kit-uso-diario': {
-        id: 'k15', categoria: 'kit', badge: 'Kit',
-        corte: 'Kit Uso Diario', title: 'Cuidado Diario',
-        desc: 'Kit para manutencao diaria da saude dos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Uso Diario Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== NOVOS CARDS: FRANJAS (6) - MANTIDAS =====
-      'franja-reta': {
-        id: 'f01', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Reta', title: 'Franja Reta Classica',
-        desc: 'Franja reta e precisa que emoldura o rosto com elegancia.',
-        img: fixImageUrl('https://i.pinimg.com/736x/6e/78/c9/6e78c9df6a2f0f6bb7e93c1b09e6d1b2.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/6e/78/c9/6e78c9df6a2f0f6bb7e93c1b09e6d1b2.jpg',
-          'https://i.pinimg.com/736x/52/68/61/5268618f5caadcf4b85a36d9c3f07ca4.jpg',
-          'https://i.pinimg.com/736x/0b/5e/9c/0b5e9cfcc02a68c1a19ca1382e3672c8.jpg',
-          'https://i.pinimg.com/736x/34/2f/cb/342fcb0ffa7aacb4449a53c7ecafcb0f.jpg',
-          'https://i.pinimg.com/736x/ea/2f/35/ea2f35be90a50c837e8717be1842640b.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8 (Base)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'franja-lateral': {
-        id: 'f02', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Lateral', title: 'Franja Lateral Despojada',
-        desc: 'Franja lateral que cai suavemente sobre o rosto com estilo despojado.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1d/9d/b2/1d9db2b416b66ea52a30ac645eacb4c3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1d/9d/b2/1d9db2b416b66ea52a30ac645eacb4c3.jpg',
-          'https://i.pinimg.com/736x/6a/42/d3/6a42d3dde26ae79bd7cf0a80ec55149a.jpg',
-          'https://i.pinimg.com/736x/9a/1b/35/9a1b35422468480379e2e07dda539af8.jpg',
-          'https://i.pinimg.com/736x/0f/5a/7a/0f5a7ad558e3b953a8e1bcd9cd1de7bc.jpg',
-          'https://i.pinimg.com/736x/32/62/a6/3262a6bc78a3f9b9bb93441aa03b7ec5.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9 (Base)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'franja-desfiada': {
-        id: 'f03', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Desfiada', title: 'Franja Desfiada Moderna',
-        desc: 'Franja com textura desfiada e movimento, perfeita para looks modernos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/fb/56/18/fb56180bdfdde693cf3e40446ecf1ec6.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/fb/56/18/fb56180bdfdde693cf3e40446ecf1ec6.jpg',
-          'https://i.pinimg.com/736x/9d/9d/2b/9d9d2b3c53b1207551aa67a8caeaa4c0.jpg',
-          'https://i.pinimg.com/736x/a8/f5/03/a8f5034b7264af1036833188a3c97d4c.jpg',
-          'https://i.pinimg.com/736x/4f/1e/d2/4f1ed2a182a58a4db55ae819035abfa0.jpg',
-          'https://i.pinimg.com/736x/db/37/93/db37934a9a961faa7e3ad5d0f0fa9900.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8.2 (Nuance Bege)', link: '#' }],
-        cuidados: [{ name: 'Mascara Absolut Repair', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'franja-curta': {
-        id: 'f04', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Curta', title: 'Franja Curta Baby',
-        desc: 'Franja curta e ousada que destaca os olhos e traz atitude.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2c/97/42/2c974299ec460270b4bfb70b8c1703cb.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2c/97/42/2c974299ec460270b4bfb70b8c1703cb.jpg',
-          'https://i.pinimg.com/736x/16/e9/b5/16e9b56c0e599e00cb31f1406009d2a7.jpg',
-          'https://i.pinimg.com/736x/b9/24/38/b9243853f662d7cce15ce64de2792288.jpg',
-          'https://i.pinimg.com/736x/07/19/31/07193195b630b61642843ebae67b178b.jpg',
-          'https://i.pinimg.com/736x/ba/d4/cf/bad4cfe7a272ee5605ad29757fbd4c56.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 10.1 (Nuance Fria)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'franja-longa': {
-        id: 'f05', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Longa', title: 'Franja Longa Romantica',
-        desc: 'Franja longa que cai elegantemente, criando um look romantico.',
-        img: fixImageUrl('https://i.pinimg.com/736x/ba/07/65/ba07651d6c0cd0b22ed9aedf84d4a784.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/ba/07/65/ba07651d6c0cd0b22ed9aedf84d4a784.jpg',
-          'https://i.pinimg.com/736x/d4/1d/33/d41d332456bca2fbf244ea97a8501a1e.jpg',
-          'https://i.pinimg.com/736x/97/8d/59/978d59bd94f86535be8b1d579aaf2fc5.jpg',
-          'https://i.pinimg.com/736x/94/34/bd/9434bd27dc20646766c1590303169a07.jpg',
-          'https://i.pinimg.com/736x/73/6a/4c/736a4c19cc3ca70f1d6d1ae1281cb4ea.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 9.3 (Nuance Dourada)', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'franja-cortina': {
-        id: 'f06', categoria: 'corte', badge: 'Corte',
-        corte: 'Franja Cortina', title: 'Franja Cortina Versatil',
-        desc: 'Franja cortina que abre no centro, perfeita para todos os tipos de rosto.',
-        img: fixImageUrl('https://i.pinimg.com/736x/3c/6f/14/3c6f1493c7cd2fbe5145743cdcd53933.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/3c/6f/14/3c6f1493c7cd2fbe5145743cdcd53933.jpg',
-          'https://i.pinimg.com/736x/03/11/68/03116805c2b0c018a49e353000b02c1f.jpg',
-          'https://i.pinimg.com/736x/28/94/fc/2894fc6234c22c9bb9b379f7ca04ec17.jpg',
-          'https://i.pinimg.com/736x/95/1e/56/951e56c0d7ba349a80f1e68f99bb4a42.jpg',
-          'https://i.pinimg.com/736x/9a/97/2f/9a972f3402834612f312970a313c2498.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Tinta INOA 8.4 (Nuance Caramelo)', link: '#' }],
-        cuidados: [{ name: 'Condicionador Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== NOVOS CARDS: PENTEADOS (4) - MANTIDOS =====
-      'penteado-coque': {
-        id: 'pe01', categoria: 'penteado', badge: 'Penteado',
-        corte: 'Coque', title: 'Coque Elegante',
-        desc: 'Coque classico e elegante para ocasioes especiais.',
-        img: fixImageUrl('https://i.pinimg.com/736x/f5/93/fa/f593fade96c8af23cf55efdf6a9b90d5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/f5/93/fa/f593fade96c8af23cf55efdf6a9b90d5.jpg',
-          'https://i.pinimg.com/736x/2b/eb/53/2beb530cf4cb31d552b685fbfbe1e473.jpg',
-          'https://i.pinimg.com/736x/60/dd/fd/60ddfd9ba93a4f8bb00a3a93a5d088f6.jpg',
-          'https://i.pinimg.com/736x/50/bf/6d/50bf6dfaef470b2ccc15c3829f55a48c.jpg',
-          'https://i.pinimg.com/736x/00/ed/98/00ed98f5f0ecacf86e1e4d04389c18d6.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Uso Diario Completo', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'penteado-rabo-cortina': {
-        id: 'pe02', categoria: 'penteado', badge: 'Penteado',
-        corte: 'Rabo de Cavalo', title: 'Rabo de Cavalo Moderno',
-        desc: 'Rabo de cavalo alto e moderno com volume e movimento.',
-        img: fixImageUrl('https://i.pinimg.com/736x/6c/2d/47/6c2d47dbd90b159218569868327c2cb1.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/6c/2d/47/6c2d47dbd90b159218569868327c2cb1.jpg',
-          'https://i.pinimg.com/736x/89/c1/ab/89c1abca776fdebe0d1cb78a54ed8860.jpg',
-          'https://i.pinimg.com/736x/5c/ba/fa/5cbafa23be7ddfd85d3d528f5fdcb01e.jpg',
-          'https://i.pinimg.com/736x/99/9a/99/999a99c579312170fc7c6d275f53d151.jpg',
-          'https://i.pinimg.com/736x/e0/e6/0c/e0e60c5d28905030013623a72b36592b.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Crescimento Completo', link: '#' }],
-        cuidados: [{ name: 'Shampoo Pro Longer', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'penteado-tranca': {
-        id: 'pe03', categoria: 'penteado', badge: 'Penteado',
-        corte: 'Tranca', title: 'Tranca Boho',
-        desc: 'Tranca lateral com estilo boho e despojado.',
-        img: fixImageUrl('https://i.pinimg.com/736x/5f/27/02/5f2702b0bdc1b2ec248d81b6d2d6a796.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/5f/27/02/5f2702b0bdc1b2ec248d81b6d2d6a796.jpg',
-          'https://i.pinimg.com/736x/fe/46/46/fe4646ff00f2a924a2f11f029ccbbda3.jpg',
-          'https://i.pinimg.com/736x/7a/c2/d3/7ac2d3cb69c51026702a54517ec18330.jpg',
-          'https://i.pinimg.com/736x/5f/07/c3/5f07c3461cc0d86c846f92d6b3db4d68.jpg',
-          'https://i.pinimg.com/736x/3f/bd/e2/3fbde2fa9985e507f2a24f902dcb58ea.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Cacheados Completo', link: '#' }],
-        cuidados: [{ name: 'Shampoo Curl Expression', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'penteado-preso': {
-        id: 'pe04', categoria: 'penteado', badge: 'Penteado',
-        corte: 'Preso Elegante', title: 'Preso Sofisticado',
-        desc: 'Penteado preso com elegancia e sofisticacao para eventos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/e0/83/7a/e0837a82bc93c46c385248f09ea6463b.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/e0/83/7a/e0837a82bc93c46c385248f09ea6463b.jpg',
-          'https://i.pinimg.com/736x/4f/f8/d2/4ff8d2e0aa590e6b46440ad6a4edb0d2.jpg',
-          'https://i.pinimg.com/736x/b3/d7/22/b3d7224521986955fc88f6144b4dc319.jpg',
-          'https://i.pinimg.com/736x/f2/58/77/f25877eabed97ee887f6f870ae09a5d8.jpg',
-          'https://i.pinimg.com/736x/06/e4/fc/06e4fc447e6f4f47cc50a36b4bf2f3dc.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Nutricao Completo', link: '#' }],
-        cuidados: [{ name: 'Mascara Joico Moisture', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== NOVOS CARDS: COLORACOES (5) - MANTIDAS =====
-      'coloracao-luzes': {
-        id: 'cl01', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Luzes', title: 'Luzes Naturais',
-        desc: 'Luzes sutis que iluminam o rosto com efeito natural.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Loiros Completo', link: '#' }],
-        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'coloracao-mechas': {
-        id: 'cl02', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Mechas', title: 'Mechas Estrategicas',
-        desc: 'Mechas que criam profundidade e dimensao aos fios.',
-        img: fixImageUrl('https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Coloracao Completo', link: '#' }],
-        cuidados: [{ name: 'Shampoo Vitamino Color', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'coloracao-ombre': {
-        id: 'cl03', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Ombre', title: 'Ombre Degrade',
-        desc: 'Degrade suave da raiz para as pontas com efeito ombre.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Ice Blonde', link: '#' }],
-        cuidados: [{ name: 'Shampoo Metal Detox', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'coloracao-sombre': {
-        id: 'cl04', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Sombre', title: 'Sombre Suave',
-        desc: 'Transicao suave de cor com efeito sombre mais sutil.',
-        img: fixImageUrl('https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'),
-        variants: [
-          'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Balayage Profissional', link: '#' }],
-        cuidados: [{ name: 'Shampoo Premiere', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'coloracao-babylights': {
-        id: 'cl05', categoria: 'coloracao', badge: 'Coloracao',
-        corte: 'Babylights', title: 'Babylights Sutil',
-        desc: 'Mechas finas e sutis que imitam o efeito natural do sol.',
-        img: fixImageUrl('https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [{ name: 'Kit Vanilla Blonde', link: '#' }],
-        cuidados: [{ name: 'Shampoo Blondifier', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-
-      // ===== NOVOS CARDS: ACESSORIOS (5) - MANTIDOS =====
-      'acessorio-secador': {
-        id: 'ac01', categoria: 'acessorio', badge: 'Acessorio',
-        corte: 'Secador Profissional', title: 'Secador Ionico',
-        desc: 'Secador profissional com tecnologia ionica para secagem rapida e brilho.',
-        img: fixImageUrl('https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Uso Diario Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'acessorio-escova-giratoria': {
-        id: 'ac02', categoria: 'acessorio', badge: 'Acessorio',
-        corte: 'Escova Giratoria', title: 'Escova Automatica',
-        desc: 'Escova giratoria que modela e seca os fios ao mesmo tempo.',
-        img: fixImageUrl('https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Anti-Frizz Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'acessorio-escova-pentear': {
-        id: 'ac03', categoria: 'acessorio', badge: 'Acessorio',
-        corte: 'Escova de Pentear', title: 'Escova Desembaracadora',
-        desc: 'Escova ideal para desembaracar fios com suavidade e sem quebrar.',
-        img: fixImageUrl('https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Danificados Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'acessorio-babyliss': {
-        id: 'ac04', categoria: 'acessorio', badge: 'Acessorio',
-        corte: 'Babyliss', title: 'Modelador de Fios',
-        desc: 'Modelador profissional para criar ondas e cachos perfeitos.',
-        img: fixImageUrl('https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-          'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Cacheados Completo', link: '#' }],
-        altura: getAlturaAleatoria()
-      },
-      'acessorio-prancha': {
-        id: 'ac05', categoria: 'acessorio', badge: 'Acessorio',
-        corte: 'Prancha Alisadora', title: 'Prancha Alisadora',
-        desc: 'Prancha para alisar e selar os fios com acabamento profissional.',
-        img: fixImageUrl('https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'),
-        variants: [
-          'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-          'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-          'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-          'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-          'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'
-        ].map(fixImageUrl),
-        coloracao: [], cuidados: [{ name: 'Kit Reconstrucao Completo', link: '#' }],
-        altura: getAlturaAleatoria()
+    function gerar10Variacoes(baseUrl) {
+      const result = [baseUrl];
+      const shuffled = [...VARIACOES_PINTEREST].sort(() => Math.random() - 0.5);
+      for (let i = 0; i < shuffled.length && result.length < 10; i++) {
+        if (shuffled[i] !== baseUrl) {
+          result.push(shuffled[i]);
+        }
       }
-    };
+      while (result.length < 10) {
+        result.push(VARIACOES_PINTEREST[result.length % VARIACOES_PINTEREST.length]);
+      }
+      return result;
+    }
+
+    const styleData = {};
+
+    function createCard(id, categoria, badge, corte, title, desc, img, coloracao, cuidados) {
+      return {
+        id,
+        categoria,
+        badge,
+        corte,
+        title,
+        desc,
+        img,
+        variants: gerar10Variacoes(img),
+        coloracao: coloracao || [],
+        cuidados: cuidados || [],
+        altura: getAlturaAleatoria()
+      };
+    }
+
+    // CORTES
+    const cortes = [
+      ['velvet-bob', 'corte', 'Corte', 'Velvet Bob', 'Bob Texturizado', 'Bob com camadas suaves e textura volumosa.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', ['Tinta INOA 8'], ['Shampoo Vitamino Color']],
+      ['pixie-cut', 'corte', 'Corte', 'Pixie Cut', 'Loira Fria Platinada', 'Corte curto e moderno com textura despojada.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', ['Tinta INOA 10.1'], ['Shampoo Absolut Repair']],
+      ['butterfly-cut', 'corte', 'Corte', 'Butterfly Cut', 'Bege Natural', 'Corte com camadas que lembram asas de borboleta.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', ['Tinta INOA 8.2'], ['Condicionador Joico Moisture']],
+      ['blunt-cut', 'corte', 'Corte', 'Blunt Cut', 'Morena Fria', 'Corte reto e marcante com acabamento preciso.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg', ['Tinta INOA 5'], ['Shampoo Metal Detox']],
+      ['shaggy-hair', 'corte', 'Corte', 'Shaggy Hair', 'Loira Despojada', 'Corte despojado com muitas camadas e movimento.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', ['Tinta INOA 9'], ['Máscara Absolut Repair']],
+      ['long-bob', 'corte', 'Corte', 'Long Bob', 'Loira Dourada', 'Loiríssimo com reflexos dourados.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg', ['Tinta INOA 9.3'], ['Shampoo Vitamino Color']],
+      ['french-bob', 'corte', 'Corte', 'French Bob', 'Castanho Elegante', 'Bob francês clássico com franja.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg', ['Tinta INOA 4'], ['Condicionador Joico Moisture']],
+      ['italian-bob', 'corte', 'Corte', 'Italian Bob', 'Morena Iluminada', 'Bob italiano com ondas suaves.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', ['Tinta INOA 6'], ['Shampoo Scalp Advanced']],
+      ['wolf-cut', 'corte', 'Corte', 'Wolf Cut', 'Bege Perolado', 'Corte com camadas selvagens e muito volume.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', ['Tinta INOA 9.2'], ['Máscara Absolut Repair']],
+      ['bixie-cut', 'corte', 'Corte', 'Bixie Cut', 'Loira Mel', 'Mix de Pixie e Bob.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', ['Tinta INOA 9.4'], ['Shampoo Vitamino Color']],
+      ['soft-layers', 'corte', 'Corte', 'Soft Layers', 'Cobre Natural', 'Camadas suaves e movimento natural.', 'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg', ['Tinta INOA 7.4'], ['Condicionador Joico Moisture']],
+      ['modern-mullet', 'corte', 'Corte', 'Modern Mullet', 'Platinado Radical', 'Mullet moderno e descolado.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', ['Tinta INOA 10.1'], ['Shampoo Metal Detox']],
+      ['clavicut', 'corte', 'Corte', 'Clavicut', 'Caramelo Glow', 'Corte na altura da clavícula.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg', ['Tinta INOA 8.4'], ['Máscara Absolut Repair']],
+      ['octopus-cut', 'corte', 'Corte', 'Octopus Cut', 'Loira Mel', 'Corte com camadas que lembram tentáculos.', 'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg', ['Tinta INOA 9.4'], ['Shampoo Vitamino Color']],
+      ['hush-cut', 'corte', 'Corte', 'Hush Cut', 'Preto Natural', 'Corte silencioso e cheio de estilo.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', ['Tinta INOA 3'], ['Condicionador Joico Moisture']]
+    ];
+
+    cortes.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
+        color.map(c => ({ name: c, link: getProdutoLink(c) })),
+        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
+      );
+    });
+
+    // COLORAÇÕES
+    const coloracoes = [
+      ['balayage', 'coloracao', 'Coloração', 'Balayage', 'Luzes Naturais', 'Técnica de luzes com efeito natural.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', ['Kit Balayage'], ['Shampoo Vitamino Color']],
+      ['californianas', 'coloracao', 'Coloração', 'Californianas', 'Efeito Sol', 'Luzes estilo californiano.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', ['Kit Californianas'], ['Condicionador Joico Moisture']],
+      ['highlights-loira', 'coloracao', 'Coloração', 'Highlights Loira', 'Luzes Loiras', 'Mechas loiras para iluminar.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', ['Kit Highlights Loira'], ['Shampoo Blondifier']],
+      ['cherry-cola', 'coloracao', 'Coloração', 'Cherry Cola', 'Vermelho Cereja', 'Tom vermelho intenso.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', ['Kit Cherry Cola'], ['Shampoo Vitamino Color']],
+      ['copper-hair', 'coloracao', 'Coloração', 'Copper Hair', 'Cobre Vibrante', 'Cobre intenso e vibrante.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', ['Kit Copper Hair'], ['Shampoo Premiere']],
+      ['mocha-mousse', 'coloracao', 'Coloração', 'Mocha Mousse', 'Marrom Café', 'Marrom intenso com nuances de café.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Mocha Mousse'], ['Condicionador Joico Moisture']],
+      ['expensive-brunette', 'coloracao', 'Coloração', 'Expensive Brunette', 'Morena Premium', 'Morena sofisticada.', 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg', ['Kit Expensive Brunette'], ['Shampoo Vitamino Color']],
+      ['mushroom-brown', 'coloracao', 'Coloração', 'Mushroom Brown', 'Castanho Cogumelo', 'Castanho acinzentado.', 'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg', ['Kit Mushroom Brown'], ['Shampoo Inforcer']],
+      ['vanilla-blonde', 'coloracao', 'Coloração', 'Vanilla Blonde', 'Loira Baunilha', 'Loira suave e cremosa.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', ['Kit Vanilla Blonde'], ['Shampoo Blondifier']],
+      ['ice-blonde', 'coloracao', 'Coloração', 'Ice Blonde', 'Loira Gelo', 'Loira platinada com tons gelados.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', ['Kit Ice Blonde'], ['Shampoo Metal Detox']],
+      ['caramelo-glow', 'coloracao', 'Coloração', 'Caramelo Glow', 'Caramelo Brilhante', 'Caramelo com brilho intenso.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', ['Kit Caramelo Glow'], ['Shampoo Vitamino Color']],
+      ['chocolate-intenso', 'coloracao', 'Coloração', 'Chocolate Intenso', 'Chocolate Escuro', 'Chocolate intenso e profundo.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Chocolate Intenso'], ['Condicionador Joico Moisture']],
+      ['preto-natural', 'coloracao', 'Coloração', 'Preto Natural', 'Preto Profundo', 'Preto intenso com brilho excepcional.', 'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg', ['Kit Preto Natural'], ['Shampoo Scalp Advanced']],
+      ['ruivo-acobreado', 'coloracao', 'Coloração', 'Ruivo Acobreado', 'Ruivo Cobre', 'Ruivo com tonalidades acobreadas.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', ['Kit Ruivo Acobreado'], ['Shampoo Premiere']],
+      ['morena-iluminada', 'coloracao', 'Coloração', 'Morena Iluminada', 'Morena com Luzes', 'Morena com luzes estratégicas.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', ['Kit Morena Iluminada'], ['Shampoo Vitamino Color']]
+    ];
+
+    coloracoes.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
+        color.map(c => ({ name: c, link: getProdutoLink(c) })),
+        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
+      );
+    });
+
+    // PENTEADOS
+    const penteados = [
+      ['coque-elegante', 'penteado', 'Penteado', 'Coque Elegante', 'Coque clássico', 'Coque clássico e elegante.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+      ['tranca-lateral', 'penteado', 'Penteado', 'Trança Lateral', 'Trança Boho', 'Trança lateral com estilo boho.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+      ['semi-preso', 'penteado', 'Penteado', 'Semi Preso', 'Look Romântico', 'Semi preso com volume e movimento.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+      ['ondas-sol', 'penteado', 'Penteado', 'Ondas Sol', 'Efeito Praiano', 'Ondas naturais com efeito praiano.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+      ['penteado-retro', 'penteado', 'Penteado', 'Retrô Wave', 'Ondas Vintage', 'Penteado retrô com ondas vintage.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'],
+      ['rabo-de-cavalo', 'penteado', 'Penteado', 'Rabo de Cavalo', 'Moderno', 'Rabo de cavalo alto e moderno.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'],
+      ['coque-baixo', 'penteado', 'Penteado', 'Coque Baixo', 'Elegante', 'Coque baixo elegante e sofisticado.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
+      ['tranca-embutida', 'penteado', 'Penteado', 'Trança Embutida', 'Estilo', 'Trança embutida com estilo.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+      ['penteado-festival', 'penteado', 'Penteado', 'Festival Glam', 'Acessórios', 'Penteado com acessórios e estilo festival.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
+      ['moicano', 'penteado', 'Penteado', 'Moicano Moderno', 'Atitude', 'Moicano moderno com volume e atitude.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg']
+    ];
+
+    penteados.forEach(([id, cat, badge, corte, title, desc, img]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, [], []);
+    });
+
+    // ACESSÓRIOS
+    const acessorios = [
+      ['tiara-perola', 'acessorio', 'Acessório', 'Tiara de Pérolas', 'Pérolas', 'Tiara elegante com pérolas.', 'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+      ['grampo-cristal', 'acessorio', 'Acessório', 'Grampo Cristal', 'Cristais', 'Grampo com cristais que adiciona brilho.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+      ['laco-seda', 'acessorio', 'Acessório', 'Laço de Seda', 'Seda', 'Laço de seda para um toque romântico.', 'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+      ['pente-ouro', 'acessorio', 'Acessório', 'Pente Ouro', 'Dourado', 'Pente dourado para prender os fios.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+      ['fita-veludo', 'acessorio', 'Acessório', 'Fita Veludo', 'Veludo', 'Fita de veludo para amarrar os fios.', 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'],
+      ['tiara-metal', 'acessorio', 'Acessório', 'Tiara Metal', 'Metálica', 'Tiara metálica moderna.', 'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'],
+      ['presilha-floral', 'acessorio', 'Acessório', 'Presilha Floral', 'Flores', 'Presilha com flores para um toque natural.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
+      ['grampo-pedra', 'acessorio', 'Acessório', 'Grampo Pedraria', 'Pedrarias', 'Grampo com pedrarias para um visual glamoroso.', 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+      ['laco-marrom', 'acessorio', 'Acessório', 'Laço Marrom', 'Neutro', 'Laço em tom marrom para looks neutros.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
+      ['pente-cristal', 'acessorio', 'Acessório', 'Pente Cristal', 'Cristais', 'Pente com cristais que ilumina.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg']
+    ];
+
+    acessorios.forEach(([id, cat, badge, corte, title, desc, img]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, [], []);
+    });
+
+    // PRODUTOS
+    const produtos = [
+      ['joico-moisture-shampoo', 'produto', 'Produto', 'Shampoo Joico Moisture', 'Hidratação', 'Shampoo hidratante que restaura a umidade.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', [], ['Shampoo Joico Moisture']],
+      ['joico-moisture-conditioner', 'produto', 'Produto', 'Condicionador Joico Moisture', 'Nutrição', 'Condicionador que nutre e desembaraça.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Condicionador Joico Moisture']],
+      ['joico-moisture-mask', 'produto', 'Produto', 'Máscara Joico Moisture', 'Tratamento', 'Máscara de tratamento intensivo.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Máscara Joico Moisture']],
+      ['absolut-repair-shampoo', 'produto', 'Produto', 'Shampoo Absolut Repair', 'Reparação', 'Shampoo que repara danos profundos.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Shampoo Absolut Repair']],
+      ['absolut-repair-mask', 'produto', 'Produto', 'Máscara Absolut Repair', 'Reconstrução', 'Máscara de reconstrução para cabelos danificados.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Máscara Absolut Repair']],
+      ['metal-detox', 'produto', 'Produto', 'Metal Detox', 'Detox', 'Tratamento que remove metais pesados.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Shampoo Metal Detox']],
+      ['vitamino-color', 'produto', 'Produto', 'Vitamino Color', 'Proteção', 'Linha que protege e prolonga a cor.', 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg', [], ['Shampoo Vitamino Color']],
+      ['scalp-advanced', 'produto', 'Produto', 'Scalp Advanced', 'Couro Cabeludo', 'Tratamento para saúde do couro cabeludo.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', [], ['Shampoo Scalp Advanced']],
+      ['premiere', 'produto', 'Produto', 'Premiere', 'Performance', 'Linha de alta performance.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', [], ['Shampoo Premiere']],
+      ['inforcer', 'produto', 'Produto', 'Inforcer', 'Fortificação', 'Linha que fortalece e previne a quebra.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Shampoo Inforcer']],
+      ['curl-expression', 'produto', 'Produto', 'Curl Expression', 'Cacheados', 'Linha especial para cabelos cacheados.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Shampoo Curl Expression']],
+      ['blondifier', 'produto', 'Produto', 'Blondifier', 'Loiros', 'Linha que cuida dos fios loiros.', 'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg', [], ['Shampoo Blondifier']],
+      ['pro-longer', 'produto', 'Produto', 'Pro Longer', 'Crescimento', 'Linha que estimula o crescimento.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Shampoo Pro Longer']],
+      ['liss-unlimited', 'produto', 'Produto', 'Liss Unlimited', 'Liso', 'Linha para cabelos lisos e sem frizz.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Shampoo Liss Unlimited']],
+      ['absolut-repair-molecular', 'produto', 'Produto', 'Absolut Repair Molecular', 'Reparação Avançada', 'Tratamento que repara a estrutura molecular.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Shampoo Absolut Repair Molecular']]
+    ];
+
+    produtos.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
+        color.map(c => ({ name: c, link: getProdutoLink(c) })),
+        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
+      );
+    });
+
+    // KITS
+    const kits = [
+      ['kit-hidratacao', 'kit', 'Kit', 'Kit Hidratação', 'Hidratação Completa', 'Kit completo para hidratação profunda.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Hidratação Completo']],
+      ['kit-reconstrucao', 'kit', 'Kit', 'Kit Reconstrução', 'Reconstrução Completa', 'Kit para reconstrução de cabelos danificados.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Kit Reconstrução Completo']],
+      ['kit-nutricao', 'kit', 'Kit', 'Kit Nutrição', 'Nutrição Completa', 'Kit para nutrir e restaurar os fios.', 'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg', [], ['Kit Nutrição Completo']],
+      ['kit-loiros', 'kit', 'Kit', 'Kit Loiros', 'Loiros Platinados', 'Kit especial para cabelos loiros.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Loiros Completo']],
+      ['kit-coloracao', 'kit', 'Kit', 'Kit Coloração', 'Proteção da Cor', 'Kit para proteger e prolongar a cor.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Kit Coloração Completo']],
+      ['kit-queda-capilar', 'kit', 'Kit', 'Kit Queda Capilar', 'Prevenção', 'Kit para prevenir e tratar a queda.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Queda Capilar Completo']],
+      ['kit-cacheados', 'kit', 'Kit', 'Kit Cacheados', 'Definição', 'Kit para cuidar e definir cabelos cacheados.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Cacheados Completo']],
+      ['kit-danificados', 'kit', 'Kit', 'Kit Danificados', 'Reparação', 'Kit para cabelos muito danificados.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Kit Danificados Completo']],
+      ['kit-anti-frizz', 'kit', 'Kit', 'Kit Anti-Frizz', 'Controle', 'Kit para controlar o frizz.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Kit Anti-Frizz Completo']],
+      ['kit-pos-coloracao', 'kit', 'Kit', 'Kit Pós-Coloração', 'Pós-Coloração', 'Kit para cuidar dos fios após a coloração.', 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', [], ['Kit Pós-Coloração Completo']],
+      ['kit-crescimento', 'kit', 'Kit', 'Kit Crescimento', 'Crescimento', 'Kit para estimular o crescimento.', 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', [], ['Kit Crescimento Completo']],
+      ['kit-ruivos', 'kit', 'Kit', 'Kit Ruivos', 'Ruivos', 'Kit para manter a intensidade dos ruivos.', 'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', [], ['Kit Ruivos Completo']],
+      ['kit-morenas', 'kit', 'Kit', 'Kit Morenas', 'Morenas', 'Kit para morenas que querem iluminar.', 'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg', [], ['Kit Morenas Completo']],
+      ['kit-detox', 'kit', 'Kit', 'Kit Detox', 'Detox', 'Kit para limpeza profunda e detox.', 'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', [], ['Kit Detox Completo']],
+      ['kit-uso-diario', 'kit', 'Kit', 'Kit Uso Diário', 'Manutenção', 'Kit para manutenção diária dos fios.', 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', [], ['Kit Uso Diário Completo']]
+    ];
+
+    kits.forEach(([id, cat, badge, corte, title, desc, img, color, cuidado]) => {
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img,
+        color.map(c => ({ name: c, link: getProdutoLink(c) })),
+        cuidado.map(c => ({ name: c, link: getProdutoLink(c) }))
+      );
+    });
 
     // ============================================================
-    // LOGICA DA APLICACAO (MANTIDA INTEGRALMENTE)
+    // LÓGICA DA APLICAÇÃO
     // ============================================================
 
     function getFavs() {
@@ -2543,6 +1591,9 @@
     let favorites = getFavs();
     let currentFilter = 'all';
     let showingFavorites = false;
+    let isSheetOpen = false;
+    let isSheetFull = false;
+    let currentKey = null;
 
     function updateFavCounter() {
       document.getElementById('favCount').textContent = favorites.length;
@@ -2566,18 +1617,18 @@
       if (!data) return;
       const text = `${data.corte} - ${data.title}\n${data.desc}\n\nVeja mais em HairOS!`;
       if (navigator.share) {
-        navigator.share({ title: `HairOS - ${data.corte}`, text: text, url: window.location.href }).catch(() => {});
+        navigator.share({ title: `HairOS - ${data.corte}`, text: text }).catch(() => {});
       } else {
-        navigator.clipboard.writeText(`${text}\n${window.location.href}`).then(() => {
-          alert('Link copiado para compartilhar!');
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Link copiado para compartilhar! 📋');
         }).catch(() => {
           const textarea = document.createElement('textarea');
-          textarea.value = `${text}\n${window.location.href}`;
+          textarea.value = text;
           document.body.appendChild(textarea);
           textarea.select();
           document.execCommand('copy');
           document.body.removeChild(textarea);
-          alert('Link copiado para compartilhar!');
+          alert('Link copiado para compartilhar! 📋');
         });
       }
     }
@@ -2597,27 +1648,30 @@
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         document.querySelector('[data-filter="all"]').classList.add('active');
         currentFilter = 'all';
-        renderMasonry();
+        renderHome();
       }
     }
 
-    function renderMasonry() {
-      const container = document.getElementById('masonry');
+    // ============================================================
+    // RENDER HOME - MASONRY
+    // ============================================================
+    function renderHome() {
+      const container = document.getElementById('masonryHome');
       const title = document.getElementById('sectionTitle');
       const vitrineBadge = document.getElementById('vitrineBadge');
       const brandSub = document.getElementById('brandSub');
       container.innerHTML = '';
-      
+
       const filteredKeys = getFilteredKeys();
 
       if (showingFavorites) {
-        title.innerHTML = `<span class="highlight">♥ Favoritos</span>`;
+        title.innerHTML = `<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>`;
         vitrineBadge.classList.add('visible');
-        brandSub.innerHTML = `Vitrine de inspiracoes`;
+        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
       } else {
-        title.innerHTML = `<span class="highlight">Inspiracoes</span>`;
+        title.innerHTML = `<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>`;
         vitrineBadge.classList.remove('visible');
-        brandSub.innerHTML = `Vitrine de inspiracoes`;
+        brandSub.innerHTML = `✦ <span class="highlight">Vitrine de inspirações</span>`;
       }
 
       if (filteredKeys.length === 0) {
@@ -2625,41 +1679,39 @@
         container.innerHTML = `
           <div class="empty-state">
             <div class="empty-icon">${isFavView ? '💔' : '✨'}</div>
-            <div class="empty-title">${isFavView ? 'Nenhum card reservado' : 'Nenhum card encontrado'}</div>
-            <div class="empty-sub">${isFavView ? 'Comece a favoritar seus estilos favoritos!' : 'Tente outra categoria ou filtro'}</div>
+            <div class="empty-title">${isFavView ? 'Nenhum favorito' : 'Nenhum item encontrado'}</div>
+            <div class="empty-sub">${isFavView ? 'Comece a favoritar seus estilos!' : 'Tente outra categoria'}</div>
             ${isFavView ? '<div class="empty-hint">Clique no ♥ nos cards para favoritar</div>' : ''}
           </div>
         `;
         return;
       }
 
-      filteredKeys.forEach((key) => {
+      filteredKeys.forEach(key => {
         const data = styleData[key];
         if (!data) return;
         const fav = isFav(key);
         const altura = data.altura || 'h-md';
 
         const card = document.createElement('article');
-        card.className = 'card';
+        card.className = 'card-home';
         card.dataset.key = key;
-        card.dataset.categoria = data.categoria;
         card.innerHTML = `
-          <div class="card-actions-top">
-            <button class="card-btn share-btn" data-key="${key}" title="Compartilhar">↗</button>
-            <button class="card-btn fav-btn ${fav ? 'favorited' : ''}" data-key="${key}" title="Favoritar">${fav ? '♥' : '♡'}</button>
+          <div class="card-home-actions">
+            <button class="card-home-btn share-btn" data-key="${key}" title="Compartilhar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </button>
+            <button class="card-home-btn fav-btn ${fav ? 'favorited' : ''}" data-key="${key}" title="Favoritar">${fav ? '♥' : '♡'}</button>
           </div>
-          <div class="card-badge badge-${data.categoria}">${data.badge}</div>
-          <img class="card-img ${altura}" src="${data.img}" alt="${data.corte}" loading="lazy" onerror="this.src='https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'">
-          <div class="card-action">
-            <span class="card-action-title">${data.corte}</span>
-            <div class="card-action-btn">→</div>
-          </div>
+          <div class="card-home-badge badge-${data.categoria}">${data.badge}</div>
+          <img class="card-home-img ${altura}" src="${data.img}" alt="${data.corte}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
+          <div class="card-home-title">${data.corte}</div>
         `;
 
         card.querySelector('.fav-btn').addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFav(this.dataset.key, this);
-          if (showingFavorites) renderMasonry();
+          if (showingFavorites) renderHome();
         });
 
         card.querySelector('.share-btn').addEventListener('click', function(e) {
@@ -2672,59 +1724,58 @@
       });
     }
 
+    // ============================================================
+    // RENDER MODAL MASONRY - COM ALTURAS VARIADAS
+    // ============================================================
     function renderModalMasonry(key) {
       const container = document.getElementById('modalMasonry');
       container.innerHTML = '';
-      
+
       const data = styleData[key];
       if (!data) return;
 
-      const isProdutoKit = data.categoria === 'produto' || data.categoria === 'kit';
-      document.getElementById('modalSectionTitle').textContent = isProdutoKit
-        ? `Itens relacionados · ${data.corte}`
-        : `Variacoes ${data.corte}`;
+      let variants = data.variants || [data.img];
+      while (variants.length < 10) {
+        variants.push(VARIACOES_PINTEREST[variants.length % VARIACOES_PINTEREST.length]);
+      }
+      variants = variants.slice(0, 10);
 
-      const imgToKey = {};
-      Object.keys(styleData).forEach(k => {
-        const d = styleData[k];
-        if (d && d.img && (d.categoria === 'produto' || d.categoria === 'kit')) {
-          if (!imgToKey[d.img]) imgToKey[d.img] = k;
-        }
-      });
-
-      const variants = data.variants || [data.img];
-      const alturasModal = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl', 'h-md'];
+      const alturasModal = ['h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl', 'h-sm', 'h-md', 'h-lg', 'h-xl', 'h-xxl'];
 
       variants.forEach((imgUrl, idx) => {
         const hClass = alturasModal[idx % alturasModal.length];
-        const relatedKey = imgToKey[imgUrl] || null;
-        const relatedData = relatedKey ? styleData[relatedKey] : null;
-
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.dataset.key = key;
-        card.dataset.variant = idx;
-        if (relatedKey) card.dataset.relatedKey = relatedKey;
-
-        const label = relatedData ? relatedData.corte : (isProdutoKit ? data.corte : '');
+        const card = document.createElement('div');
+        card.className = 'modal-card-item';
+        card.dataset.imgUrl = imgUrl;
         card.innerHTML = `
-          ${label ? `<div class="card-badge badge-${relatedData ? relatedData.categoria : data.categoria}">${label}</div>` : ''}
-          <img class="card-img ${hClass}" src="${imgUrl}" alt="${label || data.corte}" loading="lazy" onerror="this.src='https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'">
+          <img class="${hClass}" src="${imgUrl}" alt="${data.corte}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
+          <div class="item-label">#${idx + 1}</div>
         `;
 
         card.addEventListener('click', function(e) {
+          e.stopPropagation();
           if (isSheetOpen) closeSheet();
-          if (isProdutoKit && relatedKey && relatedKey !== key) {
-            openModal(relatedKey);
+
+          const imgSrc = this.dataset.imgUrl;
+
+          let targetKey = null;
+          for (let k in styleData) {
+            const d = styleData[k];
+            if (d && d.variants && d.variants.includes(imgSrc)) {
+              targetKey = k;
+              break;
+            }
+          }
+
+          if (targetKey && targetKey !== key) {
+            openModal(targetKey);
             return;
           }
+
           const heroImg = document.getElementById('modalImg');
           heroImg.classList.add('loading');
-          heroImg.src = imgUrl;
+          heroImg.src = imgSrc;
           heroImg.onload = () => heroImg.classList.remove('loading');
-          document.getElementById('heroTitle').textContent = data.corte;
-          document.getElementById('heroSub').textContent = data.title;
-          document.getElementById('heroCategoria').textContent = data.badge;
           document.getElementById('modalOverlay').scrollTop = 0;
         });
 
@@ -2735,15 +1786,6 @@
     // ============================================================
     // MODAL
     // ============================================================
-    const overlay = document.getElementById('modalOverlay');
-    const sheet = document.getElementById('modalSheet');
-    const toggleBtn = document.getElementById('toggleSheetBtn');
-    const heroFavBtn = document.getElementById('heroFavBtn');
-    const heroShareBtn = document.getElementById('heroShareBtn');
-    let isSheetOpen = false;
-    let isSheetFull = false;
-    let currentKey = null;
-
     function openModal(key) {
       const data = styleData[key];
       if (!data) return;
@@ -2754,10 +1796,13 @@
       img.classList.add('loading');
       img.src = data.img;
       img.onload = () => img.classList.remove('loading');
+      img.onerror = () => { img.src = FALLBACK_IMG; img.classList.remove('loading'); };
 
       document.getElementById('heroCategoria').textContent = data.badge;
       document.getElementById('heroTitle').textContent = data.corte;
       document.getElementById('heroSub').textContent = data.title;
+      document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
+      document.getElementById('sideYear').textContent = '2026';
 
       const isFavorited = isFav(key);
       heroFavBtn.classList.toggle('favorited', isFavorited);
@@ -2765,46 +1810,45 @@
       heroFavBtn.dataset.key = key;
       heroShareBtn.dataset.key = key;
 
-      document.getElementById('toggleSheetBtn').textContent = 'Ver Detalhes';
       document.getElementById('sheetTitle').textContent = data.corte;
       document.getElementById('sheetSub').textContent = data.title;
       document.getElementById('sheetDesc').textContent = data.desc;
 
       document.getElementById('coloracaoItems').innerHTML = (data.coloracao || []).map(p =>
-        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
+        `<a href="${p.link}" class="kit-item" target="_blank"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
       ).join('');
 
       document.getElementById('cuidadosItems').innerHTML = (data.cuidados || []).map(p =>
-        `<a href="${p.link}" class="kit-item" target="_blank" rel="noopener"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
+        `<a href="${p.link}" class="kit-item" target="_blank"><span>${p.name}</span><span class="ml-badge">ML</span></a>`
       ).join('');
 
       document.getElementById('listaColoracao').classList.remove('show');
       document.getElementById('listaCuidados').classList.remove('show');
 
       renderModalMasonry(key);
-      overlay.classList.add('open');
+      document.getElementById('modalOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
-      overlay.scrollTop = 0;
+      document.getElementById('modalOverlay').scrollTop = 0;
     }
 
     function closeModal() {
-      overlay.classList.remove('open');
+      document.getElementById('modalOverlay').classList.remove('open');
       if (isSheetOpen) closeSheet();
       document.body.style.overflow = '';
       currentKey = null;
     }
 
     function openSheet() {
-      sheet.classList.add('show');
-      toggleBtn.classList.add('hidden');
+      document.getElementById('modalSheet').classList.add('show');
+      document.getElementById('toggleSheetBtn').classList.add('hidden');
       isSheetOpen = true;
-      sheet.classList.remove('full');
+      document.getElementById('modalSheet').classList.remove('full');
       isSheetFull = false;
     }
 
     function closeSheet() {
-      sheet.classList.remove('show', 'full');
-      toggleBtn.classList.remove('hidden');
+      document.getElementById('modalSheet').classList.remove('show', 'full');
+      document.getElementById('toggleSheetBtn').classList.remove('hidden');
       isSheetOpen = false;
       isSheetFull = false;
     }
@@ -2812,12 +1856,86 @@
     function toggleSheetFull() {
       if (!isSheetOpen) return;
       isSheetFull = !isSheetFull;
-      sheet.classList.toggle('full');
+      document.getElementById('modalSheet').classList.toggle('full');
     }
+
+    // ============================================================
+    // ZOOM
+    // ============================================================
+    function toggleZoom() {
+      const zo = document.getElementById('zoomOverlay');
+      const zoomImg = document.getElementById('zoomImage');
+      const heroImg = document.getElementById('modalImg');
+      const sideLeft = document.getElementById('heroSideLeft');
+      const sideRight = document.getElementById('heroSideRight');
+      const closeBtn = document.getElementById('modalCloseBtn');
+      const toggleBtn = document.getElementById('toggleSheetBtn');
+      const heroInfo = document.getElementById('heroInfo');
+
+      if (zo.classList.contains('active')) {
+        zo.classList.remove('active');
+        sideLeft.classList.remove('hidden');
+        sideRight.classList.remove('hidden');
+        closeBtn.classList.remove('hidden');
+        toggleBtn.classList.remove('hidden');
+        heroInfo.classList.remove('hidden');
+      } else {
+        zoomImg.src = heroImg.src;
+        zo.classList.add('active');
+        sideLeft.classList.add('hidden');
+        sideRight.classList.add('hidden');
+        closeBtn.classList.add('hidden');
+        toggleBtn.classList.add('hidden');
+        heroInfo.classList.add('hidden');
+      }
+    }
+
+    // ============================================================
+    // LOADING
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const loadingBar = document.getElementById('loadingBar');
+      const loadingPercent = document.getElementById('loadingPercent');
+      const mainContent = document.getElementById('mainContent');
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 8 + 2;
+        if (progress > 100) progress = 100;
+        loadingBar.style.width = progress + '%';
+        loadingPercent.textContent = Math.round(progress) + '%';
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            mainContent.classList.add('visible');
+            renderHome();
+          }, 400);
+        }
+      }, 120);
+
+      setTimeout(() => {
+        if (progress < 100) {
+          progress = 100;
+          loadingBar.style.width = '100%';
+          loadingPercent.textContent = '100%';
+        }
+      }, 5000);
+    });
 
     // ============================================================
     // EVENTOS
     // ============================================================
+    document.getElementById('brandLogo').addEventListener('click', goToHome);
+    document.getElementById('vitrineBadge').addEventListener('click', goToHome);
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    document.getElementById('modalImg').addEventListener('click', toggleZoom);
+    document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
+    document.getElementById('toggleSheetBtn').addEventListener('click', openSheet);
+    document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
+    document.getElementById('sheetHandle').addEventListener('click', toggleSheetFull);
+
     document.getElementById('favToggleBtn').addEventListener('click', function() {
       showingFavorites = !showingFavorites;
       this.classList.toggle('active', showingFavorites);
@@ -2832,40 +1950,7 @@
         document.querySelector('[data-filter="all"]').classList.add('active');
         currentFilter = 'all';
       }
-      renderMasonry();
-    });
-
-    document.getElementById('vitrineBadge').addEventListener('click', goToHome);
-    document.getElementById('brandLogo').addEventListener('click', goToHome);
-    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-    toggleBtn.addEventListener('click', openSheet);
-    document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
-    document.getElementById('sheetHandle').addEventListener('click', toggleSheetFull);
-
-    heroFavBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const key = this.dataset.key;
-      if (key) {
-        toggleFav(key, this);
-        if (showingFavorites) renderMasonry();
-      }
-    });
-
-    heroShareBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const key = this.dataset.key;
-      if (key) shareStyle(key);
-    });
-
-    overlay.addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        if (isSheetOpen) closeSheet();
-        else closeModal();
-      }
+      renderHome();
     });
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -2878,7 +1963,7 @@
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         currentFilter = this.dataset.filter;
-        renderMasonry();
+        renderHome();
       });
     });
 
@@ -2892,7 +1977,37 @@
       document.getElementById('listaCuidados').classList.toggle('show');
     });
 
-    // DRAG SHEET
+    const heroFavBtn = document.getElementById('heroFavBtn');
+    const heroShareBtn = document.getElementById('heroShareBtn');
+
+    heroFavBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const key = this.dataset.key;
+      if (key) {
+        toggleFav(key, this);
+        if (showingFavorites) renderHome();
+      }
+    });
+
+    heroShareBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const key = this.dataset.key;
+      if (key) shareStyle(key);
+    });
+
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (isSheetOpen) closeSheet();
+        else closeModal();
+        if (document.getElementById('zoomOverlay').classList.contains('active')) toggleZoom();
+      }
+    });
+
+    // Sheet Drag
     let startY = 0;
     let isDragging = false;
     const handle = document.getElementById('sheetHandle');
@@ -2919,51 +2034,23 @@
       isDragging = false;
     }, { passive: true });
 
-    // ZOOM
-    function toggleZoom() {
-      const zo = document.getElementById('zoomOverlay');
-      if (!zo) return;
-      const zoomImg = document.getElementById('zoomImage');
-      const heroImg = document.getElementById('modalImg');
-      const heroInfo = document.getElementById('heroInfo');
-      const heroActions = document.getElementById('heroActions');
-      const closeBtn = document.getElementById('modalCloseBtn');
-      const toggleBtnEl = document.getElementById('toggleSheetBtn');
-      if (zo.classList.contains('active')) {
-        zo.classList.remove('active');
-        if (heroInfo) heroInfo.classList.remove('hidden');
-        if (heroActions) heroActions.classList.remove('hidden');
-        if (closeBtn) closeBtn.classList.remove('hidden');
-        if (toggleBtnEl) toggleBtnEl.classList.remove('hidden');
-      } else {
-        zoomImg.src = heroImg.src;
-        zo.classList.add('active');
-        if (heroInfo) heroInfo.classList.add('hidden');
-        if (heroActions) heroActions.classList.add('hidden');
-        if (closeBtn) closeBtn.classList.add('hidden');
-        if (toggleBtnEl) toggleBtnEl.classList.add('hidden');
-      }
-    }
-
-    document.getElementById('modalImg').addEventListener('click', toggleZoom);
-    document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
-
-    // HASH
+    // Hash routing
     function openFromHash() {
       const hash = location.hash || '';
       const m = hash.match(/card=([^&]+)/);
       if (!m) return;
       const key = decodeURIComponent(m[1]);
-      if (styleData[key]) setTimeout(() => openModal(key), 300);
+      if (styleData[key]) {
+        setTimeout(() => openModal(key), 300);
+      }
     }
+
     window.addEventListener('hashchange', openFromHash);
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', openFromHash);
     } else {
       openFromHash();
     }
-
-    renderMasonry();
   </script>
 </body>
 </html>
