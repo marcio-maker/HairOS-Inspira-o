@@ -393,10 +393,9 @@
       transform: scale(1.06);
     }
 
-    /* ===== 3 TAMANHOS DOS CARDS HOME ===== */
+    /* ===== 2 TAMANHOS DOS CARDS HOME ===== */
     .h-md { height: 340px; }
     .h-lg { height: 400px; }
-    .h-xl { height: 460px; }
 
     .card-home-badge {
       position: absolute;
@@ -1383,9 +1382,17 @@
       'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'
     ];
 
-    const alturas = ['h-md', 'h-lg', 'h-xl'];
+    const alturasHome = ['h-md', 'h-lg'];
 
-    function getAlturaAleatoria() {
+    function getAlturaHome() {
+      const r = Math.random();
+      if (r < 0.50) return 'h-md';
+      return 'h-lg';
+    }
+
+    const alturasModal = ['h-md', 'h-lg', 'h-xl'];
+
+    function getAlturaModal() {
       const r = Math.random();
       if (r < 0.33) return 'h-md';
       if (r < 0.66) return 'h-lg';
@@ -1424,7 +1431,7 @@
         variants: gerar10Variacoes(img),
         coloracao: coloracao || [],
         cuidados: cuidados || [],
-        altura: getAlturaAleatoria()
+        altura: getAlturaHome()
       };
     }
 
@@ -1732,7 +1739,6 @@
       }
       variants = variants.slice(0, 10);
 
-      // Distribuição equilibrada das 3 alturas em mosaico
       const alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
 
       variants.forEach((imgUrl, idx) => {
