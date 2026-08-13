@@ -40,7 +40,7 @@
     }
 
     body {
-      padding: 12px;
+      padding: 0 12px 12px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -183,14 +183,29 @@
       transform: translateY(0) scale(1);
     }
 
-    /* ===== HEADER ===== */
+    /* ===== HEADER — pill flutuante ===== */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0 14px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 16px;
+      padding: 10px 16px;
+      margin: 10px 0 20px;
+      position: sticky;
+      top: 10px;
+      z-index: 500;
+      background: rgba(18, 14, 12, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(201, 169, 110, 0.14);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(201, 169, 110, 0.08);
+      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease;
+    }
+
+    .header.hide {
+      transform: translateY(calc(-100% - 20px));
+      opacity: 0;
+      pointer-events: none;
     }
 
     .header-left {
@@ -268,6 +283,50 @@
       fill: var(--gold);
     }
 
+    .hamburger-btn {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all var(--transition);
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .hamburger-btn .bar {
+      width: 16px;
+      height: 1.5px;
+      background: var(--text-sec);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    .hamburger-btn .bar:nth-child(2) {
+      width: 11px;
+      align-self: flex-end;
+    }
+
+    .hamburger-btn .bar:nth-child(3) {
+      width: 7px;
+      align-self: flex-end;
+    }
+
+    .hamburger-btn:hover .bar {
+      background: var(--gold);
+    }
+
     .vitrine-badge {
       font-size: .7rem;
       color: var(--gold);
@@ -298,42 +357,170 @@
       border-color: var(--gold);
     }
 
-    .fav-btn-header {
-      font-size: .75rem;
+    /* ===== MENU OVERLAY ===== */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: none;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 16px;
+    }
+
+    .menu-overlay.active {
+      display: flex;
+      animation: fadeInMenu 0.25s ease;
+    }
+
+    @keyframes fadeInMenu {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .menu-panel {
+      background: rgba(10, 8, 8, .95);
+      backdrop-filter: blur(24px);
+      border-radius: 16px;
+      padding: 20px 16px;
+      width: 100%;
+      max-width: 260px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border);
+      animation: slideMenu 0.25s ease;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    @keyframes slideMenu {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .menu-panel::-webkit-scrollbar {
+      width: 3px;
+    }
+    .menu-panel::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 4px;
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .menu-header span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .8rem;
+      color: var(--text);
+      letter-spacing: 2px;
+    }
+
+    .menu-close {
+      background: transparent;
+      border: none;
       color: var(--text-muted);
-      background: var(--bg-card);
-      padding: 4px 12px;
-      border-radius: 100px;
-      border: 1px solid rgba(201, 169, 110, .08);
+      font-size: 1.2rem;
       cursor: pointer;
+      padding: 4px 8px;
       transition: all var(--transition);
-      font-family: 'Inter', sans-serif;
+    }
+
+    .menu-close:hover {
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+
+    .menu-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      position: relative;
+      gap: 10px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all var(--transition);
+      color: var(--text-sec);
+      font-size: .85rem;
+      font-weight: 400;
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      text-align: left;
     }
 
-    .fav-btn-header:hover {
-      border-color: rgba(201, 169, 110, .3);
-      background: rgba(201, 169, 110, .05);
+    .menu-item:hover {
+      background: var(--gold-glow);
+      color: var(--text);
+      transform: translateX(4px);
     }
 
-    .fav-btn-header .heart-icon {
-      color: #ff4757;
-      font-size: .9rem;
-    }
-
-    .fav-btn-header .fav-count {
-      font-weight: 600;
-      min-width: 18px;
+    .menu-item .icon {
+      font-size: 1rem;
+      width: 24px;
       text-align: center;
     }
 
-    .fav-btn-header.active {
-      border-color: #ff4757;
-      color: #ff4757;
-      background: rgba(255, 71, 87, .08);
+    .menu-item .item-count {
+      margin-left: auto;
+      background: var(--gold);
+      color: #0a0808;
+      font-size: .6rem;
+      font-weight: 600;
+      padding: 0 8px;
+      border-radius: 20px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .menu-item .item-count.empty {
+      background: var(--border);
+      color: var(--text-muted);
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 0;
+    }
+
+    .menu-theme {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 8px;
+      color: var(--text-sec);
+      font-size: .8rem;
+      font-weight: 300;
+    }
+
+    .menu-theme .theme-switch {
+      background: var(--border);
+      border: none;
+      border-radius: 12px;
+      padding: 3px 10px;
+      font-size: .65rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      min-height: 24px;
+    }
+
+    .menu-theme .theme-switch:hover {
+      background: var(--gold-glow);
+      color: var(--gold);
     }
 
     /* ===== FILTROS ===== */
@@ -349,7 +536,7 @@
     }
 
     .filters.hidden {
-      display: none;
+      display: none !important;
     }
 
     .filters::-webkit-scrollbar {
@@ -390,7 +577,7 @@
     }
 
     @media (min-width: 600px) {
-      body { padding: 20px; }
+      body { padding: 0 20px 20px; }
       .masonry-home { column-count: 3; column-gap: 16px; }
     }
 
@@ -435,43 +622,6 @@
     .h-md { height: 260px; }
     .h-lg { height: 320px; }
 
-    .card-home-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, .75);
-      backdrop-filter: blur(8px);
-      padding: 3px 12px;
-      border-radius: 12px;
-      font-size: .55rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      font-weight: 600;
-      z-index: 5;
-      transition: all var(--transition);
-    }
-
-    .card-home:hover .card-home-badge {
-      background: var(--gold);
-      color: #0a0808;
-    }
-
-    .badge-corte { border-color: #4ecdc4; color: #4ecdc4; }
-    .badge-coloracao { border-color: #ff6b6b; color: #ff6b6b; }
-    .badge-penteado { border-color: #a29bfe; color: #a29bfe; }
-    .badge-acessorio { border-color: #feca57; color: #feca57; }
-    .badge-produto { border-color: #45b7d1; color: #45b7d1; }
-    .badge-kit { border-color: #ff9ff3; color: #ff9ff3; }
-
-    .card-home:hover .badge-corte { background: #4ecdc4; color: #0a0808; }
-    .card-home:hover .badge-coloracao { background: #ff6b6b; color: #0a0808; }
-    .card-home:hover .badge-penteado { background: #a29bfe; color: #0a0808; }
-    .card-home:hover .badge-acessorio { background: #feca57; color: #0a0808; }
-    .card-home:hover .badge-produto { background: #45b7d1; color: #0a0808; }
-    .card-home:hover .badge-kit { background: #ff9ff3; color: #0a0808; }
-
     .card-home-actions {
       position: absolute;
       top: 10px;
@@ -482,11 +632,13 @@
       opacity: 0;
       transform: translateY(-8px);
       transition: all var(--transition);
+      pointer-events: none;
     }
 
     .card-home:hover .card-home-actions {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
 
     .card-home-btn {
@@ -525,6 +677,11 @@
       background: rgba(78, 205, 196, .2);
     }
 
+    .card-home-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
     .card-home-title {
       position: absolute;
       bottom: 12px;
@@ -544,6 +701,7 @@
       font-weight: 600;
       color: var(--text);
       letter-spacing: .02em;
+      pointer-events: none;
     }
 
     .card-home:hover .card-home-title {
@@ -605,7 +763,6 @@
       opacity: 1;
     }
 
-    /* ===== HERO ===== */
     .modal-hero {
       position: relative;
       width: 100%;
@@ -664,6 +821,12 @@
       );
       pointer-events: none;
       z-index: 2;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .modal-hero:hover .modal-hero-overlay {
+      opacity: 1;
     }
 
     .modal-hero-side-left {
@@ -676,6 +839,12 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    .modal-hero:hover .modal-hero-side-left {
+      opacity: 1;
     }
 
     .modal-hero-side-left .side-label {
@@ -706,6 +875,13 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      pointer-events: none;
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    .modal-hero:hover .modal-hero-side-right {
+      opacity: 1;
       pointer-events: all;
     }
 
@@ -753,11 +929,18 @@
       position: absolute;
       bottom: 16px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(10px);
       z-index: 10;
       pointer-events: none;
       text-align: center;
       width: 90%;
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    .modal-hero:hover .modal-hero-info {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .modal-hero-info .hero-categoria {
@@ -813,6 +996,13 @@
       transition: all var(--t6);
       z-index: 30;
       pointer-events: all;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .modal-hero:hover .modal-close-btn {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .modal-close-btn:hover {
@@ -825,7 +1015,7 @@
       position: absolute;
       bottom: 70px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(10px);
       background: rgba(0, 0, 0, .8);
       backdrop-filter: blur(12px);
       border: 1px solid var(--gold);
@@ -840,6 +1030,13 @@
       z-index: 20;
       box-shadow: 0 4px 20px rgba(0, 0, 0, .4);
       white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .modal-hero:hover .modal-toggle-btn {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
       pointer-events: all;
     }
 
@@ -855,7 +1052,6 @@
       transform: translateX(-50%) translateY(20px);
     }
 
-    /* ===== CONTEÚDO DO MODAL - MASONRY ===== */
     .modal-content {
       padding: 0 0 40px;
       flex: 1;
@@ -1105,86 +1301,147 @@
     .kit-lista {
       display: none;
       margin-bottom: 16px;
-      padding: 12px 16px;
-      background: rgba(201, 169, 110, .04);
+      padding: 4px 0;
       border-radius: 10px;
-      border: 1px solid var(--border);
     }
 
     .kit-lista.show {
       display: block;
-      animation: fadeIn .25s ease;
+      animation: fadeIn .3s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
+      from { opacity: 0; transform: translateY(-8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .kit-lista .kit-title {
-      font-size: .6rem;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--gold);
-      opacity: .7;
-      margin-bottom: 6px;
-      font-weight: 600;
+    .kit-acordeao {
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .02);
+      transition: all var(--transition);
     }
 
-    .kit-item {
+    .kit-acordeao:hover {
+      border-color: rgba(201, 169, 110, .2);
+    }
+    .kit-acordeao.open {
+      border-color: rgba(201, 169, 110, .25);
+    }
+
+    .kit-acordeao-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--text-sec);
-      font-size: .8rem;
-      transition: color .2s;
+      padding: 10px 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--transition);
+      gap: 10px;
     }
 
-    .kit-item:last-child {
-      border-bottom: none;
+    .kit-acordeao-header:hover {
+      background: rgba(201, 169, 110, .04);
     }
-    .kit-item:hover {
-      color: var(--text);
+
+    .kit-acordeao-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .kit-item span {
+
+    .kit-acordeao-badge {
+      font-size: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
       color: var(--gold);
-      opacity: .6;
-    }
-    .ml-badge {
-      background: #FFE600;
-      color: #333 !important;
-      font-size: .6rem;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      opacity: 1 !important;
+      background: rgba(201, 169, 110, .1);
+      padding: 2px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(201, 169, 110, .15);
+      font-weight: 600;
       flex-shrink: 0;
     }
 
-    .sheet-cta {
+    .kit-acordeao-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .kit-acordeao-arrow {
+      font-size: .65rem;
+      color: var(--text-muted);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .kit-acordeao.open .kit-acordeao-arrow {
+      transform: rotate(180deg);
+    }
+
+    .kit-acordeao-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s cubic-bezier(.25, .46, .45, .94), padding .3s ease;
+      padding: 0 14px;
+    }
+
+    .kit-acordeao.open .kit-acordeao-body {
+      max-height: 600px;
+      padding: 0 14px 14px 14px;
+    }
+
+    .kit-produtos-lista {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      padding: 6px 0 10px 0;
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+
+    .kit-produtos-lista span {
+      color: var(--text-sec);
+      font-weight: 400;
+    }
+
+    .kit-produtos-lista .sep {
+      color: var(--border);
+      opacity: .5;
+    }
+
+    .kit-complete {
       display: block;
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       background: var(--gold);
       color: #0a0808;
       border: none;
-      border-radius: 10px;
+      border-radius: 6px;
+      font-size: .8rem;
       font-weight: 700;
-      font-size: .9rem;
       text-align: center;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
-      transition: all var(--t6);
+      transition: all var(--transition);
       text-decoration: none;
-      margin-top: 8px;
+      letter-spacing: .02em;
     }
 
-    .sheet-cta:hover {
+    .kit-complete:hover {
       background: var(--gold-light);
       transform: scale(1.01);
+    }
+
+    .kit-complete .arrow {
+      margin-right: 6px;
+      font-weight: 300;
     }
 
     /* ===== ZOOM ===== */
@@ -1265,6 +1522,600 @@
       opacity: 0 !important;
       pointer-events: none !important;
     }
+
+    /* ===== PÁGINAS ===== */
+    .page-container {
+      display: block;
+    }
+
+    .page {
+      display: none;
+      animation: fadePage 0.35s ease;
+    }
+
+    .page.active-page {
+      display: block;
+    }
+
+    @keyframes fadePage {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .page-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .page-header .page-count {
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .back-home {
+      color: var(--text-muted);
+      font-size: .7rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .back-home:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* ===== FAVORITOS ===== */
+    .fav-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .fav-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 900px) {
+      .fav-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .fav-item {
+      aspect-ratio: 9/12;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .fav-item:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+
+    .fav-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .fav-item .fav-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 10px 10px;
+      background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%);
+    }
+
+    .fav-item .fav-overlay span {
+      font-size: .8rem;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+
+    .fav-item .fav-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,.6);
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: .7rem;
+      cursor: pointer;
+      color: #ff4757;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      z-index: 5;
+    }
+
+    .fav-item .fav-remove:hover {
+      transform: scale(1.1);
+      background: rgba(255,71,87,.2);
+    }
+
+    /* ===== SOBRE ===== */
+    .sobre-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sobre-content p {
+      font-size: .9rem;
+      color: var(--text-sec);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .sobre-card {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+    }
+
+    .sobre-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--text);
+      font-size: .95rem;
+      margin-bottom: 4px;
+    }
+
+    .sobre-card p {
+      font-size: .85rem;
+      color: var(--text-sec);
+    }
+
+    .sobre-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .sobre-stats .stat {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .sobre-stats .stat:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .sobre-stats .stat .number {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--gold);
+      display: block;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .sobre-stats .stat .label {
+      font-size: .6rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ===== CONTATO ===== */
+    .contato-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contato-content p {
+      font-size: .9rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .contato-form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contato-form input,
+    .contato-form textarea {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: .85rem;
+      outline: none;
+      transition: all var(--transition);
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    .contato-form input:focus,
+    .contato-form textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+
+    .contato-form textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .contato-form button {
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      color: #0a0808;
+      font-size: .85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .contato-form button:hover {
+      background: var(--gold-light);
+      transform: scale(1.02);
+    }
+
+    .contato-social {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 8px 0;
+    }
+
+    .contato-social a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .contato-social a:hover {
+      color: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .pix-banner {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pix-banner .pix-emoji {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .pix-banner .pix-text {
+      flex: 1;
+    }
+
+    .pix-banner .pix-text strong {
+      font-size: .9rem;
+      color: var(--text);
+      display: block;
+    }
+
+    .pix-banner .pix-text span {
+      font-size: .75rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    .pix-banner .pix-copy-btn {
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: #0a0808;
+      font-family: 'Inter', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .pix-banner .pix-copy-btn:hover {
+      opacity: 0.85;
+      transform: scale(1.03);
+    }
+
+    /* ===== PERFIL / DIÁRIO / ANTES-DEPOIS ===== */
+    .perfil-content { display: flex; flex-direction: column; gap: 14px; }
+    .auth-tabs, .perfil-tabs { display: flex; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+    .auth-tab, .perfil-tab {
+      flex: 1; min-width: 70px; padding: 9px 8px; border-radius: 10px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted); font-size: .72rem; font-weight: 500;
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: all var(--transition); text-align: center;
+    }
+    .auth-tab.active, .perfil-tab.active { background: var(--gold); color: #0a0808; border-color: var(--gold); }
+    .auth-form { display: none; flex-direction: column; gap: 10px; }
+    .auth-form.active { display: flex; }
+    .auth-form input, .diario-form textarea, .diario-form input, .ba-form input, .ba-form textarea {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 11px 14px; color: var(--text); font-size: .85rem; outline: none;
+      width: 100%; font-family: 'Inter', sans-serif; font-weight: 300; transition: all var(--transition);
+    }
+    .auth-form input:focus, .diario-form textarea:focus, .diario-form input:focus,
+    .ba-form input:focus, .ba-form textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+    .auth-form button[type="submit"], .btn-gold {
+      background: var(--gold); border: none; border-radius: 8px; padding: 11px; color: #0a0808;
+      font-size: .82rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+      letter-spacing: .03em; text-transform: uppercase; transition: all var(--transition);
+    }
+    .auth-form button[type="submit"]:hover, .btn-gold:hover { background: var(--gold-light); transform: scale(1.02); }
+    .auth-hint { font-size: .68rem; color: var(--text-muted); text-align: center; opacity: .7; }
+    .auth-demo-btn {
+      background: transparent; border: 1px dashed rgba(201,169,110,.35); border-radius: 8px;
+      padding: 8px; color: var(--gold); font-size: .7rem; cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+    .auth-demo-btn:hover { background: var(--gold-glow); }
+    .perfil-card {
+      background: var(--bg-card); border-radius: 12px; padding: 16px;
+      border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;
+    }
+    .perfil-header { display: flex; align-items: center; gap: 14px; }
+    .perfil-avatar-wrap { position: relative; flex-shrink: 0; }
+    .perfil-avatar {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8a6d3b);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+      color: #0a0808; overflow: hidden; border: 2px solid rgba(201,169,110,.3);
+    }
+    .perfil-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .perfil-avatar-edit {
+      position: absolute; bottom: -2px; right: -2px; width: 26px; height: 26px;
+      border-radius: 50%; background: var(--gold); border: 2px solid var(--bg);
+      color: #0a0808; font-size: .7rem; display: flex; align-items: center;
+      justify-content: center; cursor: pointer;
+    }
+    .perfil-info h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--text); }
+    .perfil-info .perfil-email { font-size: .72rem; color: var(--text-muted); }
+    .perfil-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .perfil-stat {
+      background: rgba(201,169,110,.06); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+    }
+    .perfil-stat .number { font-size: 1rem; font-weight: 600; color: var(--gold); display: block; font-family: 'Playfair Display', serif; }
+    .perfil-stat .label { font-size: .55rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: .04em; }
+    .perfil-btn {
+      padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: transparent;
+      color: var(--text-sec); font-size: .78rem; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all var(--transition); text-align: center;
+    }
+    .perfil-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
+    .perfil-btn.danger { border-color: rgba(255,71,87,.3); color: #ff4757; }
+    .perfil-panel { display: none; flex-direction: column; gap: 12px; }
+    .perfil-panel.active { display: flex; }
+    .diario-form, .ba-form { display: flex; flex-direction: column; gap: 8px; }
+    .diario-form textarea, .ba-form textarea { min-height: 70px; resize: vertical; }
+    .diario-entry, .ba-entry {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px; position: relative;
+    }
+    .diario-entry .de-date, .ba-entry .ba-date {
+      font-size: .65rem; color: var(--gold); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .diario-entry .de-text { font-size: .85rem; color: var(--text-sec); line-height: 1.5; font-weight: 300; }
+    .diario-entry .de-del, .ba-entry .ba-del {
+      position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.5); border: none;
+      color: #ff4757; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: .7rem;
+    }
+    .ba-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .ba-img-box {
+      aspect-ratio: 3/4; border-radius: 10px; overflow: hidden; background: var(--bg);
+      border: 1px solid var(--border); position: relative;
+    }
+    .ba-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-img-box .ba-label {
+      position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,.75); color: var(--gold-light); font-size: .55rem;
+      padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: .08em;
+    }
+    .ba-note { font-size: .8rem; color: var(--text-sec); font-weight: 300; line-height: 1.4; }
+    .ba-upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .ba-upload-btn {
+      border: 1px dashed rgba(201,169,110,.3); border-radius: 10px; padding: 20px 8px;
+      text-align: center; cursor: pointer; color: var(--text-muted); font-size: .72rem;
+      background: rgba(201,169,110,.04); transition: all var(--transition);
+    }
+    .ba-upload-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .ba-upload-btn.has-img { border-style: solid; padding: 0; overflow: hidden; aspect-ratio: 3/4; }
+    .ba-upload-btn.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .empty-soft {
+      text-align: center; padding: 24px 12px; color: var(--text-muted); font-size: .8rem;
+      border: 1px dashed var(--border); border-radius: 12px;
+    }
+    .photo-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: 0 auto;
+      background: rgba(10,8,8,.98); backdrop-filter: blur(20px);
+      border-radius: 20px 20px 0 0; border-top: 1px solid rgba(201,169,110,.2);
+      padding: 16px 16px 28px; z-index: 2000; transform: translateY(110%);
+      transition: transform .35s cubic-bezier(.23,1,.32,1); box-shadow: 0 -10px 40px rgba(0,0,0,.7);
+    }
+    .photo-sheet.show { transform: translateY(0); }
+    .photo-sheet-handle { width: 40px; height: 4px; background: rgba(255,255,255,.2); border-radius: 4px; margin: 0 auto 14px; }
+    .photo-sheet h4 { font-family: 'Playfair Display', serif; font-style: italic; text-align: center; margin-bottom: 14px; }
+    .photo-sheet-btns { display: flex; flex-direction: column; gap: 8px; }
+    .photo-sheet-btns button {
+      padding: 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--text); font-size: .84rem; cursor: pointer; font-family: 'Inter', sans-serif; text-align: left;
+    }
+    .photo-sheet-btns button:hover { border-color: var(--gold); background: var(--gold-glow); }
+    .photo-sheet-cancel { text-align: center !important; color: var(--text-muted) !important; border-color: transparent !important; background: transparent !important; }
+
+    /* ===== FOOTER — pill flutuante ===== */
+    .footer {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      background: rgba(18, 14, 12, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(201, 169, 110, 0.18);
+      border-radius: 100px;
+      padding: 8px 10px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(201, 169, 110, 0.1), 0 2px 8px rgba(201, 169, 110, 0.06);
+      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease;
+      white-space: nowrap;
+    }
+
+    .footer.hide {
+      transform: translateX(-50%) translateY(calc(100% + 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .footer-links a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--text-muted);
+      font-size: .5rem;
+      text-decoration: none;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: all 0.25s cubic-bezier(.23, 1, .32, 1);
+      position: relative;
+    }
+
+    .footer-links a::before {
+      content: attr(data-icon);
+      font-size: 1rem;
+      display: block;
+      transition: transform 0.25s cubic-bezier(.23, 1, .32, 1);
+      line-height: 1;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .footer-links a:hover::before {
+      transform: translateY(-2px) scale(1.18);
+    }
+
+    .footer-links a.active-link {
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .footer-links a.active-link::before {
+      transform: scale(1.12);
+    }
+
+    .footer-copy {
+      display: none;
+    }
+
+    /* Espaço para o pill não cobrir conteúdo */
+    .main-content {
+      padding-bottom: 88px;
+    }
+
+    /* ===== RESPONSIVO SHEET ===== */
+    @media (max-width: 600px) {
+      .modal-sheet {
+        max-width: 100%;
+        height: 60%;
+        padding: 16px 16px 24px;
+      }
+      .kit-acordeao-title { font-size: .85rem; }
+      .kit-acordeao-badge { font-size: .45rem; padding: 1px 8px; }
+      .sheet-btns button { font-size: .7rem; padding: 8px; }
+      .kit-produtos-lista { font-size: .68rem; }
+      .kit-complete { font-size: .75rem; padding: 8px; }
+      .fav-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 400px) {
+      .kit-acordeao-header { padding: 8px 12px; }
+      .kit-acordeao-title { font-size: .78rem; }
+      .kit-produtos-lista { font-size: .62rem; }
+      .fav-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .header-link span {
+        display: none;
+      }
+      .header-link {
+        padding: 4px 10px;
+        font-size: .65rem;
+      }
+      .filters {
+        gap: 6px;
+        padding: 8px 0 12px;
+      }
+      .filter-btn {
+        padding: 4px 14px;
+        font-size: .65rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1282,6 +2133,7 @@
 
   <!-- ===== MAIN CONTENT ===== -->
   <div class="main-content" id="mainContent">
+    <!-- HEADER -->
     <header class="header">
       <div class="header-left">
         <div class="brand" id="brandLogo">
@@ -1293,34 +2145,170 @@
         <span class="vitrine-badge" id="vitrineBadge">✦ Ver Vitrine</span>
         <a href="Chat.bot.html" class="header-link">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-          Assistente
+          <span>Assistente</span>
         </a>
-        <button class="fav-btn-header" id="favToggleBtn">
-          <span class="heart-icon">♥</span>
-          <span class="fav-count" id="favCount">0</span>
+        <button class="hamburger-btn" id="hamburgerBtn">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
         </button>
       </div>
     </header>
+
+    <!-- ===== MENU OVERLAY ===== -->
+    <div class="menu-overlay" id="menuOverlay">
+      <div class="menu-panel">
+        <div class="menu-header">
+          <span>✦ menu</span>
+          <button class="menu-close" id="menuClose">✕</button>
+        </div>
+        <button class="menu-item" id="menuHome"><span class="icon">✧</span> home</button>
+        <button class="menu-item" id="menuFavs"><span class="icon">♥</span> favoritos <span class="item-count empty" id="menuFavCount">0</span></button>
+        <button class="menu-item" id="menuPerfil"><span class="icon">◉</span> perfil</button>
+        <div class="menu-divider"></div>
+        <button class="menu-item" id="menuSobre"><span class="icon">◎</span> sobre</button>
+        <button class="menu-item" id="menuContato"><span class="icon">✉</span> contato</button>
+        <div class="menu-divider"></div>
+        <div class="menu-theme">
+          <span>🌙 tema</span>
+          <button class="theme-switch" id="menuThemeToggle">dark</button>
+        </div>
+      </div>
+    </div>
 
     <!-- ===== FILTROS ===== -->
     <div class="filters" id="filters">
       <button class="filter-btn active" data-filter="all">Todos</button>
       <button class="filter-btn" data-filter="corte">Cortes</button>
       <button class="filter-btn" data-filter="coloracao">Colorações</button>
-      <button class="filter-btn" data-filter="penteado">Penteados</button>
-      <button class="filter-btn" data-filter="acessorio">Acessórios</button>
       <button class="filter-btn" data-filter="produto">Produtos</button>
       <button class="filter-btn" data-filter="kit">Kits</button>
     </div>
 
-    <div class="section-title" id="sectionTitle"><span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span></div>
-    <div class="masonry-home" id="masonryHome"></div>
+    <!-- ===== PAGES ===== -->
+    <div class="page-container">
+
+      <!-- HOME -->
+      <div class="page active-page" id="pageHome">
+        <div class="section-title" id="sectionTitle"><span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span></div>
+        <div class="masonry-home" id="masonryHome"></div>
+      </div>
+
+      <!-- FAVORITOS -->
+      <div class="page" id="pageFavoritos">
+        <div class="page-header">
+          <h2>♥ favoritos <span class="page-count" id="favCountHeader">(0)</span></h2>
+          <button class="back-home" id="backHomeFav">← voltar</button>
+        </div>
+        <div class="fav-grid" id="favGrid"></div>
+      </div>
+
+      <!-- SOBRE -->
+      <div class="page" id="pageSobre">
+        <div class="page-header">
+          <h2>◎ sobre</h2>
+          <button class="back-home" id="backHome4">← voltar</button>
+        </div>
+        <div class="sobre-content">
+          <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong>
+            é uma curadoria de estilos capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
+          <div class="sobre-card">
+            <h4>origem</h4>
+            <p>Nascida da estética atemporal da Vogue Paris dos anos 1960, a HairOS reúne 60 estilos entre cortes, colorações e produtos.</p>
+          </div>
+          <div class="sobre-card">
+            <h4>missão</h4>
+            <p>Inspirar e revelar os estilos mais atuais através de uma curadoria visual e técnica.</p>
+          </div>
+          <div class="sobre-stats">
+            <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
+            <div class="stat"><span class="number">4.8</span><span class="label">★ avaliação</span></div>
+            <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">♥ favoritos</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTATO -->
+      <div class="page" id="pageContato">
+        <div class="page-header">
+          <h2>✉ contato</h2>
+          <button class="back-home" id="backHome5">← voltar</button>
+        </div>
+        <div class="contato-content">
+          <p>Envie uma mensagem para a equipe HairOS. Respondemos em até 24h.</p>
+          <form class="contato-form" id="contatoForm" action="https://formsubmit.co/ajax/hairbymarciostylist@gmail.com" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="HairOS · Nova mensagem de contato">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="nome" id="contatoNome" placeholder="seu nome" required autocomplete="name">
+            <input type="email" name="email" id="contatoEmail" placeholder="seu e-mail" required autocomplete="email">
+            <input type="hidden" name="_replyto" id="contatoReplyTo" value="">
+            <textarea name="mensagem" id="contatoMensagem" placeholder="sua mensagem..." required></textarea>
+            <button type="submit" id="contatoSubmitBtn">enviar</button>
+          </form>
+
+          <div class="pix-banner">
+            <div class="pix-emoji">💛</div>
+            <div class="pix-text">
+              <strong>Gostou do HairOS?</strong>
+              <span>Contribua com qualquer valor via Pix</span>
+            </div>
+            <button class="pix-copy-btn" id="btnPixCatalogo">Copiar Pix</button>
+          </div>
+
+          <div class="contato-social">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="WhatsApp">📱</a>
+          </div>
+          <p style="text-align:center;font-size:.7rem;color:var(--text-muted);letter-spacing:0.05em;margin-top:4px;">
+            hairbymarciostylist@gmail.com</p>
+        </div>
+      </div>
+
+      <!-- PERFIL / DIÁRIO / ANTES-DEPOIS -->
+      <div class="page" id="pagePerfil">
+        <div class="page-header">
+          <h2>◉ perfil</h2>
+          <button class="back-home" id="backHomePerfil">← voltar</button>
+        </div>
+        <div class="perfil-content" id="perfilContent"></div>
+      </div>
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="footerBar">
+      <div class="footer-links" id="footerLinks">
+        <a class="active-link" data-page="pageHome" data-icon="✧">home</a>
+        <a data-page="pageFavoritos" data-icon="♥">favs</a>
+        <a data-page="pagePerfil" data-icon="◉">perfil</a>
+        <a data-page="pageSobre" data-icon="◎">sobre</a>
+        <a data-page="pageContato" data-icon="✉">contato</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- PHOTO SHEET -->
+  <div class="photo-sheet" id="photoSheet">
+    <div class="photo-sheet-handle"></div>
+    <h4>Foto de perfil</h4>
+    <div class="photo-sheet-btns">
+      <button type="button" id="btnPhotoCamera">📷 Tirar foto</button>
+      <button type="button" id="btnPhotoGallery">🖼️ Escolher da galeria</button>
+      <button type="button" id="btnPhotoRemove">🗑️ Remover foto</button>
+      <button type="button" class="photo-sheet-cancel" id="btnPhotoCancel">Cancelar</button>
+    </div>
+    <input type="file" id="inputPhotoCamera" accept="image/*" capture="environment" style="display:none">
+    <input type="file" id="inputPhotoGallery" accept="image/*" style="display:none">
   </div>
 
   <!-- ===== MODAL ===== -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card" id="modalCard">
-      <div class="modal-hero">
+      <div class="modal-hero" id="modalHero">
         <img class="modal-hero-img" id="modalImg" src="" alt="">
         <div class="modal-hero-overlay"></div>
 
@@ -1343,7 +2331,7 @@
         </div>
 
         <button class="modal-close-btn" id="modalCloseBtn">✕</button>
-        <button class="modal-toggle-btn" id="toggleSheetBtn">✨ Ver Detalhes</button>
+        <button class="modal-toggle-btn" id="toggleSheetBtn">Ver detalhes</button>
       </div>
 
       <div class="modal-content">
@@ -1371,15 +2359,13 @@
       </div>
       <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
       <div class="sheet-btns">
-        <button id="btnColoracao">🎨 Coloração</button>
-        <button class="cuidados" id="btnCuidados">💧 Cuidados</button>
+        <button id="btnColoracao">Coloração</button>
+        <button class="cuidados" id="btnCuidados">Cuidados</button>
       </div>
       <div class="kit-lista" id="listaColoracao">
-        <div class="kit-title">Kit Coloração</div>
         <div id="coloracaoItems"></div>
       </div>
       <div class="kit-lista" id="listaCuidados">
-        <div class="kit-title">Kit Cuidados</div>
         <div id="cuidadosItems"></div>
       </div>
       <div style="height:20px;"></div>
@@ -1393,6 +2379,8 @@
     function showToast(message, duration) {
       duration = duration || 2500;
       var container = document.getElementById('toastContainer');
+      if (!container) return;
+      
       var toast = document.createElement('div');
       toast.className = 'toast';
       toast.textContent = message;
@@ -1411,14 +2399,53 @@
     }
 
     // ============================================================
-    // DADOS
+    // DADOS - KITS REAIS COM LINKS DO MERCADO LIVRE
     // ============================================================
 
     var FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
 
-    // ============================================================
-    // POOLS POR CATEGORIA
-    // ============================================================
+    // ===== KITS DE COLORAÇÃO =====
+    var coloracaoKits = {
+      kits: [
+        { 
+          nome: 'Kit Keune', 
+          badge: 'Comercial', 
+          link: 'https://meli.la/1GbiW7M', 
+          produtos: 'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor' 
+        },
+        { 
+          nome: 'Kit L\'Oréal', 
+          badge: 'Técnico', 
+          link: 'https://meli.la/28LpPj2', 
+          produtos: 'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol' 
+        }
+      ]
+    };
+
+    // ===== KITS DE CUIDADOS =====
+    var cuidadosKits = {
+      kits: [
+        { 
+          nome: 'Kit Kerastase', 
+          badge: 'Premium', 
+          link: 'https://meli.la/1MwSY7v', 
+          produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime' 
+        },
+        { 
+          nome: 'Kit L\'Oréal Expert', 
+          badge: 'Profissional', 
+          link: 'https://meli.la/2nmeunk', 
+          produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer' 
+        },
+        { 
+          nome: 'Kit Joico', 
+          badge: 'Hidratação', 
+          link: 'https://meli.la/2x9xqBe', 
+          produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK' 
+        }
+      ]
+    };
+
     var IMAGE_POOLS = {
       corte: [
         'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
@@ -1453,30 +2480,6 @@
         'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
         'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
         'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'
-      ],
-      penteado: [
-        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'
-      ],
-      acessorio: [
-        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'
       ],
       produto: [
         'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
@@ -1520,19 +2523,13 @@
       'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
       'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
       'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-      'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-      'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-      'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'
+      'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'
     ];
 
     var alturasHome = ['h-md', 'h-lg'];
 
     function getAlturaHome() {
       return Math.random() < 0.5 ? 'h-md' : 'h-lg';
-    }
-
-    function getProdutoLink(nome) {
-      return 'https://lista.mercadolivre.com.br/' + encodeURIComponent(nome);
     }
 
     function gerarVariacoes(baseUrl, categoria, quantidade) {
@@ -1561,7 +2558,7 @@
 
     var styleData = {};
 
-    function createCard(id, categoria, badge, corte, title, desc, img, coloracao, cuidados) {
+    function createCard(id, categoria, badge, corte, title, desc, img) {
       return {
         id: id,
         categoria: categoria,
@@ -1571,501 +2568,246 @@
         desc: desc,
         img: img,
         variants: gerarVariacoes(img, categoria, 10),
-        coloracao: coloracao || [],
-        cuidados: cuidados || [],
+        coloracao: coloracaoKits,
+        cuidados: cuidadosKits,
         altura: getAlturaHome()
       };
     }
 
-    // ============================================================
-    // CORTES (15)
-    // ============================================================
+    // ===== CORTES (15) =====
     var cortesData = [
-      ['velvet-bob', 'corte', 'Corte', 'Velvet Bob', 'Bob Texturizado', 
-        'Bob com camadas internas que criam volume sem peso, resultando em um movimento natural e sofisticado. A finalização com cera de textura define cada fio individualmente, garantindo um efeito moderno e despojado.',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        ['L\'Oréal Professionnel INOA 8 (loiro natural)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Joico Moisture Recovery Leave-In']],
-      ['pixie-cut', 'corte', 'Corte', 'Pixie Cut', 'Loira Fria Platinada',
-        'Corte curto com textura despojada e volume no topo, ideal para quem busca praticidade com estilo. O loiro platinado foi obtido com descoloração controlada e matização precisa para neutralizar tons quentes.',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['butterfly-cut', 'corte', 'Corte', 'Butterfly Cut', 'Bege Natural',
-        'Corte com camadas estratégicas que lembram asas de borboleta, criando movimento e leveza em todo o comprimento. O bege natural foi obtido com matização precisa para neutralizar reflexos indesejados.',
-        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-        ['L\'Oréal Professionnel INOA 8.21 (bege)', 'L\'Oréal Professionnel Dia Richesse 8.21'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
-      ['blunt-cut', 'corte', 'Corte', 'Blunt Cut', 'Morena Fria',
-        'Corte reto com acabamento preciso e pontas perfeitamente retas, transmitindo elegância e modernidade. O tom moreno frio foi obtido com base escura e luzes estratégicas para criar dimensão sem calor.',
-        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-        ['L\'Oréal Professionnel INOA 5 (castanho)', 'L\'Oréal Professionnel Dia Richesse 5.1'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Joico K-PAK Leave-In']],
-      ['shaggy-hair', 'corte', 'Corte', 'Shaggy Hair', 'Loira Despojada',
-        'Corte despojado com muitas camadas e textura natural, perfeito para um visual autêntico e cheio de personalidade. O loiro foi construído com mechas californianas e finalização com spray de textura.',
-        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.01'],
-        ['L\'Oréal Professionnel Blondifier Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Wella EIMI Texture Touch']],
-      ['long-bob', 'corte', 'Corte', 'Long Bob', 'Loira Dourada',
-        'Long Bob versátil com movimento e brilho intenso, que se adapta a diferentes ocasiões. A coloração loira dourada foi obtida com descoloração suave e matização com pigmentos dourados.',
-        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-        ['L\'Oréal Professionnel INOA 9.3 (loiro dourado)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
-      ['french-bob', 'corte', 'Corte', 'French Bob', 'Castanho Elegante',
-        'Bob francês clássico com franja reta e acabamento preciso, evocando a elegância parisiense. O castanho intenso foi obtido com base uniforme e brilho profundo.',
-        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-        ['L\'Oréal Professionnel INOA 4 (castanho escuro)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
-      ['italian-bob', 'corte', 'Corte', 'Italian Bob', 'Morena Iluminada',
-        'Bob italiano com ondas suaves e movimento natural, inspirado no estilo mediterrâneo. A morena iluminada foi obtida com luzes estratégicas para dar dimensão e brilho.',
-        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-        ['L\'Oréal Professionnel INOA 6 (castanho claro)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['wolf-cut', 'corte', 'Corte', 'Wolf Cut', 'Bege Perolado',
-        'Corte com camadas selvagens e muito volume no topo, criando um visual ousado e contemporâneo. O bege perolado foi obtido com descoloração e matização precisa para tom frio e luminoso.',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.21'],
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Wella EIMI Perfect Me']],
-      ['bixie-cut', 'corte', 'Corte', 'Bixie Cut', 'Loira Mel',
-        'Mix de Pixie e Bob com textura e movimento, ideal para quem busca versatilidade. A loira mel foi obtida com descoloração e pigmentos mel para aquecer o tom sem perder a luminosidade.',
-        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-        ['L\'Oréal Professionnel INOA 9.4 (loiro mel)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
-      ['soft-layers', 'corte', 'Corte', 'Soft Layers', 'Cobre Natural',
-        'Camadas suaves e movimento natural com acabamento luminoso, proporcionando um visual leve e fluido. O cobre natural foi obtido com pigmentos quentes para um tom vibrante e sofisticado.',
-        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['modern-mullet', 'corte', 'Corte', 'Modern Mullet', 'Platinado Radical',
-        'Mullet moderno com volume e atitude, resgatando um estilo icônico com um toque contemporâneo. O platinado radical foi obtido com descoloração máxima e matização com pigmentos violeta.',
-        'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['clavicut', 'corte', 'Corte', 'Clavicut', 'Caramelo Glow',
-        'Corte na altura da clavícula com movimento e leveza, alongando a silhueta. O caramelo glow foi obtido com luzes douradas para iluminar o rosto e aquecer a base.',
-        'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg',
-        ['L\'Oréal Professionnel INOA 8.4 (caramelo)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken One United Leave-In']],
-      ['octopus-cut', 'corte', 'Corte', 'Octopus Cut', 'Loira Mel',
-        'Corte com camadas que lembram tentáculos, criando movimento e volume em todo o cabelo. A loira mel foi obtida com descoloração suave e pigmentos mel para um tom quente e luminoso.',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-        ['L\'Oréal Professionnel INOA 9.4 (loiro mel)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Wella EIMI Texture Touch']],
-      ['hush-cut', 'corte', 'Corte', 'Hush Cut', 'Preto Natural',
-        'Corte silencioso e cheio de estilo com acabamento natural, perfeito para quem busca um visual discreto e elegante. O preto intenso foi obtido com base uniforme e brilho profundo.',
-        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-        ['L\'Oréal Professionnel INOA 3 (preto)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']]
+      ['velvet-bob', 'corte', 'Corte', 'Velvet Bob', 'Bob Texturizado', 'Bob com camadas internas que criam volume sem peso.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
+      ['pixie-cut', 'corte', 'Corte', 'Pixie Cut', 'Loira Fria Platinada', 'Corte curto com textura despojada e volume no topo.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+      ['butterfly-cut', 'corte', 'Corte', 'Butterfly Cut', 'Bege Natural', 'Camadas que lembram asas de borboleta.',
+        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'],
+      ['blunt-cut', 'corte', 'Corte', 'Blunt Cut', 'Morena Fria', 'Corte reto com acabamento preciso.',
+        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg'],
+      ['shaggy-hair', 'corte', 'Corte', 'Shaggy Hair', 'Loira Despojada', 'Camadas desconectadas com textura natural.',
+        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'],
+      ['long-bob', 'corte', 'Corte', 'Long Bob', 'Loira Dourada', 'Long Bob versátil com movimento e brilho.',
+        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg'],
+      ['french-bob', 'corte', 'Corte', 'French Bob', 'Castanho Elegante', 'Bob francês clássico com franja reta.',
+        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg'],
+      ['italian-bob', 'corte', 'Corte', 'Italian Bob', 'Morena Iluminada', 'Bob italiano com ondas suaves.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+      ['wolf-cut', 'corte', 'Corte', 'Wolf Cut', 'Bege Perolado', 'Camadas selvagens com muito volume no topo.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+      ['bixie-cut', 'corte', 'Corte', 'Bixie Cut', 'Loira Mel', 'Mix de Pixie e Bob com textura.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'],
+      ['soft-layers', 'corte', 'Corte', 'Soft Layers', 'Cobre Natural', 'Camadas suaves e movimento natural.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'],
+      ['modern-mullet', 'corte', 'Corte', 'Modern Mullet', 'Platinado Radical', 'Mullet moderno com volume.',
+        'https://i.pinimg.com/736x/f5/4f/09/f54f09dd0ebcc3a306b36161b92f9fa2.jpg'],
+      ['clavicut', 'corte', 'Corte', 'Clavicut', 'Caramelo Glow', 'Corte na altura da clavícula com movimento.',
+        'https://i.pinimg.com/736x/58/0c/8a/580c8a16db34446e639e3bbf6672cd96.jpg'],
+      ['octopus-cut', 'corte', 'Corte', 'Octopus Cut', 'Loira Mel', 'Camadas que lembram tentáculos.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'],
+      ['hush-cut', 'corte', 'Corte', 'Hush Cut', 'Preto Natural', 'Corte silencioso com acabamento natural.',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg']
     ];
 
     cortesData.forEach(function(item) {
       var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img);
     });
 
-    // ============================================================
-    // COLORAÇÕES (15)
-    // ============================================================
+    // ===== COLORAÇÕES (15) =====
     var coloracoesData = [
-      ['balayage', 'coloracao', 'Coloração', 'Balayage', 'Luzes Naturais',
-        'Técnica de luzes com efeito natural e degradê suave, criando um visual iluminado e orgânico. A descoloração foi aplicada à mão livre para um resultado gradiente e sem marcas.',
-        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 9.01'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
-      ['californianas', 'coloracao', 'Coloração', 'Californianas', 'Efeito Sol',
-        'Luzes estilo californiano com efeito de sol nos fios, remetendo ao verão eterno. A descoloração foi aplicada em mechas largas para um resultado natural e luminoso.',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 9.01'],
-        ['L\'Oréal Professionnel Blondifier Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['highlights-loira', 'coloracao', 'Coloração', 'Highlights Loira', 'Luzes Loiras',
-        'Mechas loiras para iluminar e dar dimensão aos fios, criando profundidade e movimento. A descoloração foi aplicada em mechas finas para um resultado preciso e luminoso.',
-        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 10.01'],
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['cherry-cola', 'coloracao', 'Coloração', 'Cherry Cola', 'Vermelho Cereja',
-        'Tom vermelho intenso com fundo cereja e muita personalidade, perfeito para quem deseja se destacar. A coloração foi aplicada sobre base clara para máxima vibração.',
-        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-        ['L\'Oréal Professionnel Majirel 5.62 (vermelho cereja)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
-      ['copper-hair', 'coloracao', 'Coloração', 'Copper Hair', 'Cobre Vibrante',
-        'Cobre intenso e vibrante que ilumina qualquer pele, trazendo calor e sofisticação. A coloração foi aplicada com pigmentos quentes para um tom rico e luminoso.',
-        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['mocha-mousse', 'coloracao', 'Coloração', 'Mocha Mousse', 'Marrom Café',
-        'Marrom intenso com nuances de café e sofisticação, um clássico atemporal. A coloração foi aplicada com pigmentos neutros para um tom profundo e elegante.',
-        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-        ['L\'Oréal Professionnel INOA 5.3 (marrom)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
-      ['expensive-brunette', 'coloracao', 'Coloração', 'Expensive Brunette', 'Morena Premium',
-        'Morena sofisticada com reflexos caros e profundos, transmitindo luxo e elegância. A coloração foi aplicada com pigmentos frios para um tom luxuoso e luminoso.',
-        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-        ['L\'Oréal Professionnel INOA 5.1 (castanho frio)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken One United Leave-In']],
-      ['mushroom-brown', 'coloracao', 'Coloração', 'Mushroom Brown', 'Castanho Cogumelo',
-        'Castanho acinzentado com nuances de cogumelo e elegância, uma tendência sofisticada. A coloração foi aplicada com pigmentos frios para um tom neutro e moderno.',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-        ['L\'Oréal Professionnel INOA 6.1 (castanho acinzentado)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['vanilla-blonde', 'coloracao', 'Coloração', 'Vanilla Blonde', 'Loira Baunilha',
-        'Loira suave com tons de baunilha e cremosidade, um visual doce e luminoso. A descoloração foi controlada para um tom claro e natural com matização precisa.',
-        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-        ['Wella Blondor Freelights (pó descolorante)', 'L\'Oréal Professionnel Dia Richesse 10.01'],
-        ['L\'Oréal Professionnel Blondifier Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['ice-blonde', 'coloracao', 'Coloração', 'Ice Blonde', 'Loira Gelo',
-        'Loira platinada com tons gelados e impacto visual, um statement de estilo. A descoloração foi levada ao máximo com matização violeta para neutralizar tons amarelos.',
-        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-        ['L\'Oréal Professionnel Blondifier Multi Blonde', 'L\'Oréal Professionnel Dia Richesse 10.12'],
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['caramelo-glow', 'coloracao', 'Coloração', 'Caramelo Glow', 'Caramelo Brilhante',
-        'Caramelo com brilho intenso e efeito luminoso, iluminando a pele e os fios. A coloração foi aplicada com pigmentos quentes para um tom vibrante e sofisticado.',
-        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-        ['L\'Oréal Professionnel INOA 8.4 (caramelo)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
-      ['chocolate-intenso', 'coloracao', 'Coloração', 'Chocolate Intenso', 'Chocolate Escuro',
-        'Chocolate intenso e profundo com muita luminosidade, um clássico sofisticado. A coloração foi aplicada com pigmentos ricos para um tom vibrante e elegante.',
-        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-        ['L\'Oréal Professionnel INOA 5.3 (chocolate)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['preto-natural', 'coloracao', 'Coloração', 'Preto Natural', 'Preto Profundo',
-        'Preto intenso com fundo natural e brilho excepcional, a base de toda beleza. A coloração foi aplicada com pigmentos neutros para um tom profundo e elegante.',
-        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-        ['L\'Oréal Professionnel INOA 3 (preto)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'Joico Moisture Recovery Conditioner', 'Redken Frizz Dismiss Leave-In']],
-      ['ruivo-acobreado', 'coloracao', 'Coloração', 'Ruivo Acobreado', 'Ruivo Cobre',
-        'Ruivo com tonalidades acobreadas e muito brilho, um visual vibrante e cheio de personalidade. A coloração foi aplicada com pigmentos quentes para um tom luminoso.',
-        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-        ['L\'Oréal Professionnel INOA 7.4 (cobre)'],
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'Joico Color Endure Conditioner', 'Redken One United Leave-In']],
-      ['morena-iluminada', 'coloracao', 'Coloração', 'Morena Iluminada', 'Morena com Luzes',
-        'Morena com luzes estratégicas para iluminar o rosto, criando um efeito lifting natural. A coloração foi aplicada com mechas precisas para criar dimensão e movimento.',
-        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-        ['L\'Oréal Professionnel INOA 6 (castanho claro)'],
-        ['L\'Oréal Professionnel Scalp Advanced Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']]
+      ['balayage', 'coloracao', 'Coloração', 'Balayage', 'Luzes Naturais', 'Luzes com efeito degradê suave.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'],
+      ['californianas', 'coloracao', 'Coloração', 'Californianas', 'Efeito Sol', 'Luzes com efeito de sol.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
+      ['highlights-loira', 'coloracao', 'Coloração', 'Highlights Loira', 'Luzes Loiras', 'Mechas para iluminar.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'],
+      ['cherry-cola', 'coloracao', 'Coloração', 'Cherry Cola', 'Vermelho Cereja', 'Vermelho intenso com fundo cereja.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'],
+      ['copper-hair', 'coloracao', 'Coloração', 'Copper Hair', 'Cobre Vibrante', 'Cobre intenso e vibrante.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'],
+      ['mocha-mousse', 'coloracao', 'Coloração', 'Mocha Mousse', 'Marrom Cafe', 'Marrom intenso com nuances.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'],
+      ['expensive-brunette', 'coloracao', 'Coloração', 'Expensive Brunette', 'Morena Premium', 'Morena com reflexos.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+      ['mushroom-brown', 'coloracao', 'Coloração', 'Mushroom Brown', 'Castanho Cogumelo', 'Castanho acinzentado.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'],
+      ['vanilla-blonde', 'coloracao', 'Coloração', 'Vanilla Blonde', 'Loira Baunilha', 'Loira suave com tons de baunilha.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg'],
+      ['ice-blonde', 'coloracao', 'Coloração', 'Ice Blonde', 'Loira Gelo', 'Loira platinada com tons gelados.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg'],
+      ['caramelo-glow', 'coloracao', 'Coloração', 'Caramelo Glow', 'Caramelo Brilhante', 'Caramelo com brilho intenso.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg'],
+      ['chocolate-intenso', 'coloracao', 'Coloração', 'Chocolate Intenso', 'Chocolate Escuro', 'Chocolate intenso.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg'],
+      ['preto-natural', 'coloracao', 'Coloração', 'Preto Natural', 'Preto Profundo', 'Preto intenso com fundo natural.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'],
+      ['ruivo-acobreado', 'coloracao', 'Coloração', 'Ruivo Acobreado', 'Ruivo Cobre', 'Ruivo com tonalidades acobreadas.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'],
+      ['morena-iluminada', 'coloracao', 'Coloração', 'Morena Iluminada', 'Morena com Luzes', 'Morena com luzes estratégicas.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg']
     ];
 
     coloracoesData.forEach(function(item) {
       var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img);
     });
 
-    // ============================================================
-    // PENTEADOS (10)
-    // ============================================================
-    var penteadosData = [
-      ['coque-elegante', 'penteado', 'Penteado', 'Coque Elegante', 'Coque Clássico',
-        'Coque clássico e elegante para ocasiões especiais, com acabamento impecável. O cabelo foi preso com grampos invisíveis e finalizado com spray de fixação forte para durabilidade.',
-        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-        [],
-        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken Frizz Dismiss Leave-In']],
-      ['tranca-lateral', 'penteado', 'Penteado', 'Trança Lateral', 'Trança Boho',
-        'Trança lateral com estilo boho e despojado, perfeita para looks românticos. O cabelo foi trançado com fios soltos para um efeito natural e leve, fixado com gel de fixação.',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        [],
-        ['Wella EIMI Root Shoot (gel fixador)', 'Wella EIMI Perfect Me (spray de brilho)', 'Redken One United Leave-In']],
-      ['semi-preso', 'penteado', 'Penteado', 'Semi Preso', 'Look Romântico',
-        'Semi preso com volume e movimento para um look romântico e sofisticado. O cabelo foi preso com grampos e finalizado com spray de fixação média para manter o estilo.',
-        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-        [],
-        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
-      ['ondas-sol', 'penteado', 'Penteado', 'Ondas Sol', 'Efeito Praiano',
-        'Ondas naturais com efeito praiano e muito movimento, como se o cabelo tivesse sido beijado pelo sol. O cabelo foi ondulado com babyliss e finalizado com spray de textura.',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        [],
-        ['Wella EIMI Texture Touch (spray texturizante)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
-      ['penteado-retro', 'penteado', 'Penteado', 'Retrô Wave', 'Ondas Vintage',
-        'Penteado retrô com ondas vintage e glamour, resgatando a elegância de outras épocas. O cabelo foi modelado com babyliss e finalizado com laquê profissional para fixação total.',
-        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-        [],
-        ['Wella EIMI Super Set (laquê)', 'Joico Moisture Recovery Oil', 'Wella EIMI Texture Touch']],
-      ['rabo-de-cavalo', 'penteado', 'Penteado', 'Rabo de Cavalo', 'Moderno',
-        'Rabo de cavalo alto e moderno com volume e movimento, um clássico renovado. O cabelo foi preso com elástico e finalizado com spray de fixação média.',
-        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-        [],
-        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In']],
-      ['coque-baixo', 'penteado', 'Penteado', 'Coque Baixo', 'Elegante',
-        'Coque baixo elegante e sofisticado para eventos, com um toque de modernidade. O cabelo foi preso com grampos e finalizado com spray de fixação forte.',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        [],
-        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Redken Frizz Dismiss Leave-In']],
-      ['tranca-embutida', 'penteado', 'Penteado', 'Trança Embutida', 'Estilo',
-        'Trança embutida que mantém os fios no lugar com estilo, ideal para dias quentes. O cabelo foi trançado rente ao couro cabeludo para um resultado preciso e duradouro.',
-        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-        [],
-        ['Wella EIMI Root Shoot (gel fixador)', 'Wella EIMI Perfect Me (spray de brilho)', 'Redken One United Leave-In']],
-      ['penteado-festival', 'penteado', 'Penteado', 'Festival Glam', 'Acessórios',
-        'Penteado com acessórios e estilo festival, cheio de personalidade e atitude. O cabelo foi preso com grampos e finalizado com spray de textura para um visual despojado.',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        [],
-        ['Wella EIMI Texture Touch (spray texturizante)', 'Joico Moisture Recovery Oil', 'Wella EIMI Perfect Me']],
-      ['moicano', 'penteado', 'Penteado', 'Moicano Moderno', 'Atitude',
-        'Moicano moderno com volume e atitude, um visual ousado e contemporâneo. O cabelo foi modelado com babyliss e finalizado com spray de fixação forte.',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-        [],
-        ['Wella EIMI Super Set (spray fixador)', 'Joico Moisture Recovery Oil', 'Wella EIMI Texture Touch']]
-    ];
-
-    penteadosData.forEach(function(item) {
-      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
-    });
-
-    // ============================================================
-    // ACESSÓRIOS (10)
-    // ============================================================
-    var acessoriosData = [
-      ['tiara-perola', 'acessorio', 'Acessório', 'Tiara de Pérolas', 'Pérolas',
-        'Tiara elegante com pérolas para ocasiões especiais, adicionando um toque de sofisticação. O acessório foi posicionado sobre o cabelo para um efeito clássico e atemporal.',
-        'https://i.pinimg.com/736x/34/42/7d/34427d6d263a887baee616d629f6138a.jpg',
-        [],
-        ['Tiara de Pérolas para Cabelo', 'Grampo de Cristal para Cabelo', 'Pente Dourado para Cabelo']],
-      ['grampo-cristal', 'acessorio', 'Acessório', 'Grampo Cristal', 'Cristais',
-        'Grampo com cristais que adiciona brilho ao penteado, criando um ponto de luz. O acessório foi preso lateralmente para um efeito glamoroso e sofisticado.',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        [],
-        ['Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo', 'Pente Dourado para Cabelo']],
-      ['laco-seda', 'acessorio', 'Acessório', 'Laço de Seda', 'Seda',
-        'Laço de seda para um toque romântico no cabelo, suave e delicado. O acessório foi amarrado em um rabo de cavalo para um efeito feminino e charmoso.',
-        'https://i.pinimg.com/736x/66/bb/26/66bb266d7934a62d3f30132a9f8e7bc6.jpg',
-        [],
-        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
-      ['pente-ouro', 'acessorio', 'Acessório', 'Pente Ouro', 'Dourado',
-        'Pente dourado para prender os fios com elegância, um acessório versátil. O acessório foi posicionado lateralmente para um efeito sofisticado e discreto.',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        [],
-        ['Pente Dourado para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']],
-      ['fita-veludo', 'acessorio', 'Acessório', 'Fita Veludo', 'Veludo',
-        'Fita de veludo para amarrar os fios com charme, um toque de textura e cor. O acessório foi amarrado em um coque para um efeito romântico e sofisticado.',
-        'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg',
-        [],
-        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
-      ['tiara-metal', 'acessorio', 'Acessório', 'Tiara Metal', 'Metálica',
-        'Tiara metálica moderna para looks contemporâneos, minimalista e elegante. O acessório foi posicionado sobre o cabelo para um efeito atual e estiloso.',
-        'https://i.pinimg.com/736x/d7/f2/2b/d7f22bca30309f62004694c1f7dafa73.jpg',
-        [],
-        ['Tiara Metálica para Cabelo', 'Grampo de Cristal para Cabelo', 'Pente Dourado para Cabelo']],
-      ['presilha-floral', 'acessorio', 'Acessório', 'Presilha Floral', 'Flores',
-        'Presilha com flores para um toque natural e delicado, trazendo a natureza para o cabelo. O acessório foi preso lateralmente para um efeito romântico e fresco.',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        [],
-        ['Presilha Floral para Cabelo', 'Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo']],
-      ['grampo-pedra', 'acessorio', 'Acessório', 'Grampo Pedraria', 'Pedrarias',
-        'Grampo com pedrarias para um visual glamoroso e cheio de brilho. O acessório foi preso lateralmente para um efeito sofisticado e impactante.',
-        'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg',
-        [],
-        ['Grampo com Pedrarias para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']],
-      ['laco-marrom', 'acessorio', 'Acessório', 'Laço Marrom', 'Neutro',
-        'Laço em tom marrom para looks neutros e elegantes, um acessório versátil. O acessório foi amarrado em um rabo de cavalo para um efeito discreto e sofisticado.',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        [],
-        ['Fita de Veludo para Cabelo', 'Laço de Seda para Cabelo', 'Presilha Floral para Cabelo']],
-      ['pente-cristal', 'acessorio', 'Acessório', 'Pente Cristal', 'Cristais',
-        'Pente com cristais que ilumina qualquer penteado, adicionando brilho e elegância. O acessório foi posicionado lateralmente para um efeito glamoroso e sofisticado.',
-        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-        [],
-        ['Pente com Cristais para Cabelo', 'Grampo de Cristal para Cabelo', 'Tiara de Pérolas para Cabelo']]
-    ];
-
-    acessoriosData.forEach(function(item) {
-      var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
-    });
-
-    // ============================================================
-    // PRODUTOS (15)
-    // ============================================================
+    // ===== PRODUTOS (15) =====
     var produtosData = [
-      ['joico-moisture-shampoo', 'produto', 'Produto', 'Shampoo Joico Moisture Recovery', 'Hidratação Intensa',
-        'Shampoo hidratante que restaura a umidade dos fios, deixando-os macios e sedosos. Ideal para cabelos secos e danificados, com fórmula enriquecida com óleos nutritivos.',
-        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg',
-        ['Joico Moisture Recovery Shampoo 1L'],
-        ['Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask']],
-      ['joico-moisture-conditioner', 'produto', 'Produto', 'Condicionador Joico Moisture Recovery', 'Nutrição',
-        'Condicionador que nutre e desembaraça os fios, preparando-os para o estilo. Ideal para cabelos secos que precisam de hidratação intensa e duradoura.',
-        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-        ['Joico Moisture Recovery Conditioner 1L'],
-        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Mask']],
-      ['joico-moisture-mask', 'produto', 'Produto', 'Máscara Joico Moisture Recovery', 'Tratamento Profundo',
-        'Máscara de tratamento intensivo para cabelos secos, restaurando a umidade e a maciez. Proporciona recuperação profunda e brilho duradouro.',
-        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-        ['Joico Moisture Recovery Mask 500ml'],
-        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner']],
-      ['absolut-repair-shampoo', 'produto', 'Produto', 'Shampoo Absolut Repair', 'Reparação',
-        'Shampoo que repara danos profundos nos fios, restaurando a estrutura capilar. Ideal para cabelos danificados por processos químicos e agressões externas.',
-        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-        ['L\'Oréal Professionnel Absolut Repair Shampoo 1L'],
-        ['L\'Oréal Professionnel Absolut Repair Conditioner', 'L\'Oréal Professionnel Absolut Repair Mask']],
-      ['absolut-repair-conditioner', 'produto', 'Produto', 'Condicionador Absolut Repair', 'Reconstrução',
-        'Condicionador que reconstrói a fibra capilar, devolvendo força e elasticidade. Ideal para cabelos fragilizados que precisam de reconstrução intensa.',
-        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-        ['L\'Oréal Professionnel Absolut Repair Conditioner 1L'],
-        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Mask']],
-      ['absolut-repair-mask', 'produto', 'Produto', 'Máscara Absolut Repair', 'Reconstrução Profunda',
-        'Máscara de reconstrução profunda para cabelos severamente danificados. Restaura a integridade da fibra capilar, devolvendo força e elasticidade.',
-        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
-        ['L\'Oréal Professionnel Absolut Repair Mask 500ml'],
-        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner']],
-      ['redken-acidic-bonding', 'produto', 'Produto', 'Redken Acidic Bonding Concentrate', 'Reparação Ácida',
-        'Sistema de reparação ácida que reconstrói as ligações internas do cabelo. Ideal para cabelos danificados, devolvendo força e brilho.',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        ['Redken Acidic Bonding Concentrate Shampoo'],
-        ['Redken Acidic Bonding Concentrate Conditioner', 'Redken Acidic Bonding Concentrate Leave-In']],
-      ['redken-one-united', 'produto', 'Produto', 'Redken One United', 'Multi-benefícios',
-        'Leave-in multi-benefícios que hidrata, protege e finaliza os fios em um único passo. Com 25 benefícios comprovados para todos os tipos de cabelo.',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        ['Redken One United Leave-In 150ml'],
-        ['Redken All Soft Shampoo', 'Redken All Soft Conditioner']],
-      ['wellas-eimi-super-set', 'produto', 'Produto', 'Wella EIMI Super Set', 'Fixação',
-        'Spray de fixação forte que mantém o penteado no lugar por horas. Proporciona acabamento profissional e brilho intenso.',
-        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-        ['Wella EIMI Super Set 300ml'],
-        ['Wella EIMI Perfect Me', 'Wella EIMI Texture Touch']],
-      ['wellas-eimi-texture-touch', 'produto', 'Produto', 'Wella EIMI Texture Touch', 'Textura',
-        'Spray de textura que cria movimento e volume nos fios. Ideal para penteados com efeito natural e despojado.',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-        ['Wella EIMI Texture Touch 250ml'],
-        ['Wella EIMI Super Set', 'Wella EIMI Perfect Me']],
-      ['wellas-eimi-perfect-me', 'produto', 'Produto', 'Wella EIMI Perfect Me', 'Brilho',
-        'Spray finalizador que adiciona brilho e maciez aos fios. Proporciona acabamento profissional e movimento natural.',
-        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-        ['Wella EIMI Perfect Me 250ml'],
-        ['Wella EIMI Super Set', 'Wella EIMI Texture Touch']],
-      ['redken-frizz-dismiss', 'produto', 'Produto', 'Redken Frizz Dismiss', 'Antifrizz',
-        'Sistema antifrizz que controla o volume e o frizz por até 72 horas. Ideal para cabelos indisciplinados e com frizz.',
-        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-        ['Redken Frizz Dismiss Shampoo'],
-        ['Redken Frizz Dismiss Conditioner', 'Redken Frizz Dismiss Leave-In']],
-      ['joico-color-endure', 'produto', 'Produto', 'Joico Color Endure', 'Proteção de Cor',
-        'Sistema de proteção de cor que prolonga a duração da coloração. Ideal para cabelos tingidos que precisam de cuidados específicos.',
-        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-        ['Joico Color Endure Shampoo'],
-        ['Joico Color Endure Conditioner', 'Joico Color Endure Mask']],
-      ['loreal-metal-detox', 'produto', 'Produto', 'L\'Oréal Metal Detox', 'Desintoxicação',
-        'Tratamento que remove partículas metálicas dos fios, prevenindo danos. Ideal para cabelos descoloridos e com química.',
-        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-        ['L\'Oréal Professionnel Metal Detox Shampoo'],
-        ['L\'Oréal Professionnel Metal Detox Conditioner', 'L\'Oréal Professionnel Metal Detox Mask']],
-      ['loreal-vitamino-color', 'produto', 'Produto', 'L\'Oréal Vitamino Color', 'Proteção de Cor',
-        'Sistema de proteção de cor que preserva a intensidade e o brilho. Ideal para cabelos coloridos que precisam de cuidados diários.',
-        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-        ['L\'Oréal Professionnel Vitamino Color Shampoo'],
-        ['L\'Oréal Professionnel Vitamino Color Conditioner', 'L\'Oréal Professionnel Vitamino Color Mask']]
+      ['joico-moisture-shampoo', 'produto', 'Produto', 'Shampoo Joico Moisture', 'Hidratacao Intensa', 'Shampoo hidratante para cabelos secos.',
+        'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg'],
+      ['joico-moisture-conditioner', 'produto', 'Produto', 'Condicionador Joico Moisture', 'Nutricao', 'Condicionador que nutre e desembaraça.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'],
+      ['joico-moisture-mask', 'produto', 'Produto', 'Mascara Joico Moisture', 'Tratamento Profundo', 'Máscara de tratamento intensivo.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'],
+      ['absolut-repair-shampoo', 'produto', 'Produto', 'Shampoo Absolut Repair', 'Reparacao', 'Shampoo que repara danos profundos.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'],
+      ['absolut-repair-conditioner', 'produto', 'Produto', 'Condicionador Absolut Repair', 'Reconstrucao', 'Condicionador que reconstrói a fibra.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'],
+      ['absolut-repair-mask', 'produto', 'Produto', 'Mascara Absolut Repair', 'Reconstrucao Profunda', 'Máscara de reconstrução profunda.',
+        'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg'],
+      ['redken-acidic-bonding', 'produto', 'Produto', 'Redken Acidic Bonding', 'Reparacao Acida', 'Reparação ácida que reconstrói ligações.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+      ['redken-one-united', 'produto', 'Produto', 'Redken One United', 'Multi-beneficios', 'Leave-in com 25 benefícios.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+      ['wellas-eimi-super-set', 'produto', 'Produto', 'Wella EIMI Super Set', 'Fixacao', 'Spray de fixação forte.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'],
+      ['wellas-eimi-texture-touch', 'produto', 'Produto', 'Wella EIMI Texture Touch', 'Textura', 'Spray de textura e movimento.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'],
+      ['wellas-eimi-perfect-me', 'produto', 'Produto', 'Wella EIMI Perfect Me', 'Brilho', 'Spray finalizador com brilho.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg'],
+      ['redken-frizz-dismiss', 'produto', 'Produto', 'Redken Frizz Dismiss', 'Antifrizz', 'Controle de frizz por 72h.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg'],
+      ['joico-color-endure', 'produto', 'Produto', 'Joico Color Endure', 'Protecao de Cor', 'Proteção de cor e brilho.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg'],
+      ['loreal-metal-detox', 'produto', 'Produto', 'L\'Oreal Metal Detox', 'Desintoxicacao', 'Remove partículas metálicas.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg'],
+      ['loreal-vitamino-color', 'produto', 'Produto', 'L\'Oreal Vitamino Color', 'Protecao de Cor', 'Proteção de cor diária.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg']
     ];
 
     produtosData.forEach(function(item) {
       var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img);
     });
 
-    // ============================================================
-    // KITS (15)
-    // ============================================================
+    // ===== KITS (15) =====
     var kitsData = [
-      ['kit-hidratacao', 'kit', 'Kit', 'Kit Hidratação Completa', 'Hidratação Profunda',
-        'Kit completo para hidratação profunda dos fios, restaurando a umidade e a maciez. Ideal para cabelos secos que precisam de restauração intensa.',
-        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
-        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask'],
-        ['Joico Moisture Recovery Leave-In']],
-      ['kit-reconstrucao', 'kit', 'Kit', 'Kit Reconstrução Completa', 'Reconstrução',
-        'Kit para reconstrução de cabelos danificados, restaurando a estrutura capilar. Ideal para fios fragilizados por processos químicos e agressões externas.',
-        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
-        ['L\'Oréal Professionnel Absolut Repair Shampoo', 'L\'Oréal Professionnel Absolut Repair Conditioner', 'L\'Oréal Professionnel Absolut Repair Mask'],
-        ['Redken Acidic Bonding Concentrate Leave-In']],
-      ['kit-nutricao', 'kit', 'Kit', 'Kit Nutrição Completa', 'Nutrição',
-        'Kit para nutrir e restaurar a saúde dos fios, devolvendo a vitalidade perdida. Ideal para cabelos ressecados e sem vida que precisam de cuidados intensos.',
-        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg',
-        ['Joico Moisture Recovery Shampoo', 'Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Mask'],
-        ['Joico Moisture Recovery Oil']],
-      ['kit-protecao-cor', 'kit', 'Kit', 'Kit Proteção de Cor', 'Proteção',
-        'Kit para proteção da cor e brilho intenso, prolongando a duração da coloração. Ideal para cabelos tingidos que precisam de cuidados específicos.',
-        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
-        ['L\'Oréal Professionnel Vitamino Color Shampoo', 'L\'Oréal Professionnel Vitamino Color Conditioner', 'Joico Color Endure Mask'],
-        ['Redken One United Leave-In']],
-      ['kit-reparacao-acida', 'kit', 'Kit', 'Kit Reparação Ácida', 'Reparação',
-        'Kit com sistema de reparação ácida para cabelos danificados, reconstruindo as ligações internas. Ideal para fios quebradiços e com danos profundos.',
-        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg',
-        ['Redken Acidic Bonding Concentrate Shampoo', 'Redken Acidic Bonding Concentrate Conditioner', 'Redken Acidic Bonding Concentrate Leave-In'],
-        ['Redken One United Leave-In']],
-      ['kit-fixacao', 'kit', 'Kit', 'Kit Fixação Completa', 'Fixação',
-        'Kit com produtos de fixação para penteados duradouros e perfeitos. Ideal para quem busca acabamento profissional e estilo impecável.',
-        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
-        ['Wella EIMI Super Set', 'Wella EIMI Perfect Me', 'Wella EIMI Texture Touch'],
-        ['Joico Moisture Recovery Oil']],
-      ['kit-textura', 'kit', 'Kit', 'Kit Textura e Volume', 'Textura',
-        'Kit para criar textura e volume nos fios, proporcionando movimento e estilo. Ideal para penteados com efeito natural e despojado.',
-        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
-        ['Wella EIMI Texture Touch', 'Wella EIMI Root Shoot', 'Wella EIMI Perfect Me'],
-        ['Redken One United Leave-In']],
-      ['kit-antifrizz', 'kit', 'Kit', 'Kit Antifrizz Completo', 'Antifrizz',
-        'Kit para controlar o frizz e o volume por até 72 horas, mantendo os fios disciplinados. Ideal para cabelos indisciplinados e com frizz.',
-        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
-        ['Redken Frizz Dismiss Shampoo', 'Redken Frizz Dismiss Conditioner', 'Redken Frizz Dismiss Leave-In'],
-        ['Redken One United Leave-In']],
-      ['kit-metaldetox', 'kit', 'Kit', 'Kit Metal Detox', 'Desintoxicação',
-        'Kit para remoção de metais dos fios, prevenindo danos e quebras. Ideal para cabelos descoloridos e com química.',
-        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
-        ['L\'Oréal Professionnel Metal Detox Shampoo', 'L\'Oréal Professionnel Metal Detox Conditioner', 'L\'Oréal Professionnel Metal Detox Mask'],
-        ['L\'Oréal Professionnel Absolut Repair Leave-In']],
-      ['kit-coloracao-intensa', 'kit', 'Kit', 'Kit Coloração Intensa', 'Coloração',
-        'Kit para coloração intensa e duradoura, com pigmentos de alta performance. Ideal para quem busca um tom vibrante e duradouro.',
-        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg',
-        ['L\'Oréal Professionnel INOA 8', 'L\'Oréal Professionnel Dia Richesse 9.01', 'Wella Blondor Freelights'],
-        ['Joico Color Endure Leave-In']],
-      ['kit-brilho', 'kit', 'Kit', 'Kit Brilho Intenso', 'Brilho',
-        'Kit para intensificar o brilho dos fios, deixando-os com aspecto saudável e luminoso. Ideal para todos os tipos de cabelo.',
-        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg',
-        ['Wella EIMI Perfect Me', 'Joico Moisture Recovery Oil', 'Redken One United Leave-In'],
-        ['Redken Frizz Dismiss Leave-In']],
-      ['kit-reconstrucao-profunda', 'kit', 'Kit', 'Kit Reconstrução Profunda', 'Reconstrução',
-        'Kit para reconstrução profunda de cabelos severamente danificados. Restaura a integridade da fibra capilar com ação intensa.',
-        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg',
-        ['L\'Oréal Professionnel Absolut Repair Mask', 'Redken Acidic Bonding Concentrate Leave-In', 'Joico K-PAK Leave-In'],
-        ['L\'Oréal Professionnel Absolut Repair Conditioner']],
-      ['kit-hidratacao-light', 'kit', 'Kit', 'Kit Hidratação Leve', 'Hidratação',
-        'Kit para hidratação leve e diária, mantendo os fios macios e hidratados. Ideal para cabelos que precisam de manutenção constante.',
-        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg',
-        ['Joico Moisture Recovery Conditioner', 'Joico Moisture Recovery Leave-In', 'Redken One United Leave-In'],
-        ['Joico Moisture Recovery Shampoo']],
-      ['kit-nutricao-intensa', 'kit', 'Kit', 'Kit Nutrição Intensa', 'Nutrição',
-        'Kit para nutrição intensa de cabelos ressecados, restaurando a saúde e a vitalidade. Ideal para fios que precisam de cuidados profundos.',
-        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg',
-        ['Joico Moisture Recovery Mask', 'Joico Moisture Recovery Oil', 'L\'Oréal Professionnel Absolut Repair Mask'],
-        ['Redken One United Leave-In']],
-      ['kit-protecao-termica', 'kit', 'Kit', 'Kit Proteção Térmica', 'Proteção',
-        'Kit para proteger os fios do calor de ferramentas térmicas, prevenindo danos. Ideal para quem usa secador, babyliss e chapinha.',
-        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg',
-        ['Redken One United Leave-In', 'Wella EIMI Perfect Me', 'Joico Moisture Recovery Oil'],
-        ['Redken Frizz Dismiss Leave-In']]
+      ['kit-hidratacao', 'kit', 'Kit', 'Kit Hidratacao Completa', 'Hidratacao Profunda', 'Hidratação profunda para cabelos secos.',
+        'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'],
+      ['kit-reconstrucao', 'kit', 'Kit', 'Kit Reconstrucao', 'Reconstrucao', 'Reconstrução para cabelos danificados.',
+        'https://i.pinimg.com/736x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'],
+      ['kit-nutricao', 'kit', 'Kit', 'Kit Nutricao', 'Nutricao', 'Nutrição intensa para fios ressecados.',
+        'https://i.pinimg.com/736x/83/c7/14/83c714490bf6e4033b8fe38463d2cfd3.jpg'],
+      ['kit-protecao-cor', 'kit', 'Kit', 'Kit Protecao de Cor', 'Protecao', 'Preserva cor e brilho.',
+        'https://i.pinimg.com/736x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg'],
+      ['kit-reparacao-acida', 'kit', 'Kit', 'Kit Reparacao Acida', 'Reparacao', 'Reconstrução das ligações internas.',
+        'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'],
+      ['kit-fixacao', 'kit', 'Kit', 'Kit Fixacao', 'Fixacao', 'Penteados duradouros e perfeitos.',
+        'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'],
+      ['kit-textura', 'kit', 'Kit', 'Kit Textura e Volume', 'Textura', 'Movimento e estilo natural.',
+        'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg'],
+      ['kit-antifrizz', 'kit', 'Kit', 'Kit Antifrizz', 'Antifrizz', 'Controle de frizz por 72h.',
+        'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg'],
+      ['kit-metaldetox', 'kit', 'Kit', 'Kit Metal Detox', 'Desintoxicacao', 'Remoção de metais dos fios.',
+        'https://i.pinimg.com/736x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg'],
+      ['kit-coloracao-intensa', 'kit', 'Kit', 'Kit Coloracao Intensa', 'Coloracao', 'Pigmentos de alta performance.',
+        'https://i.pinimg.com/736x/94/c2/3a/94c23a31d28d3291e80bf575516aa45c.jpg'],
+      ['kit-brilho', 'kit', 'Kit', 'Kit Brilho Intenso', 'Brilho', 'Brilho e luminosidade.',
+        'https://i.pinimg.com/736x/ed/4e/7e/ed4e7e466ab2d763d9fb47b14a69ee00.jpg'],
+      ['kit-reconstrucao-profunda', 'kit', 'Kit', 'Kit Reconstrucao Profunda', 'Reconstrucao', 'Reconstrução intensa.',
+        'https://i.pinimg.com/736x/82/23/9a/82239a80793deefd32a699937e7eed33.jpg'],
+      ['kit-hidratacao-light', 'kit', 'Kit', 'Kit Hidratacao Leve', 'Hidratacao', 'Hidratação diária.',
+        'https://i.pinimg.com/736x/08/6a/a4/086aa4c9a4bb10e7060cb4a4e77cb0af.jpg'],
+      ['kit-nutricao-intensa', 'kit', 'Kit', 'Kit Nutricao Intensa', 'Nutricao', 'Nutrição profunda.',
+        'https://i.pinimg.com/736x/33/40/f1/3340f1628dc6e94ef489cc02e9aef903.jpg'],
+      ['kit-protecao-termica', 'kit', 'Kit', 'Kit Protecao Termica', 'Protecao', 'Protege do calor de ferramentas.',
+        'https://i.pinimg.com/736x/bc/d6/78/bcd678e195539bb116a2320f364d5b7f.jpg']
     ];
 
     kitsData.forEach(function(item) {
       var id = item[0], cat = item[1], badge = item[2], corte = item[3], title = item[4], desc = item[5], img = item[6];
-      var color = (item[7] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      var cuidado = (item[8] || []).map(function(c) { return { name: c, link: getProdutoLink(c) }; });
-      styleData[id] = createCard(id, cat, badge, corte, title, desc, img, color, cuidado);
+      styleData[id] = createCard(id, cat, badge, corte, title, desc, img);
     });
 
     // ============================================================
     // LÓGICA DA APLICAÇÃO
     // ============================================================
 
-    function getFavs() {
-      try { return JSON.parse(localStorage.getItem('hairos_favorites') || '[]'); } catch { return []; }
+    // ===== AUTH + DIÁRIO + ANTES/DEPOIS =====
+    function getUsers() { try { return JSON.parse(localStorage.getItem('hairos_users') || '{}'); } catch { return {}; } }
+    function setUsers(o) { try { localStorage.setItem('hairos_users', JSON.stringify(o)); } catch {} }
+    function getCurrentUser() { try { return JSON.parse(localStorage.getItem('hairos_current_user') || 'null'); } catch { return null; } }
+    function setCurrentUser(u) {
+      try { if (u) localStorage.setItem('hairos_current_user', JSON.stringify(u)); else localStorage.removeItem('hairos_current_user'); } catch {}
+    }
+    function getUserPhoto(email) { try { return localStorage.getItem('hairos_photo_' + email) || ''; } catch { return ''; } }
+    function setUserPhoto(email, d) { try { if (d) localStorage.setItem('hairos_photo_' + email, d); else localStorage.removeItem('hairos_photo_' + email); } catch {} }
+    function getDiary(email) { try { return JSON.parse(localStorage.getItem('hairos_diary_' + email) || '[]'); } catch { return []; } }
+    function setDiary(email, arr) { try { localStorage.setItem('hairos_diary_' + email, JSON.stringify(arr)); } catch {} }
+    function getBeforeAfter(email) { try { return JSON.parse(localStorage.getItem('hairos_ba_' + email) || '[]'); } catch { return []; } }
+    function setBeforeAfter(email, arr) { try { localStorage.setItem('hairos_ba_' + email, JSON.stringify(arr)); } catch {} }
+
+    function compressImage(file, maxSize, cb) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var w = img.width, h = img.height, max = maxSize || 600;
+          if (w > max || h > max) {
+            if (w > h) { h = Math.round(h * max / w); w = max; }
+            else { w = Math.round(w * max / h); h = max; }
+          }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          cb(canvas.toDataURL('image/jpeg', 0.75));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
-    function setFavs(arr) {
-      try { localStorage.setItem('hairos_favorites', JSON.stringify(arr)); } catch {}
+    function registerUser(nome, email, senha) {
+      var users = getUsers();
+      email = (email || '').trim().toLowerCase();
+      if (!nome || !email || !senha) return { ok: false, msg: 'Preencha todos os campos' };
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, msg: 'E-mail inválido' };
+      if (senha.length < 4) return { ok: false, msg: 'Senha muito curta (mín. 4)' };
+      if (users[email]) return { ok: false, msg: 'Este e-mail já está cadastrado' };
+      users[email] = { nome: nome.trim(), email: email, senha: senha, createdAt: Date.now() };
+      setUsers(users);
+      var anon = []; try { anon = JSON.parse(localStorage.getItem('hairos_favorites') || '[]'); } catch {}
+      if (anon.length) localStorage.setItem('hairos_favs_' + email, JSON.stringify(anon));
+      setCurrentUser({ nome: users[email].nome, email: email });
+      return { ok: true, msg: 'Conta criada com sucesso!' };
     }
+
+    function loginUser(email, senha) {
+      var users = getUsers();
+      email = (email || '').trim().toLowerCase();
+      if (!users[email]) return { ok: false, msg: 'Conta não encontrada' };
+      if (users[email].senha !== senha) return { ok: false, msg: 'Senha incorreta' };
+      setCurrentUser({ nome: users[email].nome, email: email });
+      return { ok: true, msg: 'Bem-vindo(a), ' + users[email].nome + '!' };
+    }
+
+    function logoutUser() {
+      setCurrentUser(null);
+      favorites = getFavs();
+      updateFavCounter();
+      showToast('Você saiu da conta');
+      renderPerfil();
+      if (currentPage === 'pageFavoritos') renderFavorites();
+      if (currentPage === 'pageHome') renderHome();
+    }
+
+    function getFavsKey() {
+      var u = getCurrentUser();
+      return u ? ('hairos_favs_' + u.email) : 'hairos_favorites';
+    }
+    function getFavs() { try { return JSON.parse(localStorage.getItem(getFavsKey()) || '[]'); } catch { return []; } }
+    function setFavs(arr) { try { localStorage.setItem(getFavsKey(), JSON.stringify(arr)); } catch {} }
 
     var favorites = getFavs();
     var currentFilter = 'all';
@@ -2073,9 +2815,23 @@
     var isSheetOpen = false;
     var isSheetFull = false;
     var currentKey = null;
+    var currentPage = 'pageHome';
+    var perfilTab = 'conta';
+    var baTempAntes = '';
+    var baTempDepois = '';
 
     function updateFavCounter() {
-      document.getElementById('favCount').textContent = favorites.length;
+      var el = document.getElementById('favCount');
+      if (el) el.textContent = favorites.length;
+      var headerCount = document.getElementById('favCountHeader');
+      if (headerCount) headerCount.textContent = '(' + favorites.length + ')';
+      var menuCount = document.getElementById('menuFavCount');
+      if (menuCount) {
+        menuCount.textContent = favorites.length;
+        menuCount.classList.toggle('empty', favorites.length === 0);
+      }
+      var statCount = document.getElementById('favCountStat');
+      if (statCount) statCount.textContent = favorites.length;
     }
     updateFavCounter();
 
@@ -2083,37 +2839,53 @@
 
     function toggleFav(key, btn) {
       var idx = favorites.indexOf(key);
-      if (idx !== -1) {
-        favorites.splice(idx, 1);
-      } else {
-        favorites.push(key);
-      }
+      if (idx !== -1) favorites.splice(idx, 1);
+      else favorites.push(key);
       setFavs(favorites);
       updateFavCounter();
       if (btn) {
         btn.classList.toggle('favorited', isFav(key));
         btn.textContent = isFav(key) ? '♥' : '♡';
       }
+      if (currentPage === 'pageFavoritos') renderFavorites();
+      if (currentPage === 'pagePerfil') renderPerfil();
+    }
+
+    function fallbackCopy(text) {
+      try {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        textarea.style.pointerEvents = 'none';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('Link copiado para compartilhar!');
+      } catch {
+        showToast('Não foi possível copiar');
+      }
     }
 
     function shareStyle(key) {
       var data = styleData[key];
-      if (!data) return;
+      if (!data) {
+        showToast('Erro ao compartilhar');
+        return;
+      }
       var text = data.corte + ' - ' + data.title + '\n' + data.desc + '\n\nVeja mais em HairOS!';
+      
       if (navigator.share) {
         navigator.share({ title: 'HairOS - ' + data.corte, text: text }).catch(function() {});
-      } else {
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() {
-          showToast('📋 Link copiado para compartilhar!');
+          showToast('Link copiado para compartilhar!');
         }).catch(function() {
-          var textarea = document.createElement('textarea');
-          textarea.value = text;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-          showToast('📋 Link copiado para compartilhar!');
+          fallbackCopy(text);
         });
+      } else {
+        fallbackCopy(text);
       }
     }
 
@@ -2121,23 +2893,10 @@
       if (showingFavorites) return favorites;
       var keys = Object.keys(styleData);
       if (currentFilter === 'all') return keys;
-      return keys.filter(function(key) { return styleData[key].categoria === currentFilter; });
-    }
-
-    function goToHome() {
-      if (document.getElementById('modalOverlay').classList.contains('open')) {
-        closeModal();
-      }
-      
-      if (showingFavorites) {
-        showingFavorites = false;
-        document.getElementById('favToggleBtn').classList.remove('active');
-        document.getElementById('filters').classList.remove('hidden');
-        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.querySelector('[data-filter="all"]').classList.add('active');
-        currentFilter = 'all';
-        renderHome();
-      }
+      return keys.filter(function(key) { 
+        var data = styleData[key];
+        return data && data.categoria === currentFilter; 
+      });
     }
 
     // ============================================================
@@ -2148,18 +2907,20 @@
       var title = document.getElementById('sectionTitle');
       var vitrineBadge = document.getElementById('vitrineBadge');
       var brandSub = document.getElementById('brandSub');
+      
+      if (!container) return;
       container.innerHTML = '';
 
       var filteredKeys = getFilteredKeys();
 
       if (showingFavorites) {
-        title.innerHTML = '<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>';
-        vitrineBadge.classList.add('visible');
-        brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
+        if (title) title.innerHTML = '<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>';
+        if (vitrineBadge) vitrineBadge.classList.add('visible');
+        if (brandSub) brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
       } else {
-        title.innerHTML = '<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>';
-        vitrineBadge.classList.remove('visible');
-        brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
+        if (title) title.innerHTML = '<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>';
+        if (vitrineBadge) vitrineBadge.classList.remove('visible');
+        if (brandSub) brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
       }
 
       if (filteredKeys.length === 0) {
@@ -2206,11 +2967,6 @@
 
         card.appendChild(actions);
 
-        var badge = document.createElement('div');
-        badge.className = 'card-home-badge badge-' + data.categoria;
-        badge.textContent = data.badge;
-        card.appendChild(badge);
-
         var img = document.createElement('img');
         img.className = 'card-home-img ' + altura;
         img.src = data.img;
@@ -2232,10 +2988,317 @@
     }
 
     // ============================================================
+    // RENDER FAVORITOS
+    // ============================================================
+    function renderFavorites() {
+      var grid = document.getElementById('favGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (favorites.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><div class="empty-icon">💔</div><div class="empty-title">Nenhum favorito</div><div class="empty-sub">Clique no ♥ nos cards para favoritar</div></div>';
+        return;
+      }
+
+      favorites.forEach(function(key) {
+        var data = styleData[key];
+        if (!data) return;
+        var item = document.createElement('div');
+        item.className = 'fav-item';
+        item.innerHTML =
+          '<button class="fav-remove" data-fav-key="' + key + '" aria-label="Remover">✕</button>' +
+          '<img src="' + data.img + '" alt="' + data.corte + '" loading="lazy">' +
+          '<div class="fav-overlay"><span>' + data.corte + '</span></div>';
+        item.querySelector('.fav-remove').addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleFav(this.dataset.favKey);
+          renderFavorites();
+        });
+        item.addEventListener('click', function(e) {
+          if (e.target.closest('.fav-remove')) return;
+          openModal(key);
+        });
+        grid.appendChild(item);
+      });
+    }
+
+    // ============================================================
+    // RENDER PERFIL (conta + diário + antes/depois)
+    // ============================================================
+    function openPhotoSheet() { var s = document.getElementById('photoSheet'); if (s) s.classList.add('show'); }
+    function closePhotoSheet() { var s = document.getElementById('photoSheet'); if (s) s.classList.remove('show'); }
+
+    function handlePhotoFile(file) {
+      if (!file || !file.type.match(/^image\//)) { showToast('Escolha uma imagem'); return; }
+      var user = getCurrentUser();
+      if (!user) return;
+      compressImage(file, 400, function(dataUrl) {
+        setUserPhoto(user.email, dataUrl);
+        showToast('Foto atualizada!');
+        closePhotoSheet();
+        renderPerfil();
+      });
+    }
+
+    function fmtDate(ts) {
+      var d = new Date(ts);
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function renderPerfil() {
+      var container = document.getElementById('perfilContent');
+      if (!container) return;
+      var user = getCurrentUser();
+
+      if (!user) {
+        container.innerHTML =
+          '<div class="auth-tabs">' +
+            '<button type="button" class="auth-tab active" data-auth="login">Entrar</button>' +
+            '<button type="button" class="auth-tab" data-auth="register">Cadastrar</button>' +
+          '</div>' +
+          '<form class="auth-form active" id="loginForm" autocomplete="on">' +
+            '<input type="email" id="loginEmail" placeholder="ex: maria@email.com" required autocomplete="username email">' +
+            '<input type="password" id="loginSenha" placeholder="sua senha" required autocomplete="current-password">' +
+            '<button type="submit">entrar</button>' +
+            '<button type="button" class="auth-demo-btn" id="btnDemoLogin">✦ preencher exemplo (Maria)</button>' +
+            '<p class="auth-hint">Use o exemplo para testar rápido.</p>' +
+          '</form>' +
+          '<form class="auth-form" id="registerForm" autocomplete="on">' +
+            '<input type="text" id="regNome" placeholder="ex: Maria Silva" required autocomplete="name">' +
+            '<input type="email" id="regEmail" placeholder="ex: maria@email.com" required autocomplete="email">' +
+            '<input type="password" id="regSenha" placeholder="mín. 4 caracteres" required autocomplete="new-password">' +
+            '<button type="submit">criar conta</button>' +
+            '<button type="button" class="auth-demo-btn" id="btnDemoRegister">✦ preencher exemplo (Maria)</button>' +
+            '<p class="auth-hint">Favoritos atuais entram na conta.</p>' +
+          '</form>';
+
+        container.querySelectorAll('.auth-tab').forEach(function(tab) {
+          tab.addEventListener('click', function() {
+            container.querySelectorAll('.auth-tab').forEach(function(t) { t.classList.remove('active'); });
+            container.querySelectorAll('.auth-form').forEach(function(f) { f.classList.remove('active'); });
+            this.classList.add('active');
+            document.getElementById(this.dataset.auth === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+          });
+        });
+
+        document.getElementById('btnDemoLogin').addEventListener('click', function() {
+          var users = getUsers();
+          if (!users['maria@email.com']) {
+            users['maria@email.com'] = { nome: 'Maria Silva', email: 'maria@email.com', senha: '1234', createdAt: Date.now() };
+            setUsers(users);
+          }
+          document.getElementById('loginEmail').value = 'maria@email.com';
+          document.getElementById('loginSenha').value = '1234';
+          showToast('Exemplo preenchido — clique em entrar');
+        });
+        document.getElementById('btnDemoRegister').addEventListener('click', function() {
+          document.getElementById('regNome').value = 'Maria Silva';
+          document.getElementById('regEmail').value = 'maria@email.com';
+          document.getElementById('regSenha').value = '1234';
+          showToast('Exemplo preenchido — clique em criar conta');
+        });
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          var res = loginUser(document.getElementById('loginEmail').value, document.getElementById('loginSenha').value);
+          showToast(res.msg);
+          if (res.ok) { favorites = getFavs(); updateFavCounter(); perfilTab = 'conta'; renderPerfil(); }
+        });
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          var res = registerUser(document.getElementById('regNome').value, document.getElementById('regEmail').value, document.getElementById('regSenha').value);
+          showToast(res.msg);
+          if (res.ok) { favorites = getFavs(); updateFavCounter(); perfilTab = 'conta'; renderPerfil(); }
+        });
+        return;
+      }
+
+      // LOGADO
+      var photo = getUserPhoto(user.email);
+      var diary = getDiary(user.email);
+      var baList = getBeforeAfter(user.email);
+      var initial = (user.nome || 'U').charAt(0).toUpperCase();
+      var avatarHtml = photo ? '<img src="' + photo + '" alt="Foto">' : initial;
+
+      var html =
+        '<div class="perfil-tabs">' +
+          '<button type="button" class="perfil-tab' + (perfilTab === 'conta' ? ' active' : '') + '" data-ptab="conta">Conta</button>' +
+          '<button type="button" class="perfil-tab' + (perfilTab === 'diario' ? ' active' : '') + '" data-ptab="diario">Diário</button>' +
+          '<button type="button" class="perfil-tab' + (perfilTab === 'ba' ? ' active' : '') + '" data-ptab="ba">Antes & Depois</button>' +
+        '</div>';
+
+      // --- CONTA ---
+      html += '<div class="perfil-panel' + (perfilTab === 'conta' ? ' active' : '') + '" id="panelConta">' +
+        '<div class="perfil-card">' +
+          '<div class="perfil-header">' +
+            '<div class="perfil-avatar-wrap">' +
+              '<div class="perfil-avatar">' + avatarHtml + '</div>' +
+              '<button type="button" class="perfil-avatar-edit" id="btnEditPhoto">📷</button>' +
+            '</div>' +
+            '<div class="perfil-info"><h3>' + user.nome + '</h3><div class="perfil-email">' + user.email + '</div></div>' +
+          '</div>' +
+          '<div class="perfil-stats">' +
+            '<div class="perfil-stat"><span class="number">' + favorites.length + '</span><span class="label">favoritos</span></div>' +
+            '<div class="perfil-stat"><span class="number">' + diary.length + '</span><span class="label">diário</span></div>' +
+            '<div class="perfil-stat"><span class="number">' + baList.length + '</span><span class="label">progresso</span></div>' +
+          '</div>' +
+          '<button type="button" class="perfil-btn" id="btnVerFavs">ver meus favoritos</button>' +
+          '<button type="button" class="perfil-btn danger" id="btnLogout">sair da conta</button>' +
+        '</div></div>';
+
+      // --- DIÁRIO ---
+      html += '<div class="perfil-panel' + (perfilTab === 'diario' ? ' active' : '') + '" id="panelDiario">' +
+        '<div class="perfil-card">' +
+          '<form class="diario-form" id="diarioForm">' +
+            '<textarea id="diarioTexto" placeholder="Escreva uma observação, evolução do cabelo, produto que usou..." required></textarea>' +
+            '<button type="submit" class="btn-gold">salvar no diário</button>' +
+          '</form>' +
+        '</div>';
+      if (diary.length === 0) {
+        html += '<div class="empty-soft">Nenhuma anotação ainda. Seu diário aparece aqui.</div>';
+      } else {
+        diary.slice().reverse().forEach(function(entry) {
+          html += '<div class="diario-entry">' +
+            '<button type="button" class="de-del" data-id="' + entry.id + '">✕</button>' +
+            '<div class="de-date">' + fmtDate(entry.ts) + '</div>' +
+            '<div class="de-text">' + entry.text.replace(/</g, '&lt;') + '</div>' +
+          '</div>';
+        });
+      }
+      html += '</div>';
+
+      // --- ANTES & DEPOIS ---
+      html += '<div class="perfil-panel' + (perfilTab === 'ba' ? ' active' : '') + '" id="panelBA">' +
+        '<div class="perfil-card">' +
+          '<form class="ba-form" id="baForm">' +
+            '<div class="ba-upload-row">' +
+              '<div class="ba-upload-btn' + (baTempAntes ? ' has-img' : '') + '" id="baAntesBtn">' +
+                (baTempAntes ? '<img src="' + baTempAntes + '">' : '📷 Antes') +
+              '</div>' +
+              '<div class="ba-upload-btn' + (baTempDepois ? ' has-img' : '') + '" id="baDepoisBtn">' +
+                (baTempDepois ? '<img src="' + baTempDepois + '">' : '📷 Depois') +
+              '</div>' +
+            '</div>' +
+            '<input type="file" id="baAntesInput" accept="image/*" style="display:none">' +
+            '<input type="file" id="baDepoisInput" accept="image/*" style="display:none">' +
+            '<textarea id="baNota" placeholder="Observação (opcional): ex. após 30 dias de hidratação"></textarea>' +
+            '<button type="submit" class="btn-gold">salvar progresso</button>' +
+          '</form>' +
+        '</div>';
+      if (baList.length === 0) {
+        html += '<div class="empty-soft">Salve fotos de antes e depois para acompanhar a evolução.</div>';
+      } else {
+        baList.slice().reverse().forEach(function(entry) {
+          html += '<div class="ba-entry">' +
+            '<button type="button" class="ba-del" data-id="' + entry.id + '">✕</button>' +
+            '<div class="ba-date">' + fmtDate(entry.ts) + '</div>' +
+            '<div class="ba-pair">' +
+              '<div class="ba-img-box"><img src="' + entry.antes + '"><span class="ba-label">Antes</span></div>' +
+              '<div class="ba-img-box"><img src="' + entry.depois + '"><span class="ba-label">Depois</span></div>' +
+            '</div>' +
+            (entry.nota ? '<div class="ba-note">' + entry.nota.replace(/</g, '&lt;') + '</div>' : '') +
+          '</div>';
+        });
+      }
+      html += '</div>';
+
+      container.innerHTML = html;
+
+      // tabs
+      container.querySelectorAll('.perfil-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          perfilTab = this.dataset.ptab;
+          renderPerfil();
+        });
+      });
+
+      // conta
+      var btnPhoto = document.getElementById('btnEditPhoto');
+      if (btnPhoto) btnPhoto.addEventListener('click', openPhotoSheet);
+      var btnFavs = document.getElementById('btnVerFavs');
+      if (btnFavs) btnFavs.addEventListener('click', function() { navigateTo('pageFavoritos'); });
+      var btnOut = document.getElementById('btnLogout');
+      if (btnOut) btnOut.addEventListener('click', logoutUser);
+
+      // diário
+      var dForm = document.getElementById('diarioForm');
+      if (dForm) {
+        dForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var text = document.getElementById('diarioTexto').value.trim();
+          if (!text) return;
+          var list = getDiary(user.email);
+          list.push({ id: Date.now().toString(36), ts: Date.now(), text: text });
+          setDiary(user.email, list);
+          showToast('Salvo no diário');
+          renderPerfil();
+        });
+      }
+      container.querySelectorAll('.de-del').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var list = getDiary(user.email).filter(function(x) { return x.id !== btn.dataset.id; });
+          setDiary(user.email, list);
+          showToast('Anotação removida');
+          renderPerfil();
+        });
+      });
+
+      // antes & depois
+      var antesBtn = document.getElementById('baAntesBtn');
+      var depoisBtn = document.getElementById('baDepoisBtn');
+      var antesIn = document.getElementById('baAntesInput');
+      var depoisIn = document.getElementById('baDepoisInput');
+      if (antesBtn && antesIn) {
+        antesBtn.addEventListener('click', function() { antesIn.click(); });
+        antesIn.addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+            compressImage(this.files[0], 500, function(url) { baTempAntes = url; renderPerfil(); });
+          }
+          this.value = '';
+        });
+      }
+      if (depoisBtn && depoisIn) {
+        depoisBtn.addEventListener('click', function() { depoisIn.click(); });
+        depoisIn.addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+            compressImage(this.files[0], 500, function(url) { baTempDepois = url; renderPerfil(); });
+          }
+          this.value = '';
+        });
+      }
+      var baForm = document.getElementById('baForm');
+      if (baForm) {
+        baForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (!baTempAntes || !baTempDepois) {
+            showToast('Adicione as fotos de antes e depois');
+            return;
+          }
+          var nota = (document.getElementById('baNota').value || '').trim();
+          var list = getBeforeAfter(user.email);
+          list.push({ id: Date.now().toString(36), ts: Date.now(), antes: baTempAntes, depois: baTempDepois, nota: nota });
+          setBeforeAfter(user.email, list);
+          baTempAntes = '';
+          baTempDepois = '';
+          showToast('Progresso salvo!');
+          renderPerfil();
+        });
+      }
+      container.querySelectorAll('.ba-del').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var list = getBeforeAfter(user.email).filter(function(x) { return x.id !== btn.dataset.id; });
+          setBeforeAfter(user.email, list);
+          showToast('Removido');
+          renderPerfil();
+        });
+      });
+    }
+
+    // ============================================================
     // RENDER MODAL MASONRY
     // ============================================================
     function renderModalMasonry(key) {
       var container = document.getElementById('modalMasonry');
+      if (!container) return;
       container.innerHTML = '';
 
       var data = styleData[key];
@@ -2279,10 +3342,13 @@
           var currentData = styleData[currentKey];
           if (currentData && currentData.variants && currentData.variants.indexOf(imgSrc) !== -1) {
             var heroImg = document.getElementById('modalImg');
-            heroImg.classList.add('loading');
-            heroImg.src = imgSrc;
-            heroImg.onload = function() { heroImg.classList.remove('loading'); };
-            document.getElementById('modalOverlay').scrollTop = 0;
+            if (heroImg) {
+              heroImg.classList.add('loading');
+              heroImg.src = imgSrc;
+              heroImg.onload = function() { heroImg.classList.remove('loading'); };
+            }
+            var overlay = document.getElementById('modalOverlay');
+            if (overlay) overlay.scrollTop = 0;
           } else {
             var targetKey = null;
             for (var k in styleData) {
@@ -2303,90 +3369,190 @@
     }
 
     // ============================================================
+    // RENDER KITS NO SHEET
+    // ============================================================
+    function renderKitList(containerId, kitsData) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      
+      if (!kitsData || !kitsData.kits || kitsData.kits.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit disponível</div>';
+        return;
+      }
+
+      kitsData.kits.forEach(function(kit) {
+        var acordeao = document.createElement('div');
+        acordeao.className = 'kit-acordeao';
+
+        var header = document.createElement('div');
+        header.className = 'kit-acordeao-header';
+        var left = document.createElement('div');
+        left.className = 'kit-acordeao-header-left';
+        var badge = document.createElement('span');
+        badge.className = 'kit-acordeao-badge';
+        badge.textContent = kit.badge || 'Kit';
+        left.appendChild(badge);
+        var title = document.createElement('span');
+        title.className = 'kit-acordeao-title';
+        title.textContent = kit.nome;
+        left.appendChild(title);
+        header.appendChild(left);
+        var arrow = document.createElement('span');
+        arrow.className = 'kit-acordeao-arrow';
+        arrow.textContent = '▾';
+        header.appendChild(arrow);
+        acordeao.appendChild(header);
+
+        var body = document.createElement('div');
+        body.className = 'kit-acordeao-body';
+
+        if (kit.produtos) {
+          var prodList = document.createElement('div');
+          prodList.className = 'kit-produtos-lista';
+          var produtos = kit.produtos.split(' + ');
+          produtos.forEach(function(p, idx) {
+            var span = document.createElement('span');
+            span.textContent = p;
+            prodList.appendChild(span);
+            if (idx < produtos.length - 1) {
+              var sep = document.createElement('span');
+              sep.className = 'sep';
+              sep.textContent = ' • ';
+              prodList.appendChild(sep);
+            }
+          });
+          body.appendChild(prodList);
+        }
+
+        var complete = document.createElement('a');
+        complete.className = 'kit-complete';
+        complete.href = kit.link || '#';
+        complete.target = '_blank';
+        complete.rel = 'noopener noreferrer';
+        complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
+        body.appendChild(complete);
+
+        acordeao.appendChild(body);
+
+        header.addEventListener('click', function(e) {
+          e.stopPropagation();
+          acordeao.classList.toggle('open');
+        });
+
+        container.appendChild(acordeao);
+      });
+    }
+
+    // ============================================================
     // MODAL
     // ============================================================
     function openModal(key) {
       var data = styleData[key];
-      if (!data) return;
+      if (!data) {
+        showToast('Erro ao abrir o estilo');
+        return;
+      }
       currentKey = key;
       if (isSheetOpen) closeSheet();
 
-      var img = document.getElementById('modalImg');
-      img.classList.add('loading');
-      img.src = data.img;
-      img.onload = function() { img.classList.remove('loading'); };
-      img.onerror = function() {
-        this.src = FALLBACK_IMG;
-        this.classList.remove('loading');
-      };
+      var heroFavBtn = document.getElementById('heroFavBtn');
+      var heroShareBtn = document.getElementById('heroShareBtn');
 
-      document.getElementById('heroCategoria').textContent = data.badge;
-      document.getElementById('heroTitle').textContent = data.corte;
-      document.getElementById('heroSub').textContent = data.title;
-      document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
-      document.getElementById('sideYear').textContent = '2026';
+      var img = document.getElementById('modalImg');
+      if (img) {
+        img.classList.add('loading');
+        img.src = data.img;
+        img.onload = function() { img.classList.remove('loading'); };
+        img.onerror = function() {
+          this.src = FALLBACK_IMG;
+          this.classList.remove('loading');
+        };
+      }
+
+      var heroCategoria = document.getElementById('heroCategoria');
+      var heroTitle = document.getElementById('heroTitle');
+      var heroSub = document.getElementById('heroSub');
+      var sideCollection = document.getElementById('sideCollection');
+      var sideYear = document.getElementById('sideYear');
+      
+      if (heroCategoria) heroCategoria.textContent = data.badge;
+      if (heroTitle) heroTitle.textContent = data.corte;
+      if (heroSub) heroSub.textContent = data.title;
+      if (sideCollection) sideCollection.textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
+      if (sideYear) sideYear.textContent = '2026';
 
       var isFavorited = isFav(key);
-      heroFavBtn.classList.toggle('favorited', isFavorited);
-      heroFavBtn.textContent = isFavorited ? '♥' : '♡';
-      heroFavBtn.dataset.key = key;
-      heroShareBtn.dataset.key = key;
+      if (heroFavBtn) {
+        heroFavBtn.classList.toggle('favorited', isFavorited);
+        heroFavBtn.textContent = isFavorited ? '♥' : '♡';
+        heroFavBtn.dataset.key = key;
+      }
+      if (heroShareBtn) heroShareBtn.dataset.key = key;
 
-      document.getElementById('sheetTitle').textContent = data.corte;
-      document.getElementById('sheetSub').textContent = data.title;
-      document.getElementById('sheetDesc').textContent = data.desc;
+      var sheetTitle = document.getElementById('sheetTitle');
+      var sheetSub = document.getElementById('sheetSub');
+      var sheetDesc = document.getElementById('sheetDesc');
+      
+      if (sheetTitle) sheetTitle.textContent = data.corte;
+      if (sheetSub) sheetSub.textContent = data.title;
+      if (sheetDesc) sheetDesc.textContent = data.desc;
 
-      var coloracaoContainer = document.getElementById('coloracaoItems');
-      coloracaoContainer.innerHTML = '';
-      (data.coloracao || []).forEach(function(p) {
-        var a = document.createElement('a');
-        a.className = 'kit-item';
-        a.href = p.link;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.innerHTML = '<span>' + p.name + '</span><span class="ml-badge">ML</span>';
-        coloracaoContainer.appendChild(a);
-      });
+      // Usa os kits corretos baseado na categoria
+      if (data.categoria === 'coloracao') {
+        renderKitList('coloracaoItems', data.coloracao);
+        renderKitList('cuidadosItems', data.cuidados);
+      } else {
+        // Cortes, produtos e kits usam cuidados por padrão (mas mantém ambos)
+        renderKitList('coloracaoItems', data.coloracao);
+        renderKitList('cuidadosItems', data.cuidados);
+      }
 
-      var cuidadosContainer = document.getElementById('cuidadosItems');
-      cuidadosContainer.innerHTML = '';
-      (data.cuidados || []).forEach(function(p) {
-        var a = document.createElement('a');
-        a.className = 'kit-item';
-        a.href = p.link;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.innerHTML = '<span>' + p.name + '</span><span class="ml-badge">ML</span>';
-        cuidadosContainer.appendChild(a);
-      });
-
-      document.getElementById('listaColoracao').classList.remove('show');
-      document.getElementById('listaCuidados').classList.remove('show');
+      var listaColoracao = document.getElementById('listaColoracao');
+      var listaCuidados = document.getElementById('listaCuidados');
+      var btnColoracao = document.getElementById('btnColoracao');
+      var btnCuidados = document.getElementById('btnCuidados');
+      
+      if (listaColoracao) listaColoracao.classList.add('show');
+      if (listaCuidados) listaCuidados.classList.remove('show');
+      if (btnColoracao) btnColoracao.classList.add('active');
+      if (btnCuidados) btnCuidados.classList.remove('active');
 
       renderModalMasonry(key);
-      document.getElementById('modalOverlay').classList.add('open');
+      
+      var overlay = document.getElementById('modalOverlay');
+      if (overlay) {
+        overlay.classList.add('open');
+        overlay.scrollTop = 0;
+      }
       document.body.style.overflow = 'hidden';
-      document.getElementById('modalOverlay').scrollTop = 0;
     }
 
     function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('open');
+      var overlay = document.getElementById('modalOverlay');
+      if (overlay) overlay.classList.remove('open');
       if (isSheetOpen) closeSheet();
       document.body.style.overflow = '';
       currentKey = null;
     }
 
     function openSheet() {
-      document.getElementById('modalSheet').classList.add('show');
-      document.getElementById('toggleSheetBtn').classList.add('hidden');
+      var sheet = document.getElementById('modalSheet');
+      var toggleBtn = document.getElementById('toggleSheetBtn');
+      
+      if (sheet) sheet.classList.add('show');
+      if (toggleBtn) toggleBtn.classList.add('hidden');
       isSheetOpen = true;
-      document.getElementById('modalSheet').classList.remove('full');
+      if (sheet) sheet.classList.remove('full');
       isSheetFull = false;
     }
 
     function closeSheet() {
-      document.getElementById('modalSheet').classList.remove('show', 'full');
-      document.getElementById('toggleSheetBtn').classList.remove('hidden');
+      var sheet = document.getElementById('modalSheet');
+      var toggleBtn = document.getElementById('toggleSheetBtn');
+      
+      if (sheet) sheet.classList.remove('show', 'full');
+      if (toggleBtn) toggleBtn.classList.remove('hidden');
       isSheetOpen = false;
       isSheetFull = false;
     }
@@ -2394,7 +3560,8 @@
     function toggleSheetFull() {
       if (!isSheetOpen) return;
       isSheetFull = !isSheetFull;
-      document.getElementById('modalSheet').classList.toggle('full');
+      var sheet = document.getElementById('modalSheet');
+      if (sheet) sheet.classList.toggle('full');
     }
 
     // ============================================================
@@ -2410,22 +3577,356 @@
       var toggleBtn = document.getElementById('toggleSheetBtn');
       var heroInfo = document.getElementById('heroInfo');
 
+      if (!zo || !zoomImg || !heroImg) return;
+
       if (zo.classList.contains('active')) {
         zo.classList.remove('active');
-        sideLeft.classList.remove('fade-out');
-        sideRight.classList.remove('fade-out');
-        closeBtn.classList.remove('fade-out');
-        toggleBtn.classList.remove('fade-out');
-        heroInfo.classList.remove('fade-out');
+        if (sideLeft) sideLeft.classList.remove('fade-out');
+        if (sideRight) sideRight.classList.remove('fade-out');
+        if (closeBtn) closeBtn.classList.remove('fade-out');
+        if (toggleBtn) toggleBtn.classList.remove('fade-out');
+        if (heroInfo) heroInfo.classList.remove('fade-out');
       } else {
         zoomImg.src = heroImg.src;
         zo.classList.add('active');
-        sideLeft.classList.add('fade-out');
-        sideRight.classList.add('fade-out');
-        closeBtn.classList.add('fade-out');
-        toggleBtn.classList.add('fade-out');
-        heroInfo.classList.add('fade-out');
+        if (sideLeft) sideLeft.classList.add('fade-out');
+        if (sideRight) sideRight.classList.add('fade-out');
+        if (closeBtn) closeBtn.classList.add('fade-out');
+        if (toggleBtn) toggleBtn.classList.add('fade-out');
+        if (heroInfo) heroInfo.classList.add('fade-out');
       }
+    }
+
+    // ============================================================
+    // NAVEGAÇÃO
+    // ============================================================
+    function navigateTo(pageId) {
+      currentPage = pageId;
+      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active-page'); });
+      var target = document.getElementById(pageId);
+      if (target) target.classList.add('active-page');
+
+      // Mostrar/esconder filtros baseado na página atual
+      var filters = document.getElementById('filters');
+      if (filters) {
+        if (pageId === 'pageHome') {
+          filters.classList.remove('hidden');
+        } else {
+          filters.classList.add('hidden');
+        }
+      }
+
+      document.querySelectorAll('.footer-links a').forEach(function(link) {
+        link.classList.toggle('active-link', link.dataset.page === pageId);
+      });
+
+      if (pageId === 'pageFavoritos') renderFavorites();
+      if (pageId === 'pageHome') renderHome();
+      if (pageId === 'pagePerfil') renderPerfil();
+    }
+
+    // ============================================================
+    // PIX
+    // ============================================================
+    function copiarPixCatalogo(btn) {
+      var chave = 'hairbymarciostylist@gmail.com';
+      var copiar = function() {
+        btn.textContent = '✅ Copiado!';
+        btn.style.background = '#2ecc71';
+        btn.style.color = '#0a0808';
+        setTimeout(function() {
+          btn.textContent = 'Copiar Pix';
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2500);
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(chave).then(copiar).catch(function() { fallbackCopiarCatalogo(chave, btn, copiar); });
+      } else {
+        fallbackCopiarCatalogo(chave, btn, copiar);
+      }
+    }
+
+    function fallbackCopiarCatalogo(text, btn, cb) {
+      var inp = document.createElement('input');
+      inp.value = text;
+      document.body.appendChild(inp);
+      inp.select();
+      document.execCommand('copy');
+      document.body.removeChild(inp);
+      cb();
+    }
+
+    // ============================================================
+    // EXPOSER
+    // ============================================================
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    function initApp() {
+      renderHome();
+      renderFavorites();
+
+      // ===== MENU =====
+      var hamburgerBtn = document.getElementById('hamburgerBtn');
+      var menuOverlay = document.getElementById('menuOverlay');
+      var menuClose = document.getElementById('menuClose');
+
+      function openMenu() { menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+      function closeMenu() { menuOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+      hamburgerBtn.addEventListener('click', openMenu);
+      menuClose.addEventListener('click', closeMenu);
+      menuOverlay.addEventListener('click', function(e) { if (e.target === this) closeMenu(); });
+
+      document.getElementById('menuHome').addEventListener('click', function() { navigateTo('pageHome'); closeMenu(); });
+      document.getElementById('menuFavs').addEventListener('click', function() { navigateTo('pageFavoritos'); closeMenu(); });
+      document.getElementById('menuPerfil').addEventListener('click', function() { navigateTo('pagePerfil'); closeMenu(); });
+      document.getElementById('menuSobre').addEventListener('click', function() { navigateTo('pageSobre'); closeMenu(); });
+      document.getElementById('menuContato').addEventListener('click', function() { navigateTo('pageContato'); closeMenu(); });
+
+      document.getElementById('btnPhotoCamera').addEventListener('click', function() { document.getElementById('inputPhotoCamera').click(); });
+      document.getElementById('btnPhotoGallery').addEventListener('click', function() { document.getElementById('inputPhotoGallery').click(); });
+      document.getElementById('btnPhotoRemove').addEventListener('click', function() {
+        var u = getCurrentUser();
+        if (u) { setUserPhoto(u.email, ''); showToast('Foto removida'); closePhotoSheet(); renderPerfil(); }
+      });
+      document.getElementById('btnPhotoCancel').addEventListener('click', closePhotoSheet);
+      document.getElementById('inputPhotoCamera').addEventListener('change', function() {
+        if (this.files && this.files[0]) handlePhotoFile(this.files[0]);
+        this.value = '';
+      });
+      document.getElementById('inputPhotoGallery').addEventListener('change', function() {
+        if (this.files && this.files[0]) handlePhotoFile(this.files[0]);
+        this.value = '';
+      });
+
+      // ===== BRAND =====
+      document.getElementById('brandLogo').addEventListener('click', function() { navigateTo('pageHome'); });
+
+      // ===== FOOTER =====
+      document.querySelectorAll('.footer-links a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          navigateTo(this.dataset.page);
+        });
+      });
+
+      // ===== BACK BUTTONS =====
+      document.querySelectorAll('.back-home').forEach(function(btn) {
+        btn.addEventListener('click', function() { navigateTo('pageHome'); });
+      });
+
+      // ===== FILTERS =====
+      document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          showingFavorites = false;
+          document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          currentFilter = this.dataset.filter;
+          renderHome();
+        });
+      });
+
+      // ===== FAV TOGGLE (removido do header) =====
+      // Não há mais botão de coração no header
+
+      // ===== MODAL =====
+      document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+      document.getElementById('modalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+      });
+      document.getElementById('toggleSheetBtn').addEventListener('click', openSheet);
+      document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
+      document.getElementById('sheetHandle').addEventListener('click', toggleSheetFull);
+
+      document.getElementById('btnColoracao').addEventListener('click', function() {
+        document.getElementById('listaColoracao').classList.add('show');
+        document.getElementById('listaCuidados').classList.remove('show');
+        this.classList.add('active');
+        document.getElementById('btnCuidados').classList.remove('active');
+      });
+
+      document.getElementById('btnCuidados').addEventListener('click', function() {
+        document.getElementById('listaCuidados').classList.add('show');
+        document.getElementById('listaColoracao').classList.remove('show');
+        this.classList.add('active');
+        document.getElementById('btnColoracao').classList.remove('active');
+      });
+
+      document.getElementById('modalImg').addEventListener('click', toggleZoom);
+      document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
+
+      // Hero fav
+      document.getElementById('heroFavBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        var key = this.dataset.key;
+        if (key) {
+          toggleFav(key, this);
+          if (showingFavorites) renderHome();
+        }
+      });
+
+      // Hero share
+      document.getElementById('heroShareBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        var key = this.dataset.key;
+        if (key) shareStyle(key);
+      });
+
+      // ===== PIX =====
+      document.getElementById('btnPixCatalogo').addEventListener('click', function() {
+        copiarPixCatalogo(this);
+      });
+
+      // ===== CONTATO =====
+      document.getElementById('contatoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var form = this;
+        var nomeEl = document.getElementById('contatoNome');
+        var emailEl = document.getElementById('contatoEmail');
+        var msgEl = document.getElementById('contatoMensagem');
+        var replyTo = document.getElementById('contatoReplyTo');
+        var btn = document.getElementById('contatoSubmitBtn');
+
+        var nome = nomeEl.value.trim();
+        var email = emailEl.value.trim();
+        var mensagem = msgEl.value.trim();
+
+        var valid = true;
+        [nomeEl, emailEl, msgEl].forEach(function(input) {
+          if (!input.value.trim()) {
+            input.style.borderColor = '#ff4757';
+            valid = false;
+          } else {
+            input.style.borderColor = '';
+          }
+        });
+        if (!valid) {
+          showToast('⚠️ Preencha todos os campos.');
+          return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailEl.style.borderColor = '#ff4757';
+          showToast('⚠️ Digite um e-mail válido.');
+          return;
+        }
+
+        if (replyTo) replyTo.value = email;
+
+        btn.disabled = true;
+        btn.textContent = 'enviando...';
+        btn.style.opacity = '0.6';
+
+        var formData = new FormData(form);
+
+        fetch('https://formsubmit.co/ajax/hairbymarciostylist@gmail.com', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(function(response) {
+          return response.json().then(function(data) {
+            return { ok: response.ok, data: data };
+          }).catch(function() {
+            return { ok: response.ok, data: null };
+          });
+        })
+        .then(function(result) {
+          if (result.ok) {
+            showToast('📨 Mensagem enviada com sucesso!');
+            form.reset();
+          } else {
+            enviarViaMailto(nome, email, mensagem);
+          }
+        })
+        .catch(function() {
+          enviarViaMailto(nome, email, mensagem);
+        })
+        .finally(function() {
+          btn.disabled = false;
+          btn.textContent = 'enviar';
+          btn.style.opacity = '';
+        });
+      });
+
+      function enviarViaMailto(nome, email, mensagem) {
+        var assunto = encodeURIComponent('HairOS · Mensagem de ' + nome);
+        var corpo = encodeURIComponent(
+          'Nome: ' + nome + '\n' +
+          'E-mail: ' + email + '\n\n' +
+          'Mensagem:\n' + mensagem
+        );
+        var mailto = 'mailto:hairbymarciostylist@gmail.com?subject=' + assunto + '&body=' + corpo;
+        window.location.href = mailto;
+        showToast('📧 Abrindo seu e-mail para envio...');
+      }
+
+      // ===== KEYBOARD =====
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (document.getElementById('zoomOverlay').classList.contains('active')) {
+            toggleZoom();
+            return;
+          }
+          if (isSheetOpen) {
+            closeSheet();
+            return;
+          }
+          if (document.getElementById('modalOverlay').classList.contains('open')) {
+            closeModal();
+          }
+        }
+      });
+
+      // ===== SCROLL HIDE/SHOW (Instagram style) =====
+      (function() {
+        var header = document.querySelector('.header');
+        var footer = document.getElementById('footerBar');
+        var lastY = window.scrollY;
+        var ticking = false;
+
+        function onScroll() {
+          if (!ticking) {
+            requestAnimationFrame(function() {
+              var currentY = window.scrollY;
+              var delta = currentY - lastY;
+
+              // só ativa após 60px de scroll para evitar micro-jitters
+              if (Math.abs(delta) > 4) {
+                if (delta > 0 && currentY > 60) {
+                  // scrollando para baixo — esconde
+                  header && header.classList.add('hide');
+                  footer && footer.classList.add('hide');
+                } else {
+                  // scrollando para cima — mostra
+                  header && header.classList.remove('hide');
+                  footer && footer.classList.remove('hide');
+                }
+                lastY = currentY;
+              }
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+
+      console.log('✅ HairOS · 60 estilos carregados');
+      console.log('✅ 15 Cortes + 15 Colorações + 15 Produtos + 15 Kits');
+      console.log('✅ Kits integrados com links do Mercado Livre:');
+      console.log('   - Kerastase: https://meli.la/1MwSY7v');
+      console.log('   - Keune: https://meli.la/1GbiW7M');
+      console.log('   - Loreal Expert: https://meli.la/2nmeunk');
+      console.log('   - Loreal: https://meli.la/28LpPj2');
+      console.log('   - Joico: https://meli.la/2x9xqBe');
+      console.log('✅ Botão de coração removido do header (já está no menu e footer)');
     }
 
     // ============================================================
@@ -2441,14 +3942,14 @@
       var interval = setInterval(function() {
         progress += Math.random() * 8 + 2;
         if (progress > 100) progress = 100;
-        loadingBar.style.width = progress + '%';
-        loadingPercent.textContent = Math.round(progress) + '%';
+        if (loadingBar) loadingBar.style.width = progress + '%';
+        if (loadingPercent) loadingPercent.textContent = Math.round(progress) + '%';
         if (progress >= 100) {
           clearInterval(interval);
           setTimeout(function() {
-            loadingScreen.classList.add('hidden');
-            mainContent.classList.add('visible');
-            renderHome();
+            if (loadingScreen) loadingScreen.classList.add('hidden');
+            if (mainContent) mainContent.classList.add('visible');
+            initApp();
           }, 400);
         }
       }, 120);
@@ -2456,146 +3957,17 @@
       setTimeout(function() {
         if (progress < 100) {
           progress = 100;
-          loadingBar.style.width = '100%';
-          loadingPercent.textContent = '100%';
+          if (loadingBar) loadingBar.style.width = '100%';
+          if (loadingPercent) loadingPercent.textContent = '100%';
+          clearInterval(interval);
+          setTimeout(function() {
+            if (loadingScreen) loadingScreen.classList.add('hidden');
+            if (mainContent) mainContent.classList.add('visible');
+            initApp();
+          }, 400);
         }
       }, 5000);
     });
-
-    // ============================================================
-    // EVENTOS
-    // ============================================================
-    document.getElementById('brandLogo').addEventListener('click', goToHome);
-    document.getElementById('vitrineBadge').addEventListener('click', goToHome);
-    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-    document.getElementById('modalImg').addEventListener('click', toggleZoom);
-    document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
-    document.getElementById('toggleSheetBtn').addEventListener('click', openSheet);
-    document.getElementById('sheetCloseBtn').addEventListener('click', closeSheet);
-    document.getElementById('sheetHandle').addEventListener('click', toggleSheetFull);
-
-    document.getElementById('favToggleBtn').addEventListener('click', function() {
-      showingFavorites = !showingFavorites;
-      this.classList.toggle('active', showingFavorites);
-      var filters = document.getElementById('filters');
-      if (showingFavorites) {
-        filters.classList.add('hidden');
-        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.querySelector('[data-filter="all"]').classList.add('active');
-      } else {
-        filters.classList.remove('hidden');
-        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.querySelector('[data-filter="all"]').classList.add('active');
-        currentFilter = 'all';
-      }
-      renderHome();
-    });
-
-    document.querySelectorAll('.filter-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        if (showingFavorites) {
-          showingFavorites = false;
-          document.getElementById('favToggleBtn').classList.remove('active');
-          document.getElementById('filters').classList.remove('hidden');
-        }
-        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        currentFilter = this.dataset.filter;
-        renderHome();
-      });
-    });
-
-    document.getElementById('btnColoracao').addEventListener('click', function() {
-      document.getElementById('listaCuidados').classList.remove('show');
-      document.getElementById('listaColoracao').classList.toggle('show');
-    });
-
-    document.getElementById('btnCuidados').addEventListener('click', function() {
-      document.getElementById('listaColoracao').classList.remove('show');
-      document.getElementById('listaCuidados').classList.toggle('show');
-    });
-
-    var heroFavBtn = document.getElementById('heroFavBtn');
-    var heroShareBtn = document.getElementById('heroShareBtn');
-
-    heroFavBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var key = this.dataset.key;
-      if (key) {
-        toggleFav(key, this);
-        if (showingFavorites) renderHome();
-      }
-    });
-
-    heroShareBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var key = this.dataset.key;
-      if (key) shareStyle(key);
-    });
-
-    document.getElementById('modalOverlay').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        var zoomActive = document.getElementById('zoomOverlay').classList.contains('active');
-        if (zoomActive) {
-          toggleZoom();
-          return;
-        }
-        if (isSheetOpen) {
-          closeSheet();
-          return;
-        }
-        if (document.getElementById('modalOverlay').classList.contains('open')) {
-          closeModal();
-        }
-      }
-    });
-
-    var startY = 0;
-    var isDragging = false;
-    var handle = document.getElementById('sheetHandle');
-
-    handle.addEventListener('touchstart', function(e) {
-      startY = e.touches[0].clientY;
-      isDragging = true;
-    }, { passive: true });
-
-    handle.addEventListener('touchmove', function(e) {
-      if (!isDragging) return;
-      var diff = startY - e.touches[0].clientY;
-      if (diff > 40 && !isSheetFull && isSheetOpen) {
-        toggleSheetFull();
-        isDragging = false;
-      }
-      if (diff < -40 && isSheetFull && isSheetOpen) {
-        toggleSheetFull();
-        isDragging = false;
-      }
-    }, { passive: true });
-
-    handle.addEventListener('touchend', function() {
-      isDragging = false;
-    }, { passive: true });
-
-    function openFromHash() {
-      var hash = location.hash || '';
-      var m = hash.match(/card=([^&]+)/);
-      if (!m) return;
-      var key = decodeURIComponent(m[1]);
-      if (styleData[key]) {
-        setTimeout(function() { openModal(key); }, 300);
-      }
-    }
-
-    window.addEventListener('hashchange', openFromHash);
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', openFromHash);
-    } else {
-      openFromHash();
-    }
   </script>
 </body>
 </html>
