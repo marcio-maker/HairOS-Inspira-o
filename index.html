@@ -3,7 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>HairOS · Inspirações</title>
+  
+  <!-- ===== SEO COMPLETO ===== -->
+  <title>HairOS · Vitrine de Inspirações Capilares</title>
+  <meta name="description" content="HairOS - A maior vitrine digital de inspirações capilares. Descubra 60 estilos entre cortes, colorações, produtos e kits profissionais para cabelo.">
+  <meta name="keywords" content="cabelo, cortes de cabelo, coloração capilar, produtos para cabelo, kits capilares, hairstyle, hairOS, tendências cabelo, bob, pixie, balayage, cuidados capilares">
+  <meta name="author" content="HairOS">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hairos.com.br">
+  
+  <!-- ===== OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ===== -->
+  <meta property="og:title" content="HairOS · Vitrine de Inspirações Capilares">
+  <meta property="og:description" content="Descubra 60 estilos entre cortes, colorações, produtos e kits profissionais. Inspire-se e transforme seu cabelo!">
+  <meta property="og:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://hairos.com.br">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="HairOS">
+  <meta property="og:locale" content="pt_BR">
+  
+  <!-- ===== TWITTER CARD ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HairOS · Vitrine de Inspirações Capilares">
+  <meta name="twitter:description" content="60 estilos entre cortes, colorações, produtos e kits profissionais. Inspire-se!">
+  <meta name="twitter:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
+  
+  <!-- ===== FAVICON ===== -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💇</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💇</text></svg>">
+  
+  <!-- ===== PWA MANIFEST ===== -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0808">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <style>
     /* ===== IMPORTS ===== */
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
@@ -18,6 +53,7 @@
     :root {
       --bg: #0a0808;
       --bg-card: #1a1612;
+      --bg-elevated: #221d18;
       --text: #f0ebe4;
       --text-sec: #d4c9bc;
       --text-muted: #8a8278;
@@ -25,9 +61,27 @@
       --gold-light: #e8d5a8;
       --gold-glow: rgba(201, 169, 110, .12);
       --border: rgba(201, 169, 110, .08);
+      --border-gold: rgba(201, 169, 110, .25);
       --radius: 14px;
       --transition: .4s cubic-bezier(.25, .46, .45, .94);
       --t6: .6s cubic-bezier(.23, 1, .32, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .6);
+    }
+
+    /* ===== TEMA CLARO ===== */
+    [data-theme="light"] {
+      --bg: #f5f0eb;
+      --bg-card: #ffffff;
+      --bg-elevated: #f0ece7;
+      --text: #1a1612;
+      --text-sec: #3d352e;
+      --text-muted: #8a8278;
+      --gold: #b8955a;
+      --gold-light: #d4b87a;
+      --gold-glow: rgba(184, 149, 90, .12);
+      --border: rgba(184, 149, 90, .15);
+      --border-gold: rgba(184, 149, 90, .35);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .12);
     }
 
     html, body {
@@ -37,6 +91,7 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
     }
 
     body {
@@ -44,6 +99,69 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
+    /* ===== ANIMAÇÕES DE ENTRADA ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .card-home {
+      animation: fadeInUp 0.6s cubic-bezier(.23, 1, .32, 1) both;
+    }
+
+    .card-home:nth-child(1) { animation-delay: 0.05s; }
+    .card-home:nth-child(2) { animation-delay: 0.10s; }
+    .card-home:nth-child(3) { animation-delay: 0.15s; }
+    .card-home:nth-child(4) { animation-delay: 0.20s; }
+    .card-home:nth-child(5) { animation-delay: 0.25s; }
+    .card-home:nth-child(6) { animation-delay: 0.30s; }
+    .card-home:nth-child(7) { animation-delay: 0.35s; }
+    .card-home:nth-child(8) { animation-delay: 0.40s; }
+    .card-home:nth-child(9) { animation-delay: 0.45s; }
+    .card-home:nth-child(10) { animation-delay: 0.50s; }
+    .card-home:nth-child(11) { animation-delay: 0.55s; }
+    .card-home:nth-child(12) { animation-delay: 0.60s; }
+    .card-home:nth-child(13) { animation-delay: 0.65s; }
+    .card-home:nth-child(14) { animation-delay: 0.70s; }
+    .card-home:nth-child(15) { animation-delay: 0.75s; }
+    .card-home:nth-child(16) { animation-delay: 0.80s; }
+    .card-home:nth-child(17) { animation-delay: 0.85s; }
+    .card-home:nth-child(18) { animation-delay: 0.90s; }
+    .card-home:nth-child(19) { animation-delay: 0.95s; }
+    .card-home:nth-child(20) { animation-delay: 1.00s; }
+
+    .modal-card-item {
+      animation: fadeInScale 0.5s cubic-bezier(.23, 1, .32, 1) both;
+    }
+
+    .modal-card-item:nth-child(1) { animation-delay: 0.05s; }
+    .modal-card-item:nth-child(2) { animation-delay: 0.10s; }
+    .modal-card-item:nth-child(3) { animation-delay: 0.15s; }
+    .modal-card-item:nth-child(4) { animation-delay: 0.20s; }
+    .modal-card-item:nth-child(5) { animation-delay: 0.25s; }
+    .modal-card-item:nth-child(6) { animation-delay: 0.30s; }
+    .modal-card-item:nth-child(7) { animation-delay: 0.35s; }
+    .modal-card-item:nth-child(8) { animation-delay: 0.40s; }
+    .modal-card-item:nth-child(9) { animation-delay: 0.45s; }
+    .modal-card-item:nth-child(10) { animation-delay: 0.50s; }
 
     /* ===== LOADING SCREEN ===== */
     .loading-screen {
@@ -55,7 +173,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      transition: opacity 0.6s ease, visibility 0.6s ease, background var(--transition);
     }
 
     .loading-screen.hidden {
@@ -178,6 +296,12 @@
       white-space: nowrap;
     }
 
+    [data-theme="light"] .toast {
+      background: rgba(255, 255, 255, .95);
+      color: var(--text);
+      border-color: var(--gold);
+    }
+
     .toast.show {
       opacity: 1;
       transform: translateY(0) scale(1);
@@ -199,7 +323,13 @@
       border: 1px solid rgba(201, 169, 110, 0.14);
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(201, 169, 110, 0.08);
-      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease;
+      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
+    }
+
+    [data-theme="light"] .header {
+      background: rgba(255, 252, 248, 0.85);
+      border-color: rgba(184, 149, 90, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     }
 
     .header.hide {
@@ -397,6 +527,11 @@
       overflow-y: auto;
     }
 
+    [data-theme="light"] .menu-panel {
+      background: rgba(255, 252, 248, .98);
+      border-color: var(--border-gold);
+    }
+
     @keyframes slideMenu {
       from { transform: translateX(30px); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
@@ -570,6 +705,10 @@
       border-color: var(--gold);
     }
 
+    [data-theme="light"] .filter-btn.active {
+      color: #fff;
+    }
+
     /* ===== MASONRY HOME ===== */
     .masonry-home {
       column-count: 2;
@@ -716,7 +855,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0);
-      z-index: 100;
+      z-index: 1200;
       display: flex;
       align-items: flex-start;
       justify-content: center;
@@ -730,6 +869,10 @@
     .modal-overlay.open {
       background: rgba(0, 0, 0, .98);
       pointer-events: auto;
+    }
+
+    [data-theme="light"] .modal-overlay.open {
+      background: rgba(245, 240, 235, .98);
     }
 
     .modal-overlay::-webkit-scrollbar {
@@ -759,8 +902,18 @@
       padding: 0 16px;
     }
 
+    [data-theme="light"] .modal-card {
+      background: var(--bg);
+    }
+
     .modal-overlay.open .modal-card {
       opacity: 1;
+    }
+
+    /* Mantém o fechamento acessível acima do header também em telas touch. */
+    .modal-overlay.open .modal-close-btn {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .modal-hero {
@@ -1166,6 +1319,11 @@
       box-shadow: 0 -10px 40px rgba(0, 0, 0, .8);
     }
 
+    [data-theme="light"] .modal-sheet {
+      background: rgba(255, 252, 248, .98);
+      border-top-color: var(--border-gold);
+    }
+
     .modal-sheet.show {
       transform: translateY(0);
     }
@@ -1185,6 +1343,10 @@
       user-select: none;
       -webkit-user-select: none;
       transition: background .3s;
+    }
+
+    [data-theme="light"] .sheet-handle {
+      background: rgba(0, 0, 0, .15);
     }
 
     .sheet-handle:hover {
@@ -1697,6 +1859,125 @@
       color: var(--text-sec);
     }
 
+    /* ===== FAQ ===== */
+    .faq-section {
+      margin: 12px 0 8px;
+    }
+
+    .faq-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      opacity: 0.8;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .faq-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: all var(--transition);
+      cursor: default;
+      position: relative;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+    }
+
+    .faq-item:hover {
+      border-color: var(--gold);
+      background: rgba(201, 169, 110, 0.04);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .faq-question {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-sec);
+      font-weight: 600;
+      transition: all var(--transition);
+      width: 100%;
+      line-height: 1.3;
+    }
+
+    .faq-item:hover .faq-question {
+      color: var(--gold);
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    .faq-answer {
+      position: absolute;
+      inset: 0;
+      padding: 14px 16px;
+      background: rgba(10, 8, 8, 0.97);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition);
+      transform: scale(0.96);
+    }
+
+    [data-theme="light"] .faq-answer {
+      background: rgba(255, 252, 248, 0.98);
+      color: var(--text);
+    }
+
+    .faq-item:hover .faq-answer {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .faq-answer::before {
+      content: "✦ ";
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    @media (max-width: 400px) {
+      .faq-item {
+        min-height: 56px;
+        padding: 10px 12px;
+      }
+      .faq-question {
+        font-size: 0.75rem;
+      }
+      .faq-item:hover .faq-question {
+        font-size: 0.6rem;
+      }
+      .faq-answer {
+        font-size: 0.7rem;
+        padding: 10px 12px;
+      }
+    }
+
     .sobre-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1878,6 +2159,8 @@
       cursor: pointer; font-family: 'Inter', sans-serif; transition: all var(--transition); text-align: center;
     }
     .auth-tab.active, .perfil-tab.active { background: var(--gold); color: #0a0808; border-color: var(--gold); }
+    [data-theme="light"] .auth-tab.active,
+    [data-theme="light"] .perfil-tab.active { color: #fff; }
     .auth-form { display: none; flex-direction: column; gap: 10px; }
     .auth-form.active { display: flex; }
     .auth-form input, .diario-form textarea, .diario-form input, .ba-form input, .ba-form textarea {
@@ -1892,6 +2175,8 @@
       font-size: .82rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
       letter-spacing: .03em; text-transform: uppercase; transition: all var(--transition);
     }
+    [data-theme="light"] .auth-form button[type="submit"],
+    [data-theme="light"] .btn-gold { color: #fff; }
     .auth-form button[type="submit"]:hover, .btn-gold:hover { background: var(--gold-light); transform: scale(1.02); }
     .auth-hint { font-size: .68rem; color: var(--text-muted); text-align: center; opacity: .7; }
     .auth-demo-btn {
@@ -1983,8 +2268,12 @@
       padding: 16px 16px 28px; z-index: 2000; transform: translateY(110%);
       transition: transform .35s cubic-bezier(.23,1,.32,1); box-shadow: 0 -10px 40px rgba(0,0,0,.7);
     }
+    [data-theme="light"] .photo-sheet {
+      background: rgba(255,252,248,.98);
+    }
     .photo-sheet.show { transform: translateY(0); }
     .photo-sheet-handle { width: 40px; height: 4px; background: rgba(255,255,255,.2); border-radius: 4px; margin: 0 auto 14px; }
+    [data-theme="light"] .photo-sheet-handle { background: rgba(0,0,0,.15); }
     .photo-sheet h4 { font-family: 'Playfair Display', serif; font-style: italic; text-align: center; margin-bottom: 14px; }
     .photo-sheet-btns { display: flex; flex-direction: column; gap: 8px; }
     .photo-sheet-btns button {
@@ -2008,8 +2297,14 @@
       border-radius: 100px;
       padding: 8px 10px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(201, 169, 110, 0.1), 0 2px 8px rgba(201, 169, 110, 0.06);
-      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease;
+      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
       white-space: nowrap;
+    }
+
+    [data-theme="light"] .footer {
+      background: rgba(255, 252, 248, 0.9);
+      border-color: rgba(184, 149, 90, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
     }
 
     .footer.hide {
@@ -2077,7 +2372,7 @@
       padding-bottom: 88px;
     }
 
-    /* ===== RESPONSIVO SHEET ===== */
+    /* ===== RESPONSIVO ===== */
     @media (max-width: 600px) {
       .modal-sheet {
         max-width: 100%;
@@ -2090,16 +2385,6 @@
       .kit-produtos-lista { font-size: .68rem; }
       .kit-complete { font-size: .75rem; padding: 8px; }
       .fav-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 400px) {
-      .kit-acordeao-header { padding: 8px 12px; }
-      .kit-acordeao-title { font-size: .78rem; }
-      .kit-produtos-lista { font-size: .62rem; }
-      .fav-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 600px) {
       .header-link span {
         display: none;
       }
@@ -2114,6 +2399,23 @@
       .filter-btn {
         padding: 4px 14px;
         font-size: .65rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .kit-acordeao-header { padding: 8px 12px; }
+      .kit-acordeao-title { font-size: .78rem; }
+      .kit-produtos-lista { font-size: .62rem; }
+      .fav-grid { grid-template-columns: repeat(2, 1fr); }
+      .brand {
+        font-size: 1rem;
+      }
+      .brand-sub {
+        font-size: .45rem;
+      }
+      .header {
+        padding: 6px 12px;
+        margin: 6px 0 12px;
       }
     }
   </style>
@@ -2203,7 +2505,7 @@
         <div class="fav-grid" id="favGrid"></div>
       </div>
 
-      <!-- SOBRE -->
+      <!-- SOBRE COM FAQ -->
       <div class="page" id="pageSobre">
         <div class="page-header">
           <h2>◎ sobre</h2>
@@ -2212,14 +2514,49 @@
         <div class="sobre-content">
           <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong>
             é uma curadoria de estilos capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
+          
           <div class="sobre-card">
             <h4>origem</h4>
             <p>Nascida da estética atemporal da Vogue Paris dos anos 1960, a HairOS reúne 60 estilos entre cortes, colorações e produtos.</p>
           </div>
+          
           <div class="sobre-card">
             <h4>missão</h4>
             <p>Inspirar e revelar os estilos mais atuais através de uma curadoria visual e técnica.</p>
           </div>
+
+          <!-- ===== FAQ ===== -->
+          <div class="faq-section">
+            <h3 class="faq-title">✦ perguntas frequentes</h3>
+            
+            <div class="faq-grid">
+              <div class="faq-item">
+                <div class="faq-question">O que é a HairOS?</div>
+                <div class="faq-answer">HairOS é uma vitrine digital de inspirações capilares, com 60 estilos curados entre cortes, colorações, produtos e kits profissionais.</div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">Os estilos são atualizados com frequência?</div>
+                <div class="faq-answer">Sim! A curadoria é constantemente renovada com tendências sazonais, lançamentos e clássicos revisitados.</div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">Posso salvar meus estilos favoritos?</div>
+                <div class="faq-answer">Sim, basta clicar no ♥ em qualquer card ou modal. Seus favoritos ficam salvos na sua conta e sincronizados.</div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">Os kits têm links para compra?</div>
+                <div class="faq-answer">Sim! Cada kit tem um link direto para listas do Mercado Livre com produtos selecionados da HairOS.</div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">Preciso criar uma conta para usar?</div>
+                <div class="faq-answer">Não, você pode navegar livremente. Mas com uma conta você salva favoritos, faz anotações no diário e acompanha seu progresso.</div>
+              </div>
+            </div>
+          </div>
+
           <div class="sobre-stats">
             <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
             <div class="stat"><span class="number">4.8</span><span class="label">★ avaliação</span></div>
@@ -2399,12 +2736,36 @@
     }
 
     // ============================================================
-    // DADOS - KITS REAIS COM LINKS DO MERCADO LIVRE
+    // TEMA (MODO CLARO/ESCURO)
+    // ============================================================
+    function getTheme() {
+      try { return localStorage.getItem('hairos_theme') || 'dark'; } catch { return 'dark'; }
+    }
+
+    function setTheme(theme) {
+      try { localStorage.setItem('hairos_theme', theme); } catch {}
+      document.documentElement.setAttribute('data-theme', theme);
+      var btn = document.getElementById('menuThemeToggle');
+      if (btn) btn.textContent = theme === 'dark' ? 'claro' : 'escuro';
+    }
+
+    function toggleTheme() {
+      var current = getTheme();
+      var next = current === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+      showToast('Tema ' + (next === 'dark' ? '🌙 escuro' : '☀️ claro'));
+    }
+
+    // Inicializa tema
+    setTheme(getTheme());
+
+    // ============================================================
+    // DADOS - KITS REAIS COM LINKS DO MERCADO LIVRE (ATUALIZADOS)
     // ============================================================
 
     var FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
 
-    // ===== KITS DE COLORAÇÃO =====
+    // ===== KITS DE COLORAÇÃO (LINKS REAIS) =====
     var coloracaoKits = {
       kits: [
         { 
@@ -2422,7 +2783,7 @@
       ]
     };
 
-    // ===== KITS DE CUIDADOS =====
+    // ===== KITS DE CUIDADOS (LINKS REAIS) =====
     var cuidadosKits = {
       kits: [
         { 
@@ -3503,7 +3864,6 @@
         renderKitList('coloracaoItems', data.coloracao);
         renderKitList('cuidadosItems', data.cuidados);
       } else {
-        // Cortes, produtos e kits usam cuidados por padrão (mas mantém ambos)
         renderKitList('coloracaoItems', data.coloracao);
         renderKitList('cuidadosItems', data.cuidados);
       }
@@ -3606,7 +3966,6 @@
       var target = document.getElementById(pageId);
       if (target) target.classList.add('active-page');
 
-      // Mostrar/esconder filtros baseado na página atual
       var filters = document.getElementById('filters');
       if (filters) {
         if (pageId === 'pageHome') {
@@ -3688,6 +4047,10 @@
       document.getElementById('menuSobre').addEventListener('click', function() { navigateTo('pageSobre'); closeMenu(); });
       document.getElementById('menuContato').addEventListener('click', function() { navigateTo('pageContato'); closeMenu(); });
 
+      // ===== TEMA =====
+      document.getElementById('menuThemeToggle').addEventListener('click', toggleTheme);
+
+      // ===== PHOTO SHEET =====
       document.getElementById('btnPhotoCamera').addEventListener('click', function() { document.getElementById('inputPhotoCamera').click(); });
       document.getElementById('btnPhotoGallery').addEventListener('click', function() { document.getElementById('inputPhotoGallery').click(); });
       document.getElementById('btnPhotoRemove').addEventListener('click', function() {
@@ -3730,9 +4093,6 @@
           renderHome();
         });
       });
-
-      // ===== FAV TOGGLE (removido do header) =====
-      // Não há mais botão de coração no header
 
       // ===== MODAL =====
       document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
@@ -3896,14 +4256,11 @@
               var currentY = window.scrollY;
               var delta = currentY - lastY;
 
-              // só ativa após 60px de scroll para evitar micro-jitters
               if (Math.abs(delta) > 4) {
                 if (delta > 0 && currentY > 60) {
-                  // scrollando para baixo — esconde
                   header && header.classList.add('hide');
                   footer && footer.classList.add('hide');
                 } else {
-                  // scrollando para cima — mostra
                   header && header.classList.remove('hide');
                   footer && footer.classList.remove('hide');
                 }
@@ -3926,7 +4283,12 @@
       console.log('   - Loreal Expert: https://meli.la/2nmeunk');
       console.log('   - Loreal: https://meli.la/28LpPj2');
       console.log('   - Joico: https://meli.la/2x9xqBe');
-      console.log('✅ Botão de coração removido do header (já está no menu e footer)');
+      console.log('✅ Header pill flutuante com hide/show no scroll');
+      console.log('✅ Footer pill flutuante estilo Instagram');
+      console.log('✅ FAQ com 5 perguntas na página Sobre');
+      console.log('✅ Tema claro/escuro funcional');
+      console.log('✅ Animações de entrada em cards e modal');
+      console.log('✅ SEO e metadados completos');
     }
 
     // ============================================================
