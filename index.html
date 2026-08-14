@@ -30,8 +30,8 @@
   <meta name="twitter:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
   
   <!-- ===== FAVICON ===== -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💇</text></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💇</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif'>H</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif'>H</text></svg>">
   
   <!-- ===== PWA MANIFEST ===== -->
   <link rel="manifest" href="manifest.json">
@@ -94,9 +94,8 @@
       transition: background var(--transition), color var(--transition);
     }
 
-    /* ===== CORREÇÃO: PADDING-TOP PARA O HEADER ===== */
     body {
-      padding: 80px 12px 12px;
+      padding: 0 12px 12px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -271,13 +270,13 @@
       transform: translateY(0) scale(1);
     }
 
-    /* ===== HEADER — CORREÇÃO: REMOVIDO MARGIN-TOP ===== */
+    /* ===== HEADER ===== */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px 16px;
-      margin: 0 0 20px;
+      margin: 10px 0 20px;
       position: sticky;
       top: 10px;
       z-index: 500;
@@ -288,6 +287,12 @@
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(201, 169, 110, 0.08);
       transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
+    }
+    /* Quando o modal está aberto, o header desaparece */
+    .header.modal-open {
+      opacity: 0 !important;
+      transform: translateY(-100%) !important;
+      pointer-events: none !important;
     }
     [data-theme="light"] .header {
       background: rgba(255, 252, 248, 0.85);
@@ -327,7 +332,10 @@
       padding-left: 2px;
       opacity: 0.6;
     }
-    .brand-sub .highlight { color: var(--gold); opacity: 1; }
+    .brand-sub .highlight {
+      color: var(--gold);
+      opacity: 1;
+    }
     .header-actions {
       display: flex;
       align-items: center;
@@ -384,9 +392,17 @@
       border-radius: 2px;
       transition: all var(--transition);
     }
-    .hamburger-btn .bar:nth-child(2) { width: 11px; align-self: flex-end; }
-    .hamburger-btn .bar:nth-child(3) { width: 7px; align-self: flex-end; }
-    .hamburger-btn:hover .bar { background: var(--gold); }
+    .hamburger-btn .bar:nth-child(2) {
+      width: 11px;
+      align-self: flex-end;
+    }
+    .hamburger-btn .bar:nth-child(3) {
+      width: 7px;
+      align-self: flex-end;
+    }
+    .hamburger-btn:hover .bar {
+      background: var(--gold);
+    }
     .vitrine-badge {
       font-size: .7rem;
       color: var(--gold);
@@ -485,7 +501,10 @@
       padding: 4px 8px;
       transition: all var(--transition);
     }
-    .menu-close:hover { color: var(--text); transform: rotate(90deg); }
+    .menu-close:hover {
+      color: var(--text);
+      transform: rotate(90deg);
+    }
     .menu-item {
       display: flex;
       align-items: center;
@@ -508,7 +527,11 @@
       color: var(--text);
       transform: translateX(4px);
     }
-    .menu-item .icon { font-size: 1rem; width: 24px; text-align: center; }
+    .menu-item .icon {
+      font-size: 1rem;
+      width: 24px;
+      text-align: center;
+    }
     .menu-item .item-count {
       margin-left: auto;
       background: var(--gold);
@@ -555,12 +578,12 @@
       color: var(--gold);
     }
 
-    /* ===== FILTROS - CORREÇÃO: REDUZIDO PADDING-TOP ===== */
+    /* ===== FILTROS ===== */
     .filters {
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 4px 0 16px;
+      padding: 12px 0 16px;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
       transition: all var(--transition);
@@ -600,14 +623,14 @@
       column-gap: 12px;
     }
     @media (min-width: 600px) {
-      body { padding: 80px 20px 20px; }
+      body { padding: 0 20px 20px; }
       .masonry-home { column-count: 3; column-gap: 16px; }
     }
     @media (min-width: 900px) {
       .masonry-home { column-count: 4; column-gap: 18px; }
     }
 
-    /* ===== CARDS HOME - MASONRY ===== */
+    /* ===== CARDS HOME ===== */
     .card-home {
       break-inside: avoid;
       margin-bottom: 12px;
@@ -749,6 +772,7 @@
       flex-direction: column;
       margin: 0 auto;
       padding: 0 16px;
+      padding-top: 20px;
     }
     [data-theme="light"] .modal-card { background: var(--bg); }
     .modal-overlay.open .modal-card { opacity: 1; }
@@ -764,7 +788,7 @@
       background: var(--bg-card);
       flex-shrink: 0;
       border-radius: var(--radius);
-      margin-top: 16px;
+      margin-top: 0px;
       margin-bottom: 20px;
     }
     @media (min-width: 600px) {
@@ -915,9 +939,9 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, .4);
     }
     .modal-close-btn {
-      position: absolute;
-      top: 12px;
-      left: 12px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
       width: 36px;
       height: 36px;
       background: rgba(0, 0, 0, .7);
@@ -937,7 +961,7 @@
       opacity: 0;
       transform: scale(0.8);
     }
-    .modal-hero:hover .modal-close-btn {
+    .modal-overlay.open .modal-close-btn {
       opacity: 1;
       transform: scale(1);
     }
@@ -1353,7 +1377,10 @@
       letter-spacing: 1px;
       transition: all var(--transition);
     }
-    .section-title .highlight { color: var(--gold); opacity: 1; }
+    .section-title .highlight {
+      color: var(--gold);
+      opacity: 1;
+    }
     .hidden { display: none !important; }
     .fade-out { opacity: 0 !important; pointer-events: none !important; }
 
@@ -1582,7 +1609,7 @@
       transform: scale(1);
     }
     .faq-answer::before {
-      content: "✦ ";
+      content: "— ";
       color: var(--gold);
       font-weight: 400;
     }
@@ -1743,7 +1770,7 @@
       transform: scale(1.03);
     }
 
-    /* ===== PERFIL / DIÁRIO / ANTES-DEPOIS ===== */
+    /* ===== PERFIL ===== */
     .perfil-content { display: flex; flex-direction: column; gap: 14px; }
     .auth-tabs, .perfil-tabs { display: flex; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
     .auth-tab, .perfil-tab {
@@ -1861,9 +1888,7 @@
       padding: 16px 16px 28px; z-index: 2000; transform: translateY(110%);
       transition: transform .35s cubic-bezier(.23,1,.32,1); box-shadow: 0 -10px 40px rgba(0,0,0,.7);
     }
-    [data-theme="light"] .photo-sheet {
-      background: rgba(255,252,248,.98);
-    }
+    [data-theme="light"] .photo-sheet { background: rgba(255,252,248,.98); }
     .photo-sheet.show { transform: translateY(0); }
     .photo-sheet-handle { width: 40px; height: 4px; background: rgba(255,255,255,.2); border-radius: 4px; margin: 0 auto 14px; }
     [data-theme="light"] .photo-sheet-handle { background: rgba(0,0,0,.15); }
@@ -1876,7 +1901,7 @@
     .photo-sheet-btns button:hover { border-color: var(--gold); background: var(--gold-glow); }
     .photo-sheet-cancel { text-align: center !important; color: var(--text-muted) !important; border-color: transparent !important; background: transparent !important; }
 
-    /* ===== FOOTER — pill flutuante ===== */
+    /* ===== FOOTER ===== */
     .footer {
       position: fixed;
       bottom: 16px;
@@ -1892,6 +1917,12 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(201, 169, 110, 0.1), 0 2px 8px rgba(201, 169, 110, 0.06);
       transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
       white-space: nowrap;
+    }
+    /* Quando o modal está aberto, o footer também desaparece */
+    .footer.modal-open {
+      opacity: 0 !important;
+      transform: translateX(-50%) translateY(calc(100% + 24px)) !important;
+      pointer-events: none !important;
     }
     [data-theme="light"] .footer {
       background: rgba(255, 252, 248, 0.9);
@@ -1962,8 +1993,11 @@
       .fav-grid { grid-template-columns: repeat(2, 1fr); }
       .header-link span { display: none; }
       .header-link { padding: 4px 10px; font-size: .65rem; }
-      .filters { gap: 6px; padding: 4px 0 12px; }
+      .filters { gap: 6px; padding: 8px 0 12px; }
       .filter-btn { padding: 4px 14px; font-size: .65rem; }
+      .modal-overlay.open .modal-card {
+        padding-top: 10px;
+      }
     }
     @media (max-width: 400px) {
       .kit-acordeao-header { padding: 8px 12px; }
@@ -1992,15 +2026,15 @@
   <!-- ===== MAIN CONTENT ===== -->
   <div class="main-content" id="mainContent">
     <!-- HEADER -->
-    <header class="header">
+    <header class="header" id="mainHeader">
       <div class="header-left">
         <div class="brand" id="brandLogo">
           <span>Hair<span>OS</span></span>
         </div>
-        <div class="brand-sub" id="brandSub">✦ <span class="highlight">Vitrine de inspirações</span></div>
+        <div class="brand-sub" id="brandSub">— <span class="highlight">Vitrine de inspirações</span></div>
       </div>
       <div class="header-actions">
-        <span class="vitrine-badge" id="vitrineBadge">✦ Ver Vitrine</span>
+        <span class="vitrine-badge" id="vitrineBadge">Ver Vitrine</span>
         <a href="Chat.bot.html" class="header-link">
           <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
           <span>Assistente</span>
@@ -2017,18 +2051,18 @@
     <div class="menu-overlay" id="menuOverlay">
       <div class="menu-panel">
         <div class="menu-header">
-          <span>✦ menu</span>
-          <button class="menu-close" id="menuClose">✕</button>
+          <span>Menu</span>
+          <button class="menu-close" id="menuClose">×</button>
         </div>
-        <button class="menu-item" id="menuHome"><span class="icon">✧</span> home</button>
-        <button class="menu-item" id="menuFavs"><span class="icon">♥</span> favoritos <span class="item-count empty" id="menuFavCount">0</span></button>
+        <button class="menu-item" id="menuHome"><span class="icon">⌂</span> home</button>
+        <button class="menu-item" id="menuFavs"><span class="icon">♡</span> favoritos <span class="item-count empty" id="menuFavCount">0</span></button>
         <button class="menu-item" id="menuPerfil"><span class="icon">◉</span> perfil</button>
         <div class="menu-divider"></div>
         <button class="menu-item" id="menuSobre"><span class="icon">◎</span> sobre</button>
         <button class="menu-item" id="menuContato"><span class="icon">✉</span> contato</button>
         <div class="menu-divider"></div>
         <div class="menu-theme">
-          <span>🌙 tema</span>
+          <span>Tema</span>
           <button class="theme-switch" id="menuThemeToggle">dark</button>
         </div>
       </div>
@@ -2048,14 +2082,14 @@
 
       <!-- HOME -->
       <div class="page active-page" id="pageHome">
-        <div class="section-title" id="sectionTitle"><span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span></div>
+        <div class="section-title" id="sectionTitle"><span>—</span> <span class="highlight">Inspirações</span> <span>—</span></div>
         <div class="masonry-home" id="masonryHome"></div>
       </div>
 
       <!-- FAVORITOS -->
       <div class="page" id="pageFavoritos">
         <div class="page-header">
-          <h2>♥ favoritos <span class="page-count" id="favCountHeader">(0)</span></h2>
+          <h2>♡ favoritos <span class="page-count" id="favCountHeader">(0)</span></h2>
           <button class="back-home" id="backHomeFav">← voltar</button>
         </div>
         <div class="fav-grid" id="favGrid"></div>
@@ -2083,7 +2117,7 @@
 
           <!-- ===== FAQ ===== -->
           <div class="faq-section">
-            <h3 class="faq-title">✦ perguntas frequentes</h3>
+            <h3 class="faq-title">— perguntas frequentes</h3>
             
             <div class="faq-grid">
               <div class="faq-item">
@@ -2098,7 +2132,7 @@
 
               <div class="faq-item">
                 <div class="faq-question">Posso salvar meus estilos favoritos?</div>
-                <div class="faq-answer">Sim, basta clicar no ♥ em qualquer card ou modal. Seus favoritos ficam salvos na sua conta e sincronizados.</div>
+                <div class="faq-answer">Sim, basta clicar no ícone de coração em qualquer card ou modal. Seus favoritos ficam salvos na sua conta e sincronizados.</div>
               </div>
 
               <div class="faq-item">
@@ -2115,8 +2149,8 @@
 
           <div class="sobre-stats">
             <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
-            <div class="stat"><span class="number">4.8</span><span class="label">★ avaliação</span></div>
-            <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">♥ favoritos</span></div>
+            <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
+            <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
           </div>
         </div>
       </div>
@@ -2160,7 +2194,7 @@
         </div>
       </div>
 
-      <!-- PERFIL / DIÁRIO / ANTES-DEPOIS -->
+      <!-- PERFIL -->
       <div class="page" id="pagePerfil">
         <div class="page-header">
           <h2>◉ perfil</h2>
@@ -2174,8 +2208,8 @@
     <!-- ===== FOOTER ===== -->
     <footer class="footer" id="footerBar">
       <div class="footer-links" id="footerLinks">
-        <a class="active-link" data-page="pageHome" data-icon="✧">home</a>
-        <a data-page="pageFavoritos" data-icon="♥">favs</a>
+        <a class="active-link" data-page="pageHome" data-icon="⌂">home</a>
+        <a data-page="pageFavoritos" data-icon="♡">favs</a>
         <a data-page="pagePerfil" data-icon="◉">perfil</a>
         <a data-page="pageSobre" data-icon="◎">sobre</a>
         <a data-page="pageContato" data-icon="✉">contato</a>
@@ -2228,7 +2262,7 @@
       </div>
 
       <div class="modal-content">
-        <div class="modal-section-title" id="modalSectionTitle">✦ Variações ✦</div>
+        <div class="modal-section-title" id="modalSectionTitle">— Variações —</div>
         <div class="modal-masonry" id="modalMasonry"></div>
       </div>
     </div>
@@ -2309,19 +2343,19 @@
       var current = getTheme();
       var next = current === 'dark' ? 'light' : 'dark';
       setTheme(next);
-      showToast('Tema ' + (next === 'dark' ? '🌙 escuro' : '☀️ claro'));
+      showToast('Tema ' + (next === 'dark' ? 'escuro' : 'claro'));
     }
 
     // Inicializa tema
     setTheme(getTheme());
 
     // ============================================================
-    // DADOS - KITS REAIS COM LINKS DO MERCADO LIVRE (ATUALIZADOS)
+    // DADOS - KITS REAIS COM LINKS DO MERCADO LIVRE
     // ============================================================
 
     var FALLBACK_IMG = 'https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg';
 
-    // ===== KITS DE COLORAÇÃO (LINKS REAIS) =====
+    // ===== KITS DE COLORAÇÃO =====
     var coloracaoKits = {
       kits: [
         { 
@@ -2339,7 +2373,7 @@
       ]
     };
 
-    // ===== KITS DE CUIDADOS (LINKS REAIS) =====
+    // ===== KITS DE CUIDADOS =====
     var cuidadosKits = {
       kits: [
         { 
@@ -2648,10 +2682,8 @@
     });
 
     // ============================================================
-    // LÓGICA DA APLICAÇÃO
+    // LÓGICA DA APLICAÇÃO - AUTH + DIÁRIO + ANTES/DEPOIS
     // ============================================================
-
-    // ===== AUTH + DIÁRIO + ANTES/DEPOIS =====
     function getUsers() { try { return JSON.parse(localStorage.getItem('hairos_users') || '{}'); } catch { return {}; } }
     function setUsers(o) { try { localStorage.setItem('hairos_users', JSON.stringify(o)); } catch {} }
     function getCurrentUser() { try { return JSON.parse(localStorage.getItem('hairos_current_user') || 'null'); } catch { return null; } }
@@ -2831,18 +2863,18 @@
       var filteredKeys = getFilteredKeys();
 
       if (showingFavorites) {
-        if (title) title.innerHTML = '<span>✦</span> <span class="highlight">♥ Favoritos</span> <span>✦</span>';
+        if (title) title.innerHTML = '<span>—</span> <span class="highlight">Favoritos</span> <span>—</span>';
         if (vitrineBadge) vitrineBadge.classList.add('visible');
-        if (brandSub) brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
+        if (brandSub) brandSub.innerHTML = '— <span class="highlight">Vitrine de inspirações</span>';
       } else {
-        if (title) title.innerHTML = '<span>✦</span> <span class="highlight">Inspirações</span> <span>✦</span>';
+        if (title) title.innerHTML = '<span>—</span> <span class="highlight">Inspirações</span> <span>—</span>';
         if (vitrineBadge) vitrineBadge.classList.remove('visible');
-        if (brandSub) brandSub.innerHTML = '✦ <span class="highlight">Vitrine de inspirações</span>';
+        if (brandSub) brandSub.innerHTML = '— <span class="highlight">Vitrine de inspirações</span>';
       }
 
       if (filteredKeys.length === 0) {
         var isFavView = showingFavorites;
-        container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + (isFavView ? '💔' : '✨') + '</div><div class="empty-title">' + (isFavView ? 'Nenhum favorito' : 'Nenhum item encontrado') + '</div><div class="empty-sub">' + (isFavView ? 'Comece a favoritar seus estilos!' : 'Tente outra categoria') + '</div>' + (isFavView ? '<div class="empty-hint">Clique no ♥ nos cards para favoritar</div>' : '') + '</div>';
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">' + (isFavView ? '♡' : '✦') + '</div><div class="empty-title">' + (isFavView ? 'Nenhum favorito' : 'Nenhum item encontrado') + '</div><div class="empty-sub">' + (isFavView ? 'Comece a favoritar seus estilos' : 'Tente outra categoria') + '</div>' + (isFavView ? '<div class="empty-hint">Clique no ícone de coração nos cards para favoritar</div>' : '') + '</div>';
         return;
       }
 
@@ -2913,7 +2945,7 @@
       grid.innerHTML = '';
 
       if (favorites.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><div class="empty-icon">💔</div><div class="empty-title">Nenhum favorito</div><div class="empty-sub">Clique no ♥ nos cards para favoritar</div></div>';
+        grid.innerHTML = '<div class="empty-state"><div class="empty-icon">♡</div><div class="empty-title">Nenhum favorito</div><div class="empty-sub">Clique no ícone de coração nos cards para favoritar</div></div>';
         return;
       }
 
@@ -2940,7 +2972,7 @@
     }
 
     // ============================================================
-    // RENDER PERFIL (conta + diário + antes/depois)
+    // RENDER PERFIL
     // ============================================================
     function openPhotoSheet() { var s = document.getElementById('photoSheet'); if (s) s.classList.add('show'); }
     function closePhotoSheet() { var s = document.getElementById('photoSheet'); if (s) s.classList.remove('show'); }
@@ -2977,7 +3009,7 @@
             '<input type="email" id="loginEmail" placeholder="ex: maria@email.com" required autocomplete="username email">' +
             '<input type="password" id="loginSenha" placeholder="sua senha" required autocomplete="current-password">' +
             '<button type="submit">entrar</button>' +
-            '<button type="button" class="auth-demo-btn" id="btnDemoLogin">✦ preencher exemplo (Maria)</button>' +
+            '<button type="button" class="auth-demo-btn" id="btnDemoLogin">preencher exemplo (Maria)</button>' +
             '<p class="auth-hint">Use o exemplo para testar rápido.</p>' +
           '</form>' +
           '<form class="auth-form" id="registerForm" autocomplete="on">' +
@@ -2985,7 +3017,7 @@
             '<input type="email" id="regEmail" placeholder="ex: maria@email.com" required autocomplete="email">' +
             '<input type="password" id="regSenha" placeholder="mín. 4 caracteres" required autocomplete="new-password">' +
             '<button type="submit">criar conta</button>' +
-            '<button type="button" class="auth-demo-btn" id="btnDemoRegister">✦ preencher exemplo (Maria)</button>' +
+            '<button type="button" class="auth-demo-btn" id="btnDemoRegister">preencher exemplo (Maria)</button>' +
             '<p class="auth-hint">Favoritos atuais entram na conta.</p>' +
           '</form>';
 
@@ -3043,7 +3075,7 @@
           '<button type="button" class="perfil-tab' + (perfilTab === 'ba' ? ' active' : '') + '" data-ptab="ba">Antes & Depois</button>' +
         '</div>';
 
-      // --- CONTA ---
+      // CONTA
       html += '<div class="perfil-panel' + (perfilTab === 'conta' ? ' active' : '') + '" id="panelConta">' +
         '<div class="perfil-card">' +
           '<div class="perfil-header">' +
@@ -3062,7 +3094,7 @@
           '<button type="button" class="perfil-btn danger" id="btnLogout">sair da conta</button>' +
         '</div></div>';
 
-      // --- DIÁRIO ---
+      // DIÁRIO
       html += '<div class="perfil-panel' + (perfilTab === 'diario' ? ' active' : '') + '" id="panelDiario">' +
         '<div class="perfil-card">' +
           '<form class="diario-form" id="diarioForm">' +
@@ -3083,7 +3115,7 @@
       }
       html += '</div>';
 
-      // --- ANTES & DEPOIS ---
+      // ANTES & DEPOIS
       html += '<div class="perfil-panel' + (perfilTab === 'ba' ? ' active' : '') + '" id="panelBA">' +
         '<div class="perfil-card">' +
           '<form class="ba-form" id="baForm">' +
@@ -3373,6 +3405,12 @@
       currentKey = key;
       if (isSheetOpen) closeSheet();
 
+      // Esconde header e footer quando modal abre
+      var header = document.getElementById('mainHeader');
+      var footer = document.getElementById('footerBar');
+      if (header) header.classList.add('modal-open');
+      if (footer) footer.classList.add('modal-open');
+
       var heroFavBtn = document.getElementById('heroFavBtn');
       var heroShareBtn = document.getElementById('heroShareBtn');
 
@@ -3449,6 +3487,12 @@
       if (isSheetOpen) closeSheet();
       document.body.style.overflow = '';
       currentKey = null;
+
+      // Restaura header e footer
+      var header = document.getElementById('mainHeader');
+      var footer = document.getElementById('footerBar');
+      if (header) header.classList.remove('modal-open');
+      if (footer) footer.classList.remove('modal-open');
     }
 
     function openSheet() {
@@ -3545,7 +3589,7 @@
     function copiarPixCatalogo(btn) {
       var chave = 'hairbymarciostylist@gmail.com';
       var copiar = function() {
-        btn.textContent = '✅ Copiado!';
+        btn.textContent = 'Copiado!';
         btn.style.background = '#2ecc71';
         btn.style.color = '#0a0808';
         setTimeout(function() {
@@ -3584,7 +3628,7 @@
       renderHome();
       renderFavorites();
 
-      // ===== MENU =====
+      // MENU
       var hamburgerBtn = document.getElementById('hamburgerBtn');
       var menuOverlay = document.getElementById('menuOverlay');
       var menuClose = document.getElementById('menuClose');
@@ -3602,10 +3646,10 @@
       document.getElementById('menuSobre').addEventListener('click', function() { navigateTo('pageSobre'); closeMenu(); });
       document.getElementById('menuContato').addEventListener('click', function() { navigateTo('pageContato'); closeMenu(); });
 
-      // ===== TEMA =====
+      // TEMA
       document.getElementById('menuThemeToggle').addEventListener('click', toggleTheme);
 
-      // ===== PHOTO SHEET =====
+      // PHOTO SHEET
       document.getElementById('btnPhotoCamera').addEventListener('click', function() { document.getElementById('inputPhotoCamera').click(); });
       document.getElementById('btnPhotoGallery').addEventListener('click', function() { document.getElementById('inputPhotoGallery').click(); });
       document.getElementById('btnPhotoRemove').addEventListener('click', function() {
@@ -3622,10 +3666,10 @@
         this.value = '';
       });
 
-      // ===== BRAND =====
+      // BRAND
       document.getElementById('brandLogo').addEventListener('click', function() { navigateTo('pageHome'); });
 
-      // ===== FOOTER =====
+      // FOOTER
       document.querySelectorAll('.footer-links a').forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -3633,12 +3677,12 @@
         });
       });
 
-      // ===== BACK BUTTONS =====
+      // BACK BUTTONS
       document.querySelectorAll('.back-home').forEach(function(btn) {
         btn.addEventListener('click', function() { navigateTo('pageHome'); });
       });
 
-      // ===== FILTERS =====
+      // FILTERS
       document.querySelectorAll('.filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           showingFavorites = false;
@@ -3649,7 +3693,7 @@
         });
       });
 
-      // ===== MODAL =====
+      // MODAL
       document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
       document.getElementById('modalOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
@@ -3692,12 +3736,12 @@
         if (key) shareStyle(key);
       });
 
-      // ===== PIX =====
+      // PIX
       document.getElementById('btnPixCatalogo').addEventListener('click', function() {
         copiarPixCatalogo(this);
       });
 
-      // ===== CONTATO =====
+      // CONTATO
       document.getElementById('contatoForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var form = this;
@@ -3721,13 +3765,13 @@
           }
         });
         if (!valid) {
-          showToast('⚠️ Preencha todos os campos.');
+          showToast('Preencha todos os campos.');
           return;
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
           emailEl.style.borderColor = '#ff4757';
-          showToast('⚠️ Digite um e-mail válido.');
+          showToast('Digite um e-mail válido.');
           return;
         }
 
@@ -3753,7 +3797,7 @@
         })
         .then(function(result) {
           if (result.ok) {
-            showToast('📨 Mensagem enviada com sucesso!');
+            showToast('Mensagem enviada com sucesso!');
             form.reset();
           } else {
             enviarViaMailto(nome, email, mensagem);
@@ -3778,10 +3822,10 @@
         );
         var mailto = 'mailto:hairbymarciostylist@gmail.com?subject=' + assunto + '&body=' + corpo;
         window.location.href = mailto;
-        showToast('📧 Abrindo seu e-mail para envio...');
+        showToast('Abrindo seu e-mail para envio...');
       }
 
-      // ===== KEYBOARD =====
+      // KEYBOARD
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           if (document.getElementById('zoomOverlay').classList.contains('active')) {
@@ -3798,7 +3842,7 @@
         }
       });
 
-      // ===== SCROLL HIDE/SHOW =====
+      // SCROLL HIDE/SHOW
       (function() {
         var header = document.querySelector('.header');
         var footer = document.getElementById('footerBar');
@@ -3832,19 +3876,11 @@
 
       console.log('✅ HairOS · 60 estilos carregados');
       console.log('✅ 15 Cortes + 15 Colorações + 15 Produtos + 15 Kits');
-      console.log('✅ Kits integrados com links do Mercado Livre:');
-      console.log('   - Kerastase: https://meli.la/1MwSY7v');
-      console.log('   - Keune: https://meli.la/1GbiW7M');
-      console.log('   - Loreal Expert: https://meli.la/2nmeunk');
-      console.log('   - Loreal: https://meli.la/28LpPj2');
-      console.log('   - Joico: https://meli.la/2x9xqBe');
-      console.log('✅ Header pill flutuante com hide/show no scroll');
-      console.log('✅ Footer pill flutuante estilo Instagram');
-      console.log('✅ FAQ com 5 perguntas na página Sobre');
+      console.log('✅ Links do Mercado Livre atualizados');
       console.log('✅ Tema claro/escuro funcional');
       console.log('✅ Animações de entrada em cards e modal');
       console.log('✅ SEO e metadados completos');
-      console.log('✅ Espaçamento corrigido (padding-top: 80px)');
+      console.log('✅ Design profissional sem emojis');
     }
 
     // ============================================================
