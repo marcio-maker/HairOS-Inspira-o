@@ -373,9 +373,26 @@
       0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
       30% { transform: translateY(-6px); opacity: 1; }
     }
+    /* ===== LOADING DO ASSISTENTE ===== */
+    .chat-loading { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); color: var(--text); transition: opacity .7s cubic-bezier(.23,1,.32,1), visibility .7s ease; }
+    .chat-loading.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .chat-loading .loading-logo { font: italic 700 clamp(2.5rem, 8vw, 3.4rem)/1 'Playfair Display', serif; letter-spacing: -.02em; opacity: 0; transform: translateY(16px) scale(.97); animation: chatLoadingIn .7s cubic-bezier(.23,1,.32,1) forwards; }
+    .chat-loading .loading-logo span, .chat-loading .loading-logo b { color: var(--gold); text-shadow: 0 0 60px var(--gold-dim); }
+    .chat-loading .loading-track { width: min(210px, 64vw); height: 3px; margin-top: 28px; overflow: hidden; border-radius: 99px; background: var(--border); }
+    .chat-loading .loading-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold), var(--gold-light)); box-shadow: 0 0 18px var(--gold-dim); transition: width .28s cubic-bezier(.23,1,.32,1); }
+    .chat-loading p { margin-top: 16px; color: var(--muted); font: 300 .68rem/1.4 Inter, sans-serif; letter-spacing: .16em; text-align: center; text-transform: uppercase; }
+    .chat-loading .loading-percent { margin-top: 6px; color: var(--gold); font: 400 .65rem/1 Inter, sans-serif; letter-spacing: .04em; opacity: .75; }
+    @keyframes chatLoadingIn { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .chat-loading .loading-logo { animation: none; opacity: 1; transform: none; } .chat-loading .loading-fill { transition: none; } }
   </style>
 </head>
 <body>
+  <div class="chat-loading" id="chatLoading" role="status" aria-live="polite" aria-label="Carregando HairOS Assistente">
+    <div class="loading-logo">Hair<span>OS</span><b>.</b></div>
+    <div class="loading-track" aria-hidden="true"><div class="loading-fill" id="chatLoadingFill"></div></div>
+    <p id="chatLoadingText">Preparando sua conversa</p>
+    <span class="loading-percent" id="chatLoadingPercent">0%</span>
+  </div>
   <header class="header">
     <div class="header-avatar">H</div>
     <div class="header-info">
@@ -406,34 +423,18 @@
    HAIR OS ASSISTENTE — LÓGICA COMPLETA
    ============================================================ */
 
-// ===== LINKS DE AFILIADO (5 KITS DO INDEX.HTML) =====
+// ===== LINKS DE AFILIADOS (5 KITS DO INDEX.HTML) =====
+// ESTES SÃO OS 5 LINKS REAIS DO MERCADO LIVRE
 const LINKS_AFILIADOS = {
-  // 5 Kits com links reais
+  // 5 Kits com links reais do Mercado Livre
   'kit-kerastase': 'https://meli.la/1MwSY7v',
   'kit-keune': 'https://meli.la/1GbiW7M',
   'kit-loreal-expert': 'https://meli.la/2nmeunk',
   'kit-loreal': 'https://meli.la/28LpPj2',
   'kit-joico': 'https://meli.la/2x9xqBe',
-  
-  // Produtos (links diretos - substitua pelos seus)
-  'metal-detox': 'https://meli.la/SEU_LINK_METAL_DETOX',
-  'absolut-repair-shampoo': 'https://meli.la/SEU_LINK_ABSOLUT_REPAIR',
-  'absolut-repair-mask': 'https://meli.la/SEU_LINK_ABSOLUT_MASK',
-  'vitamino-color': 'https://meli.la/SEU_LINK_VITAMINO',
-  'joico-moisture-shampoo': 'https://meli.la/SEU_LINK_JOICO_SHAMPOO',
-  'joico-moisture-conditioner': 'https://meli.la/SEU_LINK_JOICO_COND',
-  'joico-moisture-mask': 'https://meli.la/SEU_LINK_JOICO_MASK',
-  'blondifier': 'https://meli.la/SEU_LINK_BLONDIER',
-  'curl-expression': 'https://meli.la/SEU_LINK_CURL',
-  'scalp-advanced': 'https://meli.la/SEU_LINK_SCALP',
-  'premiere': 'https://meli.la/SEU_LINK_PREMIERE',
-  'inforcer': 'https://meli.la/SEU_LINK_INFORCER',
-  'pro-longer': 'https://meli.la/SEU_LINK_PRO_LONGER',
-  'liss-unlimited': 'https://meli.la/SEU_LINK_LISS',
-  'absolut-repair-molecular': 'https://meli.la/SEU_LINK_MOLECULAR',
 };
 
-// ===== CATÁLOGO CENTRALIZADO =====
+// ===== CATÁLOGO CENTRALIZADO (TODOS OS 60 ESTILOS) =====
 const CATALOGO = {
   cortes: {
     'velvet-bob': { nome: 'Velvet Bob', desc: 'Bob texturizado com volume suave. Ideal para leveza e sofisticação.', ml: 'shampoo reparador cabelo' },
@@ -470,49 +471,28 @@ const CATALOGO = {
     'ruivo-acobreado': { nome: 'Ruivo Acobreado', desc: 'Ruivo vibrante cheio de vida.', ml: 'tinta ruivo' },
   },
   produtos: {
-    'metal-detox': { nome: 'Metal Detox', desc: 'Remove metais da água que danificam a cor.', link: LINKS_AFILIADOS['metal-detox'] },
-    'absolut-repair-shampoo': { nome: 'Absolut Repair Shampoo', desc: 'Reconstrução profunda para fios danificados.', link: LINKS_AFILIADOS['absolut-repair-shampoo'] },
-    'absolut-repair-mask': { nome: 'Absolut Repair Máscara', desc: 'Tratamento intensivo reconstrutor.', link: LINKS_AFILIADOS['absolut-repair-mask'] },
-    'vitamino-color': { nome: 'Vitamino Color', desc: 'Protege a cor e evita o desbotamento.', link: LINKS_AFILIADOS['vitamino-color'] },
-    'joico-moisture-shampoo': { nome: 'Joico Moisture Shampoo', desc: 'Repõe a umidade dos cabelos secos.', link: LINKS_AFILIADOS['joico-moisture-shampoo'] },
-    'joico-moisture-conditioner': { nome: 'Joico Moisture Condicionador', desc: 'Desembaraça e nutre profundamente.', link: LINKS_AFILIADOS['joico-moisture-conditioner'] },
-    'joico-moisture-mask': { nome: 'Joico Moisture Máscara', desc: 'Máscara de alta hidratação.', link: LINKS_AFILIADOS['joico-moisture-mask'] },
-    'blondifier': { nome: 'Blondifier Silver', desc: 'Neutraliza tons indesejados em loiros.', link: LINKS_AFILIADOS['blondifier'] },
-    'curl-expression': { nome: 'Curl Expression', desc: 'Define cachos com leveza.', link: LINKS_AFILIADOS['curl-expression'] },
-    'scalp-advanced': { nome: 'Scalp Advanced', desc: 'Equilíbrio para o couro cabeludo.', link: LINKS_AFILIADOS['scalp-advanced'] },
-    'premiere': { nome: 'Premiere', desc: 'Reparação avançada anti-densidade.', link: LINKS_AFILIADOS['premiere'] },
-    'inforcer': { nome: 'Inforcer', desc: 'Antiquebra e fortalecimento.', link: LINKS_AFILIADOS['inforcer'] },
-    'pro-longer': { nome: 'Pro Longer', desc: 'Renovador de pontas longas.', link: LINKS_AFILIADOS['pro-longer'] },
-    'liss-unlimited': { nome: 'Liss Unlimited', desc: 'Controle de frizz e alinhamento.', link: LINKS_AFILIADOS['liss-unlimited'] },
-    'absolut-repair-molecular': { nome: 'Absolut Repair Molecular', desc: 'Restaura a estrutura molecular.', link: LINKS_AFILIADOS['absolut-repair-molecular'] },
+    'kerastase-resistance-shampoo': { nome: 'Kérastase Resistance Shampoo', desc: 'Shampoo fortalecedor com Tecnologia Fibra-Kératine. Reconstrói a fibra capilar danificada.', link: 'https://meli.la/1MwSY7v' },
+    'kerastase-resistance-conditioner': { nome: 'Kérastase Resistance Conditioner', desc: 'Condicionador que nutre e reconstrói a fibra capilar. Deixa os fios mais fortes e macios.', link: 'https://meli.la/1MwSY7v' },
+    'kerastase-resistance-mask': { nome: 'Kérastase Resistance Mask', desc: 'Máscara de tratamento intensivo que reconstrói a fibra capilar danificada.', link: 'https://meli.la/1MwSY7v' },
+    'kerastase-chronologiste-oil': { nome: 'Kérastase Chronologiste Oil', desc: 'Óleo capilar regenerador com tecnologia Quantum. Nutre, repara e protege os fios.', link: 'https://meli.la/1MwSY7v' },
+    'kerastase-thermique': { nome: 'Kérastase Resistance Thermique', desc: 'Protetor térmico que prepara os fios para secagem e modelagem. Protege até 230°C.', link: 'https://meli.la/1MwSY7v' },
+    'joico-moisture-shampoo': { nome: 'Joico Moisture Shampoo', desc: 'Shampoo hidratante com tecnologia Bio-Advanced Peptide Complex. Restaura a umidade.', link: 'https://meli.la/2x9xqBe' },
+    'joico-moisture-conditioner': { nome: 'Joico Moisture Conditioner', desc: 'Condicionador que nutre e desembaraça os fios com hidratação profunda.', link: 'https://meli.la/2x9xqBe' },
+    'joico-moisture-mask': { nome: 'Joico Moisture Mask', desc: 'Máscara de hidratação intensiva que repõe a umidade perdida.', link: 'https://meli.la/2x9xqBe' },
+    'joico-color-endure': { nome: 'Joico Color Endure Shampoo', desc: 'Shampoo que protege a cor e intensifica o brilho com Tecnologia Peptide Complex.', link: 'https://meli.la/2x9xqBe' },
+    'joico-defy-damage': { nome: 'Joico Defy Damage Shampoo', desc: 'Shampoo com Tecnologia Smart Release que protege contra danos diários.', link: 'https://meli.la/2x9xqBe' },
+    'expert-absolut-repair-shampoo': { nome: 'Expert Absolut Repair Shampoo', desc: 'Shampoo com Tecnologia Lipid-Repair. Reconstrói cabelos quimicamente danificados.', link: 'https://meli.la/2nmeunk' },
+    'expert-absolut-repair-conditioner': { nome: 'Expert Absolut Repair Conditioner', desc: 'Condicionador que reconstrói a fibra capilar profundamente.', link: 'https://meli.la/2nmeunk' },
+    'expert-absolut-repair-mask': { nome: 'Expert Absolut Repair Mask', desc: 'Máscara de reconstrução intensiva que recupera a integridade da fibra capilar.', link: 'https://meli.la/2nmeunk' },
+    'expert-vitamino-color': { nome: 'Expert Vitamino Color Shampoo', desc: 'Shampoo com Tecnologia Neo-Pigment. Protege a cor e intensifica o brilho.', link: 'https://meli.la/2nmeunk' },
+    'expert-metal-detox': { nome: 'Expert Metal Detox', desc: 'Tratamento pré-coloração que remove partículas metálicas da fibra capilar.', link: 'https://meli.la/2nmeunk' },
   },
   kits: {
-    // ===== 5 KITS COM LINKS DO INDEX.HTML =====
-    'kit-kerastase': { 
-      nome: 'Kit Kerastase', 
-      desc: 'Cuidado premium com máscaras, shampoos Nutritive e Resistance.', 
-      link: LINKS_AFILIADOS['kit-kerastase']
-    },
-    'kit-keune': { 
-      nome: 'Kit Keune', 
-      desc: 'Coloração profissional com tintas, oxidantes e Semi Color.', 
-      link: LINKS_AFILIADOS['kit-keune']
-    },
-    'kit-loreal-expert': { 
-      nome: 'Kit L\'Oréal Expert', 
-      desc: 'Cuidados profissionais: Vitamino Color, Absolut Repair e NutriOil.', 
-      link: LINKS_AFILIADOS['kit-loreal-expert']
-    },
-    'kit-loreal': { 
-      nome: 'Kit L\'Oréal', 
-      desc: 'Coloração completa: INOA, Dia Color, oxidantes e tintas.', 
-      link: LINKS_AFILIADOS['kit-loreal']
-    },
-    'kit-joico': { 
-      nome: 'Kit Joico', 
-      desc: 'Hidratação e reconstrução com Moisture Recovery e máscaras.', 
-      link: LINKS_AFILIADOS['kit-joico']
-    },
+    'kit-kerastase': { nome: 'Kit Kerastase', desc: 'Cuidado premium com máscaras, shampoos Nutritive e Resistance.', link: LINKS_AFILIADOS['kit-kerastase'] },
+    'kit-keune': { nome: 'Kit Keune', desc: 'Coloração profissional com tintas, oxidantes e Semi Color.', link: LINKS_AFILIADOS['kit-keune'] },
+    'kit-loreal-expert': { nome: 'Kit L\'Oréal Expert', desc: 'Cuidados profissionais: Vitamino Color, Absolut Repair e NutriOil.', link: LINKS_AFILIADOS['kit-loreal-expert'] },
+    'kit-loreal': { nome: 'Kit L\'Oréal', desc: 'Coloração completa: INOA, Dia Color, oxidantes e tintas.', link: LINKS_AFILIADOS['kit-loreal'] },
+    'kit-joico': { nome: 'Kit Joico', desc: 'Hidratação e reconstrução com Moisture Recovery e máscaras.', link: LINKS_AFILIADOS['kit-joico'] },
   }
 };
 
@@ -576,13 +556,13 @@ const QUIZZES = {
       { q: 'Prefere rotina simples ou tratamento semanal?', opcoes: [{ t: 'Simples (shampoo + cond)', v: 'simples' }, { t: 'Com máscara 1x por semana', v: 'mascara' }, { t: 'Protocolo completo', v: 'completo' }] },
     ],
     resolver(a) {
-      if (a[0] === 'metais') return 'metal-detox';
-      if (a[0] === 'amarelo') return 'blondifier';
-      if (a[0] === 'cacho') return 'curl-expression';
-      if (a[0] === 'queda') return 'pro-longer';
-      if (a[0] === 'frizz') return 'liss-unlimited';
-      if (a[0] === 'cor' || a[1] === 'sim') return 'vitamino-color';
-      if (a[0] === 'danificado' || a[2] === 'muito') return 'absolut-repair-shampoo';
+      if (a[0] === 'metais') return 'expert-metal-detox';
+      if (a[0] === 'amarelo') return 'kerastase-resistance-shampoo';
+      if (a[0] === 'cacho') return 'joico-moisture-shampoo';
+      if (a[0] === 'queda') return 'kerastase-resistance-conditioner';
+      if (a[0] === 'frizz') return 'joico-defy-damage';
+      if (a[0] === 'cor' || a[1] === 'sim') return 'expert-vitamino-color';
+      if (a[0] === 'danificado' || a[2] === 'muito') return 'expert-absolut-repair-shampoo';
       if (a[0] === 'seco') return 'joico-moisture-shampoo';
       return 'joico-moisture-shampoo';
     },
@@ -608,20 +588,10 @@ const QUIZZES = {
       ]},
     ],
     resolver(a) {
-      // Recomendação baseada nas respostas
-      if (a[0] === 'coloracao') {
-        return 'kit-loreal'; // Kit L'Oréal - Coloração INOA
-      }
-      if (a[0] === 'hidro') {
-        return 'kit-joico'; // Kit Joico - Hidratação
-      }
-      if (a[0] === 'protecao') {
-        return 'kit-loreal-expert'; // Kit L'Oréal Expert - Cuidados
-      }
-      if (a[0] === 'premium') {
-        return 'kit-kerastase'; // Kit Kerastase - Premium
-      }
-      // Fallback seguro
+      if (a[0] === 'coloracao') return 'kit-loreal';
+      if (a[0] === 'hidro') return 'kit-joico';
+      if (a[0] === 'protecao') return 'kit-loreal-expert';
+      if (a[0] === 'premium') return 'kit-kerastase';
       return 'kit-keune';
     },
     tipo: 'kits', label: 'Kit sugerido'
@@ -640,11 +610,13 @@ const DUVIDAS = [
    ESTADO E CONTROLE DE FLUXO
    ============================================================ */
 let state = { mode: 'idle', quiz: null, step: 0, answers: [] };
+let quizTimer = null;
 
 const chatEl = document.getElementById('chat');
 const inputEl = document.getElementById('input');
 
 function addMsg(text, sender, extraHtml = '') {
+  if (!chatEl) return;
   const div = document.createElement('div');
   div.className = `msg ${sender}`;
   div.innerHTML = `${text} ${extraHtml}`;
@@ -667,10 +639,30 @@ function removeTyping() {
 }
 
 function resetState() {
+  if (quizTimer) {
+    clearTimeout(quizTimer);
+    quizTimer = null;
+  }
   state.mode = 'idle';
   state.quiz = null;
   state.step = 0;
   state.answers = [];
+}
+
+/* ============================================================
+   FUNÇÃO PARA ABRIR A VITRINE E SCROLLAR ATÉ O CARD
+   ============================================================ */
+function openVitrineWithCard(key) {
+  // Tenta chamar a função do index.html
+  if (window.opener && window.opener.scrollToCard) {
+    window.opener.scrollToCard('card-' + key);
+    window.focus();
+    return;
+  }
+  
+  // Fallback: abre o index.html com parâmetro na URL
+  const url = `index.html?card=${key}`;
+  window.open(url, '_blank');
 }
 
 /* ============================================================
@@ -681,7 +673,10 @@ function startQuiz(tipo) {
   state.mode = 'quiz';
   state.quiz = tipo;
   addMsg(`Vamos iniciar o <strong>${QUIZZES[tipo].titulo}</strong>! Responda as perguntas para receber sua recomendação personalizada.`, 'bot');
-  setTimeout(askNextQuestion, 600);
+  quizTimer = setTimeout(() => {
+    quizTimer = null;
+    askNextQuestion();
+  }, 600);
 }
 
 function askNextQuestion() {
@@ -721,7 +716,7 @@ function showResult(tipo, key, label) {
     linkAfiliado = `https://www.mercadolivre.com.br/busca?word=${mlQuery}`;
   }
   
-  // Link para a vitrine (index.html)
+  // Link para a vitrine (index.html) com ancora
   const vitrineLink = `index.html#card-${key}`;
   
   // Define se mostra 2 botões (cortes e cores) ou só compra (produtos e kits)
@@ -785,27 +780,35 @@ document.addEventListener('click', (e) => {
   if (action === 'duvidas') return showDuvidasMenu();
   
   if (action.startsWith('opt-') && state.mode === 'quiz') {
-    const idx = parseInt(action.split('-')[1]);
-    const val = QUIZZES[state.quiz].perguntas[state.step].opcoes[idx].v;
+    const idx = parseInt(action.split('-')[1], 10);
+    const quiz = QUIZZES[state.quiz];
+    const question = quiz && quiz.perguntas[state.step];
+    if (!question || !question.opcoes[idx] || btn.disabled) return;
+    const val = question.opcoes[idx].v;
     state.answers.push(val);
     state.step++;
     
     btn.closest('.options').querySelectorAll('button').forEach(b => b.disabled = true);
     
-    setTimeout(askNextQuestion, 500);
+    quizTimer = setTimeout(() => {
+      quizTimer = null;
+      askNextQuestion();
+    }, 500);
     return;
   }
 
   if (action.startsWith('doubt-')) {
-    const idx = parseInt(action.split('-')[1]);
+    const idx = parseInt(action.split('-')[1], 10);
+    if (!DUVIDAS[idx]) return;
     addMsg(DUVIDAS[idx].a, 'bot');
     resetState();
     return;
   }
 });
 
-document.getElementById('sendBtn').addEventListener('click', sendMessage);
-inputEl.addEventListener('keydown', (e) => {
+const sendBtn = document.getElementById('sendBtn');
+if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+if (inputEl) inputEl.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
@@ -816,6 +819,7 @@ inputEl.addEventListener('keydown', (e) => {
    FUNÇÃO DE ENVIO DE MENSAGEM (COM TYPING)
    ============================================================ */
 function sendMessage() {
+  if (!inputEl) return;
   const text = inputEl.value.trim();
   if (!text) return;
   
@@ -841,18 +845,41 @@ function sendMessage() {
 }
 
 /* ============================================================
+   LOADING INICIAL DO ASSISTENTE
+   ============================================================ */
+function initChatLoading() {
+  const overlay = document.getElementById('chatLoading');
+  const fill = document.getElementById('chatLoadingFill');
+  const percent = document.getElementById('chatLoadingPercent');
+  const label = document.getElementById('chatLoadingText');
+  if (!overlay) return;
+  const steps = [
+    [24, 'Preparando sua conversa'],
+    [48, 'Organizando os quizzes'],
+    [72, 'Carregando recomendações'],
+    [100, 'Assistente pronto']
+  ];
+  let index = 0;
+  const advance = () => {
+    const step = steps[index++];
+    if (!step) return;
+    if (fill) fill.style.width = step[0] + '%';
+    if (percent) percent.textContent = step[0] + '%';
+    if (label) label.textContent = step[1];
+    if (index < steps.length) setTimeout(advance, 180);
+    else setTimeout(() => overlay.classList.add('hidden'), 320);
+  };
+  advance();
+}
+
+/* ============================================================
    MENSAGEM INICIAL
    ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
+  initChatLoading();
   setTimeout(() => {
     addMsg('Olá! Sou o <strong>HairOS</strong>, seu assistente de beleza.<br><br>Posso te ajudar a descobrir o corte, cor ou produto ideal através dos nossos <strong>Quizzes</strong>, ou tirar dúvidas rápidas. Como posso te ajudar hoje?', 'bot');
-  }, 400);
-
-  const vitrineLink = document.getElementById('vitrineLink');
-  if (vitrineLink) {
-    const baseUrl = window.location.pathname.split('/').slice(0, -1).join('/');
-    vitrineLink.href = baseUrl ? `${baseUrl}/index.html` : 'index.html';
-  }
+  }, 850);
 });
 </script>
 </body>
