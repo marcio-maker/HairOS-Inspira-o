@@ -1,0 +1,4315 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HairOS · Sistema de Evolução Capilar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0808;
+      --bg-card: #1a1612;
+      --bg-elevated: #221d18;
+      --bg-input: #12100e;
+      --text: #f0ebe4;
+      --text-sec: #d4c9bc;
+      --text-muted: #8a8278;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --gold-glow: rgba(201, 169, 110, .12);
+      --border: rgba(201, 169, 110, .08);
+      --border-gold: rgba(201, 169, 110, .25);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: .4s cubic-bezier(.22, .61, .36, 1);
+      --ease-luxury: cubic-bezier(.23, 1, .32, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .6);
+      --focus-ring: 0 0 0 3px rgba(201, 169, 110, 0.5);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --green: #2ecc71;
+      --green-dark: #1a8a4a;
+      --red: #ff4757;
+      --orange: #f39c12;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f0eb;
+      --bg-card: #ffffff;
+      --bg-elevated: #f0ece7;
+      --bg-input: #f5f0eb;
+      --text: #1a1612;
+      --text-sec: #3d352e;
+      --text-muted: #8a8278;
+      --gold: #b8955a;
+      --gold-light: #d4b87a;
+      --gold-glow: rgba(184, 149, 90, .12);
+      --border: rgba(184, 149, 90, .15);
+      --border-gold: rgba(184, 149, 90, .35);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .12);
+    }
+
+    html, body {
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    body {
+      padding: 0 12px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: calc(80px + var(--safe-bottom));
+    }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 99px; }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalUp {
+      from { opacity: 0; transform: translateY(18px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .page-transition {
+      animation: fadeSlide 0.35s ease both;
+    }
+
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast {
+      background: rgba(10, 8, 8, .95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: .8rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+      transition: all .4s cubic-bezier(.23, 1, .32, 1);
+      pointer-events: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .6);
+      white-space: nowrap;
+    }
+
+    [data-theme="light"] .toast {
+      background: rgba(255, 255, 255, .95);
+      color: var(--text);
+      border-color: var(--gold);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      margin: 10px 0 20px;
+      position: sticky;
+      top: 10px;
+      z-index: 500;
+      background: rgba(18, 14, 12, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(201, 169, 110, 0.14);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(201, 169, 110, 0.08);
+      transition: background var(--transition), border var(--transition);
+    }
+
+    [data-theme="light"] .header {
+      background: rgba(255, 252, 248, 0.85);
+      border-color: rgba(184, 149, 90, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-style: italic;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--gold); }
+
+    .brand-sub {
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 300;
+      opacity: 0.6;
+    }
+
+    .brand-sub .highlight { color: var(--gold); opacity: 1; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vitrine-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--text);
+      text-decoration: none;
+      padding: 7px 11px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      white-space: nowrap;
+      transition: all var(--transition);
+      background: transparent;
+    }
+
+    .vitrine-link i {
+      color: var(--gold);
+      font-size: .8rem;
+    }
+
+    .vitrine-link:hover {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    [data-theme="light"] .vitrine-link {
+      border-color: rgba(184, 149, 90, 0.3);
+      color: var(--text);
+    }
+
+    [data-theme="light"] .vitrine-link:hover {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .header-link {
+      font-size: .7rem;
+      color: var(--gold);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid rgba(201, 169, 110, .25);
+      border-radius: 100px;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+    }
+
+    .header-link:hover {
+      background: rgba(201, 169, 110, .1);
+      border-color: var(--gold);
+    }
+
+    .header-link svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--gold);
+    }
+
+    .pro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: #1b1209;
+      text-decoration: none;
+      padding: 7px 11px;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      box-shadow: 0 4px 16px rgba(201, 169, 110, .2);
+      white-space: nowrap;
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    }
+
+    .pro-badge::before { content: '✦'; font-size: .72rem; }
+
+    .pro-badge:hover {
+      color: #1b1209;
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.08);
+      box-shadow: 0 6px 22px rgba(201, 169, 110, .34);
+    }
+
+    .hamburger-btn {
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all var(--transition);
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn:hover { border-color: var(--gold); background: var(--gold-glow); }
+
+    .hamburger-btn .bar {
+      width: 16px;
+      height: 1.5px;
+      background: var(--text-sec);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    .hamburger-btn .bar:nth-child(2) { width: 11px; align-self: flex-end; }
+    .hamburger-btn .bar:nth-child(3) { width: 7px; align-self: flex-end; }
+
+    /* ===== FOOTER NAV ===== */
+    .footer-nav {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      background: rgba(18, 14, 12, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(201, 169, 110, 0.18);
+      border-radius: 100px;
+      padding: 8px 10px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(201, 169, 110, 0.1);
+      transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
+      white-space: nowrap;
+    }
+
+    [data-theme="light"] .footer-nav {
+      background: rgba(255, 252, 248, 0.9);
+      border-color: rgba(184, 149, 90, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .footer-nav.hide {
+      transform: translateX(-50%) translateY(calc(100% + 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 0px;
+    }
+
+    .footer-links a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--text-muted);
+      font-size: .45rem;
+      text-decoration: none;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 100px;
+      transition: all 0.25s cubic-bezier(.23, 1, .32, 1);
+      position: relative;
+    }
+
+    .footer-links a > i {
+      font-size: 1.1rem;
+      display: block;
+      line-height: 1;
+      transition: transform 0.25s cubic-bezier(.23, 1, .32, 1);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-links a.active-link {
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .footer-links a.active-link > i { transform: scale(1.12); }
+
+    /* ===== PÁGINAS ===== */
+    .page-container { display: block; }
+
+    .page {
+      display: none;
+      animation: fadeSlide .35s ease;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .page.active-page { display: block; }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .page-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-header h2 i { color: var(--gold); font-size: 1rem; }
+
+    .page-header .page-count {
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .page-subtitle {
+      font-size: .8rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 16px;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+      margin-bottom: 12px;
+    }
+
+    .card:hover { border-color: var(--border-gold); }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .9rem;
+      color: var(--text-sec);
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    /* ===== BOTÕES ===== */
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--gold);
+      color: #0a0808;
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: scale(1.02); }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-outline {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-sec);
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: .7rem;
+      width: auto;
+    }
+
+    /* ============================================================
+       RITUAL
+       ============================================================ */
+    .ritual-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ritual-progress .rp-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .ritual-progress .rp-bar .rp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 10px;
+      transition: width .6s ease;
+    }
+
+    .ritual-progress .rp-text {
+      font-size: .75rem;
+      color: var(--gold);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .ritual-section {
+      margin-bottom: 16px;
+    }
+
+    .ritual-section-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .85rem;
+      color: var(--text-sec);
+      margin-bottom: 8px;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ritual-section-title .rs-count {
+      font-size: .6rem;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+    }
+
+    .ritual-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      transition: all var(--transition);
+    }
+
+    .ritual-item:hover {
+      border-color: var(--border-gold);
+      background: var(--gold-glow);
+    }
+
+    .ritual-item .ri-check {
+      flex-shrink: 0;
+    }
+
+    .ritual-item .ri-check input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .ritual-item .ri-icon {
+      font-size: 1rem;
+      color: var(--gold);
+      width: 28px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .ritual-item .ri-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .ritual-item .ri-info .ri-name {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .ritual-item .ri-info .ri-freq {
+      font-size: .6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .ritual-item .ri-status {
+      font-size: .6rem;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .ritual-item .ri-status.done {
+      background: rgba(46, 204, 113, .2);
+      color: var(--green);
+    }
+
+    .ritual-item .ri-status.pending {
+      background: rgba(255, 71, 87, .15);
+      color: var(--red);
+    }
+
+    .ritual-item .ri-status.progress {
+      background: rgba(243, 156, 18, .15);
+      color: var(--orange);
+    }
+
+    .ritual-item .ri-action-btn {
+      flex-shrink: 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: .6rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .ritual-item .ri-action-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .ritual-item .ri-action-btn .btn-icon {
+      margin-right: 4px;
+    }
+
+    .ritual-item.done-item {
+      opacity: 0.6;
+      border-color: rgba(46, 204, 113, .15);
+    }
+
+    .ritual-item.done-item .ri-name {
+      text-decoration: line-through;
+    }
+
+    .ritual-action-tip {
+      background: var(--gold-glow);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ritual-action-tip .tip-icon {
+      font-size: 1.2rem;
+      color: var(--gold);
+    }
+
+    .ritual-action-tip .tip-text {
+      font-size: .8rem;
+      color: var(--text-sec);
+    }
+
+    .ritual-action-tip .tip-text strong { color: var(--gold); }
+
+    /* ============================================================
+       MODAL DO ITEM DO RITUAL
+       ============================================================ */
+    .ritual-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .ritual-modal-overlay.is-open {
+      display: flex;
+      animation: modalFadeIn .3s ease both;
+    }
+
+    .ritual-modal-card {
+      width: min(100%, 440px);
+      max-height: min(700px, calc(100vh - 40px));
+      overflow-y: auto;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .7);
+      animation: modalUp .35s var(--ease-luxury) both;
+    }
+
+    .ritual-modal-card::-webkit-scrollbar { width: 3px; }
+    .ritual-modal-card::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+    .ritual-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-elevated);
+      border-radius: 20px 20px 0 0;
+      z-index: 2;
+    }
+
+    .ritual-modal-header .rmh-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ritual-modal-header .rmh-left .rmh-icon {
+      font-size: 1.8rem;
+      color: var(--gold);
+    }
+
+    .ritual-modal-header .rmh-left .rmh-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .ritual-modal-header .rmh-left .rmh-freq {
+      font-size: .65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .ritual-modal-close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .ritual-modal-close:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .ritual-modal-body {
+      padding: 16px 20px 20px;
+    }
+
+    .ritual-modal-body .rmb-desc {
+      font-size: .9rem;
+      color: var(--text-sec);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .ritual-modal-body .rmb-dicas {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ritual-modal-body .rmb-dicas .rmb-dica {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: .78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .ritual-modal-body .rmb-dicas .rmb-dica i {
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .ritual-modal-footer {
+      display: flex;
+      gap: 10px;
+      padding: 12px 20px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ritual-modal-footer button { flex: 1; }
+
+    /* ============================================================
+       PERFIL
+       ============================================================ */
+    .profile-avatar-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8a6d3b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0a0808;
+      overflow: hidden;
+      border: 2px solid rgba(201, 169, 110, .3);
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar-edit {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--bg);
+      color: #0a0808;
+      font-size: .7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .profile-avatar-edit:hover { transform: scale(1.1); }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .profile-info .name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .profile-info .email { font-size: .72rem; color: var(--text-muted); }
+
+    .profile-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .profile-tag {
+      font-size: .65rem;
+      color: var(--gold);
+      background: var(--gold-glow);
+      padding: 2px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(201, 169, 110, .1);
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .profile-stat {
+      background: rgba(201, 169, 110, .06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .profile-stat .number {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gold);
+      display: block;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .profile-stat .label {
+      font-size: .5rem;
+      color: var(--text-sec);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .profile-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* ============================================================
+       DIÁRIO
+       ============================================================ */
+    .diary-entry {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      position: relative;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .diary-entry:hover {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .diary-entry .de-date {
+      font-size: .6rem;
+      color: var(--gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diary-entry .de-date .de-badge {
+      font-size: .5rem;
+      background: var(--gold-glow);
+      padding: 1px 8px;
+      border-radius: 10px;
+      color: var(--gold);
+    }
+
+    .diary-entry .de-text {
+      font-size: .85rem;
+      color: var(--text-sec);
+      line-height: 1.5;
+      font-weight: 300;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .diary-entry .de-meta {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: .6rem;
+      color: var(--text-muted);
+    }
+
+    .diary-entry .de-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .diary-entry .de-thumb {
+      margin-top: 6px;
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    .diary-entry .de-delete {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, .5);
+      border: none;
+      color: #ff4757;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: .7rem;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .diary-entry .de-delete:hover { background: rgba(255, 71, 87, .2); }
+
+    .diary-entry .de-expand {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: .55rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      background: rgba(0,0,0,.4);
+      padding: 2px 10px;
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .diary-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .diary-filters .filter-chip {
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: .7rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .diary-filters .filter-chip:hover { border-color: var(--gold); color: var(--text); }
+
+    .diary-filters .filter-chip.active {
+      background: var(--gold);
+      color: #0a0808;
+      border-color: var(--gold);
+    }
+
+    /* ============================================================
+       MODAL DO DIÁRIO
+       ============================================================ */
+    .diary-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .diary-modal-overlay.is-open {
+      display: flex;
+      animation: modalFadeIn .3s ease both;
+    }
+
+    .diary-modal-card {
+      width: min(100%, 520px);
+      max-height: min(800px, calc(100vh - 40px));
+      overflow-y: auto;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .7);
+      animation: modalUp .35s var(--ease-luxury) both;
+    }
+
+    .diary-modal-card::-webkit-scrollbar { width: 3px; }
+    .diary-modal-card::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+    .diary-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-elevated);
+      border-radius: 20px 20px 0 0;
+      z-index: 2;
+    }
+
+    .diary-modal-header .dmh-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .diary-modal-header .dmh-left .dmh-date {
+      font-size: .65rem;
+      color: var(--gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .diary-modal-header .dmh-left .dmh-badges {
+      display: flex;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .diary-modal-header .dmh-left .dmh-badges span {
+      font-size: .55rem;
+      background: var(--gold-glow);
+      padding: 1px 10px;
+      border-radius: 12px;
+      color: var(--gold);
+    }
+
+    .diary-modal-close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .diary-modal-close:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .diary-modal-body {
+      padding: 16px 20px 20px;
+    }
+
+    .diary-modal-body .dmb-text {
+      font-size: .95rem;
+      color: var(--text-sec);
+      line-height: 1.7;
+      font-weight: 300;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .diary-modal-body .dmb-image {
+      margin-top: 14px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .diary-modal-body .dmb-image img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .diary-modal-body .dmb-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+
+    .diary-modal-body .dmb-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .diary-modal-body .dmb-meta i { color: var(--gold); }
+
+    .diary-modal-footer {
+      display: flex;
+      gap: 10px;
+      padding: 12px 20px 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .diary-modal-footer button { flex: 1; }
+
+    /* ============================================================
+       PROGRESSO
+       ============================================================ */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .upload-box {
+      background: var(--bg-card);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-box:hover {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .upload-box.has-image {
+      border-style: solid;
+      padding: 0;
+    }
+
+    .upload-box.has-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .upload-box .upload-icon {
+      font-size: 2rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .upload-box .upload-label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .upload-box .upload-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--gold);
+      color: #0a0808;
+      font-size: .5rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      z-index: 2;
+    }
+
+    .upload-box .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, .7);
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      color: #ff4757;
+      font-size: .7rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upload-box .remove-btn:hover {
+      transform: scale(1.1);
+      background: rgba(255, 71, 87, .2);
+    }
+
+    .comparator-wrapper {
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .comparator-wrapper.empty {
+      padding: 30px 16px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .comparator-wrapper.empty .empty-icon {
+      font-size: 2.5rem;
+      opacity: 0.3;
+      margin-bottom: 8px;
+    }
+
+    .comparator-wrapper.empty .empty-text { font-size: .8rem; font-weight: 300; }
+
+    .comparator {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 220px;
+      overflow: hidden;
+      background: var(--bg);
+      cursor: ew-resize;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .comparator-img-after {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .comparator-before {
+      position: absolute;
+      inset: 0;
+      width: 50%;
+      overflow: hidden;
+      z-index: 2;
+      border-right: 2px solid rgba(255, 255, 255, .7);
+    }
+
+    .comparator-before img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .comparator-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      z-index: 3;
+      width: 2px;
+      background: rgba(255, 255, 255, .9);
+      transform: translateX(-50%);
+      pointer-events: none;
+      box-shadow: 0 0 16px rgba(0, 0, 0, .4);
+    }
+
+    .comparator-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(255, 255, 255, .9);
+      border-radius: 50%;
+      background: rgba(10, 8, 8, .72);
+      color: var(--gold-light);
+      font-size: .9rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .comparator-label {
+      position: absolute;
+      top: 10px;
+      z-index: 5;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(10, 8, 8, .7);
+      color: #fff;
+      font-size: .5rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+
+    .comparator-label.before { left: 10px; }
+    .comparator-label.after { right: 10px; }
+
+    .progress-indicators {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .progress-indicator {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .progress-indicator .pi-label {
+      font-size: .5rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: .04em;
+    }
+
+    .progress-indicator .pi-value {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gold);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .btn-save-progress {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--gold);
+      color: #0a0808;
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-save-progress:hover { background: var(--gold-light); transform: scale(1.02); }
+
+    .btn-save-progress:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .progress-history-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .progress-history-item {
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+
+    .progress-history-item:hover { border-color: var(--gold); }
+
+    .progress-history-item .ph-compare {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 140px;
+      overflow: hidden;
+      background: var(--bg);
+      cursor: ew-resize;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .progress-history-item .ph-compare img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .progress-history-item .ph-compare .ph-before {
+      position: absolute;
+      inset: 0;
+      width: 50%;
+      overflow: hidden;
+      border-right: 2px solid rgba(255, 255, 255, .6);
+    }
+
+    .progress-history-item .ph-compare .ph-before img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .progress-history-item .ph-compare .ph-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: rgba(255, 255, 255, .8);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .progress-history-item .ph-compare .ph-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(255, 255, 255, .8);
+      border-radius: 50%;
+      background: rgba(10, 8, 8, .6);
+      color: var(--gold-light);
+      font-size: .7rem;
+      pointer-events: none;
+    }
+
+    .progress-history-item .ph-meta {
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-history-item .ph-meta .ph-date {
+      font-size: .65rem;
+      color: var(--gold);
+      letter-spacing: .04em;
+      font-weight: 500;
+    }
+
+    .progress-history-item .ph-meta .ph-delete {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: .8rem;
+      transition: all var(--transition);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .progress-history-item .ph-meta .ph-delete:hover {
+      color: #ff4757;
+      background: rgba(255, 71, 87, .1);
+    }
+
+    /* ============================================================
+       METAS
+       ============================================================ */
+    .goal-card {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-elevated));
+    }
+
+    .goal-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .goal-heading h3 {
+      color: var(--text);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .goal-icon {
+      color: var(--gold);
+      font-size: 1.35rem;
+      padding-top: 3px;
+    }
+
+    .goal-progress-track {
+      height: 9px;
+      margin-top: 18px;
+      background: var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .goal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: inherit;
+      transition: width .6s var(--ease-luxury);
+    }
+
+    .goal-progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+      color: var(--text-muted);
+      font-size: .68rem;
+    }
+
+    .goal-progress-meta span:first-child { color: var(--gold); font-weight: 600; }
+
+    .goal-steps {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .goal-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .goal-step .gs-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+
+    .goal-step .gs-check.done {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #0a0808;
+    }
+
+    .goal-step .gs-text {
+      font-size: .8rem;
+      color: var(--text-sec);
+      flex: 1;
+    }
+
+    .goal-step .gs-text.done { text-decoration: line-through; opacity: 0.6; }
+
+    .goal-step .gs-add {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .goal-step .gs-add:hover { color: var(--gold); }
+
+    /* ============================================================
+       CONFIGURAÇÕES
+       ============================================================ */
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-item:last-child { border-bottom: none; }
+
+    .settings-item .si-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-item .si-left i {
+      color: var(--gold);
+      font-size: 1rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .settings-item .si-left .si-label {
+      font-size: .85rem;
+      color: var(--text-sec);
+    }
+
+    .settings-item .si-left .si-desc {
+      font-size: .65rem;
+      color: var(--text-muted);
+    }
+
+    .toggle-switch {
+      width: 40px;
+      height: 22px;
+      background: var(--border);
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .toggle-switch.active { background: var(--gold); }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: all var(--transition);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    }
+
+    .toggle-switch.active::after { left: 21px; }
+
+    .settings-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: .8rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .settings-select:focus { border-color: var(--gold); }
+
+    /* ============================================================
+       MODAIS GERAIS
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.is-open {
+      display: flex;
+      animation: modalFadeIn .25s ease both;
+    }
+
+    .modal-card {
+      width: min(100%, 460px);
+      max-height: min(760px, calc(100vh - 40px));
+      overflow-y: auto;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .65);
+      animation: modalUp .3s var(--ease-luxury) both;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .modal-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--text);
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .modal-actions > * { flex: 1; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      font-size: .7rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: .85rem;
+      outline: none;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      transition: all var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      box-shadow: var(--focus-ring);
+    }
+
+    .form-group textarea { min-height: 70px; resize: vertical; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ============================================================
+       EMPTY STATE
+       ============================================================ */
+    .empty-state {
+      text-align: center;
+      padding: 30px 16px;
+      color: var(--text-muted);
+    }
+
+    .empty-state .empty-icon {
+      font-size: 2.5rem;
+      opacity: 0.3;
+      margin-bottom: 8px;
+    }
+
+    .empty-state .empty-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-sec);
+      margin-bottom: 4px;
+    }
+
+    .empty-state .empty-sub { font-size: .8rem; font-weight: 300; }
+
+    /* ============================================================
+       RESPONSIVO
+       ============================================================ */
+    @media (max-width: 420px) {
+      .profile-stats { grid-template-columns: repeat(2, 1fr); }
+      .profile-actions { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .upload-grid { gap: 8px; }
+      .upload-box { min-height: 110px; padding: 12px 8px; }
+      .upload-box .upload-icon { font-size: 1.5rem; }
+      .comparator { min-height: 160px; }
+      .comparator-handle { width: 28px; height: 28px; font-size: .7rem; }
+      .footer-links a { padding: 4px 8px; font-size: .4rem; }
+      .footer-links a > i { font-size: .8rem; }
+      .progress-history-item .ph-compare { min-height: 110px; }
+      .header-link span { display: none; }
+      .header-link { padding: 4px 10px; font-size: .65rem; }
+      .pro-badge { padding: 5px 8px; font-size: .58rem; }
+      .vitrine-link { padding: 4px 8px; font-size: .58rem; }
+      .vitrine-link i { font-size: .65rem; }
+      .brand { font-size: 1rem; }
+      .brand-sub { font-size: .45rem; }
+      .header { padding: 6px 12px; margin: 6px 0 12px; }
+      .ritual-item { padding: 8px 10px; flex-wrap: wrap; }
+      .ritual-item .ri-action-btn { font-size: .55rem; padding: 3px 10px; }
+    }
+
+    @media (min-width: 600px) {
+      .progress-history-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 900px) {
+      .page { max-width: 800px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="brand">
+      <span>Hair<span>OS</span></span>
+      <span class="brand-sub">— <span class="highlight">Evolução Capilar</span></span>
+    </div>
+    <div class="header-actions">
+      <a href="index.html" class="vitrine-link" aria-label="Ir para vitrine de inspirações">
+        <i class="fas fa-images"></i> Vitrine
+      </a>
+      <a href="Chat.bot.html" class="header-link" aria-label="Assistente virtual">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+        </svg>
+        <span>Assistente</span>
+      </a>
+      <a href="hairos-pro.html" class="pro-badge" aria-label="Conhecer HairOS Pro">HairOS Pro</a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu" onclick="toggleThemeUI()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="page-container">
+
+    <!-- ==========================================================
+    PÁGINA: 👤 CONTA
+    ========================================================== -->
+    <div class="page active-page" id="pageConta">
+      <div class="page-header">
+        <h2><i class="fas fa-user"></i> Conta <span class="page-count">• Quem sou</span></h2>
+      </div>
+      <p class="page-subtitle">Centralize seus dados pessoais e perfil capilar.</p>
+
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profileAvatar">
+              <span id="avatarInitial">L</span>
+            </div>
+            <button class="profile-avatar-edit" id="editAvatarBtn" aria-label="Editar foto"><i class="fas fa-camera"></i></button>
+          </div>
+          <div class="profile-info">
+            <span class="name" id="profileName">Lina Santos</span>
+            <span class="email" id="profileEmail">lina@email.com</span>
+            <div class="profile-tags">
+              <span class="profile-tag" id="profileHairType"><i class="fas fa-cut"></i> Ondulado 2C</span>
+              <span class="profile-tag" id="profileLength"><i class="fas fa-ruler"></i> Médio</span>
+              <span class="profile-tag" id="profilePorosity"><i class="fas fa-tint"></i> Média</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <span class="number" id="statDiary">0</span>
+            <span class="label">Diário</span>
+          </div>
+          <div class="profile-stat">
+            <span class="number" id="statProgress">0</span>
+            <span class="label">Progressos</span>
+          </div>
+          <div class="profile-stat">
+            <span class="number" id="statRitual">0%</span>
+            <span class="label">Ritual</span>
+          </div>
+          <div class="profile-stat">
+            <span class="number" id="statGoal">0%</span>
+            <span class="label">Meta</span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button class="btn-outline" onclick="editProfile()"><i class="fas fa-pen"></i> Editar</button>
+          <button class="btn-outline" onclick="toggleSettings()"><i class="fas fa-sliders-h"></i> Config.</button>
+        </div>
+      </div>
+
+      <!-- Fluxo de Evolução Capilar -->
+      <div class="card" id="flowCard">
+        <div class="card-title">🔄 Seu fluxo de evolução</div>
+        <div id="flowNextStep" style="font-size:.85rem; color:var(--text-sec); line-height:1.5; margin-bottom:10px;">
+          Defina sua meta para começar.
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn-outline btn-sm" onclick="navigateTo('pageMeta')"><i class="fas fa-bullseye"></i> Meta</button>
+          <button class="btn-outline btn-sm" onclick="navigateTo('pageRitual')"><i class="fas fa-spa"></i> Ritual</button>
+          <button class="btn-outline btn-sm" onclick="navigateTo('pageDiario')"><i class="fas fa-book-open"></i> Diário</button>
+          <button class="btn-outline btn-sm" onclick="navigateTo('pageProgresso')"><i class="fas fa-chart-simple"></i> Progresso</button>
+        </div>
+      </div>
+
+      <div id="settingsPanel" style="display:none;">
+        <div class="card">
+          <div class="card-title">⚙️ Configurações</div>
+          <div class="settings-item">
+            <div class="si-left"><i class="fas fa-moon"></i><div><div class="si-label">Modo claro</div><div class="si-desc">Alternar tema</div></div></div>
+            <div class="toggle-switch" id="themeToggle" role="switch" tabindex="0" aria-label="Alternar tema" onclick="toggleThemeUI()"></div>
+          </div>
+          <div class="settings-item">
+            <div class="si-left"><i class="fas fa-bell"></i><div><div class="si-label">Notificações</div><div class="si-desc">Lembretes do ritual</div></div></div>
+            <div class="toggle-switch active" id="notifToggle" role="switch" tabindex="0" aria-label="Alternar notificações" onclick="toggleNotif()"></div>
+          </div>
+          <div class="settings-item">
+            <div class="si-left"><i class="fas fa-download"></i><div><div class="si-label">Exportar dados</div><div class="si-desc">Baixar todos os registros</div></div></div>
+            <button class="btn-outline btn-sm" onclick="exportData()">Exportar</button>
+          </div>
+          <div class="settings-item" style="border-bottom:none;">
+            <div class="si-left"><i class="fas fa-trash-alt" style="color:#ff4757;"></i><div><div class="si-label" style="color:#ff4757;">Excluir dados</div><div class="si-desc">Remover todos os registros</div></div></div>
+            <button class="btn-outline btn-sm btn-danger" onclick="clearAllData()">Excluir</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PERFIL CAPILAR (sem botão Editar duplicado) ===== -->
+      <div class="card">
+        <div class="card-title">🧬 Perfil Capilar</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:.8rem; color:var(--text-sec);">
+          <div><span class="text-muted">Curvatura:</span> <span id="profileCurvature">2C</span></div>
+          <div><span class="text-muted">Comprimento:</span> <span id="profileLengthDisplay">Médio</span></div>
+          <div><span class="text-muted">Porosidade:</span> <span id="profilePorosityDisplay">Média</span></div>
+          <div><span class="text-muted">Espessura:</span> <span id="profileThicknessDisplay">Média</span></div>
+          <div style="grid-column:1/-1;"><span class="text-muted">Necessidades:</span> <span id="profileNeeds">Hidratação, Definição</span></div>
+        </div>
+      </div>
+
+      <!-- ===== RESULTADOS UNIFICADOS (Diário + Meta + Progresso) ===== -->
+      <div class="card" id="resultsCard">
+        <div class="card-title">📊 Resultados da evolução</div>
+        <p style="font-size:.75rem; color:var(--text-muted); margin-bottom:12px; font-weight:300;">
+          Diário, Meta e Progresso no mesmo lugar.
+        </p>
+
+        <!-- Meta -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:.7rem; color:var(--gold); text-transform:uppercase; letter-spacing:.04em;"><i class="fas fa-bullseye"></i> Meta</span>
+            <button class="btn-outline btn-sm" style="padding:3px 10px; font-size:.6rem;" onclick="openResultsGoalModal()"><i class="fas fa-expand-alt"></i> Ver</button>
+          </div>
+          <div id="resultsGoalName" style="font-family:'Playfair Display',serif; font-size:.95rem; color:var(--text); margin-bottom:6px;">—</div>
+          <div style="height:6px; background:var(--border); border-radius:10px; overflow:hidden; margin-bottom:4px;">
+            <div id="resultsGoalBar" style="height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:10px; transition:width .6s ease;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:.65rem; color:var(--text-muted);">
+            <span id="resultsGoalPct">0%</span>
+            <span id="resultsGoalDeadline">Sem prazo</span>
+          </div>
+        </div>
+
+        <!-- Diário (últimos registros) -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:.7rem; color:var(--gold); text-transform:uppercase; letter-spacing:.04em;"><i class="fas fa-book-open"></i> Diário <span id="resultsDiaryCount" style="color:var(--text-muted); font-weight:400;"></span></span>
+            <button class="btn-outline btn-sm" style="padding:3px 10px; font-size:.6rem;" onclick="openResultsDiaryListModal()"><i class="fas fa-expand-alt"></i> Ver</button>
+          </div>
+          <div id="resultsDiaryList" style="font-size:.8rem; color:var(--text-sec);">
+            <div style="opacity:0.5; font-weight:300;">Nenhum registro ainda</div>
+          </div>
+        </div>
+
+        <!-- Progresso (últimos) -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:.7rem; color:var(--gold); text-transform:uppercase; letter-spacing:.04em;"><i class="fas fa-chart-simple"></i> Progresso <span id="resultsProgressCount" style="color:var(--text-muted); font-weight:400;"></span></span>
+            <button class="btn-outline btn-sm" style="padding:3px 10px; font-size:.6rem;" onclick="openResultsProgressListModal()"><i class="fas fa-expand-alt"></i> Ver</button>
+          </div>
+          <div id="resultsProgressList" style="font-size:.8rem; color:var(--text-sec);">
+            <div style="opacity:0.5; font-weight:300;">Nenhuma comparação ainda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================
+    PÁGINA: 📖 DIÁRIO
+    ========================================================== -->
+    <div class="page" id="pageDiario">
+      <div class="page-header">
+        <h2><i class="fas fa-book-open"></i> Diário <span class="page-count" id="diaryCount">(0)</span></h2>
+        <span class="text-muted" style="font-size:.7rem;">• memória</span>
+      </div>
+      <p class="page-subtitle">Registre o dia a dia do seu cabelo.</p>
+
+      <div class="diary-filters" id="diaryFilters">
+        <button class="filter-chip active" data-filter="all">Todos</button>
+        <button class="filter-chip" data-filter="hidratacao">Hidratação</button>
+        <button class="filter-chip" data-filter="lavagem">Lavagem</button>
+        <button class="filter-chip" data-filter="finalizacao">Finalização</button>
+        <button class="filter-chip" data-filter="reconstrucao">Reconstrução</button>
+      </div>
+
+      <div class="card">
+        <form class="diary-form" id="diaryForm">
+          <div class="form-group">
+            <label for="diaryText">O que aconteceu com seu cabelo?</label>
+            <textarea id="diaryText" placeholder="Ex.: Fiz hidratação com máscara X. O cabelo ficou mais macio e com menos frizz." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="diaryProduct">Produto utilizado</label>
+              <input id="diaryProduct" placeholder="Máscara X, shampoo Y...">
+            </div>
+            <div class="form-group">
+              <label for="diaryProcedure">Procedimento</label>
+              <select id="diaryProcedure">
+                <option value="">Selecione</option>
+                <option value="hidratacao">Hidratação</option>
+                <option value="lavagem">Lavagem</option>
+                <option value="finalizacao">Finalização</option>
+                <option value="reconstrucao">Reconstrução</option>
+                <option value="corte">Corte</option>
+                <option value="coloracao">Coloração</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="diarySensation">Sensação/resultado</label>
+              <select id="diarySensation">
+                <option value="">Selecione</option>
+                <option value="otimo">Ótimo</option>
+                <option value="bom">Bom</option>
+                <option value="regular">Regular</option>
+                <option value="ruim">Ruim</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="diaryPhoto">Foto (opcional)</label>
+              <input type="file" id="diaryPhoto" accept="image/*">
+            </div>
+          </div>
+          <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Salvar no diário</button>
+        </form>
+      </div>
+
+      <div class="card" style="text-align:center; padding:18px;">
+        <div style="font-size:1.3rem; margin-bottom:6px; color:var(--gold); opacity:0.7;"><i class="fas fa-inbox"></i></div>
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:.9rem; color:var(--text-sec); margin-bottom:6px;">
+          Itens salvos na Conta
+        </div>
+        <div style="font-size:.75rem; color:var(--text-muted); font-weight:300; margin-bottom:12px; line-height:1.5;">
+          Ao salvar, o registro vai para o card <strong>Resultados</strong> na Conta e abre em modal.
+        </div>
+        <button class="btn-outline btn-sm" onclick="navigateTo('pageConta')"><i class="fas fa-user"></i> Ver na Conta</button>
+      </div>
+      <div id="diaryEntries" style="display:none;"></div>
+    </div>
+
+    <!-- ==========================================================
+    PÁGINA: ✦ RITUAL
+    ========================================================== -->
+    <div class="page" id="pageRitual">
+      <div class="page-header">
+        <h2><i class="fas fa-spa"></i> Ritual <span class="page-count">• hoje</span></h2>
+        <span class="text-muted" style="font-size:.7rem;">• ação</span>
+      </div>
+      <p class="page-subtitle">Execute os cuidados do dia. <span class="text-muted">— rotina prática e conectada à sua meta.</span></p>
+
+      <div class="ritual-action-tip" id="ritualTip" style="display:none;">
+        <span class="tip-icon"><i class="fas fa-bullseye"></i></span>
+        <div class="tip-text">
+          <strong>Ação de hoje para sua meta:</strong>
+          <span id="ritualTipText">Fazer hidratação.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ritual-progress">
+          <span style="font-size:.7rem; color:var(--text-muted);">Progresso</span>
+          <div class="rp-bar">
+            <div class="rp-fill" id="ritualBarFill" style="width:0%;"></div>
+          </div>
+          <span class="rp-text" id="ritualPercent">0%</span>
+        </div>
+
+        <div id="ritualDaily">
+          <div class="ritual-section-title">Diário <span class="rs-count" id="dailyCount"></span></div>
+          <div id="ritualDailyItems"></div>
+        </div>
+
+        <div id="ritualWeekly">
+          <div class="ritual-section-title">Semanal <span class="rs-count" id="weeklyCount"></span></div>
+          <div id="ritualWeeklyItems"></div>
+        </div>
+
+        <div id="ritualMonthly">
+          <div class="ritual-section-title">Mensal <span class="rs-count" id="monthlyCount"></span></div>
+          <div id="ritualMonthlyItems"></div>
+        </div>
+
+        <div id="ritualAlways">
+          <div class="ritual-section-title">Sempre <span class="rs-count" id="alwaysCount"></span></div>
+          <div id="ritualAlwaysItems"></div>
+        </div>
+
+        <div id="ritualOther">
+          <div class="ritual-section-title">Outros <span class="rs-count" id="otherCount"></span></div>
+          <div id="ritualOtherItems"></div>
+        </div>
+      </div>
+
+      <button class="btn-outline" onclick="resetRitual()" style="padding:10px;">
+        <i class="fas fa-undo"></i> Resetar ritual
+      </button>
+    </div>
+
+    <!-- ==========================================================
+    PÁGINA: 📸 PROGRESSO
+    ========================================================== -->
+    <div class="page" id="pageProgresso">
+      <div class="page-header">
+        <h2><i class="fas fa-chart-simple"></i> Progresso <span class="page-count" id="progressCount">(0)</span></h2>
+        <span class="text-muted" style="font-size:.7rem;">• transformação</span>
+      </div>
+      <p class="page-subtitle">Compare visualmente sua evolução.</p>
+
+      <div class="upload-grid">
+        <div class="upload-box" id="uploadAntes">
+          <div class="upload-badge">Antes</div>
+          <div class="upload-icon" id="antesIcon"><i class="fas fa-image"></i></div>
+          <div class="upload-label" id="antesLabel">Clique para adicionar</div>
+          <input type="file" id="inputAntes" accept="image/*" style="display:none;">
+          <button class="remove-btn" id="removeAntes" style="display:none;"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="upload-box" id="uploadDepois">
+          <div class="upload-badge">Depois</div>
+          <div class="upload-icon" id="depoisIcon"><i class="fas fa-image"></i></div>
+          <div class="upload-label" id="depoisLabel">Clique para adicionar</div>
+          <input type="file" id="inputDepois" accept="image/*" style="display:none;">
+          <button class="remove-btn" id="removeDepois" style="display:none;"><i class="fas fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="comparator-wrapper" id="comparatorWrapper">
+        <div class="comparator-wrapper empty" id="comparatorEmpty">
+          <div class="empty-icon"><i class="fas fa-arrows-left-right"></i></div>
+          <div class="empty-text">Adicione as duas imagens para comparar</div>
+        </div>
+        <div class="comparator" id="comparatorActive" style="display:none;">
+          <img class="comparator-img-after" id="imgAfter" src="" alt="Depois">
+          <div class="comparator-before" id="beforeContainer" style="width:50%;">
+            <img id="imgBefore" src="" alt="Antes">
+          </div>
+          <div class="comparator-divider" id="comparatorDivider" style="left:50%;"></div>
+          <div class="comparator-handle" id="comparatorHandle"><i class="fas fa-arrows-left-right"></i></div>
+          <span class="comparator-label before">Antes</span>
+          <span class="comparator-label after">Depois</span>
+        </div>
+      </div>
+
+      <div class="progress-indicators" id="progressIndicators" style="display:none;">
+        <div class="progress-indicator"><span class="pi-label">Comprimento</span><span class="pi-value" id="piLength">—</span></div>
+        <div class="progress-indicator"><span class="pi-label">Brilho</span><span class="pi-value" id="piShine">—</span></div>
+        <div class="progress-indicator"><span class="pi-label">Definição</span><span class="pi-value" id="piDefinition">—</span></div>
+        <div class="progress-indicator"><span class="pi-label">Frizz</span><span class="pi-value" id="piFrizz">—</span></div>
+        <div class="progress-indicator"><span class="pi-label">Volume</span><span class="pi-value" id="piVolume">—</span></div>
+        <div class="progress-indicator"><span class="pi-label">Aparência</span><span class="pi-value" id="piOverall">—</span></div>
+      </div>
+
+      <button class="btn-save-progress" id="btnSaveProgress" disabled>
+        <i class="fas fa-check-circle"></i> Salvar Progresso
+      </button>
+
+      <div class="card" style="text-align:center; padding:18px; margin-top:16px;">
+        <div style="font-size:1.3rem; margin-bottom:6px; color:var(--gold); opacity:0.7;"><i class="fas fa-inbox"></i></div>
+        <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:.9rem; color:var(--text-sec); margin-bottom:6px;">
+          Itens salvos na Conta
+        </div>
+        <div style="font-size:.75rem; color:var(--text-muted); font-weight:300; margin-bottom:12px; line-height:1.5;">
+          Ao salvar a comparação, o resultado vai para o card <strong>Resultados</strong> na Conta e abre em modal.
+        </div>
+        <button class="btn-outline btn-sm" onclick="navigateTo('pageConta')"><i class="fas fa-user"></i> Ver na Conta</button>
+      </div>
+      <div class="progress-history-grid" id="progressHistoryGrid" style="display:none;"></div>
+    </div>
+
+    <!-- ==========================================================
+    PÁGINA: 🎯 METAS
+    ========================================================== -->
+    <div class="page" id="pageMeta">
+      <div class="page-header">
+        <h2><i class="fas fa-bullseye"></i> Metas <span class="page-count">• destino</span></h2>
+        <span class="text-muted" style="font-size:.7rem;">• direção</span>
+      </div>
+      <p class="page-subtitle">Defina um objetivo concreto para seu cabelo.</p>
+
+      <div class="card goal-card" id="goalCard">
+        <div class="goal-heading">
+          <div>
+            <div class="card-title">Objetivo atual</div>
+            <h3 id="goalTitle">Deixar o cabelo mais saudável</h3>
+          </div>
+          <i class="fas fa-bullseye goal-icon"></i>
+        </div>
+        <div class="goal-progress-track">
+          <div class="goal-progress-fill" id="goalProgressFill" style="width:0%;"></div>
+        </div>
+        <div class="goal-progress-meta">
+          <span id="goalProgressText">0% concluído</span>
+          <span id="goalDeadline">Sem prazo definido</span>
+        </div>
+
+        <div class="goal-steps" id="goalSteps">
+          <div class="goal-step">
+            <div class="gs-check done"><i class="fas fa-check" style="font-size:.6rem;"></i></div>
+            <span class="gs-text done">Definir rotina</span>
+          </div>
+          <div class="goal-step">
+            <div class="gs-check done"><i class="fas fa-check" style="font-size:.6rem;"></i></div>
+            <span class="gs-text done">Começar cronograma</span>
+          </div>
+          <div class="goal-step">
+            <div class="gs-check"></div>
+            <span class="gs-text">Manter rotina</span>
+          </div>
+          <div class="goal-step">
+            <div class="gs-check"></div>
+            <span class="gs-text">Registrar evolução</span>
+          </div>
+          <div class="goal-step">
+            <div class="gs-check"></div>
+            <span class="gs-text">Alcançar resultado</span>
+          </div>
+          <button class="btn-outline btn-sm" style="margin-top:4px;" onclick="addGoalStep()"><i class="fas fa-plus"></i> Adicionar passo</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✏️ Editar meta</div>
+        <form class="modal-form" id="goalForm">
+          <div class="form-group">
+            <label for="goalName">Qual é sua meta?</label>
+            <input id="goalName" type="text" placeholder="Ex.: Recuperar a definição dos fios" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="goalCategory">Categoria</label>
+              <select id="goalCategory">
+                <option value="crescer">Crescer</option>
+                <option value="recuperar">Recuperar</option>
+                <option value="definir">Definir</option>
+                <option value="volume">Aumentar volume</option>
+                <option value="frizz">Reduzir frizz</option>
+                <option value="cor">Mudar cor</option>
+                <option value="saude">Melhorar saúde</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="goalProgress">Progresso atual (%)</label>
+              <input id="goalProgress" type="number" min="0" max="100" step="1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="goalDate">Prazo</label>
+            <input id="goalDate" type="date">
+          </div>
+          <div class="modal-actions">
+            <button class="btn-outline" type="button" onclick="clearGoal()"><i class="fas fa-rotate-left"></i> Limpar</button>
+            <button class="btn-primary" type="submit"><i class="fas fa-check"></i> Salvar meta</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER NAV ===== -->
+  <nav class="footer-nav" id="footerNav">
+    <div class="footer-links">
+      <a class="active-link" data-page="pageConta" onclick="navigateTo('pageConta')"><i class="fas fa-user"></i>conta</a>
+      <a data-page="pageMeta" onclick="navigateTo('pageMeta')"><i class="fas fa-bullseye"></i>metas</a>
+      <a data-page="pageRitual" onclick="navigateTo('pageRitual')"><i class="fas fa-spa"></i>ritual</a>
+      <a data-page="pageDiario" onclick="navigateTo('pageDiario')"><i class="fas fa-book-open"></i>diário</a>
+      <a data-page="pageProgresso" onclick="navigateTo('pageProgresso')"><i class="fas fa-chart-simple"></i>progresso</a>
+    </div>
+  </nav>
+
+  <!-- ===== MODAL DO RITUAL ===== -->
+  <div class="ritual-modal-overlay" id="ritualModal" role="dialog" aria-modal="true">
+    <div class="ritual-modal-card">
+      <div class="ritual-modal-header">
+        <div class="rmh-left">
+          <span class="rmh-icon" id="rmhIcon"><i class="fas fa-droplet"></i></span>
+          <span class="rmh-title" id="rmhTitle">Hidratação</span>
+          <span class="rmh-freq" id="rmhFreq">Semanal</span>
+        </div>
+        <button class="ritual-modal-close" id="ritualModalClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="ritual-modal-body">
+        <div class="rmb-desc" id="rmbDesc">A hidratação é essencial para repor a água dos fios, mantendo a maciez e o brilho.</div>
+        <div class="rmb-dicas" id="rmbDicas">
+          <div class="rmb-dica"><i class="fas fa-lightbulb"></i> Use máscaras hidratantes 1x por semana.</div>
+          <div class="rmb-dica"><i class="fas fa-lightbulb"></i> Aplique nos fios úmidos e deixe agir por 15 minutos.</div>
+          <div class="rmb-dica"><i class="fas fa-lightbulb"></i> Enxágue com água fria para selar as cutículas.</div>
+        </div>
+      </div>
+      <div class="ritual-modal-footer">
+        <button class="btn-outline" id="rmbCloseBtn">Fechar</button>
+        <button class="btn-primary" id="rmbToggleBtn"><i class="fas fa-check"></i> Marcar como feito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL DO DIÁRIO ===== -->
+  <div class="diary-modal-overlay" id="diaryModal" role="dialog" aria-modal="true">
+    <div class="diary-modal-card">
+      <div class="diary-modal-header">
+        <div class="dmh-left">
+          <span class="dmh-date" id="dmhDate">—</span>
+          <div class="dmh-badges" id="dmhBadges"></div>
+        </div>
+        <button class="diary-modal-close" id="diaryModalClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="diary-modal-body">
+        <div class="dmb-text" id="dmbText"></div>
+        <div class="dmb-image" id="dmbImage" style="display:none;">
+          <img id="dmbImg" src="" alt="Foto do registro">
+        </div>
+        <div class="dmb-meta" id="dmbMeta"></div>
+      </div>
+      <div class="diary-modal-footer">
+        <button class="btn-outline" id="dmbDeleteBtn"><i class="fas fa-trash"></i> Excluir</button>
+        <button class="btn-primary" id="dmbCloseBtn"><i class="fas fa-check"></i> Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: RESULTADO (meta / progresso da Conta) ===== -->
+  <div class="diary-modal-overlay" id="resultsDetailModal" role="dialog" aria-modal="true">
+    <div class="diary-modal-card">
+      <div class="diary-modal-header">
+        <div class="dmh-left">
+          <span class="dmh-date" id="rdmDate">—</span>
+          <div class="dmh-badges" id="rdmBadges"></div>
+        </div>
+        <button class="diary-modal-close" id="rdmClose" aria-label="Fechar"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="diary-modal-body">
+        <div class="dmb-text" id="rdmText"></div>
+        <div class="dmb-image" id="rdmImage" style="display:none;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div>
+              <div style="font-size:.55rem; color:var(--gold); text-transform:uppercase; margin-bottom:4px;">Antes</div>
+              <img id="rdmImgBefore" src="" alt="Antes" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            </div>
+            <div>
+              <div style="font-size:.55rem; color:var(--gold); text-transform:uppercase; margin-bottom:4px;">Depois</div>
+              <img id="rdmImgAfter" src="" alt="Depois" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            </div>
+          </div>
+        </div>
+        <div class="dmb-meta" id="rdmMeta"></div>
+      </div>
+      <div class="diary-modal-footer">
+        <button class="btn-outline" id="rdmOpenPage"><i class="fas fa-external-link-alt"></i> Abrir aba</button>
+        <button class="btn-primary" id="rdmCloseBtn"><i class="fas fa-check"></i> Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: EDITAR PERFIL ===== -->
+  <div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="profileModalTitle"><i class="fas fa-pen"></i> Editar perfil</h3>
+        <button class="modal-close" type="button" data-close-modal="profileModal" aria-label="Fechar">&times;</button>
+      </div>
+      <form class="modal-form" id="profileForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editName">Nome</label>
+            <input id="editName" type="text" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label for="editEmail">E-mail</label>
+            <input id="editEmail" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editHairType">Tipo de cabelo</label>
+            <input id="editHairType" placeholder="Ex.: Ondulado 2C">
+          </div>
+          <div class="form-group">
+            <label for="editCurvature">Curvatura</label>
+            <select id="editCurvature">
+              <option value="liso">Liso</option>
+              <option value="ondulado" selected>Ondulado</option>
+              <option value="cacheado">Cacheado</option>
+              <option value="crespo">Crespo</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editLength">Comprimento</label>
+            <select id="editLength">
+              <option value="curto">Curto</option>
+              <option value="medio" selected>Médio</option>
+              <option value="longo">Longo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editPorosity">Porosidade</label>
+            <select id="editPorosity">
+              <option value="baixa">Baixa</option>
+              <option value="media" selected>Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editThickness">Espessura</label>
+            <select id="editThickness">
+              <option value="fina">Fina</option>
+              <option value="media" selected>Média</option>
+              <option value="grossa">Grossa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editNeeds">Necessidades</label>
+            <input id="editNeeds" placeholder="Ex.: Hidratação, Definição">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-outline" type="button" data-close-modal="profileModal">Cancelar</button>
+          <button class="btn-primary" type="submit"><i class="fas fa-check"></i> Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(message, duration) {
+      duration = duration || 2500;
+      var container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      var toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      requestAnimationFrame(function() {
+        toast.classList.add('show');
+      });
+
+      setTimeout(function() {
+        toast.classList.remove('show');
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 400);
+      }, duration);
+    }
+
+
+    // ============================================================
+    // STORE CENTRAL (tudo salvo em um só lugar: hairos_data)
+    // ============================================================
+    var defaultProfile = {
+      name: 'Lina Santos',
+      email: 'lina@email.com',
+      hairType: 'Ondulado 2C',
+      curvature: 'ondulado',
+      length: 'medio',
+      porosity: 'media',
+      thickness: 'media',
+      needs: 'Hidratação, Definição'
+    };
+
+    var defaultGoalData = {
+      name: 'Deixar o cabelo mais saudável',
+      progress: 0,
+      date: '',
+      category: 'saude',
+      steps: [
+        { id: 's1', text: 'Definir rotina', done: true },
+        { id: 's2', text: 'Começar cronograma', done: true },
+        { id: 's3', text: 'Manter rotina', done: false },
+        { id: 's4', text: 'Registrar evolução', done: false },
+        { id: 's5', text: 'Alcançar resultado', done: false }
+      ]
+    };
+
+    var defaultRitualItems = [
+      { id: 'r1', name: 'Hidratação', icon: 'fa-droplet', freq: 'Semanal', done: false, desc: 'A hidratação é essencial para repor a água dos fios, mantendo a maciez e o brilho.', dicas: ['Use máscaras hidratantes 1x por semana.', 'Aplique nos fios úmidos e deixe agir por 15 minutos.', 'Enxágue com água fria para selar as cutículas.'] },
+      { id: 'r2', name: 'Lavagem', icon: 'fa-hand-sparkles', freq: 'Diário', done: false, desc: 'Lavar corretamente remove impurezas e prepara os fios para os cuidados.', dicas: ['Use água morna ou fria.', 'Massageie suavemente o couro cabeludo.', 'Enxágue bem para remover resíduos.'] },
+      { id: 'r3', name: 'Finalização', icon: 'fa-wand-magic-sparkles', freq: 'Diário', done: false, desc: 'A finalização define o formato dos fios e garante um acabamento bonito.', dicas: ['Aplique creme de pentear nos fios molhados.', 'Use técnicas como fitagem ou dedoliss.', 'Finalize com difusor ou secador.'] },
+      { id: 'r4', name: 'Nutrição', icon: 'fa-leaf', freq: 'Semanal', done: false, desc: 'A nutrição repõe lipídios e mantém a saúde dos fios.', dicas: ['Use máscaras nutritivas 1x por semana.', 'Aplique dos fios ao comprimento.', 'Deixe agir por 20 minutos.'] },
+      { id: 'r5', name: 'Reconstrução', icon: 'fa-screwdriver-wrench', freq: 'Mensal', done: false, desc: 'A reconstrução fortalece a fibra capilar e reduz danos.', dicas: ['Use máscaras reconstrutoras 1x por mês.', 'Aplique apenas no comprimento.', 'Não exceder o tempo de pausa.'] },
+      { id: 'r6', name: 'Protetor térmico', icon: 'fa-temperature-high', freq: 'Sempre', done: false, desc: 'Protege os fios do calor de secadores e chapinhas.', dicas: ['Aplique antes de qualquer fonte de calor.', 'Distribua uniformemente pelos fios.', 'Use um spray ou creme protetor.'] },
+      { id: 'r7', name: 'Óleo/umectação', icon: 'fa-oil-can', freq: 'Semanal', done: false, desc: 'O óleo capilar sela as cutículas e dá brilho.', dicas: ['Aplique nas pontas ou no comprimento.', 'Use óleos vegetais como argan ou coco.', 'Faça umectação noturna 1x por semana.'] },
+      { id: 'r8', name: 'Massagem no couro cabeludo', icon: 'fa-massage', freq: 'Diário', done: false, desc: 'A massagem estimula a circulação e fortalece os fios.', dicas: ['Faça por 5 minutos com movimentos circulares.', 'Use as pontas dos dedos.', 'Pode ser feita antes da lavagem.'] },
+      { id: 'r9', name: 'Desembaraço cuidadoso', icon: 'fa-comb', freq: 'Sempre', done: false, desc: 'Desembaraçar com cuidado evita quebras e danos.', dicas: ['Use um pente de dentes largos.', 'Comece das pontas para a raiz.', 'Nunca desembarace os fios secos.'] },
+      { id: 'r10', name: 'Corte das pontas', icon: 'fa-cut', freq: 'Trimestral', done: false, desc: 'Cortar as pontas regularmente mantém o cabelo saudável.', dicas: ['Corte a cada 3 meses.', 'Remova apenas as pontas duplas.', 'Mantenha o formato do corte.'] },
+      { id: 'r11', name: 'Secagem sem frizz', icon: 'fa-wind', freq: 'Sempre', done: false, desc: 'A secagem correta evita o frizz e define os fios.', dicas: ['Use uma toalha de microfibra.', 'Nunca esfregue os fios.', 'Finalize com difusor ou secador na temperatura baixa.'] },
+      { id: 'r12', name: 'Proteção durante o sono', icon: 'fa-bed', freq: 'Diário', done: false, desc: 'Proteger os fios durante o sono evita atrito e quebras.', dicas: ['Use uma fronha de cetim.', 'Prenda os fios em um coque solto.', 'Aplique um leave-in leve.'] },
+      { id: 'r13', name: 'Higienização dos acessórios', icon: 'fa-brush', freq: 'Mensal', done: false, desc: 'Limpar escovas e acessórios evita acúmulo de resíduos.', dicas: ['Lave com shampoo neutro.', 'Deixe secar naturalmente.', 'Faça a limpeza 1x por mês.'] },
+      { id: 'r14', name: 'Avaliação do couro cabeludo', icon: 'fa-search', freq: 'Mensal', done: false, desc: 'Avaliar o couro cabeludo ajuda a identificar problemas precocemente.', dicas: ['Observe descamações ou vermelhidões.', 'Note se há coceira ou oleosidade excessiva.', 'Consulte um dermatologista se necessário.'] },
+      { id: 'r15', name: 'Registro de resultado', icon: 'fa-camera', freq: 'Semanal', done: false, desc: 'Registrar os resultados ajuda a acompanhar a evolução.', dicas: ['Tire fotos semanais.', 'Anote as mudanças percebidas.', 'Compare com fotos antigas.'] }
+    ];
+
+    var store = {
+      theme: 'dark',
+      notifications: true,
+      profile: Object.assign({}, defaultProfile),
+      diary: [],
+      ritual: JSON.parse(JSON.stringify(defaultRitualItems)),
+      progress: [],
+      goal: Object.assign({}, defaultGoalData)
+    };
+
+    function loadStore() {
+      try {
+        var raw = localStorage.getItem('hairos_data');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed.theme) store.theme = parsed.theme;
+          if (typeof parsed.notifications === 'boolean') store.notifications = parsed.notifications;
+          if (parsed.profile) store.profile = Object.assign({}, defaultProfile, parsed.profile);
+          if (Array.isArray(parsed.diary)) store.diary = parsed.diary;
+          if (Array.isArray(parsed.ritual) && parsed.ritual.length > 0) store.ritual = parsed.ritual;
+          if (Array.isArray(parsed.progress)) store.progress = parsed.progress;
+          if (parsed.goal) store.goal = Object.assign({}, defaultGoalData, parsed.goal);
+        } else {
+          migrateOldData();
+        }
+      } catch (e) { console.warn('Erro ao carregar store:', e); }
+    }
+
+    function saveStore() {
+      try {
+        localStorage.setItem('hairos_data', JSON.stringify(store));
+      } catch (e) {
+        console.warn('Erro ao salvar store:', e);
+        if (typeof showToast === 'function') showToast('Erro ao salvar dados');
+      }
+    }
+
+    function migrateOldData() {
+      try {
+        var oldTheme = localStorage.getItem('hairos_theme');
+        if (oldTheme) store.theme = oldTheme;
+        var oldNotif = localStorage.getItem('hairos_notifications');
+        if (oldNotif !== null) store.notifications = oldNotif !== 'off';
+        var oldProfile = localStorage.getItem('hairos_profile');
+        if (oldProfile) store.profile = Object.assign({}, defaultProfile, JSON.parse(oldProfile));
+        var oldDiary = localStorage.getItem('hairos_diary');
+        if (oldDiary) store.diary = JSON.parse(oldDiary);
+        var oldRitual = localStorage.getItem('hairos_ritual');
+        if (oldRitual) {
+          var r = JSON.parse(oldRitual);
+          if (Array.isArray(r) && r.length > 0) store.ritual = r;
+        }
+        var oldProgress = localStorage.getItem('hairos_progress_history');
+        if (oldProgress) store.progress = JSON.parse(oldProgress);
+        var oldGoal = localStorage.getItem('hairos_goal');
+        if (oldGoal) store.goal = Object.assign({}, defaultGoalData, JSON.parse(oldGoal));
+        saveStore();
+        ['hairos_theme','hairos_notifications','hairos_profile','hairos_diary','hairos_ritual','hairos_progress_history','hairos_goal'].forEach(function(k) {
+          localStorage.removeItem(k);
+        });
+      } catch (e) { console.warn('Erro na migração:', e); }
+    }
+
+    loadStore();
+
+    // ============================================================
+    // TEMA
+    // ============================================================
+    function getTheme() {
+      return store.theme || 'dark';
+    }
+
+    function setTheme(theme) {
+      store.theme = theme;
+      saveStore();
+      document.documentElement.setAttribute('data-theme', theme);
+      var toggle = document.getElementById('themeToggle');
+      if (toggle) {
+        if (theme === 'dark') toggle.classList.remove('active');
+        else toggle.classList.add('active');
+      }
+    }
+
+    function toggleThemeUI() {
+      var current = getTheme();
+      var next = current === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+      showToast('Tema ' + (next === 'dark' ? 'escuro' : 'claro'));
+    }
+
+    setTheme(getTheme());
+
+    // ============================================================
+    // NAVEGAÇÃO
+    // ============================================================
+    var currentPage = 'pageConta';
+
+    function navigateTo(pageId) {
+      currentPage = pageId;
+      document.querySelectorAll('.page').forEach(function(p) {
+        p.classList.remove('active-page');
+      });
+      var target = document.getElementById(pageId);
+      if (target) {
+        target.classList.add('active-page');
+        target.style.animation = 'none';
+        requestAnimationFrame(function() {
+          target.style.animation = 'fadeSlide 0.35s ease both';
+        });
+      }
+
+      document.querySelectorAll('.footer-links a').forEach(function(link) {
+        link.classList.toggle('active-link', link.dataset.page === pageId);
+      });
+
+      if (pageId === 'pageDiario') renderDiary();
+      if (pageId === 'pageProgresso') renderProgressHistory();
+      if (pageId === 'pageRitual') renderRitual();
+      if (pageId === 'pageConta') updateProfileStats();
+      if (pageId === 'pageMeta') renderGoal();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ============================================================
+    // COMPRESSÃO DE IMAGEM
+    // ============================================================
+    function compressImage(file, maxSize, cb) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var w = img.width,
+            h = img.height,
+            max = maxSize || 600;
+          if (w > max || h > max) {
+            if (w > h) {
+              h = Math.round(h * max / w);
+              w = max;
+            } else {
+              w = Math.round(w * max / h);
+              h = max;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          cb(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ============================================================
+    // PERFIL
+    // ============================================================
+    var profile = store.profile;
+
+    function updateProfileStats() {
+      var diary = getDiary();
+      var progress = getProgressHistory();
+      var ritual = getRitualItems();
+      var goal = getGoal();
+
+      document.getElementById('statDiary').textContent = diary.length;
+      document.getElementById('statProgress').textContent = progress.length;
+
+      var done = ritual.filter(function(r) { return r.done; }).length;
+      var pct = ritual.length > 0 ? Math.round((done / ritual.length) * 100) : 0;
+      document.getElementById('statRitual').textContent = pct + '%';
+      document.getElementById('statGoal').textContent = Math.min(100, Number(goal.progress) || 0) + '%';
+
+      document.getElementById('profileName').textContent = profile.name;
+      document.getElementById('profileEmail').textContent = profile.email;
+      document.getElementById('profileHairType').innerHTML = '<i class="fas fa-cut"></i> ' + profile.hairType;
+      document.getElementById('profileLength').innerHTML = '<i class="fas fa-ruler"></i> ' + (profile.length === 'curto' ? 'Curto' : profile.length === 'longo' ? 'Longo' : 'Médio');
+      document.getElementById('profilePorosity').innerHTML = '<i class="fas fa-tint"></i> ' + (profile.porosity === 'baixa' ? 'Baixa' : profile.porosity === 'alta' ? 'Alta' : 'Média');
+      document.getElementById('avatarInitial').textContent = profile.name.charAt(0).toUpperCase();
+
+      document.getElementById('profileCurvature').textContent = profile.curvature.charAt(0).toUpperCase() + profile.curvature.slice(1);
+      document.getElementById('profileLengthDisplay').textContent = profile.length.charAt(0).toUpperCase() + profile.length.slice(1);
+      document.getElementById('profilePorosityDisplay').textContent = profile.porosity.charAt(0).toUpperCase() + profile.porosity.slice(1);
+      document.getElementById('profileThicknessDisplay').textContent = profile.thickness.charAt(0).toUpperCase() + profile.thickness.slice(1);
+      document.getElementById('profileNeeds').textContent = profile.needs || '—';
+
+      // Próximo passo do fluxo interligado
+      var flowEl = document.getElementById('flowNextStep');
+      if (flowEl) {
+        var goalPct = Math.min(100, Number(goal.progress) || 0);
+        var hasCustomGoal = goal.name && goal.name !== 'Deixar o cabelo mais saudável';
+        if (!hasCustomGoal) {
+          flowEl.innerHTML = '<strong>Próximo:</strong> Defina sua meta principal → abra a aba <em>Metas</em>.';
+        } else if (pct < 30) {
+          flowEl.innerHTML = '<strong>Próximo:</strong> Execute o ritual diário para avançar na meta "<em>' + goal.name + '</em>".';
+        } else if (diary.length < 3) {
+          flowEl.innerHTML = '<strong>Próximo:</strong> Registre no Diário o que você fez hoje com o cabelo.';
+        } else if (progress.length === 0) {
+          flowEl.innerHTML = '<strong>Próximo:</strong> Tire fotos Antes/Depois e salve na aba Progresso.';
+        } else if (goalPct < 100) {
+          flowEl.innerHTML = '<strong>Continue:</strong> Você está em ' + goalPct + '% da meta. Mantenha o ritual e registre a evolução.';
+        } else {
+          flowEl.innerHTML = '<strong>Parabéns!</strong> Meta concluída. Defina uma nova meta ou continue registrando.';
+        }
+      }
+
+      // Resultados unificados (Diário + Meta + Progresso) no mesmo lugar
+      renderUnifiedResults(goal, diary, progress);
+    }
+
+    function renderUnifiedResults(goal, diary, progress) {
+      goal = goal || getGoal();
+      diary = diary || getDiary();
+      progress = progress || getProgressHistory();
+
+      // Meta
+      var goalNameEl = document.getElementById('resultsGoalName');
+      var goalBarEl = document.getElementById('resultsGoalBar');
+      var goalPctEl = document.getElementById('resultsGoalPct');
+      var goalDeadlineEl = document.getElementById('resultsGoalDeadline');
+      if (goalNameEl) {
+        var gProg = Math.min(100, Number(goal.progress) || 0);
+        var doneSteps = (goal.steps || []).filter(function(s) { return s.done; }).length;
+        var totalSteps = (goal.steps || []).length;
+        var stepProg = totalSteps > 0 ? Math.round((doneSteps / totalSteps) * 100) : 0;
+        var finalPct = Math.max(gProg, stepProg);
+        goalNameEl.textContent = goal.name || 'Deixar o cabelo mais saudável';
+        if (goalBarEl) goalBarEl.style.width = finalPct + '%';
+        if (goalPctEl) goalPctEl.textContent = finalPct + '% concluído';
+        if (goalDeadlineEl) {
+          goalDeadlineEl.textContent = goal.date
+            ? 'Prazo: ' + goal.date.split('-').reverse().join('/')
+            : 'Sem prazo';
+        }
+        // Clicar na meta abre modal
+        var goalBlock = goalNameEl.parentElement;
+        if (goalBlock) {
+          goalBlock.style.cursor = 'pointer';
+          goalBlock.onclick = function(e) {
+            if (e.target.closest('button')) return;
+            openResultsGoalModal(goal);
+          };
+        }
+      }
+
+      // Diário (últimos 5) — clicável → modal
+      var diaryCountEl = document.getElementById('resultsDiaryCount');
+      var diaryListEl = document.getElementById('resultsDiaryList');
+      if (diaryCountEl) diaryCountEl.textContent = '(' + diary.length + ')';
+      if (diaryListEl) {
+        if (diary.length === 0) {
+          diaryListEl.innerHTML = '<div style="opacity:0.5; font-weight:300;">Nenhum registro ainda. Salve no Diário e aparece aqui.</div>';
+        } else {
+          var procedureLabels = {
+            hidratacao: 'Hidratação', lavagem: 'Lavagem', finalizacao: 'Finalização',
+            reconstrucao: 'Reconstrução', corte: 'Corte', coloracao: 'Coloração', outro: 'Outro'
+          };
+          var recent = diary.slice().reverse().slice(0, 5);
+          diaryListEl.innerHTML = recent.map(function(e) {
+            var label = e.procedure ? (procedureLabels[e.procedure] || e.procedure) : '';
+            var text = (e.text || '').substring(0, 70);
+            if ((e.text || '').length > 70) text += '…';
+            return '<div class="results-item" data-type="diary" data-id="' + e.id + '" style="padding:8px 0; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s;">' +
+              '<div style="font-size:.6rem; color:var(--gold); margin-bottom:2px;">' + formatDate(e.date) +
+              (label ? ' · ' + label : '') + ' <i class="fas fa-expand-alt" style="opacity:.4; font-size:.5rem;"></i></div>' +
+              '<div style="font-weight:300; line-height:1.4;">' + text.replace(/</g, '&lt;') + '</div>' +
+              '</div>';
+          }).join('');
+          diaryListEl.querySelectorAll('.results-item[data-type="diary"]').forEach(function(el) {
+            el.addEventListener('click', function() {
+              openDiaryModal(this.getAttribute('data-id'));
+            });
+            el.addEventListener('mouseenter', function() { this.style.background = 'var(--gold-glow)'; });
+            el.addEventListener('mouseleave', function() { this.style.background = 'transparent'; });
+          });
+        }
+      }
+
+      // Progresso (últimos 5) — clicável → modal
+      var progCountEl = document.getElementById('resultsProgressCount');
+      var progListEl = document.getElementById('resultsProgressList');
+      if (progCountEl) progCountEl.textContent = '(' + progress.length + ')';
+      if (progListEl) {
+        if (progress.length === 0) {
+          progListEl.innerHTML = '<div style="opacity:0.5; font-weight:300;">Nenhuma comparação ainda. Salve no Progresso e aparece aqui.</div>';
+        } else {
+          var recentP = progress.slice(0, 5);
+          progListEl.innerHTML = recentP.map(function(p) {
+            return '<div class="results-item" data-type="progress" data-id="' + p.id + '" style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); cursor:pointer;">' +
+              '<div style="display:flex; gap:4px;">' +
+              (p.antes ? '<img src="' + p.antes + '" alt="Antes" style="width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--border);">' : '') +
+              (p.depois ? '<img src="' + p.depois + '" alt="Depois" style="width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--border);">' : '') +
+              '</div>' +
+              '<div style="flex:1;">' +
+              '<span style="font-size:.65rem; color:var(--gold);">' + formatDate(p.date) + '</span>' +
+              '<div style="font-size:.55rem; color:var(--text-muted);">Toque para ver</div>' +
+              '</div>' +
+              '<i class="fas fa-expand-alt" style="opacity:.4; font-size:.6rem; color:var(--text-muted);"></i>' +
+              '</div>';
+          }).join('');
+          progListEl.querySelectorAll('.results-item[data-type="progress"]').forEach(function(el) {
+            el.addEventListener('click', function() {
+              openResultsProgressModal(this.getAttribute('data-id'));
+            });
+            el.addEventListener('mouseenter', function() { this.style.background = 'var(--gold-glow)'; });
+            el.addEventListener('mouseleave', function() { this.style.background = 'transparent'; });
+          });
+        }
+      }
+    }
+
+    function openResultsGoalModal(goal) {
+      goal = goal || getGoal();
+      var gProg = Math.min(100, Number(goal.progress) || 0);
+      var doneSteps = (goal.steps || []).filter(function(s) { return s.done; }).length;
+      var totalSteps = (goal.steps || []).length;
+      var stepsHtml = (goal.steps || []).map(function(s) {
+        return (s.done ? '✅ ' : '⬜ ') + s.text;
+      }).join('\n');
+      document.getElementById('rdmDate').textContent = 'Meta atual';
+      document.getElementById('rdmBadges').innerHTML = '<span>' + (goal.category || 'saude') + '</span><span>' + gProg + '%</span>';
+      document.getElementById('rdmText').textContent = (goal.name || '') + '\n\nProgresso: ' + gProg + '%\nPassos: ' + doneSteps + '/' + totalSteps + '\n\n' + stepsHtml;
+      document.getElementById('rdmImage').style.display = 'none';
+      document.getElementById('rdmMeta').innerHTML = goal.date ? '<span><i class="fas fa-calendar"></i> Prazo: ' + goal.date.split('-').reverse().join('/') + '</span>' : '';
+      document.getElementById('rdmOpenPage').onclick = function() { closeResultsDetailModal(); navigateTo('pageMeta'); };
+      document.getElementById('resultsDetailModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openResultsProgressModal(progressId) {
+      var list = getProgressHistory();
+      var entry = list.find(function(p) { return p.id === progressId; });
+      if (!entry) { showToast('Progresso não encontrado'); return; }
+      document.getElementById('rdmDate').textContent = formatDate(entry.date);
+      document.getElementById('rdmBadges').innerHTML = '<span>Comparação visual</span>';
+      document.getElementById('rdmText').textContent = 'Registro de evolução salvo em ' + formatDate(entry.date) + '.';
+      var imgBox = document.getElementById('rdmImage');
+      imgBox.style.display = 'block';
+      document.getElementById('rdmImgBefore').src = entry.antes || '';
+      document.getElementById('rdmImgAfter').src = entry.depois || '';
+      var ind = entry.indicators || {};
+      var metaParts = [];
+      if (ind.overall) metaParts.push('<span><i class="fas fa-star"></i> Aparência: ' + ind.overall + '</span>');
+      if (ind.shine) metaParts.push('<span><i class="fas fa-sun"></i> Brilho: ' + ind.shine + '</span>');
+      if (ind.definition) metaParts.push('<span><i class="fas fa-wave-square"></i> Definição: ' + ind.definition + '</span>');
+      document.getElementById('rdmMeta').innerHTML = metaParts.join(' ');
+      document.getElementById('rdmOpenPage').onclick = function() { closeResultsDetailModal(); navigateTo('pageProgresso'); };
+      document.getElementById('resultsDetailModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeResultsDetailModal() {
+      document.getElementById('resultsDetailModal').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    // Modal com LISTA de itens do Diário
+    function openResultsDiaryListModal() {
+      var diary = getDiary();
+      var procedureLabels = {
+        hidratacao: 'Hidratação', lavagem: 'Lavagem', finalizacao: 'Finalização',
+        reconstrucao: 'Reconstrução', corte: 'Corte', coloracao: 'Coloração', outro: 'Outro'
+      };
+      document.getElementById('rdmDate').textContent = 'Diário';
+      document.getElementById('rdmBadges').innerHTML = '<span>' + diary.length + ' registro(s)</span>';
+      document.getElementById('rdmImage').style.display = 'none';
+      document.getElementById('rdmMeta').innerHTML = '';
+
+      if (diary.length === 0) {
+        document.getElementById('rdmText').textContent = 'Nenhum registro ainda. Salve algo na aba Diário.';
+      } else {
+        var html = diary.slice().reverse().map(function(e) {
+          var label = e.procedure ? (procedureLabels[e.procedure] || e.procedure) : '';
+          var text = (e.text || '').substring(0, 100);
+          if ((e.text || '').length > 100) text += '…';
+          return '<div class="rdm-list-item" data-id="' + e.id + '" style="padding:10px 0; border-bottom:1px solid var(--border); cursor:pointer;">' +
+            '<div style="font-size:.6rem; color:var(--gold); margin-bottom:3px;">' + formatDate(e.date) + (label ? ' · ' + label : '') + '</div>' +
+            '<div style="font-size:.85rem; font-weight:300; line-height:1.4;">' + text.replace(/</g, '&lt;') + '</div>' +
+            '</div>';
+        }).join('');
+        document.getElementById('rdmText').innerHTML = html;
+        // Clique no item abre o modal de detalhe do diário
+        setTimeout(function() {
+          document.querySelectorAll('#rdmText .rdm-list-item').forEach(function(el) {
+            el.addEventListener('click', function() {
+              closeResultsDetailModal();
+              openDiaryModal(this.getAttribute('data-id'));
+            });
+          });
+        }, 50);
+      }
+
+      document.getElementById('rdmOpenPage').onclick = function() {
+        closeResultsDetailModal();
+        navigateTo('pageDiario');
+      };
+      document.getElementById('resultsDetailModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Modal com LISTA de itens do Progresso
+    function openResultsProgressListModal() {
+      var progress = getProgressHistory();
+      document.getElementById('rdmDate').textContent = 'Progresso';
+      document.getElementById('rdmBadges').innerHTML = '<span>' + progress.length + ' comparação(ões)</span>';
+      document.getElementById('rdmImage').style.display = 'none';
+      document.getElementById('rdmMeta').innerHTML = '';
+
+      if (progress.length === 0) {
+        document.getElementById('rdmText').textContent = 'Nenhuma comparação ainda. Salve na aba Progresso.';
+      } else {
+        var html = progress.map(function(p) {
+          return '<div class="rdm-list-item" data-id="' + p.id + '" style="display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); cursor:pointer;">' +
+            '<div style="display:flex; gap:4px; flex-shrink:0;">' +
+            (p.antes ? '<img src="' + p.antes + '" style="width:48px; height:48px; object-fit:cover; border-radius:6px; border:1px solid var(--border);">' : '') +
+            (p.depois ? '<img src="' + p.depois + '" style="width:48px; height:48px; object-fit:cover; border-radius:6px; border:1px solid var(--border);">' : '') +
+            '</div>' +
+            '<div style="flex:1;"><div style="font-size:.7rem; color:var(--gold);">' + formatDate(p.date) + '</div>' +
+            '<div style="font-size:.6rem; color:var(--text-muted);">Toque para ver completo</div></div>' +
+            '</div>';
+        }).join('');
+        document.getElementById('rdmText').innerHTML = html;
+        setTimeout(function() {
+          document.querySelectorAll('#rdmText .rdm-list-item').forEach(function(el) {
+            el.addEventListener('click', function() {
+              openResultsProgressModal(this.getAttribute('data-id'));
+            });
+          });
+        }, 50);
+      }
+
+      document.getElementById('rdmOpenPage').onclick = function() {
+        closeResultsDetailModal();
+        navigateTo('pageProgresso');
+      };
+      document.getElementById('resultsDetailModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function saveProfile() {
+      store.profile = profile;
+      saveStore();
+    }
+
+    var settingsOpen = false;
+
+    function toggleSettings() {
+      settingsOpen = !settingsOpen;
+      document.getElementById('settingsPanel').style.display = settingsOpen ? 'block' : 'none';
+    }
+
+    function openModal(id) {
+      var modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      var modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      if (!document.querySelector('.modal-overlay.is-open')) document.body.style.overflow = '';
+    }
+
+    function editProfile() {
+      document.getElementById('editName').value = profile.name;
+      document.getElementById('editEmail').value = profile.email;
+      document.getElementById('editHairType').value = profile.hairType;
+      document.getElementById('editCurvature').value = profile.curvature || 'ondulado';
+      document.getElementById('editLength').value = profile.length || 'medio';
+      document.getElementById('editPorosity').value = profile.porosity || 'media';
+      document.getElementById('editThickness').value = profile.thickness || 'media';
+      document.getElementById('editNeeds').value = profile.needs || '';
+      openModal('profileModal');
+      setTimeout(function() { document.getElementById('editName').focus(); }, 50);
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      profile.name = document.getElementById('editName').value.trim();
+      profile.email = document.getElementById('editEmail').value.trim();
+      profile.hairType = document.getElementById('editHairType').value.trim() || 'Ondulado 2C';
+      profile.curvature = document.getElementById('editCurvature').value;
+      profile.length = document.getElementById('editLength').value;
+      profile.porosity = document.getElementById('editPorosity').value;
+      profile.thickness = document.getElementById('editThickness').value;
+      profile.needs = document.getElementById('editNeeds').value.trim();
+      saveProfile();
+      updateProfileStats();
+      closeModal('profileModal');
+      showToast('Perfil atualizado!');
+    });
+
+    document.querySelectorAll('[data-close-modal]').forEach(function(button) {
+      button.addEventListener('click', function() { closeModal(this.getAttribute('data-close-modal')); });
+    });
+
+    document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+      modal.addEventListener('click', function(event) {
+        if (event.target === modal) closeModal(modal.id);
+      });
+    });
+
+    // ============================================================
+    // NOTIFICAÇÕES
+    // ============================================================
+    var notificationsEnabled = store.notifications;
+
+    function toggleNotif() {
+      notificationsEnabled = !notificationsEnabled;
+      store.notifications = notificationsEnabled;
+      saveStore();
+      var toggle = document.getElementById('notifToggle');
+      if (toggle) toggle.classList.toggle('active', notificationsEnabled);
+      showToast(notificationsEnabled ? 'Notificações ativadas' : 'Notificações desativadas');
+    }
+
+    // ============================================================
+    // DIÁRIO
+    // ============================================================
+    function getDiary() {
+      return store.diary || [];
+    }
+
+    function setDiary(data) {
+      store.diary = data;
+      saveStore();
+    }
+
+    var diaryFilter = 'all';
+
+    function renderDiary() {
+      var container = document.getElementById('diaryEntries');
+      var count = document.getElementById('diaryCount');
+      var entries = getDiary();
+
+      var filtered = entries;
+      if (diaryFilter !== 'all') {
+        filtered = entries.filter(function(e) { return e.procedure === diaryFilter; });
+      }
+
+      if (count) count.textContent = '(' + filtered.length + ')';
+      if (!container) return;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-book-open"></i></div>
+            <div class="empty-title">Nenhum registro</div>
+            <div class="empty-sub">Comece a registrar sua evolução capilar</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      filtered.slice().reverse().forEach(function(entry) {
+        var div = document.createElement('div');
+        div.className = 'diary-entry';
+        div.dataset.id = entry.id;
+
+        var procedureLabels = {
+          hidratacao: 'Hidratação',
+          lavagem: 'Lavagem',
+          finalizacao: 'Finalização',
+          reconstrucao: 'Reconstrução',
+          corte: 'Corte',
+          coloracao: 'Coloração',
+          outro: 'Outro'
+        };
+        var sensationIcons = {
+          otimo: '😍',
+          bom: '😊',
+          regular: '😐',
+          ruim: '😔'
+        };
+        var sensationLabel = entry.sensation ? sensationIcons[entry.sensation] || '' : '';
+        var procedureLabel = entry.procedure ? (procedureLabels[entry.procedure] || entry.procedure) : '';
+
+        var thumbs = '';
+        if (entry.photo) {
+          thumbs = `<img class="de-thumb" src="${entry.photo}" alt="Foto">`;
+        }
+
+        div.innerHTML = `
+          <div class="de-date">
+            <span>${formatDate(entry.date)}</span>
+            ${procedureLabel ? `<span class="de-badge">${procedureLabel}</span>` : ''}
+            ${sensationLabel ? `<span class="de-badge">${sensationLabel}</span>` : ''}
+          </div>
+          <div class="de-text">${entry.text.replace(/</g, '&lt;')}</div>
+          ${thumbs}
+          ${entry.product ? `<div class="de-meta"><span><i class="fas fa-flask"></i> ${entry.product}</span></div>` : ''}
+          <span class="de-expand"><i class="fas fa-expand-alt"></i> ver mais</span>
+          <button class="de-delete" data-id="${entry.id}" aria-label="Remover"><i class="fas fa-trash"></i></button>
+        `;
+
+        div.addEventListener('click', function(e) {
+          if (e.target.closest('.de-delete')) return;
+          openDiaryModal(entry.id);
+        });
+
+        div.querySelector('.de-delete').addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (confirm('Remover este registro?')) {
+            var list = getDiary().filter(function(e) { return e.id !== entry.id; });
+            setDiary(list);
+            renderDiary();
+            updateProfileStats();
+            showToast('Registro removido');
+          }
+        });
+
+        container.appendChild(div);
+      });
+    }
+
+    document.getElementById('diaryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var text = document.getElementById('diaryText').value.trim();
+      if (!text) { showToast('Escreva algo sobre seus fios'); return; }
+
+      var product = document.getElementById('diaryProduct').value.trim();
+      var procedure = document.getElementById('diaryProcedure').value;
+      var sensation = document.getElementById('diarySensation').value;
+      var photoInput = document.getElementById('diaryPhoto');
+
+      var photoData = null;
+      var processPhoto = function(cb) {
+        if (photoInput.files && photoInput.files[0]) {
+          compressImage(photoInput.files[0], 400, function(url) {
+            photoData = url;
+            cb();
+          });
+        } else {
+          cb();
+        }
+      };
+
+      processPhoto(function() {
+        var entries = getDiary();
+        entries.push({
+          id: Date.now().toString(36),
+          date: Date.now(),
+          text: text,
+          product: product,
+          procedure: procedure,
+          sensation: sensation,
+          photo: photoData
+        });
+        setDiary(entries);
+
+        // Interconexão Diário → Ritual
+        if (procedure) {
+          var mapProcedureToRitual = {
+            hidratacao: 'Hidratação',
+            lavagem: 'Lavagem',
+            finalizacao: 'Finalização',
+            reconstrucao: 'Reconstrução',
+            corte: 'Corte das pontas'
+          };
+          var ritualName = mapProcedureToRitual[procedure];
+          if (ritualName) {
+            var ritualList = getRitualItems();
+            var found = ritualList.find(function(i) { return i.name === ritualName && !i.done; });
+            if (found) {
+              found.done = true;
+              setRitualItems(ritualList);
+            }
+          }
+        }
+
+        document.getElementById('diaryText').value = '';
+        document.getElementById('diaryProduct').value = '';
+        document.getElementById('diaryProcedure').value = '';
+        document.getElementById('diarySensation').value = '';
+        document.getElementById('diaryPhoto').value = '';
+
+        renderDiary();
+        updateProfileStats();
+        showToast('Salvo! Abrindo na Conta…');
+        navigateTo('pageConta');
+      });
+    });
+
+    document.getElementById('diaryFilters').addEventListener('click', function(e) {
+      var chip = e.target.closest('.filter-chip');
+      if (!chip) return;
+      document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      diaryFilter = chip.dataset.filter;
+      renderDiary();
+    });
+
+    // ============================================================
+    // MODAL DO DIÁRIO
+    // ============================================================
+    function openDiaryModal(entryId) {
+      var entries = getDiary();
+      var entry = entries.find(function(e) { return e.id === entryId; });
+      if (!entry) { showToast('Registro não encontrado'); return; }
+
+      var procedureLabels = {
+        hidratacao: 'Hidratação',
+        lavagem: 'Lavagem',
+        finalizacao: 'Finalização',
+        reconstrucao: 'Reconstrução',
+        corte: 'Corte',
+        coloracao: 'Coloração',
+        outro: 'Outro'
+      };
+      var sensationIcons = {
+        otimo: '😍 Ótimo',
+        bom: '😊 Bom',
+        regular: '😐 Regular',
+        ruim: '😔 Ruim'
+      };
+
+      document.getElementById('dmhDate').textContent = formatDate(entry.date);
+
+      var badgesHtml = '';
+      if (entry.procedure && procedureLabels[entry.procedure]) {
+        badgesHtml += '<span>' + procedureLabels[entry.procedure] + '</span>';
+      }
+      if (entry.sensation && sensationIcons[entry.sensation]) {
+        badgesHtml += '<span>' + sensationIcons[entry.sensation] + '</span>';
+      }
+      document.getElementById('dmhBadges').innerHTML = badgesHtml;
+
+      document.getElementById('dmbText').textContent = entry.text;
+
+      var imgContainer = document.getElementById('dmbImage');
+      var img = document.getElementById('dmbImg');
+      if (entry.photo) {
+        img.src = entry.photo;
+        imgContainer.style.display = 'block';
+      } else {
+        imgContainer.style.display = 'none';
+        img.src = '';
+      }
+
+      var metaHtml = '';
+      if (entry.product) {
+        metaHtml += '<span><i class="fas fa-flask"></i> ' + entry.product + '</span>';
+      }
+      document.getElementById('dmbMeta').innerHTML = metaHtml;
+
+      var deleteBtn = document.getElementById('dmbDeleteBtn');
+      deleteBtn.onclick = function() {
+        if (confirm('Remover este registro?')) {
+          var list = getDiary().filter(function(e) { return e.id !== entry.id; });
+          setDiary(list);
+          closeDiaryModal();
+          renderDiary();
+          updateProfileStats();
+          showToast('Registro removido');
+        }
+      };
+
+      document.getElementById('diaryModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDiaryModal() {
+      document.getElementById('diaryModal').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('diaryModalClose').addEventListener('click', closeDiaryModal);
+    document.getElementById('dmbCloseBtn').addEventListener('click', closeDiaryModal);
+    document.getElementById('diaryModal').addEventListener('click', function(e) {
+      if (e.target === this) closeDiaryModal();
+    });
+
+    // Modal de resultados (Conta)
+    var rdmClose = document.getElementById('rdmClose');
+    var rdmCloseBtn = document.getElementById('rdmCloseBtn');
+    var rdmModal = document.getElementById('resultsDetailModal');
+    if (rdmClose) rdmClose.addEventListener('click', closeResultsDetailModal);
+    if (rdmCloseBtn) rdmCloseBtn.addEventListener('click', closeResultsDetailModal);
+    if (rdmModal) rdmModal.addEventListener('click', function(e) {
+      if (e.target === this) closeResultsDetailModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (document.getElementById('diaryModal').classList.contains('is-open')) closeDiaryModal();
+        if (document.getElementById('ritualModal').classList.contains('is-open')) closeRitualModal();
+        if (document.getElementById('resultsDetailModal') && document.getElementById('resultsDetailModal').classList.contains('is-open')) closeResultsDetailModal();
+      }
+    });
+
+    // ============================================================
+    // RITUAL
+    // ============================================================
+    function getRitualItems() {
+      return store.ritual || [];
+    }
+
+    function setRitualItems(items) {
+      store.ritual = items;
+      saveStore();
+    }
+
+    var freqOrder = { 'Diário': 0, 'Sempre': 1, 'Semanal': 2, 'Trimestral': 3, 'Mensal': 4 };
+
+    function renderRitual() {
+      var items = getRitualItems();
+
+      var groups = {};
+      items.forEach(function(item) {
+        var freq = item.freq || 'Outros';
+        if (!groups[freq]) groups[freq] = [];
+        groups[freq].push(item);
+      });
+
+      var freqKeys = Object.keys(groups).sort(function(a, b) {
+        return (freqOrder[a] || 99) - (freqOrder[b] || 99);
+      });
+
+      var total = items.length;
+      var done = items.filter(function(i) { return i.done; }).length;
+      var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('ritualBarFill').style.width = pct + '%';
+      document.getElementById('ritualPercent').textContent = pct + '%';
+
+      var containerMap = {
+        'Diário': 'ritualDailyItems',
+        'Semanal': 'ritualWeeklyItems',
+        'Mensal': 'ritualMonthlyItems',
+        'Sempre': 'ritualAlwaysItems',
+        'Trimestral': 'ritualOtherItems'
+      };
+
+      var countMap = {
+        'Diário': 'dailyCount',
+        'Semanal': 'weeklyCount',
+        'Mensal': 'monthlyCount',
+        'Sempre': 'alwaysCount',
+        'Trimestral': 'otherCount'
+      };
+
+      freqKeys.forEach(function(freq) {
+        var containerId = containerMap[freq] || 'ritualOtherItems';
+        var countId = countMap[freq] || 'otherCount';
+        var container = document.getElementById(containerId);
+        var countEl = document.getElementById(countId);
+
+        if (!container) return;
+
+        var freqItems = groups[freq] || [];
+        if (countEl) countEl.textContent = '(' + freqItems.length + ')';
+
+        container.innerHTML = '';
+        freqItems.forEach(function(item) {
+          var div = document.createElement('div');
+          div.className = 'ritual-item' + (item.done ? ' done-item' : '');
+
+          div.innerHTML = `
+            <div class="ri-check">
+              <input type="checkbox" ${item.done ? 'checked' : ''} data-id="${item.id}">
+            </div>
+            <span class="ri-icon"><i class="fas ${item.icon}"></i></span>
+            <div class="ri-info">
+              <span class="ri-name">${item.name}</span>
+              <span class="ri-freq">${item.freq}</span>
+            </div>
+            <span class="ri-status ${item.done ? 'done' : 'pending'}">${item.done ? 'feito' : 'pendente'}</span>
+            <button class="ri-action-btn" data-id="${item.id}" data-action="view">
+              <span class="btn-icon"><i class="fas fa-eye"></i></span> Ver item
+            </button>
+          `;
+
+          div.querySelector('input[type="checkbox"]').addEventListener('change', function() {
+            var list = getRitualItems();
+            var found = list.find(function(i) { return i.id === item.id; });
+            if (found) {
+              found.done = this.checked;
+              setRitualItems(list);
+              if (found.done) {
+                var g = getGoal();
+                var p = Math.min(100, Number(g.progress) || 0);
+                if (p < 100) {
+                  g.progress = Math.min(100, p + 3);
+                  setGoal(g);
+                }
+              }
+              renderRitual();
+              updateProfileStats();
+              showToast(found.done ? '✅ ' + found.name + ' concluído!' : '↩️ ' + found.name + ' pendente');
+            }
+          });
+
+          div.querySelector('.ri-action-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openRitualModal(item.id);
+          });
+
+          container.appendChild(div);
+        });
+      });
+
+      // Tip interligado: Meta + Perfil Capilar
+      var goal = getGoal();
+      var tipEl = document.getElementById('ritualTip');
+      var tipText = document.getElementById('ritualTipText');
+      tipEl.style.display = 'flex';
+
+      var actionsByGoal = {
+        'crescer': 'Fazer umectação e evitar químicas agressivas.',
+        'recuperar': 'Fazer hidratação e reconstrução.',
+        'definir': 'Finalizar com creme e gelatina.',
+        'volume': 'Usar mousse e secar com difusor.',
+        'frizz': 'Aplicar óleo e usar leave-in.',
+        'cor': 'Usar produtos específicos para coloração.',
+        'saude': 'Manter o cronograma capilar em dia.',
+        'outro': 'Seguir a rotina planejada.'
+      };
+
+      var needs = (profile.needs || '').toLowerCase();
+      var tipFromNeeds = '';
+      if (needs.indexOf('hidrata') >= 0) tipFromNeeds = 'Priorize hidratação hoje.';
+      else if (needs.indexOf('defini') >= 0) tipFromNeeds = 'Foque na finalização e definição.';
+      else if (needs.indexOf('reconstr') >= 0 || needs.indexOf('força') >= 0) tipFromNeeds = 'Faça reconstrução para fortalecer.';
+      else if (needs.indexOf('frizz') >= 0) tipFromNeeds = 'Use óleo e leave-in para controlar o frizz.';
+      else if (needs.indexOf('cresc') >= 0) tipFromNeeds = 'Umectação e massagem no couro ajudam no crescimento.';
+
+      if (goal.name && goal.name !== 'Deixar o cabelo mais saudável') {
+        tipText.textContent = actionsByGoal[goal.category] || tipFromNeeds || 'Seguir a rotina planejada.';
+      } else if (tipFromNeeds) {
+        tipText.textContent = tipFromNeeds;
+      } else {
+        tipText.textContent = 'Complete os itens do ritual para avançar na sua evolução.';
+      }
+    }
+
+    // ============================================================
+    // MODAL DO RITUAL
+    // ============================================================
+    var currentRitualItemId = null;
+
+    function openRitualModal(itemId) {
+      var items = getRitualItems();
+      var item = items.find(function(i) { return i.id === itemId; });
+      if (!item) { showToast('Item não encontrado'); return; }
+
+      currentRitualItemId = itemId;
+
+      document.getElementById('rmhIcon').innerHTML = '<i class="fas ' + item.icon + '"></i>';
+      document.getElementById('rmhTitle').textContent = item.name;
+      document.getElementById('rmhFreq').textContent = item.freq;
+      document.getElementById('rmbDesc').textContent = item.desc || 'Descrição não disponível.';
+
+      var dicasContainer = document.getElementById('rmbDicas');
+      if (item.dicas && item.dicas.length > 0) {
+        dicasContainer.innerHTML = item.dicas.map(function(dica) {
+          return '<div class="rmb-dica"><i class="fas fa-lightbulb"></i> ' + dica + '</div>';
+        }).join('');
+      } else {
+        dicasContainer.innerHTML = '<div class="rmb-dica"><i class="fas fa-lightbulb"></i> Mantenha este cuidado em dia para melhores resultados.</div>';
+      }
+
+      var toggleBtn = document.getElementById('rmbToggleBtn');
+      toggleBtn.innerHTML = item.done ? '<i class="fas fa-undo"></i> Marcar como pendente' : '<i class="fas fa-check"></i> Marcar como feito';
+      toggleBtn.onclick = function() {
+        var list = getRitualItems();
+        var found = list.find(function(i) { return i.id === item.id; });
+        if (found) {
+          found.done = !found.done;
+          setRitualItems(list);
+          if (found.done) {
+            var g = getGoal();
+            var p = Math.min(100, Number(g.progress) || 0);
+            if (p < 100) {
+              g.progress = Math.min(100, p + 3);
+              setGoal(g);
+            }
+          }
+          renderRitual();
+          updateProfileStats();
+          closeRitualModal();
+          showToast(found.done ? '✅ ' + found.name + ' concluído!' : '↩️ ' + found.name + ' pendente');
+        }
+      };
+
+      document.getElementById('ritualModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRitualModal() {
+      document.getElementById('ritualModal').classList.remove('is-open');
+      document.body.style.overflow = '';
+      currentRitualItemId = null;
+    }
+
+    document.getElementById('ritualModalClose').addEventListener('click', closeRitualModal);
+    document.getElementById('rmbCloseBtn').addEventListener('click', closeRitualModal);
+    document.getElementById('ritualModal').addEventListener('click', function(e) {
+      if (e.target === this) closeRitualModal();
+    });
+
+    function resetRitual() {
+      if (confirm('Resetar todos os itens do ritual?')) {
+        var items = getRitualItems();
+        items.forEach(function(i) { i.done = false; });
+        setRitualItems(items);
+        renderRitual();
+        updateProfileStats();
+        showToast('Ritual resetado');
+      }
+    }
+
+    // ============================================================
+    // PROGRESSO
+    // ============================================================
+    var progressState = {
+      antes: null,
+      depois: null
+    };
+
+    function getProgressHistory() {
+      return store.progress || [];
+    }
+
+    function setProgressHistory(data) {
+      store.progress = data;
+      saveStore();
+    }
+
+    var uploadAntes = document.getElementById('uploadAntes');
+    var uploadDepois = document.getElementById('uploadDepois');
+    var inputAntes = document.getElementById('inputAntes');
+    var inputDepois = document.getElementById('inputDepois');
+    var removeAntes = document.getElementById('removeAntes');
+    var removeDepois = document.getElementById('removeDepois');
+
+    function handleUpload(file, type) {
+      if (!file || !file.type.match(/^image\//)) {
+        showToast('Selecione uma imagem válida');
+        return;
+      }
+
+      compressImage(file, 600, function(dataUrl) {
+        if (type === 'antes') {
+          progressState.antes = dataUrl;
+          updateUploadUI('antes', dataUrl);
+        } else {
+          progressState.depois = dataUrl;
+          updateUploadUI('depois', dataUrl);
+        }
+        updateComparator();
+        updateSaveButton();
+        updateIndicators();
+      });
+    }
+
+    function updateUploadUI(type, dataUrl) {
+      var box = type === 'antes' ? uploadAntes : uploadDepois;
+      var icon = type === 'antes' ? document.getElementById('antesIcon') : document.getElementById('depoisIcon');
+      var label = type === 'antes' ? document.getElementById('antesLabel') : document.getElementById('depoisLabel');
+      var removeBtn = type === 'antes' ? removeAntes : removeDepois;
+
+      box.classList.add('has-image');
+      icon.style.display = 'none';
+      label.style.display = 'none';
+
+      var oldImg = box.querySelector('img');
+      if (oldImg) oldImg.remove();
+
+      var img = document.createElement('img');
+      img.src = dataUrl;
+      img.alt = type === 'antes' ? 'Antes' : 'Depois';
+      box.appendChild(img);
+
+      removeBtn.style.display = 'flex';
+    }
+
+    function resetUploadUI(type) {
+      var box = type === 'antes' ? uploadAntes : uploadDepois;
+      var icon = type === 'antes' ? document.getElementById('antesIcon') : document.getElementById('depoisIcon');
+      var label = type === 'antes' ? document.getElementById('antesLabel') : document.getElementById('depoisLabel');
+      var removeBtn = type === 'antes' ? removeAntes : removeDepois;
+      var input = type === 'antes' ? inputAntes : inputDepois;
+
+      box.classList.remove('has-image');
+      icon.style.display = 'block';
+      label.style.display = 'block';
+      removeBtn.style.display = 'none';
+
+      var oldImg = box.querySelector('img');
+      if (oldImg) oldImg.remove();
+
+      input.value = '';
+    }
+
+    function removeUpload(type) {
+      if (type === 'antes') {
+        progressState.antes = null;
+        resetUploadUI('antes');
+      } else {
+        progressState.depois = null;
+        resetUploadUI('depois');
+      }
+      updateComparator();
+      updateSaveButton();
+      updateIndicators();
+    }
+
+    uploadAntes.addEventListener('click', function() { inputAntes.click(); });
+    uploadDepois.addEventListener('click', function() { inputDepois.click(); });
+
+    inputAntes.addEventListener('change', function() {
+      if (this.files && this.files[0]) handleUpload(this.files[0], 'antes');
+      this.value = '';
+    });
+
+    inputDepois.addEventListener('change', function() {
+      if (this.files && this.files[0]) handleUpload(this.files[0], 'depois');
+      this.value = '';
+    });
+
+    removeAntes.addEventListener('click', function(e) {
+      e.stopPropagation();
+      removeUpload('antes');
+    });
+
+    removeDepois.addEventListener('click', function(e) {
+      e.stopPropagation();
+      removeUpload('depois');
+    });
+
+    function updateComparator() {
+      var hasBoth = progressState.antes && progressState.depois;
+
+      document.getElementById('comparatorEmpty').style.display = hasBoth ? 'none' : 'flex';
+      document.getElementById('comparatorActive').style.display = hasBoth ? 'block' : 'none';
+
+      if (hasBoth) {
+        document.getElementById('imgBefore').src = progressState.antes;
+        document.getElementById('imgAfter').src = progressState.depois;
+        setComparatorPosition(50);
+      }
+    }
+
+    function setComparatorPosition(percent) {
+      var pos = Math.max(0, Math.min(100, percent));
+      document.getElementById('beforeContainer').style.width = pos + '%';
+      document.getElementById('comparatorDivider').style.left = pos + '%';
+      document.getElementById('comparatorHandle').style.left = pos + '%';
+    }
+
+    var isDraggingComp = false;
+
+    document.getElementById('comparatorActive').addEventListener('pointerdown', function(e) {
+      if (!progressState.antes || !progressState.depois) return;
+      isDraggingComp = true;
+      this.setPointerCapture(e.pointerId);
+      var rect = this.getBoundingClientRect();
+      if (rect.width) {
+        var pos = ((e.clientX - rect.left) / rect.width) * 100;
+        setComparatorPosition(pos);
+      }
+    });
+
+    document.addEventListener('pointermove', function(e) {
+      if (!isDraggingComp) return;
+      var rect = document.getElementById('comparatorActive').getBoundingClientRect();
+      if (rect.width) {
+        var pos = ((e.clientX - rect.left) / rect.width) * 100;
+        setComparatorPosition(pos);
+      }
+    });
+
+    document.addEventListener('pointerup', function() { isDraggingComp = false; });
+
+    document.getElementById('comparatorActive').addEventListener('keydown', function(e) {
+      if (!progressState.antes || !progressState.depois) return;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        var current = parseFloat(document.getElementById('beforeContainer').style.width) || 50;
+        var delta = e.key === 'ArrowRight' ? 5 : -5;
+        setComparatorPosition(current + delta);
+      }
+    });
+
+    function updateSaveButton() {
+      document.getElementById('btnSaveProgress').disabled = !(progressState.antes && progressState.depois);
+    }
+
+    function updateIndicators() {
+      var hasBoth = progressState.antes && progressState.depois;
+      document.getElementById('progressIndicators').style.display = hasBoth ? 'grid' : 'none';
+      if (hasBoth) {
+        var values = ['Baixo', 'Médio', 'Alto'];
+        document.getElementById('piLength').textContent = values[Math.floor(Math.random() * 3)];
+        document.getElementById('piShine').textContent = values[Math.floor(Math.random() * 3)];
+        document.getElementById('piDefinition').textContent = values[Math.floor(Math.random() * 3)];
+        document.getElementById('piFrizz').textContent = values[Math.floor(Math.random() * 3)];
+        document.getElementById('piVolume').textContent = values[Math.floor(Math.random() * 3)];
+        document.getElementById('piOverall').textContent = values[Math.floor(Math.random() * 3)];
+      }
+    }
+
+    document.getElementById('btnSaveProgress').addEventListener('click', function() {
+      if (!progressState.antes || !progressState.depois) {
+        showToast('Adicione as duas imagens');
+        return;
+      }
+
+      var history = getProgressHistory();
+      history.unshift({
+        id: Date.now().toString(36),
+        date: Date.now(),
+        antes: progressState.antes,
+        depois: progressState.depois,
+        indicators: {
+          length: document.getElementById('piLength').textContent,
+          shine: document.getElementById('piShine').textContent,
+          definition: document.getElementById('piDefinition').textContent,
+          frizz: document.getElementById('piFrizz').textContent,
+          volume: document.getElementById('piVolume').textContent,
+          overall: document.getElementById('piOverall').textContent
+        }
+      });
+      setProgressHistory(history);
+
+      // Interconexão Progresso → Meta
+      var goal = getGoal();
+      var currentProg = Math.min(100, Number(goal.progress) || 0);
+      if (currentProg < 100) {
+        goal.progress = Math.min(100, currentProg + 10);
+        if (goal.steps) {
+          goal.steps.forEach(function(s) {
+            if (s.text && s.text.toLowerCase().indexOf('registrar') >= 0) s.done = true;
+          });
+        }
+        setGoal(goal);
+      }
+
+      progressState.antes = null;
+      progressState.depois = null;
+      resetUploadUI('antes');
+      resetUploadUI('depois');
+      updateComparator();
+      updateSaveButton();
+      document.getElementById('progressIndicators').style.display = 'none';
+      renderProgressHistory();
+      updateProfileStats();
+      showToast('Salvo! Abrindo na Conta…');
+      navigateTo('pageConta');
+    });
+
+    function renderProgressHistory() {
+      var container = document.getElementById('progressHistoryGrid');
+      var count = document.getElementById('progressCount');
+      var history = getProgressHistory();
+
+      if (count) count.textContent = '(' + history.length + ')';
+      if (!container) return;
+
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-icon"><i class="fas fa-history"></i></div>
+            <div class="empty-title">Nenhum progresso ainda</div>
+            <div class="empty-sub">Salve sua primeira comparação visual</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      history.forEach(function(entry) {
+        var item = document.createElement('div');
+        item.className = 'progress-history-item';
+
+        var compare = document.createElement('div');
+        compare.className = 'ph-compare';
+        compare.setAttribute('role', 'slider');
+        compare.setAttribute('tabindex', '0');
+
+        var imgAfter = document.createElement('img');
+        imgAfter.src = entry.depois;
+        imgAfter.alt = 'Depois';
+        compare.appendChild(imgAfter);
+
+        var beforeContainer = document.createElement('div');
+        beforeContainer.className = 'ph-before';
+        beforeContainer.style.width = '50%';
+        var imgBefore = document.createElement('img');
+        imgBefore.src = entry.antes;
+        imgBefore.alt = 'Antes';
+        beforeContainer.appendChild(imgBefore);
+        compare.appendChild(beforeContainer);
+
+        var divider = document.createElement('div');
+        divider.className = 'ph-divider';
+        divider.style.left = '50%';
+        compare.appendChild(divider);
+
+        var handle = document.createElement('div');
+        handle.className = 'ph-handle';
+        handle.innerHTML = '<i class="fas fa-arrows-left-right"></i>';
+        handle.style.left = '50%';
+        compare.appendChild(handle);
+
+        var isDraggingHist = false;
+        compare.addEventListener('pointerdown', function(e) {
+          isDraggingHist = true;
+          compare.setPointerCapture(e.pointerId);
+          var rect = compare.getBoundingClientRect();
+          if (rect.width) {
+            var pos = ((e.clientX - rect.left) / rect.width) * 100;
+            pos = Math.max(0, Math.min(100, pos));
+            beforeContainer.style.width = pos + '%';
+            divider.style.left = pos + '%';
+            handle.style.left = pos + '%';
+          }
+        });
+        document.addEventListener('pointermove', function(e) {
+          if (!isDraggingHist) return;
+          var rect = compare.getBoundingClientRect();
+          if (rect.width) {
+            var pos = ((e.clientX - rect.left) / rect.width) * 100;
+            pos = Math.max(0, Math.min(100, pos));
+            beforeContainer.style.width = pos + '%';
+            divider.style.left = pos + '%';
+            handle.style.left = pos + '%';
+          }
+        });
+        document.addEventListener('pointerup', function() { isDraggingHist = false; });
+
+        compare.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            var current = parseFloat(beforeContainer.style.width) || 50;
+            var delta = e.key === 'ArrowRight' ? 5 : -5;
+            var pos = Math.max(0, Math.min(100, current + delta));
+            beforeContainer.style.width = pos + '%';
+            divider.style.left = pos + '%';
+            handle.style.left = pos + '%';
+          }
+        });
+
+        item.appendChild(compare);
+
+        var meta = document.createElement('div');
+        meta.className = 'ph-meta';
+        var date = document.createElement('span');
+        date.className = 'ph-date';
+        date.textContent = formatDate(entry.date);
+        var del = document.createElement('button');
+        del.className = 'ph-delete';
+        del.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        del.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (confirm('Remover este progresso?')) {
+            var list = getProgressHistory().filter(function(h) { return h.id !== entry.id; });
+            setProgressHistory(list);
+            renderProgressHistory();
+            updateProfileStats();
+            showToast('Removido');
+          }
+        });
+        meta.appendChild(date);
+        meta.appendChild(del);
+        item.appendChild(meta);
+
+        container.appendChild(item);
+      });
+    }
+
+    // ============================================================
+    // METAS
+    // ============================================================
+    var defaultGoal = defaultGoalData;
+
+    function getGoal() {
+      return store.goal || Object.assign({}, defaultGoalData);
+    }
+
+    function setGoal(goal) {
+      store.goal = goal;
+      saveStore();
+    }
+
+    function renderGoal() {
+      var goal = getGoal();
+      var title = document.getElementById('goalTitle');
+      var fill = document.getElementById('goalProgressFill');
+      var progressText = document.getElementById('goalProgressText');
+      var deadline = document.getElementById('goalDeadline');
+      var nameInput = document.getElementById('goalName');
+      var progressInput = document.getElementById('goalProgress');
+      var dateInput = document.getElementById('goalDate');
+      var catInput = document.getElementById('goalCategory');
+
+      var progress = Math.min(100, Math.max(0, Number(goal.progress) || 0));
+      var doneSteps = (goal.steps || []).filter(function(s) { return s.done; }).length;
+      var totalSteps = (goal.steps || []).length;
+      var stepProgress = totalSteps > 0 ? Math.round((doneSteps / totalSteps) * 100) : 0;
+
+      if (title) title.textContent = goal.name || defaultGoal.name;
+      if (fill) fill.style.width = Math.max(progress, stepProgress) + '%';
+      if (progressText) progressText.textContent = Math.max(progress, stepProgress) + '% concluído';
+      if (deadline) deadline.textContent = goal.date ? 'Prazo: ' + goal.date.split('-').reverse().join('/') : 'Sem prazo definido';
+
+      if (nameInput) nameInput.value = goal.name || defaultGoal.name;
+      if (progressInput) progressInput.value = progress;
+      if (dateInput) dateInput.value = goal.date || '';
+      if (catInput) catInput.value = goal.category || 'saude';
+
+      var stepsContainer = document.getElementById('goalSteps');
+      if (stepsContainer) {
+        var stepsHtml = '';
+        (goal.steps || defaultGoal.steps).forEach(function(step) {
+          stepsHtml += `
+            <div class="goal-step" data-step-id="${step.id}">
+              <div class="gs-check ${step.done ? 'done' : ''}" onclick="toggleGoalStep('${step.id}')">
+                ${step.done ? '<i class="fas fa-check" style="font-size:.6rem;"></i>' : ''}
+              </div>
+              <span class="gs-text ${step.done ? 'done' : ''}">${step.text}</span>
+              <button class="gs-add" onclick="removeGoalStep('${step.id}')"><i class="fas fa-times" style="font-size:.6rem;"></i></button>
+            </div>
+          `;
+        });
+        stepsHtml += `<button class="btn-outline btn-sm" style="margin-top:4px;" onclick="addGoalStep()"><i class="fas fa-plus"></i> Adicionar passo</button>`;
+        stepsContainer.innerHTML = stepsHtml;
+      }
+    }
+
+    function toggleGoalStep(stepId) {
+      var goal = getGoal();
+      var steps = goal.steps || defaultGoal.steps;
+      var step = steps.find(function(s) { return s.id === stepId; });
+      if (step) {
+        step.done = !step.done;
+        goal.steps = steps;
+        setGoal(goal);
+        renderGoal();
+        updateProfileStats();
+        updateRitualTip();
+      }
+    }
+
+    function removeGoalStep(stepId) {
+      var goal = getGoal();
+      var steps = (goal.steps || defaultGoal.steps).filter(function(s) { return s.id !== stepId; });
+      goal.steps = steps;
+      setGoal(goal);
+      renderGoal();
+    }
+
+    function addGoalStep() {
+      var text = prompt('Nome do passo:');
+      if (text && text.trim()) {
+        var goal = getGoal();
+        var steps = goal.steps || defaultGoal.steps;
+        steps.push({
+          id: 's' + Date.now().toString(36),
+          text: text.trim(),
+          done: false
+        });
+        goal.steps = steps;
+        setGoal(goal);
+        renderGoal();
+        updateProfileStats();
+      }
+    }
+
+    function updateRitualTip() {
+      if (currentPage === 'pageRitual') renderRitual();
+    }
+
+    function clearGoal() {
+      if (confirm('Limpar a meta atual?')) {
+        setGoal(defaultGoal);
+        renderGoal();
+        updateProfileStats();
+        showToast('Meta restaurada');
+      }
+    }
+
+    document.getElementById('goalForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var progress = Math.min(100, Math.max(0, Number(document.getElementById('goalProgress').value) || 0));
+      var goal = getGoal();
+      goal.name = document.getElementById('goalName').value.trim() || defaultGoal.name;
+      goal.progress = progress;
+      goal.date = document.getElementById('goalDate').value;
+      goal.category = document.getElementById('goalCategory').value;
+      setGoal(goal);
+      renderGoal();
+      updateProfileStats();
+      updateRitualTip();
+      showToast('Meta salva! Abrindo na Conta…');
+      navigateTo('pageConta');
+    });
+
+    // ============================================================
+    // EXPORTAR / LIMPAR
+    // ============================================================
+    function exportData() {
+      var data = Object.assign({}, store, { exportedAt: new Date().toISOString() });
+      var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'hairos_data_' + new Date().toISOString().slice(0, 10) + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Dados exportados!');
+    }
+
+    function clearAllData() {
+      if (confirm('Tem certeza que deseja excluir TODOS os dados? Esta ação não pode ser desfeita.')) {
+        if (prompt('Digite "SIM" para confirmar') === 'SIM') {
+          store.diary = [];
+          store.progress = [];
+          store.goal = Object.assign({}, defaultGoalData);
+          store.ritual = JSON.parse(JSON.stringify(defaultRitualItems));
+          saveStore();
+          showToast('Todos os dados foram removidos');
+          renderDiary();
+          renderProgressHistory();
+          renderGoal();
+          renderRitual();
+          updateProfileStats();
+        }
+      }
+    }
+
+    // ============================================================
+    // UTILITÁRIOS
+    // ============================================================
+    function formatDate(ts) {
+      var d = new Date(ts);
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    // ============================================================
+    // SCROLL
+    // ============================================================
+    (function() {
+      var footer = document.getElementById('footerNav');
+      var lastY = window.scrollY;
+      var ticking = false;
+
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var currentY = window.scrollY;
+            var delta = currentY - lastY;
+            if (Math.abs(delta) > 4) {
+              if (delta > 0 && currentY > 60) {
+                footer && footer.classList.add('hide');
+              } else {
+                footer && footer.classList.remove('hide');
+              }
+              lastY = currentY;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    function init() {
+      updateProfileStats();
+      renderGoal();
+      renderDiary();
+      renderProgressHistory();
+      renderRitual();
+      updateSaveButton();
+      updateComparator();
+
+      var themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        if (getTheme() === 'dark') themeToggle.classList.remove('active');
+        else themeToggle.classList.add('active');
+      }
+
+      var notifToggle = document.getElementById('notifToggle');
+      if (notifToggle) {
+        if (notificationsEnabled) notifToggle.classList.add('active');
+        else notifToggle.classList.remove('active');
+      }
+
+      navigateTo('pageConta');
+
+      console.log('✅ HairOS · Sistema de Evolução Capilar');
+      console.log('📋 5 páginas: Conta, Diário, Ritual, Progresso, Metas');
+      console.log('📖 Lista completa do ritual com "Ver item"');
+      console.log('🔄 Ciclo: META → RITUAL → DIÁRIO → PROGRESSO → META');
+      console.log('🔗 Link para vitrine no header');
+      console.log('🗑️ Botão "Editar perfil capilar" removido (duplicado)');
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+
+</body>
+</html>
