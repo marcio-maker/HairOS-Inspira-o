@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
-  <!-- ===== SEO COMPLETO ===== -->
   <title>HairOS · Vitrine de Inspirações Capilares</title>
   <meta name="description"
     content="HairOS - A maior vitrine digital de inspirações capilares. Descubra 62 estilos entre cortes, colorações, produtos e kits profissionais para cabelo.">
@@ -15,7 +14,6 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://hairos.com.br">
 
-  <!-- ===== OPEN GRAPH ===== -->
   <meta property="og:title" content="HairOS · Vitrine de Inspirações Capilares">
   <meta property="og:description"
     content="Descubra 62 estilos entre cortes, colorações, produtos e kits profissionais. Inspire-se e transforme seu cabelo!">
@@ -27,33 +25,28 @@
   <meta property="og:site_name" content="HairOS">
   <meta property="og:locale" content="pt_BR">
 
-  <!-- ===== TWITTER CARD ===== -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HairOS · Vitrine de Inspirações Capilares">
   <meta name="twitter:description"
     content="60 estilos entre cortes, colorações, produtos e kits profissionais. Inspire-se!">
   <meta name="twitter:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
 
-  <!-- ===== FAVICON ===== -->
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif'>H</text></svg>">
   <link rel="apple-touch-icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif'>H</text></svg>">
 
-  <!-- ===== FONTES ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
 
-  <!-- ===== PWA MANIFEST ===== -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0a0808">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- ===== JSON-LD PARA SEO ===== -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -94,7 +87,6 @@
       --focus-ring: 0 0 0 3px rgba(201, 169, 110, 0.5);
     }
 
-    /* ===== TEMA CLARO ===== */
     [data-theme="light"] {
       --bg: #f5f0eb;
       --bg-card: #ffffff;
@@ -128,7 +120,6 @@
       margin: 0 auto;
     }
 
-    /* ===== ANIMAÇÕES ===== */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -154,11 +145,11 @@
     .card-home {
       animation: fadeInUp 0.6s cubic-bezier(.23, 1, .32, 1) both;
     }
+
     .modal-card-item {
       animation: fadeInScale 0.5s cubic-bezier(.23, 1, .32, 1) both;
     }
 
-    /* ===== LOADING SCREEN ===== */
     .loading-screen {
       position: fixed;
       inset: 0;
@@ -170,11 +161,13 @@
       justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s ease, background var(--transition);
     }
+
     .loading-screen.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
+
     .loading-logo {
       font-family: 'Playfair Display', serif;
       font-size: 3.2rem;
@@ -186,14 +179,17 @@
       align-items: center;
       gap: 4px;
     }
+
     .loading-logo span {
       color: var(--gold);
       text-shadow: 0 0 60px var(--gold-glow);
     }
+
     .loading-logo .dot {
       color: var(--gold);
       font-size: 3rem;
     }
+
     .loading-bar {
       margin-top: 28px;
       width: min(210px, 64vw);
@@ -202,6 +198,7 @@
       border-radius: 2px;
       overflow: hidden;
     }
+
     .loading-bar-inner {
       width: 0%;
       height: 100%;
@@ -209,6 +206,7 @@
       border-radius: 2px;
       transition: width 0.3s ease;
     }
+
     .loading-text {
       margin-top: 16px;
       font-size: 0.7rem;
@@ -218,6 +216,7 @@
       font-weight: 300;
       opacity: 0.4;
     }
+
     .loading-percent {
       margin-top: 6px;
       font-size: 0.65rem;
@@ -225,17 +224,18 @@
       font-weight: 400;
       opacity: 0.6;
     }
+
     .main-content {
       opacity: 0;
       visibility: hidden;
     }
+
     .main-content.visible {
       opacity: 1;
       visibility: visible;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    /* ===== TOAST ===== */
     .toast-container {
       position: fixed;
       bottom: 100px;
@@ -248,6 +248,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .toast {
       background: rgba(10, 8, 8, .95);
       backdrop-filter: blur(12px);
@@ -265,17 +266,44 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, .6);
       white-space: nowrap;
     }
+
     [data-theme="light"] .toast {
       background: rgba(255, 255, 255, .95);
       color: var(--text);
       border-color: var(--gold);
     }
+
     .toast.show {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
 
-    /* ===== HEADER ===== */
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      padding: 16px 0 12px;
+      opacity: 0.6;
+    }
+
+    .section-title .highlight {
+      font-size: 1.2rem;
+      color: var(--text);
+      opacity: 1;
+      font-weight: 600;
+    }
+
+    .section-title span:not(.highlight) {
+      color: var(--gold);
+      opacity: 0.3;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
@@ -293,26 +321,31 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(201, 169, 110, 0.08);
       transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
     }
+
     .header.modal-open {
       opacity: 0 !important;
       transform: translateY(-100%) !important;
       pointer-events: none !important;
     }
+
     [data-theme="light"] .header {
       background: rgba(255, 252, 248, 0.85);
       border-color: rgba(184, 149, 90, 0.2);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     }
+
     .header.hide {
       transform: translateY(calc(-100% - 20px));
       opacity: 0;
       pointer-events: none;
     }
+
     .header-left {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
+
     .brand {
       font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
@@ -325,12 +358,15 @@
       gap: 8px;
       line-height: 1;
     }
+
     .brand:hover {
       opacity: .7;
     }
+
     .brand span {
       color: var(--gold);
     }
+
     .brand-sub {
       font-size: .6rem;
       letter-spacing: .15em;
@@ -340,15 +376,18 @@
       padding-left: 2px;
       opacity: 0.6;
     }
+
     .brand-sub .highlight {
       color: var(--gold);
       opacity: 1;
     }
+
     .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .header-link {
       font-size: .7rem;
       color: var(--gold);
@@ -364,17 +403,20 @@
       align-items: center;
       gap: 4px;
     }
+
     .header-link:hover,
     .header-link:focus-visible {
       background: rgba(201, 169, 110, .1);
       border-color: var(--gold);
       outline: var(--focus-ring);
     }
+
     .header-link svg {
       width: 12px;
       height: 12px;
       fill: var(--gold);
     }
+
     .pro-header-badge {
       display: inline-flex;
       align-items: center;
@@ -391,21 +433,25 @@
       white-space: nowrap;
       transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
     }
+
     .pro-header-badge::before {
       content: '◆';
       font-size: .72rem;
     }
+
     .pro-header-badge:hover {
       color: #1b1209;
       transform: translateY(-1px) scale(1.02);
       filter: brightness(1.08);
       box-shadow: 0 6px 22px rgba(201, 169, 110, .34);
     }
+
     .pro-header-badge:focus-visible {
       color: #1b1209;
       outline: var(--focus-ring);
       outline-offset: 2px;
     }
+
     .hamburger-btn {
       width: 32px;
       height: 32px;
@@ -422,12 +468,14 @@
       padding: 6px;
       flex-shrink: 0;
     }
+
     .hamburger-btn:hover,
     .hamburger-btn:focus-visible {
       border-color: var(--gold);
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
+
     .hamburger-btn .bar {
       width: 16px;
       height: 1.5px;
@@ -435,17 +483,21 @@
       border-radius: 2px;
       transition: all var(--transition);
     }
+
     .hamburger-btn .bar:nth-child(2) {
       width: 11px;
       align-self: flex-end;
     }
+
     .hamburger-btn .bar:nth-child(3) {
       width: 7px;
       align-self: flex-end;
     }
+
     .hamburger-btn:hover .bar {
       background: var(--gold);
     }
+
     .vitrine-badge {
       font-size: .7rem;
       color: var(--gold);
@@ -464,11 +516,13 @@
       transform: scale(0.9);
       pointer-events: none;
     }
+
     .vitrine-badge.visible {
       opacity: 1;
       transform: scale(1);
       pointer-events: auto;
     }
+
     .vitrine-badge:hover,
     .vitrine-badge:focus-visible {
       background: rgba(201, 169, 110, .1);
@@ -476,7 +530,6 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== MENU OVERLAY ===== */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -491,10 +544,12 @@
       align-items: flex-start;
       padding: 16px;
     }
+
     .menu-overlay.active {
       display: flex;
       animation: fadeInMenu 0.25s ease;
     }
+
     @keyframes fadeInMenu {
       from {
         opacity: 0;
@@ -503,6 +558,7 @@
         opacity: 1;
       }
     }
+
     .menu-panel {
       background: rgba(10, 8, 8, .95);
       backdrop-filter: blur(24px);
@@ -516,10 +572,12 @@
       max-height: 85vh;
       overflow-y: auto;
     }
+
     [data-theme="light"] .menu-panel {
       background: rgba(255, 252, 248, .98);
       border-color: var(--border-gold);
     }
+
     @keyframes slideMenu {
       from {
         transform: translateX(30px);
@@ -530,13 +588,16 @@
         opacity: 1;
       }
     }
+
     .menu-panel::-webkit-scrollbar {
       width: 3px;
     }
+
     .menu-panel::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 4px;
     }
+
     .menu-header {
       display: flex;
       justify-content: space-between;
@@ -545,6 +606,7 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 12px;
     }
+
     .menu-header span {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -552,6 +614,7 @@
       color: var(--text);
       letter-spacing: 2px;
     }
+
     .menu-close {
       background: transparent;
       border: none;
@@ -561,29 +624,35 @@
       padding: 4px 8px;
       transition: all var(--transition);
     }
+
     .menu-close:hover,
     .menu-close:focus-visible {
       color: var(--text);
       transform: rotate(90deg);
       outline: var(--focus-ring);
     }
+
     .menu-item {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 10px 8px;
+      min-height: 40px;
       border-radius: 8px;
       cursor: pointer;
       transition: all var(--transition);
       color: var(--text-sec);
       font-size: .85rem;
       font-weight: 400;
+      line-height: 1.2;
+      white-space: nowrap;
       border: none;
       background: transparent;
       width: 100%;
       font-family: 'Inter', sans-serif;
       text-align: left;
     }
+
     .menu-item:hover,
     .menu-item:focus-visible {
       background: var(--gold-glow);
@@ -591,12 +660,19 @@
       transform: translateX(4px);
       outline: var(--focus-ring);
     }
+
     .menu-item .icon {
       font-size: 1rem;
       width: 24px;
+      height: 24px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       flex-shrink: 0;
     }
+
     .menu-item .item-count {
       margin-left: auto;
       background: var(--gold);
@@ -608,15 +684,18 @@
       min-width: 20px;
       text-align: center;
     }
+
     .menu-item .item-count.empty {
       background: var(--border);
       color: var(--text-muted);
     }
+
     .menu-divider {
       height: 1px;
       background: var(--border);
       margin: 6px 0;
     }
+
     .menu-theme {
       display: flex;
       align-items: center;
@@ -626,6 +705,7 @@
       font-size: .8rem;
       font-weight: 300;
     }
+
     .menu-theme .theme-switch {
       background: var(--border);
       border: none;
@@ -638,6 +718,7 @@
       font-family: 'Inter', sans-serif;
       min-height: 24px;
     }
+
     .menu-theme .theme-switch:hover,
     .menu-theme .theme-switch:focus-visible {
       background: var(--gold-glow);
@@ -645,7 +726,6 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== FILTROS (SEM "Minhas") ===== */
     .filters {
       display: flex;
       gap: 8px;
@@ -656,12 +736,15 @@
       transition: all var(--transition);
       scroll-snap-type: x mandatory;
     }
+
     .filters.hidden {
       display: none !important;
     }
+
     .filters::-webkit-scrollbar {
       display: none;
     }
+
     .filter-btn {
       padding: 6px 18px;
       border-radius: 20px;
@@ -677,26 +760,29 @@
       flex-shrink: 0;
       scroll-snap-align: start;
     }
+
     .filter-btn:hover,
     .filter-btn:focus-visible {
       border-color: var(--gold);
       color: var(--text);
       outline: var(--focus-ring);
     }
+
     .filter-btn.active {
       background: var(--gold);
       color: #0a0808;
       border-color: var(--gold);
     }
+
     [data-theme="light"] .filter-btn.active {
       color: #fff;
     }
 
-    /* ===== MASONRY HOME ===== */
     .masonry-home {
       column-count: 2;
       column-gap: 12px;
     }
+
     @media (min-width: 600px) {
       body {
         padding: 0 20px 20px;
@@ -706,6 +792,7 @@
         column-gap: 16px;
       }
     }
+
     @media (min-width: 900px) {
       .masonry-home {
         column-count: 4;
@@ -713,7 +800,6 @@
       }
     }
 
-    /* ===== CARDS HOME ===== */
     .card-home {
       break-inside: avoid;
       margin-bottom: 12px;
@@ -726,6 +812,7 @@
       position: relative;
       transform: translateY(0);
     }
+
     .card-home:hover,
     .card-home:focus-within {
       border-color: rgba(201, 169, 110, .35);
@@ -733,6 +820,7 @@
       box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
       z-index: 10;
     }
+
     .card-home-img {
       width: 100%;
       display: block;
@@ -741,16 +829,20 @@
       object-fit: cover;
       object-position: center top;
     }
+
     .card-home:hover .card-home-img,
     .card-home:focus-within .card-home-img {
       transform: scale(1.06);
     }
+
     .h-md {
       height: 260px;
     }
+
     .h-lg {
       height: 320px;
     }
+
     .card-home-actions {
       position: absolute;
       top: 10px;
@@ -763,12 +855,14 @@
       transition: all var(--transition);
       pointer-events: none;
     }
+
     .card-home:hover .card-home-actions,
     .card-home:focus-within .card-home-actions {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
+
     .card-home-btn {
       width: 30px;
       height: 30px;
@@ -785,27 +879,33 @@
       transition: all var(--transition);
       font-family: 'Inter', sans-serif;
     }
+
     .card-home-btn:hover,
     .card-home-btn:focus-visible {
       transform: scale(1.15);
       border-color: rgba(255, 255, 255, .3);
       outline: var(--focus-ring);
     }
+
     .card-home-btn.favorited {
       color: #ff4757;
       background: rgba(255, 71, 87, .25);
       border-color: rgba(255, 71, 87, .3);
     }
+
     .card-home-btn.share-btn {
       color: #4ecdc4;
     }
+
     .card-home-btn.share-btn:hover {
       background: rgba(78, 205, 196, .2);
     }
+
     .card-home-btn svg {
       width: 14px;
       height: 14px;
     }
+
     .card-home-title {
       position: absolute;
       bottom: 12px;
@@ -827,6 +927,7 @@
       letter-spacing: .02em;
       pointer-events: none;
     }
+
     .card-home:hover .card-home-title,
     .card-home:focus-within .card-home-title {
       opacity: 1;
@@ -835,7 +936,6 @@
       background: rgba(10, 8, 8, .95);
     }
 
-    /* ===== COMPARADOR MINI (CARD) ===== */
     .ba-compare-mini {
       position: relative;
       width: 100%;
@@ -850,12 +950,14 @@
       isolation: isolate;
       transition: all var(--transition);
     }
+
     .ba-compare-mini:hover {
       border-color: rgba(201, 169, 110, .35);
       transform: scale(1.02);
       box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
       z-index: 10;
     }
+
     .ba-compare-mini img {
       display: block;
       width: 100%;
@@ -864,6 +966,7 @@
       object-position: center top;
       pointer-events: none;
     }
+
     .ba-compare-mini .ba-before {
       position: absolute;
       inset: 0;
@@ -872,23 +975,27 @@
       border-right: 2px solid rgba(255, 255, 255, 0.8);
       width: 50%;
     }
+
     .ba-compare-mini .ba-before img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
     }
+
     .ba-compare-mini .ba-after {
       position: absolute;
       inset: 0;
       z-index: 1;
     }
+
     .ba-compare-mini .ba-after img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
     }
+
     .ba-compare-mini .ba-handle {
       position: absolute;
       top: 50%;
@@ -909,6 +1016,7 @@
       pointer-events: none;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     }
+
     .ba-compare-mini .ba-labels {
       position: absolute;
       bottom: 8px;
@@ -920,6 +1028,7 @@
       padding: 0 8px;
       pointer-events: none;
     }
+
     .ba-compare-mini .ba-labels span {
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
@@ -931,14 +1040,131 @@
       padding: 2px 8px;
       border-radius: 10px;
     }
+
     .ba-compare-mini .ba-labels .label-before {
       background: rgba(201, 169, 110, 0.7);
     }
+
     .ba-compare-mini .ba-labels .label-after {
       background: rgba(78, 205, 196, 0.7);
     }
 
-    /* ===== MODAL ===== */
+    .zoom-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: background .4s ease, opacity .4s ease;
+      cursor: zoom-out;
+    }
+
+    .zoom-overlay.active {
+      background: rgba(0, 0, 0, .95);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .zoom-overlay .zoom-content {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      max-width: 94vw;
+      max-height: 92vh;
+      transform: scale(0.92);
+      transition: transform .4s cubic-bezier(.23, 1, .32, 1);
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .8);
+      cursor: zoom-out;
+      background: var(--bg-card);
+      padding: 6px;
+      border: 1px solid rgba(201, 169, 110, .2);
+    }
+
+    .zoom-overlay.active .zoom-content {
+      transform: scale(1);
+    }
+
+    .zoom-overlay .zoom-content .zoom-item {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .zoom-overlay .zoom-content .zoom-item img {
+      display: block;
+      max-height: 84vh;
+      width: auto;
+      max-width: 44vw;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .zoom-overlay .zoom-content .zoom-item .zoom-label {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 2px 12px;
+      border-radius: 12px;
+      font-size: 0.6rem;
+      color: #fff;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .zoom-overlay .zoom-content .zoom-item .zoom-label.before {
+      background: rgba(201, 169, 110, 0.8);
+    }
+
+    .zoom-overlay .zoom-content .zoom-item .zoom-label.after {
+      background: rgba(78, 205, 196, 0.8);
+    }
+
+    .zoom-overlay .zoom-content .zoom-divider {
+      width: 2px;
+      min-height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .zoom-overlay .zoom-content {
+        flex-direction: row !important;
+        gap: 4px;
+        padding: 4px;
+        max-width: 96vw;
+      }
+      .zoom-overlay .zoom-content .zoom-item img {
+        max-height: 70vh;
+        max-width: 42vw;
+      }
+      .zoom-overlay .zoom-content .zoom-divider {
+        width: 2px;
+        height: auto;
+        min-height: 30px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .zoom-overlay .zoom-content .zoom-item img {
+        max-height: 60vh;
+        max-width: 40vw;
+      }
+    }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -953,23 +1179,29 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
+
     .modal-overlay.open {
       background: rgba(0, 0, 0, .98);
       pointer-events: auto;
     }
+
     [data-theme="light"] .modal-overlay.open {
       background: rgba(245, 240, 235, .98);
     }
+
     .modal-overlay::-webkit-scrollbar {
       width: 4px;
     }
+
     .modal-overlay::-webkit-scrollbar-track {
       background: transparent;
     }
+
     .modal-overlay::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 10px;
     }
+
     .modal-card {
       position: relative;
       width: 100%;
@@ -987,13 +1219,16 @@
       padding: 0 16px;
       padding-top: 20px;
     }
+
     [data-theme="light"] .modal-card {
       background: var(--bg);
     }
+
     .modal-overlay.open .modal-card {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
+
     .modal-hero {
       position: relative;
       width: 100%;
@@ -1009,6 +1244,7 @@
       margin-top: 0px;
       margin-bottom: 20px;
     }
+
     @media (min-width: 600px) {
       .modal-hero {
         max-width: 420px;
@@ -1016,6 +1252,7 @@
         min-height: 420px;
       }
     }
+
     @media (min-width: 900px) {
       .modal-hero {
         max-width: 460px;
@@ -1023,6 +1260,7 @@
         min-height: 440px;
       }
     }
+
     .modal-hero-img {
       width: 100%;
       height: 100%;
@@ -1032,9 +1270,11 @@
       transition: opacity .4s ease;
       cursor: zoom-in;
     }
+
     .modal-hero-img.loading {
       opacity: 0;
     }
+
     .modal-hero-overlay {
       position: absolute;
       inset: 0;
@@ -1044,10 +1284,12 @@
       opacity: 0;
       transition: opacity var(--transition);
     }
+
     .modal-hero:hover .modal-hero-overlay,
     .modal-hero:focus-within .modal-hero-overlay {
       opacity: 1;
     }
+
     .modal-hero-side-left {
       position: absolute;
       left: 12px;
@@ -1061,10 +1303,12 @@
       opacity: 0;
       transition: all var(--transition);
     }
+
     .modal-hero:hover .modal-hero-side-left,
     .modal-hero:focus-within .modal-hero-side-left {
       opacity: 1;
     }
+
     .modal-hero-side-left .side-label {
       font-size: .5rem;
       text-transform: uppercase;
@@ -1074,6 +1318,7 @@
       writing-mode: vertical-rl;
       font-weight: 300;
     }
+
     .modal-hero-side-left .side-year {
       font-size: .5rem;
       font-weight: 300;
@@ -1082,6 +1327,7 @@
       writing-mode: vertical-rl;
       letter-spacing: .1em;
     }
+
     .modal-hero-side-right {
       position: absolute;
       right: 12px;
@@ -1095,11 +1341,13 @@
       opacity: 0;
       transition: all var(--transition);
     }
+
     .modal-hero:hover .modal-hero-side-right,
     .modal-hero:focus-within .modal-hero-side-right {
       opacity: 1;
       pointer-events: all;
     }
+
     .modal-hero-side-btn {
       width: 34px;
       height: 34px;
@@ -1115,27 +1363,33 @@
       transition: all var(--transition);
       font-size: 1rem;
     }
+
     .modal-hero-side-btn:hover,
     .modal-hero-side-btn:focus-visible {
       transform: scale(1.1);
       border-color: rgba(255, 255, 255, .3);
       outline: var(--focus-ring);
     }
+
     .modal-hero-side-btn.favorited {
       color: #ff4757;
       background: rgba(255, 71, 87, .2);
       border-color: rgba(255, 71, 87, .3);
     }
+
     .modal-hero-side-btn.share-btn {
       color: #4ecdc4;
     }
+
     .modal-hero-side-btn.share-btn:hover {
       background: rgba(78, 205, 196, .2);
     }
+
     .modal-hero-side-btn svg {
       width: 16px;
       height: 16px;
     }
+
     .modal-hero-info {
       position: absolute;
       bottom: 16px;
@@ -1148,11 +1402,13 @@
       opacity: 0;
       transition: all var(--transition);
     }
+
     .modal-hero:hover .modal-hero-info,
     .modal-hero:focus-within .modal-hero-info {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
     .modal-hero-info .hero-categoria {
       display: inline-block;
       font-size: .55rem;
@@ -1167,6 +1423,7 @@
       margin-bottom: 6px;
       font-weight: 600;
     }
+
     .modal-hero-info .hero-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1176,6 +1433,7 @@
       line-height: 1.1;
       text-shadow: 0 4px 20px rgba(0, 0, 0, .5);
     }
+
     .modal-hero-info .hero-sub {
       font-size: .8rem;
       color: var(--text-sec);
@@ -1183,6 +1441,7 @@
       font-weight: 300;
       text-shadow: 0 2px 10px rgba(0, 0, 0, .4);
     }
+
     .modal-close-btn {
       position: fixed;
       top: 16px;
@@ -1206,10 +1465,12 @@
       opacity: 0;
       transform: scale(0.8);
     }
+
     .modal-overlay.open .modal-close-btn {
       opacity: 1;
       transform: scale(1);
     }
+
     .modal-close-btn:hover,
     .modal-close-btn:focus-visible {
       background: #ff4757;
@@ -1217,6 +1478,7 @@
       transform: scale(1.08);
       outline: var(--focus-ring);
     }
+
     .modal-toggle-btn {
       position: absolute;
       bottom: 70px;
@@ -1239,12 +1501,14 @@
       pointer-events: none;
       opacity: 0;
     }
+
     .modal-hero:hover .modal-toggle-btn,
     .modal-hero:focus-within .modal-toggle-btn {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: all;
     }
+
     .modal-toggle-btn:hover,
     .modal-toggle-btn:focus-visible {
       background: var(--gold);
@@ -1252,11 +1516,13 @@
       transform: translateX(-50%) scale(1.05);
       outline: var(--focus-ring);
     }
+
     .modal-toggle-btn.hidden {
       opacity: 0;
       pointer-events: none;
       transform: translateX(-50%) translateY(20px);
     }
+
     .modal-content {
       padding: 0 0 40px;
       flex: 1;
@@ -1264,6 +1530,7 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
     .modal-section-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1274,22 +1541,26 @@
       opacity: .7;
       letter-spacing: 2px;
     }
+
     .modal-masonry {
       column-count: 2;
       column-gap: 12px;
     }
+
     @media (min-width: 600px) {
       .modal-masonry {
         column-count: 3;
         column-gap: 16px;
       }
     }
+
     @media (min-width: 900px) {
       .modal-masonry {
         column-count: 4;
         column-gap: 18px;
       }
     }
+
     .modal-card-item {
       break-inside: avoid;
       margin-bottom: 12px;
@@ -1301,12 +1572,14 @@
       transition: all var(--transition);
       position: relative;
     }
+
     .modal-card-item:hover,
     .modal-card-item:focus-within {
       border-color: rgba(201, 169, 110, .3);
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
     }
+
     .modal-card-item img {
       width: 100%;
       display: block;
@@ -1314,19 +1587,24 @@
       object-fit: cover;
       object-position: center top;
     }
+
     .modal-card-item:hover img,
     .modal-card-item:focus-within img {
       transform: scale(1.04);
     }
+
     .modal-card-item .h-md {
       height: 220px;
     }
+
     .modal-card-item .h-lg {
       height: 280px;
     }
+
     .modal-card-item .h-xl {
       height: 340px;
     }
+
     .modal-card-item .item-label {
       position: absolute;
       bottom: 8px;
@@ -1344,12 +1622,12 @@
       font-weight: 400;
       letter-spacing: .02em;
     }
+
     .modal-card-item:hover .item-label,
     .modal-card-item:focus-within .item-label {
       opacity: 1;
     }
 
-    /* ===== SHEET ===== */
     .modal-sheet {
       position: fixed;
       bottom: 0;
@@ -1374,17 +1652,21 @@
       touch-action: none;
       box-shadow: 0 -10px 40px rgba(0, 0, 0, .8);
     }
+
     [data-theme="light"] .modal-sheet {
       background: rgba(255, 252, 248, .98);
       border-top-color: var(--border-gold);
     }
+
     .modal-sheet.show {
       transform: translateY(0);
     }
+
     .modal-sheet.full {
       height: 90%;
       border-radius: 0;
     }
+
     .sheet-handle {
       width: 40px;
       height: 4px;
@@ -1397,15 +1679,19 @@
       -webkit-user-select: none;
       transition: background .3s;
     }
+
     [data-theme="light"] .sheet-handle {
       background: rgba(0, 0, 0, .15);
     }
+
     .sheet-handle:hover {
       background: rgba(255, 255, 255, .4);
     }
+
     .sheet-handle:active {
       cursor: grabbing;
     }
+
     .sheet-scroll {
       flex: 1;
       overflow-y: auto;
@@ -1415,22 +1701,27 @@
       scrollbar-color: rgba(201, 169, 110, .7) transparent;
       overscroll-behavior: contain;
     }
+
     .sheet-scroll::-webkit-scrollbar {
       width: 3px;
     }
+
     .sheet-scroll::-webkit-scrollbar-track {
       background: transparent;
     }
+
     .sheet-scroll::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 10px;
     }
+
     .sheet-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 8px;
     }
+
     .sheet-header h2 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1438,12 +1729,14 @@
       font-weight: 700;
       color: var(--text);
     }
+
     .sheet-header .sub {
       font-size: .72rem;
       color: var(--gold);
       font-weight: 400;
       margin-top: 2px;
     }
+
     .sheet-close-btn {
       background: rgba(255, 71, 87, .1);
       border: 1px solid rgba(255, 71, 87, .3);
@@ -1459,12 +1752,14 @@
       transition: all var(--t6);
       flex-shrink: 0;
     }
+
     .sheet-close-btn:hover,
     .sheet-close-btn:focus-visible {
       background: #ff4757;
       color: #fff;
       outline: var(--focus-ring);
     }
+
     .sheet-desc {
       font-size: .78rem;
       color: var(--text-sec);
@@ -1474,6 +1769,7 @@
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
+
     .sheet-btns {
       display: flex;
       gap: 3px;
@@ -1483,6 +1779,7 @@
       border-radius: 11px;
       background: rgba(255, 255, 255, .035);
     }
+
     .sheet-btns button {
       flex: 1;
       padding: 7px 8px;
@@ -1496,39 +1793,46 @@
       font-family: 'Inter', sans-serif;
       transition: background .3s var(--ease-luxury), color .3s var(--ease-luxury), border-color .3s var(--ease-luxury), transform .3s var(--ease-luxury);
     }
+
     .sheet-btns button.active {
       color: #1b1209;
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       border-color: rgba(232, 213, 168, .55);
       box-shadow: 0 3px 12px rgba(201, 169, 110, .16);
     }
+
     .sheet-btns button.cuidados.active {
       color: #d9ffe8;
       background: linear-gradient(135deg, rgba(46, 204, 113, .28), rgba(20, 100, 60, .42));
       border-color: rgba(46, 204, 113, .42);
       box-shadow: 0 3px 12px rgba(46, 204, 113, .12);
     }
+
     .sheet-btns button.cuidados {
       background: rgba(46, 204, 113, .08);
       border-color: rgba(46, 204, 113, .2);
       color: #2ecc71;
     }
+
     .sheet-btns button:hover,
     .sheet-btns button:focus-visible {
       opacity: .85;
       transform: scale(1.02);
       outline: var(--focus-ring);
     }
+
     .kit-lista {
       display: none;
       margin-bottom: 5px;
       padding: 2px 0;
       border-radius: 10px;
     }
+
     .kit-lista.show {
       display: block;
       animation: fadeIn .3s ease;
     }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -1539,6 +1843,7 @@
         transform: translateY(0);
       }
     }
+
     .kit-acordeao {
       margin-bottom: 5px;
       border: 1px solid var(--border);
@@ -1547,12 +1852,15 @@
       background: rgba(255, 255, 255, .02);
       transition: all var(--transition);
     }
+
     .kit-acordeao:hover {
       border-color: rgba(201, 169, 110, .2);
     }
+
     .kit-acordeao.open {
       border-color: rgba(201, 169, 110, .25);
     }
+
     .kit-acordeao-header {
       display: flex;
       justify-content: space-between;
@@ -1563,15 +1871,18 @@
       transition: background var(--transition);
       gap: 10px;
     }
+
     .kit-acordeao-header:hover {
       background: rgba(201, 169, 110, .04);
     }
+
     .kit-acordeao-header-left {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .kit-acordeao-badge {
       font-size: .5rem;
       text-transform: uppercase;
@@ -1584,6 +1895,7 @@
       font-weight: 600;
       flex-shrink: 0;
     }
+
     .kit-acordeao-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1591,25 +1903,30 @@
       font-weight: 600;
       color: var(--text);
     }
+
     .kit-acordeao-arrow {
       font-size: .65rem;
       color: var(--text-muted);
       transition: transform var(--transition);
       flex-shrink: 0;
     }
+
     .kit-acordeao.open .kit-acordeao-arrow {
       transform: rotate(180deg);
     }
+
     .kit-acordeao-body {
       max-height: 0;
       overflow: hidden;
       transition: max-height .4s cubic-bezier(.25, .46, .45, .94), padding .3s ease;
       padding: 0 10px;
     }
+
     .kit-acordeao.open .kit-acordeao-body {
       max-height: 600px;
       padding: 0 10px 10px 10px;
     }
+
     .kit-produtos-lista {
       display: flex;
       flex-wrap: wrap;
@@ -1618,14 +1935,17 @@
       font-size: .68rem;
       color: var(--text-muted);
     }
+
     .kit-produtos-lista span {
       color: var(--text-sec);
       font-weight: 400;
     }
+
     .kit-produtos-lista .sep {
       color: var(--border);
       opacity: .5;
     }
+
     .kit-complete {
       display: block;
       width: 100%;
@@ -1643,18 +1963,19 @@
       text-decoration: none;
       letter-spacing: .02em;
     }
+
     .kit-complete:hover,
     .kit-complete:focus-visible {
       background: var(--gold-light);
       transform: scale(1.01);
       outline: var(--focus-ring);
     }
+
     .kit-complete .arrow {
       margin-right: 6px;
       font-weight: 300;
     }
 
-    /* ===== CARROSSEL SUGESTÕES ===== */
     .sheet-carousel {
       margin: 0 0 2px;
       width: 100%;
@@ -1662,6 +1983,7 @@
       position: relative;
       padding: 0 4px;
     }
+
     .sheet-carousel-header {
       display: flex;
       justify-content: space-between;
@@ -1669,6 +1991,7 @@
       margin-bottom: 4px;
       padding: 0 6px;
     }
+
     .sheet-carousel-header h4 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1678,12 +2001,14 @@
       opacity: 0.4;
       letter-spacing: 0.5px;
     }
+
     .sheet-carousel-header .carousel-indicator {
       font-size: 0.45rem;
       color: var(--text-muted);
       font-weight: 300;
       opacity: 0.3;
     }
+
     .sheet-carousel-track-wrapper {
       overflow: hidden;
       border-radius: 4px;
@@ -1691,12 +2016,14 @@
       padding: 0;
       margin: 0 -4px;
     }
+
     .sheet-carousel-track {
       display: flex;
       transition: transform .5s var(--ease-luxury);
       gap: 14px;
       padding: 0 4px;
     }
+
     .sheet-carousel-slide {
       min-width: calc((100% - 42px) / 3.5);
       width: calc((100% - 42px) / 3.5);
@@ -1709,6 +2036,7 @@
       cursor: pointer;
       position: relative;
     }
+
     .sheet-carousel-slide img {
       width: 100%;
       aspect-ratio: 3 / 4;
@@ -1720,14 +2048,17 @@
       transition: transform 0.3s ease;
       border-radius: 4px 4px 0 0;
     }
+
     .sheet-carousel-slide:hover {
       border-color: var(--gold);
       transform: translateY(-1px);
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
     }
+
     .sheet-carousel-slide:hover img {
       transform: scale(1.04);
     }
+
     .sheet-carousel-slide .slide-label {
       display: block;
       padding: 3px 2px 2px;
@@ -1746,6 +2077,7 @@
       letter-spacing: 0.01em;
       opacity: 0.7;
     }
+
     .sheet-carousel-track-wrapper::after {
       content: '';
       position: absolute;
@@ -1758,15 +2090,18 @@
       z-index: 2;
       opacity: 0.5;
     }
+
     [data-theme="light"] .sheet-carousel-track-wrapper::after {
       background: linear-gradient(to right, transparent, var(--bg) 80%);
     }
+
     .sheet-carousel-nav {
       display: flex;
       justify-content: center;
       gap: 6px;
       margin-top: 4px;
     }
+
     .sheet-carousel-nav button {
       width: 18px;
       height: 18px;
@@ -1782,6 +2117,7 @@
       justify-content: center;
       font-family: 'Inter', sans-serif;
     }
+
     .sheet-carousel-nav button:hover,
     .sheet-carousel-nav button:focus-visible {
       border-color: var(--gold);
@@ -1789,17 +2125,20 @@
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
+
     .sheet-carousel-nav button:disabled {
       opacity: 0.15;
       cursor: not-allowed;
       pointer-events: none;
     }
+
     .sheet-carousel-dots {
       display: flex;
       justify-content: center;
       gap: 3px;
       margin-top: 2px;
     }
+
     .sheet-carousel-dots span {
       width: 3px;
       height: 3px;
@@ -1808,60 +2147,30 @@
       transition: all 0.25s ease;
       cursor: pointer;
     }
+
     .sheet-carousel-dots span.active {
       background: var(--gold);
       width: 10px;
       border-radius: 2px;
     }
+
     .sheet-carousel-spacer {
       height: 4px;
     }
 
-    /* ===== ZOOM ===== */
-    .zoom-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: background .4s ease, opacity .4s ease;
-      cursor: zoom-out;
-    }
-    .zoom-overlay.active {
-      background: rgba(0, 0, 0, .95);
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .zoom-overlay img {
-      max-width: 92vw;
-      max-height: 92vh;
-      object-fit: contain;
-      transform: scale(0.92);
-      transition: transform .4s cubic-bezier(.23, 1, .32, 1);
-      border-radius: 6px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .8);
-      cursor: zoom-out;
-    }
-    .zoom-overlay.active img {
-      transform: scale(1);
-    }
-
-    /* ===== EMPTY STATE ===== */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
       color: var(--text-muted);
       column-span: all;
     }
+
     .empty-state .empty-icon {
       font-size: 3rem;
       margin-bottom: 12px;
       opacity: .3;
     }
+
     .empty-state .empty-title {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1869,22 +2178,25 @@
       color: var(--text-sec);
       margin-bottom: 8px;
     }
+
     .empty-state .empty-sub {
       font-size: .85rem;
       opacity: .7;
     }
 
-    /* ===== PÁGINAS ===== */
     .page-container {
       display: block;
     }
+
     .page {
       display: none;
       animation: fadePage .45s var(--ease-luxury);
     }
+
     .page.active-page {
       display: block;
     }
+
     @keyframes fadePage {
       from {
         opacity: 0;
@@ -1895,39 +2207,44 @@
         transform: translateY(0) scale(1);
       }
     }
+
     .page-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0 12px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 12px;
+      padding: 20px 0 0;
+      margin-bottom: 0;
     }
+
     .page-header h2 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       color: var(--text);
+      letter-spacing: -.01em;
     }
+
     .page-header .page-count {
       font-size: .7rem;
       color: var(--text-muted);
       font-weight: 300;
     }
+
     .back-home {
       color: var(--text-muted);
-      font-size: .7rem;
+      font-size: .68rem;
       cursor: pointer;
       transition: all var(--transition);
-      font-weight: 300;
-      letter-spacing: 0.05em;
+      font-weight: 400;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 4px 12px;
+      padding: 6px 14px;
       border-radius: 100px;
       border: 1px solid var(--border);
       background: transparent;
       font-family: 'Inter', sans-serif;
     }
+
     .back-home:hover,
     .back-home:focus-visible {
       color: var(--gold);
@@ -1935,22 +2252,24 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== FAVORITOS ===== */
     .fav-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
+
     @media (min-width: 600px) {
       .fav-grid {
         grid-template-columns: repeat(3, 1fr);
       }
     }
+
     @media (min-width: 900px) {
       .fav-grid {
         grid-template-columns: repeat(4, 1fr);
       }
     }
+
     .fav-item {
       aspect-ratio: 9/12;
       border-radius: 10px;
@@ -1961,18 +2280,21 @@
       border: 1px solid var(--border);
       position: relative;
     }
+
     .fav-item:hover,
     .fav-item:focus-within {
       border-color: var(--gold);
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
     }
+
     .fav-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: top center;
     }
+
     .fav-item .fav-overlay {
       position: absolute;
       bottom: 0;
@@ -1981,12 +2303,14 @@
       padding: 20px 10px 10px;
       background: linear-gradient(to top, rgba(0, 0, 0, .7) 0%, transparent 100%);
     }
+
     .fav-item .fav-overlay span {
       font-size: .8rem;
       color: #fff;
       font-family: 'Playfair Display', serif;
       font-style: italic;
     }
+
     .fav-item .fav-remove {
       position: absolute;
       top: 8px;
@@ -2005,6 +2329,7 @@
       transition: all var(--transition);
       z-index: 5;
     }
+
     .fav-item .fav-remove:hover,
     .fav-item .fav-remove:focus-visible {
       transform: scale(1.1);
@@ -2012,7 +2337,6 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== PHOTO ADD MODAL (ANTES & DEPOIS) ===== */
     .photo-add-overlay {
       position: fixed;
       inset: 0;
@@ -2027,10 +2351,12 @@
       pointer-events: none;
       transition: all .4s ease;
     }
+
     .photo-add-overlay.open {
       opacity: 1;
       pointer-events: auto;
     }
+
     .photo-add-modal {
       background: var(--bg-card);
       border-radius: 16px;
@@ -2043,9 +2369,11 @@
       transform: scale(0.92) translateY(20px);
       transition: transform .4s cubic-bezier(.23, 1, .32, 1);
     }
+
     .photo-add-overlay.open .photo-add-modal {
       transform: scale(1) translateY(0);
     }
+
     .photo-add-modal h3 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -2054,9 +2382,11 @@
       margin-bottom: 16px;
       text-align: center;
     }
+
     .photo-add-modal .form-group {
       margin-bottom: 12px;
     }
+
     .photo-add-modal .form-group label {
       display: block;
       font-size: .7rem;
@@ -2066,6 +2396,7 @@
       margin-bottom: 4px;
       text-transform: uppercase;
     }
+
     .photo-add-modal .form-group input,
     .photo-add-modal .form-group select,
     .photo-add-modal .form-group textarea {
@@ -2080,16 +2411,19 @@
       outline: none;
       transition: all var(--transition);
     }
+
     .photo-add-modal .form-group input:focus,
     .photo-add-modal .form-group select:focus,
     .photo-add-modal .form-group textarea:focus {
       border-color: var(--gold);
       box-shadow: var(--focus-ring);
     }
+
     .photo-add-modal .form-group textarea {
       min-height: 60px;
       resize: vertical;
     }
+
     .photo-upload-area {
       border: 2px dashed var(--border);
       border-radius: 10px;
@@ -2100,28 +2434,33 @@
       color: var(--text-muted);
       font-size: .8rem;
     }
+
     .photo-upload-area:hover,
     .photo-upload-area:focus-within {
       border-color: var(--gold);
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
+
     .photo-upload-area.has-img {
       border-style: solid;
       padding: 0;
       overflow: hidden;
       aspect-ratio: 9/12;
     }
+
     .photo-upload-area.has-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .photo-add-actions {
       display: flex;
       gap: 10px;
       margin-top: 16px;
     }
+
     .photo-add-actions button {
       flex: 1;
       padding: 10px;
@@ -2133,21 +2472,25 @@
       cursor: pointer;
       transition: all var(--transition);
     }
+
     .photo-add-actions .btn-save {
       background: var(--gold);
       color: #0a0808;
     }
+
     .photo-add-actions .btn-save:hover,
     .photo-add-actions .btn-save:focus-visible {
       background: var(--gold-light);
       transform: scale(1.02);
       outline: var(--focus-ring);
     }
+
     .photo-add-actions .btn-cancel {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text-muted);
     }
+
     .photo-add-actions .btn-cancel:hover,
     .photo-add-actions .btn-cancel:focus-visible {
       border-color: var(--text);
@@ -2155,250 +2498,394 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== SOBRE COM FAQ ===== */
     .sobre-content {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0;
     }
-    .sobre-content p {
-      font-size: .9rem;
+
+    .sobre-intro {
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .sobre-intro p {
+      font-size: 1rem;
       color: var(--text-sec);
-      line-height: 1.7;
+      line-height: 1.8;
       font-weight: 300;
+      max-width: 480px;
     }
+
+    .sobre-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .sobre-stats .stat {
+      background: var(--bg-card);
+      border-radius: 14px;
+      padding: 20px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .sobre-stats .stat:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    }
+
+    .sobre-stats .stat .number {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      display: block;
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .sobre-stats .stat .label {
+      font-size: .6rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .sobre-cards-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 600px) {
+      .sobre-cards-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     .sobre-card {
       background: var(--bg-card);
-      border-radius: 10px;
-      padding: 14px 16px;
+      border-radius: 14px;
+      padding: 20px 20px;
       border: 1px solid var(--border);
+      transition: all var(--transition);
     }
+
+    .sobre-card:hover {
+      border-color: var(--border-gold);
+    }
+
+    .sobre-card-eyebrow {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 8px;
+      opacity: .8;
+    }
+
     .sobre-card h4 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       color: var(--text);
-      font-size: .95rem;
-      margin-bottom: 4px;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
+
     .sobre-card p {
       font-size: .85rem;
       color: var(--text-sec);
+      line-height: 1.65;
+      font-weight: 300;
     }
+
     .faq-section {
-      margin: 12px 0 8px;
+      margin-bottom: 12px;
     }
-    .faq-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--gold);
-      text-align: center;
-      letter-spacing: 2px;
-      margin-bottom: 14px;
-      opacity: 0.8;
+
+    .faq-eyebrow {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
     }
+
     .faq-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 8px;
     }
+
     @media (min-width: 600px) {
       .faq-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
+
     .faq-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
+      border-radius: 14px;
+      padding: 18px 20px;
       transition: all var(--transition);
       cursor: default;
       position: relative;
-      min-height: 64px;
+      min-height: 72px;
       display: flex;
       align-items: center;
     }
+
     .faq-item:hover,
     .faq-item:focus-within {
-      border-color: var(--gold);
-      background: rgba(201, 169, 110, 0.04);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      border-color: var(--border-gold);
+      background: rgba(201, 169, 110, 0.03);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     }
+
     .faq-question {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--text-sec);
       font-weight: 600;
       transition: all var(--transition);
       width: 100%;
-      line-height: 1.3;
+      line-height: 1.4;
     }
+
     .faq-item:hover .faq-question,
     .faq-item:focus-within .faq-question {
       color: var(--gold);
       font-size: 0.7rem;
       opacity: 0.7;
     }
+
     .faq-answer {
       position: absolute;
       inset: 0;
-      padding: 14px 16px;
+      padding: 18px 20px;
       background: rgba(10, 8, 8, 0.97);
       backdrop-filter: blur(12px);
-      border-radius: 12px;
-      border: 1px solid var(--gold);
+      border-radius: 14px;
+      border: 1px solid var(--border-gold);
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 300;
-      line-height: 1.5;
+      line-height: 1.6;
       display: flex;
       align-items: center;
       opacity: 0;
       pointer-events: none;
       transition: all var(--transition);
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
+
     [data-theme="light"] .faq-answer {
       background: rgba(255, 252, 248, 0.98);
       color: var(--text);
     }
+
     .faq-item:hover .faq-answer,
     .faq-item:focus-within .faq-answer {
       opacity: 1;
       pointer-events: auto;
       transform: scale(1);
     }
+
     .faq-answer::before {
       content: "— ";
       color: var(--gold);
       font-weight: 400;
     }
-    .sobre-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .sobre-stats .stat {
-      background: var(--bg-card);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
-      border: 1px solid var(--border);
-      transition: all var(--transition);
-    }
-    .sobre-stats .stat:hover {
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
-    .sobre-stats .stat .number {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--gold);
-      display: block;
-      font-family: 'Playfair Display', serif;
-    }
-    .sobre-stats .stat .label {
-      font-size: .6rem;
-      color: var(--text-sec);
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+
+    .contato-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
-    /* ===== CONTATO ===== */
-    .contato-content {
+    .contato-intro {
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .contato-intro p {
+      font-size: 1rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 480px;
+    }
+
+    .contato-intro .contato-email-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      letter-spacing: .02em;
+    }
+
+    .contato-intro .contato-email-inline span {
+      color: var(--gold);
+      opacity: .7;
+    }
+
+    .contato-form-section {
+      margin-bottom: 32px;
+    }
+
+    .contato-form-eyebrow {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .contato-form {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-    .contato-content p {
-      font-size: .9rem;
-      color: var(--text-sec);
-      font-weight: 300;
-      line-height: 1.7;
+
+    .contato-form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
-    .contato-form {
+
+    @media (min-width: 480px) {
+      .contato-form-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .contato-field {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
+
+    .contato-field label {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
     .contato-form input,
     .contato-form textarea {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
+      border-radius: 10px;
+      padding: 13px 16px;
       color: var(--text);
-      font-size: .85rem;
+      font-size: .88rem;
       outline: none;
       transition: all var(--transition);
       width: 100%;
       font-family: 'Inter', sans-serif;
       font-weight: 300;
     }
+
+    .contato-form input::placeholder,
+    .contato-form textarea::placeholder {
+      color: var(--text-muted);
+      opacity: .5;
+    }
+
     .contato-form input:focus,
     .contato-form textarea:focus {
       border-color: var(--gold);
       box-shadow: var(--focus-ring);
+      background: var(--bg-elevated);
     }
+
     .contato-form textarea {
-      min-height: 80px;
+      min-height: 110px;
       resize: vertical;
     }
-    .contato-form button {
+
+    .contato-form button[type="submit"] {
       background: var(--gold);
       border: none;
-      border-radius: 8px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 14px;
       color: #0a0808;
-      font-size: .85rem;
-      font-weight: 500;
+      font-size: .82rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all var(--transition);
       font-family: 'Inter', sans-serif;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      margin-top: 4px;
     }
-    .contato-form button:hover,
-    .contato-form button:focus-visible {
+
+    .contato-form button[type="submit"]:hover,
+    .contato-form button[type="submit"]:focus-visible {
       background: var(--gold-light);
-      transform: scale(1.02);
+      transform: scale(1.01);
       outline: var(--focus-ring);
     }
+
     .pix-banner {
-      background: var(--bg-elevated);
+      background: var(--bg-card);
       border: 1px solid var(--border-gold);
-      border-radius: 12px;
-      padding: 14px 18px;
+      border-radius: 16px;
+      padding: 20px 20px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
+
     .pix-banner .pix-emoji {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       flex-shrink: 0;
+      line-height: 1;
     }
+
     .pix-banner .pix-text {
       flex: 1;
     }
+
     .pix-banner .pix-text strong {
-      font-size: .9rem;
+      font-size: .95rem;
       color: var(--text);
       display: block;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      margin-bottom: 2px;
     }
+
     .pix-banner .pix-text span {
-      font-size: .75rem;
+      font-size: .78rem;
       color: var(--text-muted);
-      opacity: 0.6;
+      font-weight: 300;
     }
+
     .pix-banner .pix-copy-btn {
       background: var(--gold);
       border: none;
       border-radius: 8px;
-      padding: 8px 16px;
+      padding: 9px 16px;
       color: #0a0808;
       font-family: 'Inter', sans-serif;
       font-size: .75rem;
@@ -2408,6 +2895,7 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+
     .pix-banner .pix-copy-btn:hover,
     .pix-banner .pix-copy-btn:focus-visible {
       opacity: 0.85;
@@ -2415,118 +2903,184 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== PERFIL ===== */
     .perfil-content {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 0;
     }
-    .perfil-card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid var(--border);
+
+    #perfilContent {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0;
     }
-    .perfil-header {
+
+    .perfil-hero {
       display: flex;
-      align-items: center;
-      gap: 14px;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 0 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
     }
+
     .perfil-avatar-wrap {
       position: relative;
       flex-shrink: 0;
     }
+
     .perfil-avatar {
-      width: 68px;
-      height: 68px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), #8a6d3b);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: #0a0808;
       overflow: hidden;
       border: 2px solid rgba(201, 169, 110, .3);
       cursor: pointer;
+      transition: all var(--transition);
     }
+
+    .perfil-avatar:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px var(--gold-glow);
+    }
+
     .perfil-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .perfil-avatar-edit {
       position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 26px;
-      height: 26px;
+      bottom: 0px;
+      right: 0px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: var(--gold);
       border: 2px solid var(--bg);
       color: #0a0808;
-      font-size: .7rem;
+      font-size: .65rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: all var(--transition);
     }
+
     .perfil-avatar-edit:hover,
     .perfil-avatar-edit:focus-visible {
+      transform: scale(1.1);
       outline: var(--focus-ring);
     }
-    .perfil-info h3 {
+
+    .perfil-identity {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .perfil-identity h3 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 4px;
     }
-    .perfil-info .perfil-email {
-      font-size: .72rem;
+
+    .perfil-identity .perfil-desc {
+      font-size: .85rem;
+      color: var(--text-sec);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .perfil-edit-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .perfil-stats-section {
+      margin-bottom: 28px;
+    }
+
+    .perfil-stats-eyebrow {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
       color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 14px;
     }
+
     .perfil-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 10px;
     }
+
     .perfil-stat {
-      background: rgba(201, 169, 110, .06);
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 6px;
+      border-radius: 14px;
+      padding: 16px 10px;
       text-align: center;
+      transition: all var(--transition);
     }
+
+    .perfil-stat:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-2px);
+    }
+
     .perfil-stat .number {
-      font-size: 1rem;
+      font-size: 1.4rem;
       font-weight: 600;
       color: var(--gold);
       display: block;
       font-family: 'Playfair Display', serif;
+      line-height: 1;
+      margin-bottom: 5px;
     }
+
     .perfil-stat .label {
-      font-size: .55rem;
-      color: var(--text-sec);
+      font-size: .58rem;
+      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: .04em;
+      letter-spacing: .08em;
+      font-weight: 400;
     }
+
+    .perfil-actions-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     .perfil-btn {
-      padding: 10px;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
       border: 1px solid var(--border);
       background: transparent;
       color: var(--text-sec);
-      font-size: .78rem;
+      font-size: .8rem;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       transition: all var(--transition);
       text-align: center;
     }
+
     .perfil-btn:hover,
     .perfil-btn:focus-visible {
       border-color: var(--gold);
@@ -2534,31 +3088,33 @@
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
+
     .btn-gold {
       background: var(--gold);
       border: none;
-      border-radius: 8px;
-      padding: 11px;
+      border-radius: 10px;
+      padding: 13px 16px;
       color: #0a0808;
       font-size: .82rem;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
-      letter-spacing: .03em;
+      letter-spacing: .05em;
       text-transform: uppercase;
       transition: all var(--transition);
     }
+
     [data-theme="light"] .btn-gold {
       color: #fff;
     }
+
     .btn-gold:hover,
     .btn-gold:focus-visible {
       background: var(--gold-light);
-      transform: scale(1.02);
+      transform: scale(1.01);
       outline: var(--focus-ring);
     }
 
-    /* ===== PHOTO SHEET ===== */
     .photo-sheet {
       position: fixed;
       bottom: 0;
@@ -2576,12 +3132,15 @@
       transition: transform .35s cubic-bezier(.23, 1, .32, 1);
       box-shadow: 0 -10px 40px rgba(0, 0, 0, .7);
     }
+
     [data-theme="light"] .photo-sheet {
       background: rgba(255, 252, 248, .98);
     }
+
     .photo-sheet.show {
       transform: translateY(0);
     }
+
     .photo-sheet-handle {
       width: 40px;
       height: 4px;
@@ -2589,20 +3148,24 @@
       border-radius: 4px;
       margin: 0 auto 14px;
     }
+
     [data-theme="light"] .photo-sheet-handle {
       background: rgba(0, 0, 0, .15);
     }
+
     .photo-sheet h4 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       text-align: center;
       margin-bottom: 14px;
     }
+
     .photo-sheet-btns {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
     .photo-sheet-btns button {
       padding: 13px;
       border-radius: 10px;
@@ -2614,12 +3177,14 @@
       font-family: 'Inter', sans-serif;
       text-align: left;
     }
+
     .photo-sheet-btns button:hover,
     .photo-sheet-btns button:focus-visible {
       border-color: var(--gold);
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
+
     .photo-sheet-cancel {
       text-align: center !important;
       color: var(--text-muted) !important;
@@ -2627,7 +3192,6 @@
       background: transparent !important;
     }
 
-    /* ===== FOOTER ===== */
     .footer {
       position: fixed;
       bottom: 16px;
@@ -2644,26 +3208,31 @@
       transition: transform 0.38s cubic-bezier(.23, 1, .32, 1), opacity 0.38s ease, background var(--transition), border var(--transition);
       white-space: nowrap;
     }
+
     .footer.modal-open {
       opacity: 0 !important;
       transform: translateX(-50%) translateY(calc(100% + 24px)) !important;
       pointer-events: none !important;
     }
+
     [data-theme="light"] .footer {
       background: rgba(255, 252, 248, 0.9);
       border-color: rgba(184, 149, 90, 0.2);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
     }
+
     .footer.hide {
       transform: translateX(-50%) translateY(calc(100% + 24px));
       opacity: 0;
       pointer-events: none;
     }
+
     .footer-links {
       display: flex;
       align-items: center;
       gap: 2px;
     }
+
     .footer-links a {
       display: flex;
       flex-direction: column;
@@ -2681,6 +3250,7 @@
       transition: all 0.25s cubic-bezier(.23, 1, .32, 1);
       position: relative;
     }
+
     .footer-links a::before {
       content: attr(data-icon);
       font-size: 1rem;
@@ -2688,20 +3258,24 @@
       transition: transform 0.25s cubic-bezier(.23, 1, .32, 1);
       line-height: 1;
     }
+
     .footer-links a:hover,
     .footer-links a:focus-visible {
       color: var(--text);
       background: rgba(255, 255, 255, 0.05);
       outline: var(--focus-ring);
     }
+
     .footer-links a:hover::before,
     .footer-links a:focus-visible::before {
       transform: translateY(-2px) scale(1.18);
     }
+
     .footer-links a.active-link {
       color: var(--gold);
       background: rgba(201, 169, 110, 0.1);
     }
+
     .footer-links a.active-link::before {
       transform: scale(1.12);
     }
@@ -2710,7 +3284,6 @@
       padding-bottom: 88px;
     }
 
-    /* ===== RESPONSIVO ===== */
     @media (max-width: 600px) {
       .modal-sheet {
         max-width: 100%;
@@ -2769,6 +3342,7 @@
         height: 100px;
       }
     }
+
     @media (max-width: 400px) {
       .kit-acordeao-header {
         padding: 8px 12px;
@@ -2800,6 +3374,7 @@
         height: 90px;
       }
     }
+
     @media (min-width: 800px) {
       .sheet-carousel-slide {
         min-width: calc((100% - 48px) / 3.5);
@@ -2810,7 +3385,6 @@
       }
     }
 
-    /* ===== ACCESSIBILITY ===== */
     .skip-link {
       position: absolute;
       top: -1000px;
@@ -2824,9 +3398,11 @@
       font-weight: 600;
       text-decoration: none;
     }
+
     .skip-link:focus {
       top: 10px;
     }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -2836,6 +3412,7 @@
         transition-duration: 0.01ms !important;
       }
     }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -2850,13 +3427,10 @@
 </head>
 
 <body>
-  <!-- ===== SKIP LINK ===== -->
   <a href="#mainContent" class="skip-link">Pular para o conteúdo</a>
 
-  <!-- ===== TOAST CONTAINER ===== -->
   <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
-  <!-- ===== LOADING SCREEN ===== -->
   <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Carregando HairOS">
     <div class="loading-logo">Hair<span>OS</span><span class="dot">.</span></div>
     <div class="loading-bar" aria-hidden="true">
@@ -2866,9 +3440,7 @@
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
 
-  <!-- ===== MAIN CONTENT ===== -->
   <div class="main-content" id="mainContent" role="main">
-    <!-- HEADER -->
     <header class="header" id="mainHeader" role="banner">
       <div class="header-left">
         <div class="brand" id="brandLogo" role="button" tabindex="0" aria-label="HairOS - Página inicial">
@@ -2893,24 +3465,17 @@
       </div>
     </header>
 
-    <!-- ===== MENU OVERLAY ===== -->
     <div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu de navegação">
       <div class="menu-panel">
         <div class="menu-header">
           <span>Menu</span>
           <button class="menu-close" id="menuClose" aria-label="Fechar menu">×</button>
         </div>
-        <button class="menu-item" id="menuHome" role="menuitem"><span class="icon" aria-hidden="true">⌂</span>
-          home</button>
-        <button class="menu-item" id="menuFavs" role="menuitem"><span class="icon" aria-hidden="true">♡</span> favoritos
-          <span class="item-count empty" id="menuFavCount">0</span></button>
-        <button class="menu-item" id="menuPerfil" role="menuitem"><span class="icon" aria-hidden="true">◈</span>
-          perfil</button>
-        <div class="menu-divider" role="separator"></div>
-        <button class="menu-item" id="menuSobre" role="menuitem"><span class="icon" aria-hidden="true">◎</span>
-          sobre</button>
-        <button class="menu-item" id="menuContato" role="menuitem"><span class="icon" aria-hidden="true">✉</span>
-          contato</button>
+        <button class="menu-item" id="menuHome" role="menuitem"><span class="icon" aria-hidden="true">⌂</span> home</button>
+        <button class="menu-item" id="menuFavs" role="menuitem"><span class="icon" aria-hidden="true">♡</span> favoritos <span class="item-count empty" id="menuFavCount">0</span></button>
+        <button class="menu-item" id="menuPerfil" role="menuitem"><span class="icon" aria-hidden="true">◈</span> perfil</button>
+        <button class="menu-item" id="menuSobre" role="menuitem"><span class="icon" aria-hidden="true">◎</span> sobre</button>
+        <button class="menu-item" id="menuContato" role="menuitem"><span class="icon" aria-hidden="true">✉</span> contato</button>
         <div class="menu-divider" role="separator"></div>
         <div class="menu-theme">
           <span>Tema</span>
@@ -2919,7 +3484,6 @@
       </div>
     </div>
 
-    <!-- ===== FILTROS (SEM "Minhas") ===== -->
     <div class="filters" id="filters" role="tablist" aria-label="Filtros de categorias">
       <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">Todos</button>
       <button class="filter-btn" data-filter="corte" role="tab" aria-selected="false">Cortes</button>
@@ -2928,10 +3492,8 @@
       <button class="filter-btn" data-filter="kit" role="tab" aria-selected="false">Kits</button>
     </div>
 
-    <!-- ===== PAGES ===== -->
     <div class="page-container">
 
-      <!-- HOME -->
       <div class="page active-page" id="pageHome" role="tabpanel">
         <div class="section-title" id="sectionTitle"><span>—</span> <span class="highlight">Inspirações</span>
           <span>—</span>
@@ -2939,7 +3501,6 @@
         <div class="masonry-home" id="masonryHome"></div>
       </div>
 
-      <!-- FAVORITOS -->
       <div class="page" id="pageFavoritos" role="tabpanel">
         <div class="page-header">
           <h2>favoritos <span class="page-count" id="favCountHeader">(0)</span></h2>
@@ -2948,7 +3509,6 @@
         <div class="fav-grid" id="favGrid"></div>
       </div>
 
-      <!-- PERFIL -->
       <div class="page" id="pagePerfil" role="tabpanel">
         <div class="page-header">
           <h2>perfil</h2>
@@ -2957,25 +3517,37 @@
         <div id="perfilContent"></div>
       </div>
 
-      <!-- SOBRE -->
       <div class="page" id="pageSobre" role="tabpanel">
         <div class="page-header">
           <h2>sobre</h2>
           <button class="back-home" id="backHome4">← voltar</button>
         </div>
         <div class="sobre-content">
-          <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong>
-            é uma seleção de estilos capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
-          <div class="sobre-card">
-            <h4>origem</h4>
-            <p>Nascida da estética atemporal da Vogue Paris dos anos 1960, a HairOS reúne 62 estilos entre cortes, colorações e produtos.</p>
+          <div class="sobre-intro">
+            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong>
+              é uma seleção de estilos capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
           </div>
-          <div class="sobre-card">
-            <h4>missão</h4>
-            <p>Inspirar e revelar os estilos mais atuais através de uma curadoria visual e técnica.</p>
+          <div class="sobre-stats">
+            <div class="stat"><span class="number">62</span><span class="label">estilos</span></div>
+            <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
+            <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
+          </div>
+          <div class="sobre-cards-row">
+            <div class="sobre-card">
+              <div class="sobre-card-eyebrow">origem</div>
+              <h4>Estética atemporal</h4>
+              <p>Nascida da estética da Vogue Paris dos anos 1960, a HairOS reúne 62 estilos entre cortes, colorações e
+                produtos.</p>
+            </div>
+            <div class="sobre-card">
+              <div class="sobre-card-eyebrow">missão</div>
+              <h4>Curadoria viva</h4>
+              <p>Inspirar e revelar os estilos mais atuais através de uma curadoria visual e técnica, renovada
+                continuamente.</p>
+            </div>
           </div>
           <div class="faq-section">
-            <h3 class="faq-title">— perguntas frequentes</h3>
+            <div class="faq-eyebrow">dúvidas</div>
             <div class="faq-grid">
               <div class="faq-item">
                 <div class="faq-question">O que é a HairOS?</div>
@@ -2994,40 +3566,53 @@
               </div>
               <div class="faq-item">
                 <div class="faq-question">Posso registrar meu progresso?</div>
-                <div class="faq-answer">Sim! Na aba "Perfil" você pode adicionar suas transformações de antes e depois, que serão salvas automaticamente nos favoritos.</div>
+                <div class="faq-answer">Sim! Na aba "Perfil" você pode adicionar suas transformações de antes e depois,
+                  que serão salvas automaticamente nos favoritos.</div>
               </div>
             </div>
-          </div>
-          <div class="sobre-stats">
-            <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
-            <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
-            <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
           </div>
         </div>
       </div>
 
-      <!-- CONTATO -->
       <div class="page" id="pageContato" role="tabpanel">
         <div class="page-header">
           <h2>contato</h2>
           <button class="back-home" id="backHome5">← voltar</button>
         </div>
         <div class="contato-content">
-          <p>Envie uma mensagem para a equipe HairOS. Respondemos em até 24h.</p>
-          <form class="contato-form" id="contatoForm" action="https://formsubmit.co/ajax/hairbymarciostylist@gmail.com"
-            method="POST" novalidate>
-            <input type="hidden" name="_subject" value="HairOS · Nova mensagem de contato">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <label for="contatoNome" class="visually-hidden">Seu nome</label>
-            <input type="text" name="nome" id="contatoNome" placeholder="seu nome" required autocomplete="name">
-            <label for="contatoEmail" class="visually-hidden">Seu e-mail</label>
-            <input type="email" name="email" id="contatoEmail" placeholder="seu e-mail" required autocomplete="email">
-            <input type="hidden" name="_replyto" id="contatoReplyTo" value="">
-            <label for="contatoMensagem" class="visually-hidden">Sua mensagem</label>
-            <textarea name="mensagem" id="contatoMensagem" placeholder="sua mensagem..." required></textarea>
-            <button type="submit" id="contatoSubmitBtn">enviar</button>
-          </form>
+          <div class="contato-intro">
+            <p>Envie uma mensagem para a equipe HairOS. Respondemos em até 24h.</p>
+            <div class="contato-email-inline">
+              <span>✉</span> hairbymarciostylist@gmail.com
+            </div>
+          </div>
+          <div class="contato-form-section">
+            <div class="contato-form-eyebrow">mensagem</div>
+            <form class="contato-form" id="contatoForm"
+              action="https://formsubmit.co/ajax/hairbymarciostylist@gmail.com" method="POST" novalidate>
+              <input type="hidden" name="_subject" value="HairOS · Nova mensagem de contato">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_replyto" id="contatoReplyTo" value="">
+              <div class="contato-form-row">
+                <div class="contato-field">
+                  <label for="contatoNome">nome</label>
+                  <input type="text" name="nome" id="contatoNome" placeholder="seu nome" required autocomplete="name">
+                </div>
+                <div class="contato-field">
+                  <label for="contatoEmail">e-mail</label>
+                  <input type="email" name="email" id="contatoEmail" placeholder="seu@email.com" required
+                    autocomplete="email">
+                </div>
+              </div>
+              <div class="contato-field">
+                <label for="contatoMensagem">mensagem</label>
+                <textarea name="mensagem" id="contatoMensagem" placeholder="Escreva sua mensagem..."
+                  required></textarea>
+              </div>
+              <button type="submit" id="contatoSubmitBtn">enviar mensagem</button>
+            </form>
+          </div>
           <div class="pix-banner">
             <div class="pix-emoji" aria-hidden="true">💛</div>
             <div class="pix-text">
@@ -3036,14 +3621,11 @@
             </div>
             <button class="pix-copy-btn" id="btnPixCatalogo">Copiar Pix</button>
           </div>
-          <p style="text-align:center;font-size:.7rem;color:var(--text-muted);letter-spacing:0.05em;margin-top:4px;">
-            hairbymarciostylist@gmail.com</p>
         </div>
       </div>
 
     </div>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="footer" id="footerBar" role="navigation" aria-label="Navegação principal">
       <div class="footer-links" id="footerLinks">
         <a class="active-link" data-page="pageHome" data-icon="⌂" role="button" tabindex="0">home</a>
@@ -3056,7 +3638,6 @@
 
   </div>
 
-  <!-- ===== PHOTO SHEET ===== -->
   <div class="photo-sheet" id="photoSheet" role="dialog" aria-modal="true" aria-label="Atualizar foto de perfil">
     <div class="photo-sheet-handle" aria-hidden="true"></div>
     <h4>Foto de perfil</h4>
@@ -3072,22 +3653,18 @@
       aria-label="Escolher foto da galeria">
   </div>
 
-  <!-- ===== MODAL ADICIONAR FOTO (ANTES & DEPOIS) ===== -->
   <div class="photo-add-overlay" id="photoAddOverlay" role="dialog" aria-modal="true"
     aria-label="Adicionar transformação capilar">
     <div class="photo-add-modal">
       <h3>Antes & Depois</h3>
-
       <div class="form-group">
         <label for="addPhotoTitle">Título</label>
         <input type="text" id="addPhotoTitle" placeholder="ex: Minha transformação capilar" maxlength="40">
       </div>
-
       <div class="form-group">
         <label for="addPhotoDesc">Descrição (opcional)</label>
         <textarea id="addPhotoDesc" placeholder="Como foi o processo..."></textarea>
       </div>
-
       <div class="form-group">
         <label for="addPhotoCategoria">Categoria</label>
         <select id="addPhotoCategoria">
@@ -3097,11 +3674,7 @@
           <option value="kit">Kit</option>
         </select>
       </div>
-
-      <!-- ===== DUAS FOTOS: ANTES E DEPOIS ===== -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-
-        <!-- ANTES -->
         <div class="form-group">
           <label style="color:var(--gold);font-weight:600;">ANTES</label>
           <div class="photo-upload-area" id="addPhotoBeforeArea" role="button" tabindex="0">
@@ -3111,8 +3684,6 @@
           <input type="file" id="addPhotoBeforeInput" accept="image/*" style="display:none" aria-label="Foto antes">
           <input type="hidden" id="addPhotoBeforeData">
         </div>
-
-        <!-- DEPOIS -->
         <div class="form-group">
           <label style="color:#4ecdc4;font-weight:600;">DEPOIS</label>
           <div class="photo-upload-area" id="addPhotoAfterArea" role="button" tabindex="0">
@@ -3122,9 +3693,7 @@
           <input type="file" id="addPhotoAfterInput" accept="image/*" style="display:none" aria-label="Foto depois">
           <input type="hidden" id="addPhotoAfterData">
         </div>
-
       </div>
-
       <div class="photo-add-actions">
         <button class="btn-cancel" id="btnAddPhotoCancel">Cancelar</button>
         <button class="btn-save" id="btnAddPhotoSave">Adicionar aos favoritos</button>
@@ -3132,18 +3701,15 @@
     </div>
   </div>
 
-  <!-- ===== MODAL DETALHES ===== -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Detalhes do estilo">
     <div class="modal-card" id="modalCard">
       <div class="modal-hero" id="modalHero">
         <img class="modal-hero-img" id="modalImg" src="" alt="">
         <div class="modal-hero-overlay" aria-hidden="true"></div>
-
         <div class="modal-hero-side-left" id="heroSideLeft" aria-hidden="true">
           <span class="side-label" id="sideCollection">Coleção</span>
           <span class="side-year" id="sideYear">2026</span>
         </div>
-
         <div class="modal-hero-side-right" id="heroSideRight">
           <button class="modal-hero-side-btn share-btn" id="heroShareBtn" title="Compartilhar"
             aria-label="Compartilhar estilo">
@@ -3157,17 +3723,14 @@
           <button class="modal-hero-side-btn" id="heroAddSimilarBtn" title="Adicionar transformação similar"
             aria-label="Adicionar transformação similar">+</button>
         </div>
-
         <div class="modal-hero-info" id="heroInfo">
           <span class="hero-categoria" id="heroCategoria">Corte</span>
           <h1 class="hero-title" id="heroTitle">Velvet Bob</h1>
           <div class="hero-sub" id="heroSub">Bob Texturizado</div>
         </div>
-
         <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fechar">✕</button>
         <button class="modal-toggle-btn" id="toggleSheetBtn">Ver detalhes</button>
       </div>
-
       <div class="modal-content">
         <div class="modal-section-title" id="modalSectionTitle">— Variações —</div>
         <div class="modal-masonry" id="modalMasonry"></div>
@@ -3175,12 +3738,20 @@
     </div>
   </div>
 
-  <!-- ===== ZOOM ===== -->
-  <div class="zoom-overlay" id="zoomOverlay" role="dialog" aria-modal="true" aria-label="Zoom da imagem">
-    <img id="zoomImage" src="" alt="">
+  <div class="zoom-overlay" id="zoomOverlay" role="dialog" aria-modal="true" aria-label="Zoom antes e depois">
+    <div class="zoom-content" id="zoomContent">
+      <div class="zoom-item">
+        <img id="zoomBefore" src="" alt="Antes">
+        <span class="zoom-label before">antes</span>
+      </div>
+      <div class="zoom-divider"></div>
+      <div class="zoom-item">
+        <img id="zoomAfter" src="" alt="Depois">
+        <span class="zoom-label after">depois</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ===== SHEET ===== -->
   <div class="modal-sheet" id="modalSheet" role="dialog" aria-modal="true" aria-label="Detalhes do estilo - expandido">
     <div class="sheet-handle" id="sheetHandle" role="button" tabindex="0" aria-label="Expandir ou recolher"></div>
     <div class="sheet-scroll" id="sheetScroll">
@@ -3196,7 +3767,6 @@
         <button id="btnColoracao" role="tab" aria-selected="true">Coloração</button>
         <button class="cuidados" id="btnCuidados" role="tab" aria-selected="false">Cuidados</button>
       </div>
-
       <div class="kit-lista show" id="listaColoracao" role="tabpanel">
         <div id="coloracaoItems"></div>
       </div>
@@ -3204,8 +3774,6 @@
         <div id="cuidadosItems"></div>
       </div>
       <div class="sheet-carousel-spacer" aria-hidden="true"></div>
-
-      <!-- CARROSSEL DE SUGESTÕES -->
       <div class="sheet-carousel" id="sheetCarousel">
         <div class="sheet-carousel-header">
           <h4>Sugestões para você</h4>
@@ -3223,67 +3791,7 @@
     </div>
   </div>
 
-  <!-- ===== ARQUIVO DE DADOS ===== -->
   <script src="data.js"></script>
-
-  <!-- ===== CURTAIN BAGS / CURTININHA ===== -->
-  <script>
-    /*
-     * Card editorial de Curtain Bags (Curtininha).
-     * Mantido após o data.js para complementar a vitrine sem alterar
-     * os dados existentes e para aproveitar a lógica de modal/favoritos.
-     */
-    window.styleData = window.styleData || {};
-    window.styleData['curtain-bags'] = {
-      key: 'curtain-bags',
-      categoria: 'corte',
-      badge: '10 variações',
-      corte: 'Curtain Bags',
-      title: 'Curtininha',
-      desc: 'Cortes médios com franja cortininha, camadas leves e movimento natural para diferentes texturas.',
-      img: 'assets/curtain-bags/01-bob-loiro-ondulado.jpg',
-      altura: 'h-lg',
-      variants: [
-        { img: 'assets/curtain-bags/01-bob-loiro-ondulado.jpg', corte: 'Bob médio ondulado', title: 'Curtininha dourada', desc: 'Bob na altura dos ombros com ondas suaves e franja aberta.' },
-        { img: 'assets/curtain-bags/02-camadas-castanho.jpg', corte: 'Camadas castanhas', title: 'Curtininha natural', desc: 'Camadas médias que criam leveza sem perder o comprimento.' },
-        { img: 'assets/curtain-bags/03-lob-liso.jpg', corte: 'Lob reto', title: 'Curtininha polida', desc: 'Lob liso com pontas alinhadas e franja cortininha delicada.' },
-        { img: 'assets/curtain-bags/04-movimento-natural.jpg', corte: 'Médio com movimento', title: 'Curtininha despojada', desc: 'Comprimento médio com textura natural e acabamento sem esforço.' },
-        { img: 'assets/curtain-bags/05-camadas-escuras.jpg', corte: 'Camadas escuras', title: 'Curtininha marcante', desc: 'Camadas mais definidas para emoldurar o rosto e dar volume.' },
-        { img: 'assets/curtain-bags/06-textura-media.jpg', corte: 'Médio texturizado', title: 'Curtininha fresh', desc: 'Textura leve e franja dividida para um visual moderno.' },
-        { img: 'assets/curtain-bags/07-longo-em-camadas.jpg', corte: 'Médio longo em camadas', title: 'Curtininha fluida', desc: 'Camadas alongadas que acompanham o movimento do cabelo.' },
-        { img: 'assets/curtain-bags/08-lob-castanho.jpg', corte: 'Lob castanho', title: 'Curtininha elegante', desc: 'Lob castanho com contorno suave e franja aberta na medida.' },
-        { img: 'assets/curtain-bags/09-liso-em-camadas.jpg', corte: 'Médio liso em camadas', title: 'Curtininha sleek', desc: 'Base média lisa com camadas frontais para iluminar o rosto.' },
-        { img: 'assets/curtain-bags/10-castanho-em-camadas.jpg', corte: 'Médio castanho em camadas', title: 'Curtininha volumosa', desc: 'Camadas arredondadas com volume controlado e acabamento macio.' }
-      ]
-    };
-  </script>
-
-  <!-- ===== CORTES INFANTIS ===== -->
-  <script>
-    window.styleData = window.styleData || {};
-    window.styleData['infantil-cortes'] = {
-      key: 'infantil-cortes',
-      categoria: 'corte',
-      badge: 'Infantil',
-      corte: 'Cortes Infantis',
-      title: 'Pequenos estilos',
-      desc: 'Cortes infantis práticos, confortáveis e fáceis de manter no dia a dia.',
-      img: 'assets/infantil-cortes-capa.png',
-      altura: 'h-lg',
-      variants: [
-        { img: 'assets/infantil-cortes/01-bob-medio.png', corte: 'Bob médio infantil', title: 'Pequenos estilos', desc: 'Bob médio com pontas leves e franja suave para um visual confortável e atual.' },
-        { img: 'assets/infantil-cortes/02-camadas-suaves.jpg', corte: 'Camadas suaves', title: 'Leveza no movimento', desc: 'Camadas delicadas que acompanham o formato do rosto sem pesar.' },
-        { img: 'assets/infantil-cortes/03-bob-classico.jpg', corte: 'Bob clássico', title: 'Clássico renovado', desc: 'Base arredondada e prática para uma rotina fácil de cuidar.' },
-        { img: 'assets/infantil-cortes/04-bob-na-altura-dos-ombros.jpg', corte: 'Bob na altura dos ombros', title: 'Comprimento versátil', desc: 'Comprimento médio que permite prender, soltar e variar o penteado.' },
-        { img: 'assets/infantil-cortes/05-corte-escolar.jpg', corte: 'Corte escolar', title: 'Prático para o dia a dia', desc: 'Um corte confortável, organizado e fácil de manter na rotina escolar.' },
-        { img: 'assets/infantil-cortes/06-bob-pratico.jpg', corte: 'Bob prático', title: 'Fácil de cuidar', desc: 'Formato simples com acabamento leve para acompanhar as brincadeiras.' },
-        { img: 'assets/infantil-cortes/07-bob-curto.jpg', corte: 'Bob curto', title: 'Fresco e delicado', desc: 'Corte curto com contorno suave e visual leve para os dias quentes.' },
-        { img: 'assets/infantil-cortes/08-medio-em-camadas.jpg', corte: 'Médio em camadas', title: 'Textura natural', desc: 'Camadas médias que valorizam o movimento natural dos fios.' },
-        { img: 'assets/infantil-cortes/09-camadas-longas.jpg', corte: 'Camadas longas', title: 'Comprimento com movimento', desc: 'Camadas longas para preservar o comprimento e criar balanço.' },
-        { img: 'assets/infantil-cortes/10-bob-texturizado.jpg', corte: 'Bob texturizado', title: 'Personalidade e leveza', desc: 'Bob com textura sutil para um resultado moderno e descontraído.' }
-      ]
-    };
-  </script>
 
   <script>
     // ============================================================
@@ -3432,7 +3940,7 @@
     }
 
     // ============================================================
-    // FOTOS DO USUÁRIO (APENAS FAVORITOS)
+    // FOTOS DO USUÁRIO
     // ============================================================
     function getUserPhotos() {
       try { return JSON.parse(localStorage.getItem('hairos_user_photos') || '[]'); } catch { return []; }
@@ -3567,7 +4075,7 @@
     }
 
     // ============================================================
-    // MODAL DE ADICIONAR FOTO
+    // MODAL DE ADICIONAR FOTO (SALVA ANTES E DEPOIS COMO VARIAÇÕES)
     // ============================================================
     function openAddPhotoModal(initialData) {
       var overlay = document.getElementById('photoAddOverlay');
@@ -3619,6 +4127,12 @@
 
       var key = 'user_' + photo.id;
 
+      // ===== CRIA O CARD COM AS DUAS IMAGENS COMO VARIAÇÕES =====
+      var variants = [
+        { img: beforeData, label: 'ANTES', corte: 'Antes', title: 'Antes da transformação', desc: 'Antes da transformação' },
+        { img: afterData, label: 'DEPOIS', corte: 'Depois', title: 'Depois da transformação', desc: 'Depois da transformação' }
+      ];
+
       styleData[key] = createCard(
         key,
         photo.categoria || 'corte',
@@ -3626,7 +4140,7 @@
         photo.title || 'Minha transformação',
         photo.desc || 'Comparação antes e depois',
         photo.afterImg,
-        [photo.afterImg],
+        variants,
         photo.beforeImg
       );
 
@@ -3672,7 +4186,50 @@
     }
 
     // ============================================================
-    // RENDER HOME (APENAS 60 ESTILOS)
+    // ZOOM LADO A LADO
+    // ============================================================
+    function openZoomSideBySide(beforeSrc, afterSrc) {
+      var overlay = document.getElementById('zoomOverlay');
+      var beforeImg = document.getElementById('zoomBefore');
+      var afterImg = document.getElementById('zoomAfter');
+
+      if (!overlay || !beforeImg || !afterImg) return;
+
+      beforeImg.src = beforeSrc || '';
+      afterImg.src = afterSrc || '';
+
+      overlay.classList.add('active');
+    }
+
+    function closeZoom() {
+      var overlay = document.getElementById('zoomOverlay');
+      if (overlay) overlay.classList.remove('active');
+    }
+
+    function toggleZoom() {
+      var overlay = document.getElementById('zoomOverlay');
+      if (overlay.classList.contains('active')) {
+        closeZoom();
+      } else {
+        var compareDiv = document.querySelector('#modalHero .ba-compare-mini');
+        if (compareDiv) {
+          var beforeImg = compareDiv.querySelector('.ba-before img');
+          var afterImg = compareDiv.querySelector('.ba-after img');
+          if (beforeImg && afterImg) {
+            openZoomSideBySide(beforeImg.src, afterImg.src);
+            return;
+          }
+        }
+
+        var heroImg = document.getElementById('modalImg');
+        if (heroImg && heroImg.src) {
+          openZoomSideBySide(heroImg.src, heroImg.src);
+        }
+      }
+    }
+
+    // ============================================================
+    // RENDER HOME
     // ============================================================
     function shuffleArray(arr) {
       for (var i = arr.length - 1; i > 0; i--) {
@@ -3693,6 +4250,45 @@
         var data = styleData[key];
         return data && data.categoria === currentFilter;
       });
+    }
+
+    function getStyleGalleryImages(data) {
+      var urls = [];
+      var seen = {};
+
+      function add(url) {
+        if (!url || typeof url !== 'string') return;
+        url = url.trim();
+        if (!url || seen[url]) return;
+        seen[url] = true;
+        urls.push(url);
+      }
+      add(data.img);
+      var variants = Array.isArray(data.variants) ? data.variants : [];
+      var isProdutoKit = data.categoria === 'produto' || data.categoria === 'kit';
+      variants.forEach(function(variant) {
+        if (typeof variant === 'object' && variant !== null) {
+          if (isProdutoKit && variant.own === false) return;
+          add(variant.img);
+        } else {
+          add(variant);
+        }
+      });
+      return urls.length ? urls : (data.img ? [data.img] : []);
+    }
+
+    var homeImageIndex = {};
+
+    function pickGalleryImage(key, data) {
+      var pool = getStyleGalleryImages(data);
+      if (!pool.length) return data.img;
+      if (pool.length === 1) return pool[0];
+      if (homeImageIndex[key] == null) {
+        homeImageIndex[key] = Math.floor(Math.random() * pool.length);
+      } else {
+        homeImageIndex[key] = (homeImageIndex[key] + 1) % pool.length;
+      }
+      return pool[homeImageIndex[key]];
     }
 
     function renderHome() {
@@ -3732,9 +4328,10 @@
         card.style.animationDelay = (delay * 0.05) + 's';
         delay++;
 
+        var coverSrc = pickGalleryImage(key, data);
         var img = document.createElement('img');
         img.className = 'card-home-img ' + altura;
-        img.src = data.img;
+        img.src = coverSrc;
         img.alt = data.corte + ' - ' + data.title;
         img.loading = 'lazy';
         img.addEventListener('error', function() { this.src = FALLBACK_IMG; });
@@ -3751,13 +4348,14 @@
         var shareBtn = document.createElement('button');
         shareBtn.className = 'card-home-btn share-btn';
         shareBtn.dataset.key = key;
+        shareBtn.dataset.img = coverSrc;
         shareBtn.title = 'Compartilhar';
         shareBtn.setAttribute('aria-label', 'Compartilhar estilo');
         shareBtn.innerHTML =
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
         shareBtn.addEventListener('click', function(e) {
           e.stopPropagation();
-          shareStyle(this.dataset.key);
+          shareStyle(this.dataset.key, this.dataset.img);
         });
         actions.appendChild(shareBtn);
 
@@ -3776,26 +4374,91 @@
 
         card.appendChild(actions);
 
-        card.addEventListener('click', function() { openModal(key); });
+        card.addEventListener('click', function() { openModal(key, coverSrc); });
         container.appendChild(card);
       });
     }
 
-    function shareStyle(key) {
+    function shareStyle(key, imgOverride) {
       var data = styleData[key];
       if (!data) { showToast('Erro ao compartilhar'); return; }
-      var text = data.corte + ' - ' + data.title + '\n' + data.desc + '\n\nVeja mais em HairOS!';
+
+      var url = 'https://marcio-maker.github.io/HairOS-Inspira-o/';
+      var imgUrl = imgOverride || data.img;
+      var mlSearch = 'https://www.mercadolivre.com.br/busca?word=' + encodeURIComponent(data.corte || data.title || 'cabelo');
+      var obterLines = [];
+      var seenLinks = {};
+
+      function addObter(nome, link) {
+        if (!link || seenLinks[link]) return;
+        seenLinks[link] = true;
+        obterLines.push('🛒 Obter ' + (nome || 'no Mercado Livre') + '\n' + link);
+      }
+      if (data.coloracao && data.coloracao.kits) {
+        data.coloracao.kits.forEach(function(kit) { addObter(kit.nome, kit.link); });
+      }
+      if (data.cuidados && data.cuidados.kits) {
+        data.cuidados.kits.forEach(function(kit) { addObter(kit.nome, kit.link); });
+      }
+      if (!obterLines.length) addObter('no Mercado Livre', mlSearch);
+
+      var text = '✧ HairOS ✧\n' +
+        '┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n' +
+        data.corte + '\n' +
+        '› ' + data.title + '\n' +
+        '┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n' +
+        '🖼 ' + imgUrl + '\n' +
+        (data.desc ? data.desc + '\n' : '') +
+        '┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n' +
+        '▶ Vitrine\n' + url + '\n' +
+        obterLines.join('\n') + '\n' +
+        '┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n' +
+        '📌 Salve este app e inspire-se!\n' +
+        '🔗 ' + url;
+
       if (navigator.share) {
-        navigator.share({ title: 'HairOS - ' + data.corte, text: text }).catch(function(err) {
+        fetch(imgUrl)
+          .then(function(response) {
+            if (!response.ok) throw new Error('Erro ao baixar imagem');
+            return response.blob();
+          })
+          .then(function(blob) {
+            var file = new File([blob], data.corte + '.jpg', { type: blob.type || 'image/jpeg' });
+            var payload = { title: 'HairOS - ' + data.corte, text: text, files: [file] };
+            if (navigator.canShare && !navigator.canShare({ files: [file] })) {
+              return navigator.share({ title: payload.title, text: text });
+            }
+            return navigator.share(payload);
+          })
+          .catch(function(err) {
+            if (err.name !== 'AbortError') {
+              shareTextOnly(text, data.corte);
+            }
+          });
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast('Informações copiadas para compartilhar!');
+        }).catch(function() {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function shareTextOnly(text, corte) {
+      if (navigator.share) {
+        navigator.share({
+          title: 'HairOS - ' + (corte || 'Inspirações Capilares'),
+          text: text
+        }).catch(function(err) {
           if (err.name !== 'AbortError') {
-            console.warn('Share failed:', err);
             fallbackCopy(text);
           }
         });
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() { showToast('Link copiado!'); }).catch(function() { fallbackCopy(
-            text); });
-      } else { fallbackCopy(text); }
+      } else {
+        fallbackCopy(text);
+      }
     }
 
     function fallbackCopy(text) {
@@ -3809,12 +4472,14 @@
         textarea.select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
-        showToast('Link copiado para compartilhar!');
-      } catch { showToast('Não foi possível copiar'); }
+        showToast('Informações copiadas para compartilhar!');
+      } catch {
+        showToast('Não foi possível copiar');
+      }
     }
 
     // ============================================================
-    // RENDER FAVORITOS (com comparador)
+    // RENDER FAVORITOS
     // ============================================================
     function renderFavorites() {
       var grid = document.getElementById('favGrid');
@@ -3922,26 +4587,28 @@
       var avatarHtml = avatar ? '<img src="' + avatar + '" alt="Foto de perfil">' : initial;
 
       var html = `
-        <div class="perfil-card">
-          <div class="perfil-header">
-            <div class="perfil-avatar-wrap">
-              <div class="perfil-avatar" id="avatarClick" role="button" tabindex="0" aria-label="Alterar foto">
-                ${avatarHtml}
-              </div>
-              <span class="perfil-avatar-edit" id="avatarEditBtn" role="button" tabindex="0">✎</span>
+        <div class="perfil-hero">
+          <div class="perfil-avatar-wrap">
+            <div class="perfil-avatar" id="avatarClick" role="button" tabindex="0" aria-label="Alterar foto">
+              ${avatarHtml}
             </div>
-            <div class="perfil-info">
-              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" id="nomeWrapper">
-                <h3 id="nomeDisplay">${nome}</h3>
-                <button class="perfil-btn" style="padding:2px 8px;font-size:0.6rem;" id="editNomeBtn">✎</button>
-              </div>
-              <div style="font-size:0.85rem;color:var(--text-sec);font-weight:300;margin-top:4px;word-break:break-word;" id="descWrapper">
-                <span id="descDisplay">${descricao || 'Adicione uma breve descrição'}</span>
-                <button class="perfil-btn" style="padding:2px 8px;font-size:0.6rem;" id="editDescBtn">✎</button>
-              </div>
+            <span class="perfil-avatar-edit" id="avatarEditBtn" role="button" tabindex="0" aria-label="Editar foto">✎</span>
+          </div>
+          <div class="perfil-identity">
+            <div id="nomeWrapper">
+              <h3 id="nomeDisplay">${nome}</h3>
+            </div>
+            <div id="descWrapper">
+              <p class="perfil-desc" id="descDisplay">${descricao || 'Adicione uma breve descrição'}</p>
+            </div>
+            <div class="perfil-edit-row">
+              <button class="perfil-btn" style="padding:5px 12px;font-size:0.65rem;" id="editNomeBtn">✎ nome</button>
+              <button class="perfil-btn" style="padding:5px 12px;font-size:0.65rem;" id="editDescBtn">✎ bio</button>
             </div>
           </div>
-
+        </div>
+        <div class="perfil-stats-section">
+          <div class="perfil-stats-eyebrow">resumo</div>
           <div class="perfil-stats">
             <div class="perfil-stat">
               <span class="number">${favorites.length}</span>
@@ -3956,11 +4623,10 @@
               <span class="label">estilo</span>
             </div>
           </div>
-
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="perfil-btn" id="btnVerFavs">ver favoritos</button>
-            <button class="btn-gold" id="btnAddTransformacao">adicionar transformação</button>
-          </div>
+        </div>
+        <div class="perfil-actions-section">
+          <button class="perfil-btn" id="btnVerFavs">ver favoritos</button>
+          <button class="btn-gold" id="btnAddTransformacao">+ adicionar transformação</button>
         </div>
       `;
 
@@ -4066,7 +4732,7 @@
     // ============================================================
     // MODAL
     // ============================================================
-    function openModal(key) {
+    function openModal(key, heroSrc) {
       var data = styleData[key];
       if (!data) { showToast('Erro ao abrir o estilo'); return; }
       currentKey = key;
@@ -4081,10 +4747,62 @@
       var heroShareBtn = document.getElementById('heroShareBtn');
       var heroAddSimilarBtn = document.getElementById('heroAddSimilarBtn');
 
+      var isBeforeAfter = data.isBeforeAfter || false;
+      var beforeImg = data.beforeImg || '';
+      var heroContainer = document.getElementById('modalHero');
+
+      var oldCompare = heroContainer.querySelector('.ba-compare-mini');
+      if (oldCompare) oldCompare.remove();
+
       var img = document.getElementById('modalImg');
-      if (img) {
+
+      if (isBeforeAfter && beforeImg) {
+        img.style.display = 'none';
+
+        var compareDiv = document.createElement('div');
+        compareDiv.className = 'ba-compare-mini';
+        compareDiv.style.width = '100%';
+        compareDiv.style.height = '100%';
+        compareDiv.style.aspectRatio = '2 / 3';
+        compareDiv.style.minHeight = '400px';
+        compareDiv.style.borderRadius = 'var(--radius)';
+        compareDiv.style.overflow = 'hidden';
+        compareDiv.style.position = 'relative';
+        compareDiv.style.cursor = 'ew-resize';
+
+        compareDiv.innerHTML = `
+          <div class="ba-after" style="position:absolute;inset:0;z-index:1;">
+            <img src="${data.img}" alt="Depois" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          </div>
+          <div class="ba-before" style="position:absolute;inset:0;z-index:2;overflow:hidden;border-right:2px solid rgba(255,255,255,0.8);width:50%;">
+            <img src="${beforeImg}" alt="Antes" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          </div>
+          <div class="ba-handle" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;background:rgba(10,8,8,0.8);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:0.7rem;z-index:5;pointer-events:none;box-shadow:0 2px 12px rgba(0,0,0,0.4);">↔</div>
+          <div class="ba-labels" style="position:absolute;bottom:8px;left:0;right:0;z-index:6;display:flex;justify-content:space-between;padding:0 8px;pointer-events:none;">
+            <span style="background:rgba(201,169,110,0.7);backdrop-filter:blur(4px);color:#fff;font-size:0.5rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:2px 8px;border-radius:10px;">antes</span>
+            <span style="background:rgba(78,205,196,0.7);backdrop-filter:blur(4px);color:#fff;font-size:0.5rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:2px 8px;border-radius:10px;">depois</span>
+          </div>
+        `;
+
+        heroContainer.insertBefore(compareDiv, heroContainer.firstChild);
+
+        setTimeout(function() {
+          initCompareMini(compareDiv);
+        }, 50);
+
+        compareDiv.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var before = this.querySelector('.ba-before img');
+          var after = this.querySelector('.ba-after img');
+          if (before && after) {
+            openZoomSideBySide(before.src, after.src);
+          }
+        });
+
+      } else {
+        img.style.display = 'block';
         img.classList.add('loading');
-        img.src = data.img;
+        img.src = heroSrc || data.img;
         img.onload = function() { img.classList.remove('loading'); };
         img.onerror = function() {
           this.src = FALLBACK_IMG;
@@ -4095,8 +4813,7 @@
       document.getElementById('heroCategoria').textContent = data.badge;
       document.getElementById('heroTitle').textContent = data.corte;
       document.getElementById('heroSub').textContent = data.title;
-      document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(
-        1);
+      document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
       document.getElementById('sideYear').textContent = '2026';
 
       var isFavorited = isFav(key);
@@ -4159,6 +4876,8 @@
       var footer = document.getElementById('footerBar');
       if (header) header.classList.remove('modal-open');
       if (footer) footer.classList.remove('modal-open');
+
+      closeZoom();
     }
 
     function openSheet() {
@@ -4194,60 +4913,125 @@
     }
 
     // ============================================================
-    // ZOOM
+    // RENDER MODAL MASONRY (MOSTRA ANTES E DEPOIS COMO VARIAÇÕES)
     // ============================================================
-    function toggleZoom() {
-      var zo = document.getElementById('zoomOverlay');
-      var zoomImg = document.getElementById('zoomImage');
-      var heroImg = document.getElementById('modalImg');
-      var sideLeft = document.getElementById('heroSideLeft');
-      var sideRight = document.getElementById('heroSideRight');
-      var closeBtn = document.getElementById('modalCloseBtn');
-      var toggleBtn = document.getElementById('toggleSheetBtn');
-      var heroInfo = document.getElementById('heroInfo');
+    function renderModalMasonry(key) {
+      var container = document.getElementById('modalMasonry');
+      if (!container) return;
+      container.innerHTML = '';
 
-      if (!zo || !zoomImg || !heroImg) return;
+      var data = styleData[key];
+      if (!data) return;
 
-      if (zo.classList.contains('active')) {
-        zo.classList.remove('active');
-        if (sideLeft) sideLeft.classList.remove('fade-out');
-        if (sideRight) sideRight.classList.remove('fade-out');
-        if (closeBtn) closeBtn.classList.remove('fade-out');
-        if (toggleBtn) toggleBtn.classList.remove('fade-out');
-        if (heroInfo) heroInfo.classList.remove('fade-out');
+      var variants = [];
+
+      // Se tem variações, usa elas
+      if (Array.isArray(data.variants) && data.variants.length > 0) {
+        data.variants.forEach(function(v) {
+          if (typeof v === 'object' && v !== null) {
+            variants.push({
+              img: v.img,
+              label: v.label || '',
+              corte: v.corte || '',
+              title: v.title || '',
+              desc: v.desc || ''
+            });
+          } else if (typeof v === 'string') {
+            variants.push({
+              img: v,
+              label: '',
+              corte: '',
+              title: '',
+              desc: ''
+            });
+          }
+        });
       } else {
-        zoomImg.src = heroImg.src;
-        zo.classList.add('active');
-        if (sideLeft) sideLeft.classList.add('fade-out');
-        if (sideRight) sideRight.classList.add('fade-out');
-        if (closeBtn) closeBtn.classList.add('fade-out');
-        if (toggleBtn) toggleBtn.classList.add('fade-out');
-        if (heroInfo) heroInfo.classList.add('fade-out');
-      }
-    }
-
-    // ============================================================
-    // NAVEGAÇÃO
-    // ============================================================
-    function navigateTo(pageId) {
-      currentPage = pageId;
-      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active-page'); });
-      var target = document.getElementById(pageId);
-      if (target) target.classList.add('active-page');
-
-      var filters = document.getElementById('filters');
-      if (filters) {
-        if (pageId === 'pageHome') filters.classList.remove('hidden');
-        else filters.classList.add('hidden');
+        // Fallback: usa a imagem principal
+        variants.push({
+          img: data.img,
+          label: '',
+          corte: data.corte,
+          title: data.title,
+          desc: data.desc
+        });
       }
 
-      document.querySelectorAll('.footer-links a').forEach(function(link) {
-        link.classList.toggle('active-link', link.dataset.page === pageId);
+      var alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
+      var isProdutoKit = (data.categoria === 'produto' || data.categoria === 'kit');
+
+      variants.forEach(function(variant, idx) {
+        var imgUrl = variant.img;
+        if (!imgUrl) return;
+
+        var hClass = alturasModal[idx % alturasModal.length];
+        var card = document.createElement('div');
+        card.className = 'modal-card-item';
+        card.dataset.imgUrl = imgUrl;
+        card.dataset.corte = variant.corte || '';
+        card.dataset.title = variant.title || '';
+        card.dataset.desc = variant.desc || '';
+        card.style.animationDelay = (idx * 0.05) + 's';
+
+        var img = document.createElement('img');
+        img.className = hClass;
+        img.src = imgUrl;
+        img.alt = variant.corte || data.corte + ' - variação ' + (idx + 1);
+        img.loading = 'lazy';
+        img.addEventListener('error', function() { this.src = FALLBACK_IMG; });
+        card.appendChild(img);
+
+        var label = document.createElement('div');
+        label.className = 'item-label';
+        if (variant.label) {
+          label.textContent = variant.label;
+        } else if (data.isBeforeAfter && idx < 2) {
+          label.textContent = idx === 0 ? 'antes' : 'depois';
+        } else {
+          label.textContent = isProdutoKit && idx >= 3 ? variant.corte : '#' + (idx + 1);
+        }
+        card.appendChild(label);
+
+        card.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var imgSrc = this.dataset.imgUrl;
+
+          // Se for Antes & Depois, atualiza o comparador
+          if (data.isBeforeAfter && data.beforeImg) {
+            var compareDiv = document.querySelector('#modalHero .ba-compare-mini');
+            if (compareDiv) {
+              var afterImg = compareDiv.querySelector('.ba-after img');
+              var beforeImgEl = compareDiv.querySelector('.ba-before img');
+              var labelText = this.querySelector('.item-label').textContent;
+              if (labelText === 'antes' || labelText === 'ANTES') {
+                if (beforeImgEl) beforeImgEl.src = imgSrc;
+              } else {
+                if (afterImg) afterImg.src = imgSrc;
+              }
+            }
+          }
+
+          var overlay = document.getElementById('modalOverlay');
+          if (overlay) overlay.scrollTop = 0;
+
+          if (isProdutoKit) {
+            var heroTitle = document.getElementById('heroTitle');
+            var heroSub = document.getElementById('heroSub');
+            var sheetTitle = document.getElementById('sheetTitle');
+            var sheetSub = document.getElementById('sheetSub');
+            var sheetDesc = document.getElementById('sheetDesc');
+            if (heroTitle) heroTitle.textContent = variant.corte || data.corte;
+            if (heroSub) heroSub.textContent = variant.title || data.title;
+            if (sheetTitle) sheetTitle.textContent = variant.corte || data.corte;
+            if (sheetSub) sheetSub.textContent = variant.title || data.title;
+            if (sheetDesc) sheetDesc.textContent = variant.desc || data.desc;
+          }
+
+          if (isSheetOpen) closeSheet();
+        });
+
+        container.appendChild(card);
       });
-
-      if (pageId === 'pageFavoritos') renderFavorites();
-      if (pageId === 'pageHome') renderHome();
-      if (pageId === 'pagePerfil') renderPerfil();
     }
 
     // ============================================================
@@ -4326,85 +5110,6 @@
           header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
         container.appendChild(acordeao);
-      });
-    }
-
-    // ============================================================
-    // RENDER MODAL MASONRY
-    // ============================================================
-    function renderModalMasonry(key) {
-      var container = document.getElementById('modalMasonry');
-      if (!container) return;
-      container.innerHTML = '';
-
-      var data = styleData[key];
-      if (!data) return;
-
-      var variants = Array.isArray(data.variants) ? data.variants.slice(0, 10) : [data.img];
-      var alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
-      var isProdutoKit = (data.categoria === 'produto' || data.categoria === 'kit');
-
-      variants.forEach(function(variant, idx) {
-        var imgUrl = (typeof variant === 'object' && variant !== null) ? variant.img : variant;
-        var meta = (typeof variant === 'object' && variant !== null) ?
-          variant : { corte: data.corte, title: data.title, desc: data.desc };
-        if (!imgUrl) return;
-
-        var hClass = alturasModal[idx % alturasModal.length];
-        var card = document.createElement('div');
-        card.className = 'modal-card-item';
-        card.dataset.imgUrl = imgUrl;
-        card.dataset.corte = meta.corte || '';
-        card.dataset.title = meta.title || '';
-        card.dataset.desc = meta.desc || '';
-        card.style.animationDelay = (idx * 0.05) + 's';
-
-        var img = document.createElement('img');
-        img.className = hClass;
-        img.src = imgUrl;
-        img.alt = meta.corte + ' - variação ' + (idx + 1);
-        img.loading = 'lazy';
-        img.addEventListener('error', function() { this.src = FALLBACK_IMG; });
-        card.appendChild(img);
-
-        var label = document.createElement('div');
-        label.className = 'item-label';
-        label.textContent = isProdutoKit && idx >= 3 ? meta.corte : '#' + (idx + 1);
-        card.appendChild(label);
-
-        card.addEventListener('click', function(e) {
-          e.stopPropagation();
-          var imgSrc = this.dataset.imgUrl;
-          var dCorte = this.dataset.corte;
-          var dTitle = this.dataset.title;
-          var dDesc = this.dataset.desc;
-
-          var heroImg = document.getElementById('modalImg');
-          if (heroImg) {
-            heroImg.classList.add('loading');
-            heroImg.src = imgSrc;
-            heroImg.onload = function() { heroImg.classList.remove('loading'); };
-          }
-          var overlay = document.getElementById('modalOverlay');
-          if (overlay) overlay.scrollTop = 0;
-
-          if (isProdutoKit) {
-            var heroTitle = document.getElementById('heroTitle');
-            var heroSub = document.getElementById('heroSub');
-            var sheetTitle = document.getElementById('sheetTitle');
-            var sheetSub = document.getElementById('sheetSub');
-            var sheetDesc = document.getElementById('sheetDesc');
-            if (heroTitle) heroTitle.textContent = dCorte;
-            if (heroSub) heroSub.textContent = dTitle;
-            if (sheetTitle) sheetTitle.textContent = dCorte;
-            if (sheetSub) sheetSub.textContent = dTitle;
-            if (sheetDesc) sheetDesc.textContent = dDesc;
-          }
-
-          if (isSheetOpen) closeSheet();
-        });
-
-        container.appendChild(card);
       });
     }
 
@@ -4589,6 +5294,30 @@
     }
 
     // ============================================================
+    // NAVEGAÇÃO
+    // ============================================================
+    function navigateTo(pageId) {
+      currentPage = pageId;
+      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active-page'); });
+      var target = document.getElementById(pageId);
+      if (target) target.classList.add('active-page');
+
+      var filters = document.getElementById('filters');
+      if (filters) {
+        if (pageId === 'pageHome') filters.classList.remove('hidden');
+        else filters.classList.add('hidden');
+      }
+
+      document.querySelectorAll('.footer-links a').forEach(function(link) {
+        link.classList.toggle('active-link', link.dataset.page === pageId);
+      });
+
+      if (pageId === 'pageFavoritos') renderFavorites();
+      if (pageId === 'pageHome') renderHome();
+      if (pageId === 'pagePerfil') renderPerfil();
+    }
+
+    // ============================================================
     // PIX
     // ============================================================
     function copiarPixCatalogo(btn) {
@@ -4634,7 +5363,6 @@
       renderFavorites();
       renderPerfil();
 
-      // MENU
       var hamburgerBtn = document.getElementById('hamburgerBtn');
       var menuOverlay = document.getElementById('menuOverlay');
       var menuClose = document.getElementById('menuClose');
@@ -4683,7 +5411,6 @@
 
       document.getElementById('menuThemeToggle').addEventListener('click', toggleTheme);
 
-      // PHOTO SHEET
       document.getElementById('btnPhotoCamera').addEventListener('click', function() {
         document.getElementById('inputPhotoCamera').click();
       });
@@ -4706,10 +5433,8 @@
         this.value = '';
       });
 
-      // BRAND
       document.getElementById('brandLogo').addEventListener('click', function() { navigateTo('pageHome'); });
 
-      // FOOTER
       document.querySelectorAll('.footer-links a').forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -4723,12 +5448,10 @@
         });
       });
 
-      // BACK BUTTONS
       document.querySelectorAll('.back-home').forEach(function(btn) {
         btn.addEventListener('click', function() { navigateTo('pageHome'); });
       });
 
-      // FILTERS
       document.querySelectorAll('.filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           showingFavorites = false;
@@ -4743,7 +5466,6 @@
         });
       });
 
-      // MODAL
       document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
       document.getElementById('modalOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
@@ -4755,7 +5477,6 @@
       document.getElementById('carouselNext').addEventListener('click', carouselNext);
       document.getElementById('carouselPrev').addEventListener('click', carouselPrev);
 
-      // SWIPE TOUCH NO CARROSSEL
       (function() {
         var track = document.getElementById('carouselTrack');
         var touchStartX = 0;
@@ -4839,7 +5560,7 @@
       });
 
       document.getElementById('modalImg').addEventListener('click', toggleZoom);
-      document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
+      document.getElementById('zoomOverlay').addEventListener('click', closeZoom);
 
       document.getElementById('heroFavBtn').addEventListener('click', function(e) {
         e.stopPropagation();
@@ -4854,7 +5575,8 @@
       document.getElementById('heroShareBtn').addEventListener('click', function(e) {
         e.stopPropagation();
         var key = this.dataset.key;
-        if (key) shareStyle(key);
+        var heroImg = document.getElementById('modalImg');
+        if (key) shareStyle(key, heroImg && heroImg.src);
       });
 
       document.getElementById('heroAddSimilarBtn').addEventListener('click', function() {
@@ -4868,7 +5590,6 @@
         }
       });
 
-      // Setup dos uploads de antes/depois
       setupPhotoUpload('addPhotoBeforeInput', 'addPhotoBeforeArea', 'addPhotoBeforePreview', 'addPhotoBeforeData',
         'addPhotoBeforePlaceholder');
       setupPhotoUpload('addPhotoAfterInput', 'addPhotoAfterArea', 'addPhotoAfterPreview', 'addPhotoAfterData',
@@ -4958,7 +5679,7 @@
 
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          if (document.getElementById('zoomOverlay').classList.contains('active')) { toggleZoom(); return; }
+          if (document.getElementById('zoomOverlay').classList.contains('active')) { closeZoom(); return; }
           if (isSheetOpen) { closeSheet(); return; }
           if (document.getElementById('modalOverlay').classList.contains('open')) { closeModal(); }
           if (document.getElementById('photoAddOverlay').classList.contains('open')) { closeAddPhotoModal(); }
@@ -4996,10 +5717,10 @@
       })();
 
       console.log('HairOS · Versão com Antes & Depois');
-      console.log('62 estilos carregados (60 originais + Curtain Bags + Cortes Infantis)');
-      console.log('Transformações salvas apenas nos favoritos');
-      console.log('Comparador interativo com linha deslizante');
-      console.log('Filtro "Minhas" removido da vitrine');
+      console.log('60 estilos carregados');
+      console.log('Transformações salvas com Antes e Depois como variações');
+      console.log('Zoom lado a lado com Antes e Depois');
+      console.log('Variações mostram Antes e Depois no modal');
     }
 
     // ============================================================
