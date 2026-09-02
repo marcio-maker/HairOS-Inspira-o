@@ -27,6 +27,26 @@ function shuffleArray(arr) {
 }
 
 // ============================================================
+// LINKS DE CUIDADOS POR MARCA (NOVO)
+// ============================================================
+var linksCuidados = {
+  'kerastase': 'https://meli.la/1MwSY7v',
+  'joico': 'https://meli.la/2x9xqBe',
+  'loreal': 'https://meli.la/2nmeunk'
+};
+
+// ============================================================
+// FUNÇÃO PARA IDENTIFICAR MARCA DO PRODUTO/KIT
+// ============================================================
+function getMarcaDoProduto(title) {
+  var lower = title.toLowerCase();
+  if (lower.indexOf('kerastase') !== -1 || lower.indexOf('kérastase') !== -1) return 'kerastase';
+  if (lower.indexOf('joico') !== -1) return 'joico';
+  if (lower.indexOf('expert') !== -1 || lower.indexOf('l\'oréal') !== -1 || lower.indexOf('loreal') !== -1) return 'loreal';
+  return null;
+}
+
+// ============================================================
 // FUNÇÃO PARA BUSCAR PRODUTOS COMPLETOS (imagem + dados)
 // ============================================================
 function getOtherProductsData(currentId, categoria, count) {
@@ -70,11 +90,20 @@ function getOtherProductsData(currentId, categoria, count) {
 }
 
 // ============================================================
-// FUNÇÃO PARA CRIAR UM CARD
+// FUNÇÃO PARA CRIAR UM CARD (MODIFICADA)
 // ============================================================
 function createCard(id, categoria, corte, title, desc, img, variants) {
   var finalVariants = [];
   var otherProductsData = [];
+  var linkCuidadosUnico = null;
+
+  // IDENTIFICA MARCA PARA PRODUTOS E KITS
+  if (categoria === 'produto' || categoria === 'kit') {
+    var marca = getMarcaDoProduto(title);
+    if (marca && linksCuidados[marca]) {
+      linkCuidadosUnico = linksCuidados[marca];
+    }
+  }
 
   if (categoria === 'produto' || categoria === 'kit') {
     var ownImages = Array.isArray(variants) ? variants.slice(0, 3) : [img];
@@ -115,6 +144,7 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     otherProductsData: otherProductsData,
     coloracao: coloracaoKits,
     cuidados: cuidadosKits,
+    linkCuidadosUnico: linkCuidadosUnico, // NOVO: link único para produtos/kits
     altura: getAlturaHome(),
     isUserPhoto: id && id.startsWith('user_')
   };
@@ -137,28 +167,33 @@ var coloracaoKits = {
   }]
 };
 
+// ============================================================
+// CUIDADOS KITS - AGORA COM MARCA PARA IDENTIFICAÇÃO
+// ============================================================
 var cuidadosKits = {
   kits: [{
     nome: 'Kit Kerastase',
     badge: 'Premium',
+    marca: 'kerastase', // NOVO: identificador da marca
     link: 'https://meli.la/1MwSY7v',
     produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
   }, {
     nome: 'Kit L\'Oréal Expert',
     badge: 'Profissional',
+    marca: 'loreal', // NOVO: identificador da marca
     link: 'https://meli.la/2nmeunk',
     produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
   }, {
     nome: 'Kit Joico',
     badge: 'Hidratação',
+    marca: 'joico', // NOVO: identificador da marca
     link: 'https://meli.la/2x9xqBe',
     produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
   }]
 };
 
 // ============================================================
-// DADOS: CORTES (15 itens) - BADGE REMOVIDO + SUBTÍTULOS CORRIGIDOS
-// Estrutura: [id, categoria, título, subtítulo, descrição, img_principal, [img1, img2, ...]]
+// DADOS: CORTES (15 itens)
 // ============================================================
 var cortesData = [
   ['velvet-bob', 'corte', 'Velvet Bob', 'Bob Texturizado',
@@ -404,7 +439,7 @@ var cortesData = [
 ];
 
 // ============================================================
-// DADOS: COLORAÇÕES (15 itens) - BADGE REMOVIDO
+// DADOS: COLORAÇÕES (15 itens)
 // ============================================================
 var coloracoesData = [
   ['ombre-tiger-eye', 'coloracao', 'Ombré Tiger Eye', 'Transição Dourada',
@@ -650,7 +685,7 @@ var coloracoesData = [
 ];
 
 // ============================================================
-// DADOS: PRODUTOS (15 itens) - BADGE REMOVIDO
+// DADOS: PRODUTOS (15 itens)
 // ============================================================
 var produtosData = [
   ['kerastase-resistance-shampoo', 'produto', 'Kérastase Resistance Shampoo',
@@ -806,7 +841,7 @@ var produtosData = [
 ];
 
 // ============================================================
-// DADOS: KITS (15 itens) - BADGE REMOVIDO
+// DADOS: KITS (15 itens)
 // ============================================================
 var kitsData = [
   ['kit-kerastase-resistance', 'kit', 'Kérastase Resistance Kit', 'Reconstrução Completa',
