@@ -1496,6 +1496,76 @@
     .transf-add-icon { font-size: 1.6rem; line-height: 1; }
     .transf-add-label { font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; text-align: center; padding: 0 8px; }
 
+    .transf-title-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .transf-title-input-wrap input {
+      flex: 1;
+      min-width: 0;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .transf-title-input-wrap input:focus { border-color: var(--gold); }
+    .transf-title-input-wrap input::placeholder { color: var(--text-muted); opacity: .5; }
+    .transf-title-save {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border-gold);
+      background: var(--gold);
+      color: #0a0808;
+      font-size: .9rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+    .transf-title-save:hover { background: var(--gold-light); transform: scale(1.05); }
+    .transf-actions-row {
+      display: flex;
+      gap: 10px;
+      padding: 14px 20px 0;
+    }
+    .transf-actions-row .ba-add-btn {
+      flex: 1;
+      margin: 0;
+      width: auto;
+      text-transform: none;
+      letter-spacing: .04em;
+      font-size: .75rem;
+      padding: 12px;
+    }
+    .transf-actions-row .ba-add-btn.danger {
+      flex: 0 0 auto;
+      width: 48px;
+      background: transparent;
+      border: 1px solid rgba(255, 71, 87, .3);
+      color: #ff4757;
+    }
+    .transf-actions-row .ba-add-btn.danger:hover {
+      background: rgba(255, 71, 87, .15);
+      color: #ff4757;
+    }
+    .transf-footer-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 20px 8px;
+      font-size: .6rem;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+    }
+    .transf-footer-info span:last-child { opacity: .35; }
+
     /* ===== MODAL ANTES & DEPOIS ===== */
     .ba-modal-overlay {
       position: fixed;
@@ -2634,11 +2704,15 @@
       <div class="ba-modal-header">
         <div class="ba-modal-title" style="flex:1;min-width:0;">
           <span class="ba-modal-eyebrow">antes &amp; depois</span>
-          <div id="transfViewTitleWrap">
-            <h3 id="transfViewName">—</h3>
+          <div class="transf-title-input-wrap">
+            <input type="text" id="transfViewTitleInput" placeholder="Título da transformação" maxlength="40">
+            <button class="transf-title-save" id="transfViewTitleSave" title="Salvar título">✓</button>
           </div>
         </div>
-        <button class="ba-modal-close" id="transfViewClose" aria-label="Fechar">✕</button>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="ba-modal-close" id="transfViewShare" style="font-size:1.1rem;padding:4px 10px;" title="Compartilhar" aria-label="Compartilhar">↗</button>
+          <button class="ba-modal-close" id="transfViewClose" aria-label="Fechar">✕</button>
+        </div>
       </div>
       <div class="ba-hero-wrap">
         <div class="ba-hero-compare visible" id="transfViewCompare">
@@ -2656,9 +2730,38 @@
           </div>
         </div>
       </div>
-      <div style="padding:16px 20px 0;display:flex;gap:10px;">
-        <button class="perfil-btn" id="transfViewEditTitle" style="flex:1;padding:12px;">✎ editar título</button>
-        <button class="perfil-btn" id="transfViewShare" style="flex:1;padding:12px;">↗ compartilhar</button>
+      <div class="transf-actions-row">
+        <button class="ba-add-btn" id="transfViewEditPhotos">📷 trocar fotos</button>
+        <button class="ba-add-btn danger" id="transfViewDelete" aria-label="Excluir">🗑</button>
+      </div>
+      <div class="ba-upload-panel" id="transfEditPanel" style="margin:8px 20px 16px;">
+        <div class="ba-upload-header">
+          <span class="ba-upload-title">trocar fotos</span>
+          <button class="ba-upload-cancel" id="transfEditCancel">cancelar</button>
+        </div>
+        <div class="ba-upload-fields">
+          <div class="ba-upload-field">
+            <div class="ba-upload-label">antes</div>
+            <div class="ba-upload-area" id="transfEditBeforeArea" tabindex="0" role="button">
+              <span class="ba-upload-placeholder" id="transfEditBeforePh">toque para selecionar</span>
+              <img class="ba-upload-preview" id="transfEditBeforePreview" src="" alt="">
+            </div>
+            <input type="file" id="transfEditBeforeInput" accept="image/*" style="display:none">
+          </div>
+          <div class="ba-upload-field">
+            <div class="ba-upload-label">depois</div>
+            <div class="ba-upload-area" id="transfEditAfterArea" tabindex="0" role="button">
+              <span class="ba-upload-placeholder" id="transfEditAfterPh">toque para selecionar</span>
+              <img class="ba-upload-preview" id="transfEditAfterPreview" src="" alt="">
+            </div>
+            <input type="file" id="transfEditAfterInput" accept="image/*" style="display:none">
+          </div>
+        </div>
+        <button class="ba-upload-save" id="transfEditSave">salvar fotos</button>
+      </div>
+      <div class="transf-footer-info">
+        <span id="transfViewDate">—</span>
+        <span>HairOS · transformação</span>
       </div>
     </div>
   </div>
@@ -3007,8 +3110,8 @@
     // COMPRESSÃO DE IMAGEM
     // ============================================================
     function compressImage(file, cb) {
-      var maxSize = 200;
-      var quality = 0.5;
+      var maxSize = 1200;
+      var quality = 0.85;
       var reader = new FileReader();
       reader.onload = function(e) {
         var img = new Image();
@@ -3017,12 +3120,15 @@
           var w = img.width,
             h = img.height;
           if (w > maxSize || h > maxSize) {
-            if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; } 
+            if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
             else { w = Math.round(w * maxSize / h); h = maxSize; }
           }
           canvas.width = w;
           canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          var ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, w, h);
           cb(canvas.toDataURL('image/jpeg', quality));
         };
         img.src = e.target.result;
@@ -3631,14 +3737,19 @@
       transfViewInited = false;
       var transfs = getTransfs();
       var t = transfs.find(function(x) { return x.id === id; });
-      if (!t) return;
-      var nameEl = document.getElementById('transfViewName');
-      var titleWrap = document.getElementById('transfViewTitleWrap');
-      if (titleWrap) {
-        titleWrap.innerHTML = '<h3 id="transfViewName">' + (t.title || 'Transformação') + '</h3>';
-      } else if (nameEl) {
-        nameEl.textContent = t.title || 'Transformação';
+      if (!t) { showToast('Transformação não encontrada'); return; }
+
+      var titleInput = document.getElementById('transfViewTitleInput');
+      if (titleInput) titleInput.value = t.title || 'Transformação';
+
+      var dateEl = document.getElementById('transfViewDate');
+      if (dateEl && t.createdAt) {
+        dateEl.textContent = 'criado em ' + new Date(t.createdAt).toLocaleDateString('pt-BR');
+      } else if (dateEl) {
+        dateEl.textContent = '';
       }
+
+      closeTransfEdit();
       renderTransfView();
       document.getElementById('transfViewOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -3648,6 +3759,7 @@
       document.getElementById('transfViewOverlay').classList.remove('open');
       document.body.style.overflow = '';
       transfViewId = null;
+      closeTransfEdit();
     }
 
     function renderTransfView() {
@@ -3656,12 +3768,10 @@
       var t = transfs.find(function(x) { return x.id === transfViewId; });
       if (!t) return;
       var imgs = getTransfImages(t);
-
       var afterImg = document.getElementById('transfViewAfterImg');
       var beforeImg = document.getElementById('transfViewBeforeImg');
       var beforeDiv = document.getElementById('transfViewBefore');
       var handle = document.getElementById('transfViewHandle');
-
       afterImg.src = imgs.after || '';
       beforeImg.src = imgs.before || '';
       beforeDiv.style.width = '50%';
@@ -3702,68 +3812,25 @@
       });
     }
 
-    function shareTransf() {
-      if (!transfViewId) return;
-      var transfs = getTransfs();
-      var t = transfs.find(function(x) { return x.id === transfViewId; });
+    function openTransfEdit() {
+      var ts = getTransfs();
+      var t = ts.find(function(x) { return x.id === transfViewId; });
       if (!t) return;
-      var text = (t.title || 'Minha transformação') + ' — antes & depois\n\nVeja mais em HairOS!';
-      if (navigator.share) {
-        navigator.share({ title: 'HairOS - ' + (t.title || 'Transformação'), text: text }).catch(function(err) {
-          if (err.name !== 'AbortError') fallbackCopy(text);
-        });
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() { showToast('Copiado!'); }).catch(function() { fallbackCopy(text); });
-      } else {
-        fallbackCopy(text);
-      }
+      var imgs = getTransfImages(t);
+      var beforePreview = document.getElementById('transfEditBeforePreview');
+      var afterPreview = document.getElementById('transfEditAfterPreview');
+      beforePreview.src = imgs.before || '';
+      afterPreview.src = imgs.after || '';
+      beforePreview.classList.toggle('visible', !!imgs.before);
+      afterPreview.classList.toggle('visible', !!imgs.after);
+      document.getElementById('transfEditBeforePh').style.display = imgs.before ? 'none' : '';
+      document.getElementById('transfEditAfterPh').style.display = imgs.after ? 'none' : '';
+      document.getElementById('transfEditPanel').classList.add('open');
     }
 
-    function editTransfTitle() {
-      if (!transfViewId) return;
-      var transfs = getTransfs();
-      var t = transfs.find(function(x) { return x.id === transfViewId; });
-      if (!t) return;
-      var wrap = document.getElementById('transfViewTitleWrap');
-      if (!wrap) return;
-      var current = t.title || 'Transformação';
-      wrap.innerHTML = '';
-      var input = document.createElement('input');
-      input.type = 'text';
-      input.value = current;
-      input.maxLength = 40;
-      input.style.cssText = 'background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:Inter,sans-serif;font-size:0.95rem;padding:8px 12px;width:100%;outline:none;';
-      wrap.appendChild(input);
-      var actions = document.createElement('div');
-      actions.style.cssText = 'display:flex;gap:6px;margin-top:8px;';
-      var saveBtn = document.createElement('button');
-      saveBtn.textContent = 'salvar';
-      saveBtn.style.cssText = 'padding:5px 14px;border-radius:6px;border:none;font-family:Inter,sans-serif;font-size:0.72rem;cursor:pointer;background:var(--gold);color:#0a0808;';
-      var cancelBtn = document.createElement('button');
-      cancelBtn.textContent = 'cancelar';
-      cancelBtn.style.cssText = 'padding:5px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:Inter,sans-serif;font-size:0.72rem;cursor:pointer;';
-      actions.appendChild(saveBtn);
-      actions.appendChild(cancelBtn);
-      wrap.appendChild(actions);
-      input.focus();
-      input.select();
-
-      function finish(save) {
-        if (save) {
-          var val = input.value.trim() || 'Transformação';
-          t.title = val;
-          saveTransfs(transfs);
-          renderTransformacoes();
-          showToast('Título atualizado');
-        }
-        wrap.innerHTML = '<h3 id="transfViewName">' + (t.title || 'Transformação') + '</h3>';
-      }
-      saveBtn.addEventListener('click', function() { finish(true); });
-      cancelBtn.addEventListener('click', function() { finish(false); });
-      input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') finish(true);
-        if (e.key === 'Escape') finish(false);
-      });
+    function closeTransfEdit() {
+      var p = document.getElementById('transfEditPanel');
+      if (p) p.classList.remove('open');
     }
 
     function setupTUpload(areaId, inputId, prevId, phId) {
@@ -3776,13 +3843,19 @@
       area.addEventListener('keydown', function(e) { if (e.key==='Enter'||e.key===' ') input.click(); });
       input.addEventListener('change', function() {
         var file = this.files[0]; if (!file) return;
-        compressImage(file, function(d) { prev.src = d; prev.classList.add('visible'); ph.style.display = 'none'; });
+        compressImage(file, function(d) {
+          prev.src = d;
+          prev.classList.add('visible');
+          if (ph) ph.style.display = 'none';
+        });
       });
     }
 
     function initTransfModals() {
       setupTUpload('transfBeforeArea','transfBeforeInput','transfBeforePreview','transfBeforePh');
       setupTUpload('transfAfterArea', 'transfAfterInput', 'transfAfterPreview', 'transfAfterPh');
+      setupTUpload('transfEditBeforeArea','transfEditBeforeInput','transfEditBeforePreview','transfEditBeforePh');
+      setupTUpload('transfEditAfterArea','transfEditAfterInput','transfEditAfterPreview','transfEditAfterPh');
 
       document.getElementById('transfCreateClose').addEventListener('click', closeTransfCreate);
       document.getElementById('transfCreateOverlay').addEventListener('click', function(e) {
@@ -3804,7 +3877,14 @@
           return;
         }
         var id = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,6);
-        transfs.unshift({ id: id, title: title, before: bSrc, after: aSrc, createdAt: Date.now() });
+        transfs.unshift({
+          id: id,
+          title: title,
+          createdAt: Date.now(),
+          before: bSrc,
+          after: aSrc,
+          pairs: [{ before: bSrc, after: aSrc, createdAt: Date.now() }]
+        });
         if (!saveTransfs(transfs)) { showToast('Imagens muito grandes. Tente outras.'); return; }
         updateTransfCounter();
         closeTransfCreate();
@@ -3816,8 +3896,69 @@
       document.getElementById('transfViewOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeTransfView();
       });
-      document.getElementById('transfViewEditTitle').addEventListener('click', editTransfTitle);
-      document.getElementById('transfViewShare').addEventListener('click', shareTransf);
+
+      document.getElementById('transfViewTitleSave').addEventListener('click', function() {
+        var input = document.getElementById('transfViewTitleInput');
+        var title = (input.value || '').trim() || 'Transformação';
+        var ts = getTransfs();
+        var t = ts.find(function(x) { return x.id === transfViewId; });
+        if (!t) return;
+        t.title = title;
+        saveTransfs(ts);
+        showToast('Título atualizado! ✓');
+        renderTransformacoes();
+      });
+
+      document.getElementById('transfViewShare').addEventListener('click', function() {
+        var ts = getTransfs();
+        var t = ts.find(function(x) { return x.id === transfViewId; });
+        if (!t) return;
+        var text = '✨ ' + (t.title || 'Transformação') + ' — Antes e Depois\n\nVeja meu progresso capilar no HairOS!';
+        if (navigator.share) {
+          navigator.share({ title: t.title || 'Transformação HairOS', text: text }).catch(function(err) {
+            if (err.name !== 'AbortError') fallbackCopy(text);
+          });
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function() { showToast('Texto copiado!'); }).catch(function() { fallbackCopy(text); });
+        } else {
+          fallbackCopy(text);
+        }
+      });
+
+      document.getElementById('transfViewDelete').addEventListener('click', function() {
+        if (!transfViewId) return;
+        if (!confirm('Tem certeza que deseja excluir esta transformação?')) return;
+        var ts = getTransfs().filter(function(x) { return x.id !== transfViewId; });
+        saveTransfs(ts);
+        updateTransfCounter();
+        closeTransfView();
+        renderTransformacoes();
+        showToast('Transformação removida');
+      });
+
+      document.getElementById('transfViewEditPhotos').addEventListener('click', openTransfEdit);
+      document.getElementById('transfEditCancel').addEventListener('click', closeTransfEdit);
+      document.getElementById('transfEditSave').addEventListener('click', function() {
+        var bSrc = document.getElementById('transfEditBeforePreview').src;
+        var aSrc = document.getElementById('transfEditAfterPreview').src;
+        var loc = window.location.href;
+        if (!bSrc || !aSrc || bSrc === loc || aSrc === loc) {
+          showToast('Adicione as duas fotos');
+          return;
+        }
+        var ts = getTransfs();
+        var t = ts.find(function(x) { return x.id === transfViewId; });
+        if (!t) return;
+        t.before = bSrc;
+        t.after = aSrc;
+        t.pairs = [{ before: bSrc, after: aSrc, createdAt: Date.now() }];
+        if (!saveTransfs(ts)) { showToast('Imagens muito grandes.'); return; }
+        transfViewInited = false;
+        closeTransfEdit();
+        renderTransfView();
+        renderTransformacoes();
+        showToast('Fotos atualizadas! ✓');
+      });
     }
 
     // ============================================================
