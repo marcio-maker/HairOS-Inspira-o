@@ -4354,7 +4354,78 @@
     }
 
     // ============================================================
-    // RENDER SHEET - FUNÇÃO PRINCIPAL MODIFICADA
+    // FUNÇÃO AUXILIAR: criarAcordeao
+    // ============================================================
+    function criarAcordeao(kit) {
+      var acordeao = document.createElement('div');
+      acordeao.className = 'kit-acordeao';
+
+      var header = document.createElement('div');
+      header.className = 'kit-acordeao-header';
+      header.setAttribute('role', 'button');
+      header.setAttribute('tabindex', '0');
+      header.setAttribute('aria-expanded', 'false');
+
+      var left = document.createElement('div');
+      left.className = 'kit-acordeao-header-left';
+      var badge = document.createElement('span');
+      badge.className = 'kit-acordeao-badge';
+      badge.textContent = kit.badge || 'Kit';
+      left.appendChild(badge);
+      var title = document.createElement('span');
+      title.className = 'kit-acordeao-title';
+      title.textContent = kit.nome;
+      left.appendChild(title);
+      header.appendChild(left);
+
+      var arrow = document.createElement('span');
+      arrow.className = 'kit-acordeao-arrow';
+      arrow.textContent = '▾';
+      header.appendChild(arrow);
+      acordeao.appendChild(header);
+
+      var body = document.createElement('div');
+      body.className = 'kit-acordeao-body';
+
+      if (kit.produtos) {
+        var prodList = document.createElement('div');
+        prodList.className = 'kit-produtos-lista';
+        var produtos = kit.produtos.split(' + ');
+        produtos.forEach(function(p, idx) {
+          var span = document.createElement('span');
+          span.textContent = p;
+          prodList.appendChild(span);
+          if (idx < produtos.length - 1) {
+            var sep = document.createElement('span');
+            sep.className = 'sep';
+            sep.textContent = ' • ';
+            prodList.appendChild(sep);
+          }
+        });
+        body.appendChild(prodList);
+      }
+
+      var complete = document.createElement('a');
+      complete.className = 'kit-complete';
+      complete.href = kit.link || '#';
+      complete.target = '_blank';
+      complete.rel = 'noopener noreferrer';
+      complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
+      body.appendChild(complete);
+
+      acordeao.appendChild(body);
+
+      header.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = acordeao.classList.toggle('open');
+        header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      return acordeao;
+    }
+
+    // ============================================================
+    // RENDER SHEET - FUNÇÃO PRINCIPAL REFATORADA
     // ============================================================
     function renderSheet(key) {
       var data = styleData[key];
@@ -4443,21 +4514,33 @@
       }
 
       // ============================================================
-      // CASO 2: PRODUTO ou KIT - botao Cuidados abre kit da marca
+      // CASO 2: PRODUTO ou KIT - botão Cuidados abre kit da marca
       // ============================================================
       else if (data.categoria === 'produto' || data.categoria === 'kit') {
         var tituloLower = (data.corte || data.title || '').toLowerCase();
         var kitMarca = null;
 
         if (tituloLower.indexOf('kerastase') !== -1 || tituloLower.indexOf('k\u00e9rastase') !== -1) {
-          kitMarca = { nome: 'Kit K\u00e9rastase', badge: 'Premium', link: 'https://meli.la/1MwSY7v',
-            produtos: 'Shampoo Nutritive + Condicionador Resistance + M\u00e1scara Genesis + Leave-In Elixir Ultime' };
+          kitMarca = {
+            nome: 'Kit K\u00e9rastase',
+            badge: 'Premium',
+            link: 'https://meli.la/1MwSY7v',
+            produtos: 'Shampoo Nutritive + Condicionador Resistance + M\u00e1scara Genesis + Leave-In Elixir Ultime'
+          };
         } else if (tituloLower.indexOf('joico') !== -1) {
-          kitMarca = { nome: 'Kit Joico', badge: 'Hidrata\u00e7\u00e3o', link: 'https://meli.la/2x9xqBe',
-            produtos: 'Shampoo Moisture Recovery + Condicionador + M\u00e1scara Intensa + Leave-In K-PAK' };
+          kitMarca = {
+            nome: 'Kit Joico',
+            badge: 'Hidrata\u00e7\u00e3o',
+            link: 'https://meli.la/2x9xqBe',
+            produtos: 'Shampoo Moisture Recovery + Condicionador + M\u00e1scara Intensa + Leave-In K-PAK'
+          };
         } else if (tituloLower.indexOf('expert') !== -1 || tituloLower.indexOf('loreal') !== -1) {
-          kitMarca = { nome: "Kit L'Or\u00e9al Expert", badge: 'Profissional', link: 'https://meli.la/2nmeunk',
-            produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + M\u00e1scara Nutrioil + S\u00e9rum Pro Longer' };
+          kitMarca = {
+            nome: "Kit L'Or\u00e9al Expert",
+            badge: 'Profissional',
+            link: 'https://meli.la/2nmeunk',
+            produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + M\u00e1scara Nutrioil + S\u00e9rum Pro Longer'
+          };
         }
 
         var btnCuidadosUnico = document.createElement('button');
@@ -4483,77 +4566,6 @@
           this.classList.add('active');
           this.setAttribute('aria-selected', 'true');
         });
-      }
-
-      // ============================================================
-      // FUNÇÃO AUXILIAR: criarAcordeao
-      // ============================================================
-      function criarAcordeao(kit) {
-        var acordeao = document.createElement('div');
-        acordeao.className = 'kit-acordeao';
-
-        var header = document.createElement('div');
-        header.className = 'kit-acordeao-header';
-        header.setAttribute('role', 'button');
-        header.setAttribute('tabindex', '0');
-        header.setAttribute('aria-expanded', 'false');
-
-        var left = document.createElement('div');
-        left.className = 'kit-acordeao-header-left';
-        var badge = document.createElement('span');
-        badge.className = 'kit-acordeao-badge';
-        badge.textContent = kit.badge || 'Kit';
-        left.appendChild(badge);
-        var title = document.createElement('span');
-        title.className = 'kit-acordeao-title';
-        title.textContent = kit.nome;
-        left.appendChild(title);
-        header.appendChild(left);
-
-        var arrow = document.createElement('span');
-        arrow.className = 'kit-acordeao-arrow';
-        arrow.textContent = '▾';
-        header.appendChild(arrow);
-        acordeao.appendChild(header);
-
-        var body = document.createElement('div');
-        body.className = 'kit-acordeao-body';
-
-        if (kit.produtos) {
-          var prodList = document.createElement('div');
-          prodList.className = 'kit-produtos-lista';
-          var produtos = kit.produtos.split(' + ');
-          produtos.forEach(function(p, idx) {
-            var span = document.createElement('span');
-            span.textContent = p;
-            prodList.appendChild(span);
-            if (idx < produtos.length - 1) {
-              var sep = document.createElement('span');
-              sep.className = 'sep';
-              sep.textContent = ' • ';
-              prodList.appendChild(sep);
-            }
-          });
-          body.appendChild(prodList);
-        }
-
-        var complete = document.createElement('a');
-        complete.className = 'kit-complete';
-        complete.href = kit.link || '#';
-        complete.target = '_blank';
-        complete.rel = 'noopener noreferrer';
-        complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
-        body.appendChild(complete);
-
-        acordeao.appendChild(body);
-
-        header.addEventListener('click', function(e) {
-          e.stopPropagation();
-          var isOpen = acordeao.classList.toggle('open');
-          header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        });
-
-        return acordeao;
       }
     }
 
