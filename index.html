@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1668,7 +1669,6 @@
       font-weight: 400;
     }
     .ba-variants-label span:first-child { color: var(--gold); font-weight: 600; }
-    /* Masonry de variações (mesmo estilo dos cards) */
     .ba-variants-row {
       column-count: 2;
       column-gap: 10px;
@@ -2174,21 +2174,12 @@
     .perfil-identity h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.25rem; color: var(--text); line-height: 1.2; margin-bottom: 4px; }
     .perfil-identity .perfil-desc { font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; margin-bottom: 10px; word-break: break-word; }
     .perfil-edit-row { display: flex; gap: 6px; flex-wrap: wrap; }
-    .perfil-stats-section { margin-bottom: 28px; }
-    .perfil-stats-eyebrow { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; margin-bottom: 14px; }
-    .perfil-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .perfil-stat {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 10px;
-      text-align: center;
-      transition: all var(--transition);
+    .perfil-actions-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
     }
-    .perfil-stat:hover { border-color: var(--border-gold); transform: translateY(-2px); }
-    .perfil-stat .number { font-size: 1.4rem; font-weight: 600; color: var(--gold); display: block; font-family: 'Playfair Display', serif; line-height: 1; margin-bottom: 5px; }
-    .perfil-stat .label { font-size: .58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 400; }
-    .perfil-actions-section { display: flex; flex-direction: column; gap: 10px; }
     .perfil-btn {
       padding: 12px 16px;
       border-radius: 10px;
@@ -2496,10 +2487,10 @@
         </div>
         <div class="sobre-content">
           <div class="sobre-intro">
-            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de estilos capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
+            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>60 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
           </div>
           <div class="sobre-stats">
-            <div class="stat"><span class="number">62</span><span class="label">estilos</span></div>
+            <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
             <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
             <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
           </div>
@@ -2507,7 +2498,7 @@
             <div class="sobre-card">
               <div class="sobre-card-eyebrow">origem</div>
               <h4>Estética atemporal</h4>
-              <p>Nascida da estética da Vogue Paris dos anos 1960, a HairOS reúne 62 estilos entre cortes, colorações e produtos.</p>
+              <p>Nascida da estética da Vogue Paris dos anos 1960, a HairOS reúne 60 estilos entre cortes, colorações e produtos.</p>
             </div>
             <div class="sobre-card">
               <div class="sobre-card-eyebrow">missão</div>
@@ -2520,7 +2511,7 @@
             <div class="faq-grid">
               <div class="faq-item">
                 <div class="faq-question">O que é a HairOS?</div>
-                <div class="faq-answer">HairOS é uma vitrine digital de inspirações capilares, com 62 estilos curados entre cortes, colorações, produtos e kits profissionais.</div>
+                <div class="faq-answer">HairOS é uma vitrine digital de inspirações capilares, com 60 estilos curados entre cortes, colorações, produtos e kits profissionais.</div>
               </div>
               <div class="faq-item">
                 <div class="faq-question">Os estilos são atualizados com frequência?</div>
@@ -2592,7 +2583,7 @@
         <a class="active-link" data-page="pageHome" data-icon="⌂" role="button" tabindex="0">home</a>
         <a data-page="pageFavoritos" data-icon="♡" role="button" tabindex="0">favs</a>
         <a data-page="pagePerfil" data-icon="◈" role="button" tabindex="0">perfil</a>
-        <a data-page="pageSobre" data-icon="◎" role="button" tabindex="0">sobre</a>
+        <a data-page="pageTransformacoes" data-icon="◑" role="button" tabindex="0">progresso</a>
         <a data-page="pageContato" data-icon="✉" role="button" tabindex="0">contato</a>
       </div>
     </footer>
@@ -3053,10 +3044,9 @@
     }
 
     // ============================================================
-    // COMPRESSÃO DE IMAGEM (TAMANHO MUITO MENOR)
+    // COMPRESSÃO DE IMAGEM
     // ============================================================
     function compressImage(file, cb) {
-      // Tamanho máximo 200px e qualidade 0.5 para caber no localStorage
       var maxSize = 200;
       var quality = 0.5;
       var reader = new FileReader();
@@ -3083,6 +3073,8 @@
     // ============================================================
     // TRANSFORMAÇÕES
     // ============================================================
+    var MAX_TRANSF = 5;
+
     function getTransfs() {
       try { return JSON.parse(localStorage.getItem('hairos_transformacoes') || '[]'); } catch { return []; }
     }
@@ -3094,8 +3086,6 @@
       var count = getTransfs().length;
       var el = document.getElementById('menuTransfCount');
       if (el) { el.textContent = count; el.classList.toggle('empty', count === 0); }
-      var statEl = document.getElementById('perfilTransfCount');
-      if (statEl) statEl.textContent = count;
     }
 
     // ============================================================
@@ -3335,7 +3325,7 @@
     }
 
     // ============================================================
-    // RENDER PERFIL
+    // RENDER PERFIL (SEM STATS)
     // ============================================================
     function openPhotoSheet() {
       var s = document.getElementById('photoSheet');
@@ -3392,23 +3382,6 @@
             <div class="perfil-edit-row">
               <button class="perfil-btn" style="padding:5px 12px;font-size:0.65rem;" id="editNomeBtn">✎ nome</button>
               <button class="perfil-btn" style="padding:5px 12px;font-size:0.65rem;" id="editDescBtn">✎ bio</button>
-            </div>
-          </div>
-        </div>
-        <div class="perfil-stats-section">
-          <div class="perfil-stats-eyebrow">resumo</div>
-          <div class="perfil-stats">
-            <div class="perfil-stat">
-              <span class="number">${favorites.length}</span>
-              <span class="label">favoritos</span>
-            </div>
-            <div class="perfil-stat">
-              <span class="number" id="perfilTransfCount">${getTransfs().length}</span>
-              <span class="label">transformações</span>
-            </div>
-            <div class="perfil-stat">
-              <span class="number">✦</span>
-              <span class="label">estilo</span>
             </div>
           </div>
         </div>
@@ -3529,7 +3502,7 @@
 
       transfs.forEach(function(t) {
         var pairs = t.pairs || [];
-        var hero = pairs.length ? pairs[pairs.length - 1] : null; // mais recente
+        var hero = pairs.length ? pairs[pairs.length - 1] : null;
         var thumb = hero ? (hero.after || hero.before || '') : '';
         html += '<div class="transf-card" data-id="' + t.id + '">';
         html += '<div class="transf-card-thumb">';
@@ -3539,7 +3512,7 @@
           html += '<div class="transf-no-img">◑<span style="font-size:.58rem;opacity:.5;font-family:Inter,sans-serif">sem foto</span></div>';
         }
         var pairCount = (t.pairs || []).length;
-        if (pairCount > 0) html += '<span class="transf-count-badge">' + pairCount + ' / 5</span>';
+        if (pairCount > 0) html += '<span class="transf-count-badge">' + pairCount + ' / ' + MAX_TRANSF + '</span>';
         html += '</div>';
         html += '<div class="transf-card-info">';
         html += '<div class="transf-card-name">' + (t.title || 'Transformação') + '</div>';
@@ -3548,14 +3521,27 @@
         html += '</div>';
       });
 
-      html += '<div class="transf-add-card" id="transfAddCardBtn">'
-        + '<span class="transf-add-icon">+</span>'
-        + '<span class="transf-add-label">nova transformação</span>'
-        + '</div>';
-      html += '</div>';
+      // Botão "nova transformação" — só aparece se tiver menos de MAX_TRANSF
+      var currentCount = transfs.length;
+      if (currentCount < MAX_TRANSF) {
+        html += '<div class="transf-add-card" id="transfAddCardBtn">'
+          + '<span class="transf-add-icon">+</span>'
+          + '<span class="transf-add-label">nova transformação</span>'
+          + '</div>';
+      } else {
+        // Limite atingido — exibe CTA para contato
+        html += '<div class="transf-add-card" style="border-color:var(--gold);opacity:1;cursor:pointer;" id="transfLimitCta">'
+          + '<span style="font-size:1.6rem;line-height:1;">💛</span>'
+          + '<span style="font-size:.7rem;font-weight:600;color:var(--gold);text-align:center;padding:0 8px;">5 transformações<br>incríveis!</span>'
+          + '<span style="font-size:.55rem;color:var(--text-muted);text-align:center;padding:0 8px;opacity:.7;">Quer continuar seu progresso?</span>'
+          + '<button class="btn-gold" style="margin-top:6px;padding:8px 20px;font-size:.65rem;width:auto;" id="transfLimitContactBtn">✨ Falar conosco</button>'
+          + '</div>';
+      }
 
+      html += '</div>';
       container.innerHTML = html;
 
+      // Eventos dos cards
       container.querySelectorAll('.transf-card').forEach(function(card) {
         card.addEventListener('click', function(e) {
           if (e.target.closest('.transf-card-del')) return;
@@ -3572,8 +3558,68 @@
           renderTransformacoes();
         });
       });
+
       var addCard = document.getElementById('transfAddCardBtn');
       if (addCard) addCard.addEventListener('click', openTransfCreate);
+
+      var limitCta = document.getElementById('transfLimitCta');
+      if (limitCta) {
+        limitCta.addEventListener('click', function(e) {
+          if (e.target.closest('#transfLimitContactBtn')) return;
+          // Redirecionar para contato
+          navigateTo('pageContato');
+          // Pré-preencher mensagem
+          var msgEl = document.getElementById('contatoMensagem');
+          if (msgEl) {
+            msgEl.value = 'Olá! 💛 Já tenho 5 transformações salvas no meu progresso e gostaria de continuar minha jornada capilar. Como posso fazer? Aguardo contato.';
+          }
+          // Abrir formulário
+          var nomeEl = document.getElementById('contatoNome');
+          var emailEl = document.getElementById('contatoEmail');
+          var perfil = getPerfilData();
+          if (nomeEl && perfil.nome && perfil.nome !== 'Visitante') {
+            nomeEl.value = perfil.nome;
+          }
+          if (emailEl) {
+            // Se tiver email salvo, preencher
+            try {
+              var savedEmail = localStorage.getItem('hairos_contato_email');
+              if (savedEmail) emailEl.value = savedEmail;
+            } catch(e) {}
+          }
+          // Focar no campo nome
+          setTimeout(function() {
+            if (nomeEl) nomeEl.focus();
+          }, 300);
+        });
+        var contactBtn = document.getElementById('transfLimitContactBtn');
+        if (contactBtn) {
+          contactBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Redirecionar para contato
+            navigateTo('pageContato');
+            var msgEl = document.getElementById('contatoMensagem');
+            if (msgEl) {
+              msgEl.value = 'Olá! 💛 Já tenho 5 transformações salvas no meu progresso e gostaria de continuar minha jornada capilar. Como posso fazer? Aguardo contato.';
+            }
+            var nomeEl = document.getElementById('contatoNome');
+            var emailEl = document.getElementById('contatoEmail');
+            var perfil = getPerfilData();
+            if (nomeEl && perfil.nome && perfil.nome !== 'Visitante') {
+              nomeEl.value = perfil.nome;
+            }
+            if (emailEl) {
+              try {
+                var savedEmail = localStorage.getItem('hairos_contato_email');
+                if (savedEmail) emailEl.value = savedEmail;
+              } catch(e) {}
+            }
+            setTimeout(function() {
+              if (nomeEl) nomeEl.focus();
+            }, 300);
+          });
+        }
+      }
     }
 
     // ============================================================
@@ -3584,6 +3630,17 @@
     var transfViewInited = false;
 
     function openTransfCreate() {
+      var transfs = getTransfs();
+      if (transfs.length >= MAX_TRANSF) {
+        showToast('Você já atingiu o limite de ' + MAX_TRANSF + ' transformações.');
+        // Redirecionar para contato
+        navigateTo('pageContato');
+        var msgEl = document.getElementById('contatoMensagem');
+        if (msgEl) {
+          msgEl.value = 'Olá! 💛 Já tenho ' + MAX_TRANSF + ' transformações salvas no meu progresso e gostaria de continuar minha jornada capilar. Como posso fazer? Aguardo contato.';
+        }
+        return;
+      }
       var overlay = document.getElementById('transfCreateOverlay');
       if (!overlay) return;
       ['transfBeforePreview','transfAfterPreview'].forEach(function(id) {
@@ -3610,7 +3667,6 @@
       var t = transfs.find(function(x) { return x.id === id; });
       if (!t) return;
       var pairs = t.pairs || [];
-      // Último par (mais recente) fica no hero
       transfViewIdx = Math.max(0, pairs.length - 1);
       var nameEl = document.getElementById('transfViewName');
       if (nameEl) nameEl.textContent = t.title || 'Transformação';
@@ -3655,11 +3711,9 @@
 
       var row = document.getElementById('transfViewThumbsRow');
       var countEl = document.getElementById('transfViewCount');
-      if (countEl) countEl.textContent = pairs.length + ' / 5';
+      if (countEl) countEl.textContent = pairs.length + ' / ' + MAX_TRANSF;
       row.innerHTML = '';
 
-      // Mostra todas as variações em masonry (estilo cards)
-      // O par ativo (hero) também aparece destacado
       pairs.forEach(function(pair, idx) {
         var thumb = document.createElement('div');
         thumb.className = 'ba-variant-thumb' + (idx === transfViewIdx ? ' active' : '');
@@ -3684,7 +3738,6 @@
           if (!tx) return;
           tx.pairs.splice(i, 1);
           saveTransfs(ts);
-          // Mantém o mais recente no hero após exclusão
           if (transfViewIdx >= tx.pairs.length) {
             transfViewIdx = Math.max(0, tx.pairs.length - 1);
           }
@@ -3695,7 +3748,7 @@
         row.appendChild(thumb);
       });
 
-      if (pairs.length < 5) {
+      if (pairs.length < MAX_TRANSF) {
         var slot = document.createElement('div');
         slot.className = 'ba-variant-add-slot';
         slot.innerHTML = '+<span>nova</span>';
@@ -3704,7 +3757,7 @@
       }
 
       var addBtn = document.getElementById('transfViewAddBtn');
-      if (addBtn) addBtn.disabled = pairs.length >= 5;
+      if (addBtn) addBtn.disabled = pairs.length >= MAX_TRANSF;
     }
 
     function initTransfViewCompare() {
@@ -3741,6 +3794,13 @@
     }
 
     function openTransfAddPair() {
+      var transfs = getTransfs();
+      var t = transfs.find(function(x) { return x.id === transfViewId; });
+      if (!t) return;
+      if (t.pairs.length >= MAX_TRANSF) {
+        showToast('Limite de ' + MAX_TRANSF + ' pares atingido');
+        return;
+      }
       var overlay = document.getElementById('transfAddPairOverlay');
       if (!overlay) return;
       ['transfPairBeforePreview','transfPairAfterPreview'].forEach(function(id) {
@@ -3791,10 +3851,15 @@
           showToast('Adicione as duas fotos');
           return;
         }
+        var transfs = getTransfs();
+        if (transfs.length >= MAX_TRANSF) {
+          showToast('Limite de ' + MAX_TRANSF + ' transformações atingido');
+          closeTransfCreate();
+          return;
+        }
         var id = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,6);
-        var ts = getTransfs();
-        ts.unshift({ id: id, title: title, pairs: [{ before: bSrc, after: aSrc, createdAt: Date.now() }] });
-        if (!saveTransfs(ts)) { showToast('Imagens muito grandes. Tente outras.'); return; }
+        transfs.unshift({ id: id, title: title, pairs: [{ before: bSrc, after: aSrc, createdAt: Date.now() }] });
+        if (!saveTransfs(transfs)) { showToast('Imagens muito grandes. Tente outras.'); return; }
         updateTransfCounter();
         closeTransfCreate();
         renderTransformacoes();
@@ -3821,7 +3886,7 @@
         var ts = getTransfs();
         var t = ts.find(function(x) { return x.id === transfViewId; });
         if (!t) return;
-        if (t.pairs.length >= 5) { showToast('Limite de 5 pares atingido'); return; }
+        if (t.pairs.length >= MAX_TRANSF) { showToast('Limite de ' + MAX_TRANSF + ' pares atingido'); return; }
         t.pairs.push({ before: bSrc, after: aSrc, createdAt: Date.now() });
         if (!saveTransfs(ts)) { showToast('Imagens muito grandes.'); return; }
         transfViewIdx = t.pairs.length - 1;
@@ -3853,7 +3918,6 @@
       baCurrentKey = favKey;
       baHeroInited = false;
       var pairs = getBaPairs(favKey);
-      // Último par (mais recente) no hero
       baActiveIdx = Math.max(0, pairs.length - 1);
       var nameEl = document.getElementById('baModalStyleName');
       if (nameEl) nameEl.textContent = data.corte || data.title || '—';
@@ -3898,7 +3962,6 @@
       if (countEl) countEl.textContent = pairs.length + ' / ' + MAX_BA;
       row.innerHTML = '';
 
-      // Masonry de variações (mesmo estilo dos cards do site)
       pairs.forEach(function(pair, idx) {
         var thumb = document.createElement('div');
         thumb.className = 'ba-variant-thumb' + (idx === baActiveIdx ? ' active' : '');
@@ -3978,7 +4041,7 @@
     function openBaUpload() {
       if (!baCurrentKey) return;
       var pairs = getBaPairs(baCurrentKey);
-      if (pairs.length >= MAX_BA) { showToast('Limite de 5 comparações atingido'); return; }
+      if (pairs.length >= MAX_BA) { showToast('Limite de ' + MAX_BA + ' comparações atingido'); return; }
       ['baUploadBeforePreview','baUploadAfterPreview'].forEach(function(id) {
         var el = document.getElementById(id); el.src = ''; el.classList.remove('visible');
       });
@@ -4034,7 +4097,7 @@
           return;
         }
         var pairs = getBaPairs(baCurrentKey);
-        if (pairs.length >= MAX_BA) { showToast('Limite de 5 atingido'); return; }
+        if (pairs.length >= MAX_BA) { showToast('Limite de ' + MAX_BA + ' atingido'); return; }
         pairs.push({ before: bSrc, after: aSrc, createdAt: Date.now() });
         try { setBaPairs(baCurrentKey, pairs); }
         catch(e) { showToast('Fotos muito grandes. Tente outras.'); return; }
@@ -5000,6 +5063,11 @@
         var email = emailEl.value.trim();
         var mensagem = msgEl.value.trim();
 
+        // Salvar email para pré-preenchimento futuro
+        if (email) {
+          try { localStorage.setItem('hairos_contato_email', email); } catch(e) {}
+        }
+
         var valid = true;
         [nomeEl, emailEl, msgEl].forEach(function(input) {
           if (!input.value.trim()) {
@@ -5047,7 +5115,7 @@
           })
           .finally(function() {
             btn.disabled = false;
-            btn.textContent = 'enviar';
+            btn.textContent = 'enviar mensagem';
             btn.style.opacity = '';
           });
       });
@@ -5098,8 +5166,8 @@
         window.addEventListener('scroll', onScroll, { passive: true });
       })();
 
-      console.log('HairOS · Versão com Antes & Depois');
-      console.log('Imagens comprimidas para 200px e qualidade 0.5');
+      console.log('HairOS · Versão com limite de ' + MAX_TRANSF + ' transformações');
+      console.log('60 estilos carregados');
     }
 
     // ============================================================
