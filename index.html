@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -171,6 +170,26 @@
       border-color: var(--gold);
     }
     .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+    .toast.toast-action {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 8px 18px;
+    }
+    .toast-action-text { line-height: 1.2; }
+    .toast-action-btn {
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      background: var(--gold);
+      color: #1b1209;
+      padding: 6px 11px;
+      font: 600 .68rem Inter, sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: filter .25s ease, transform .25s ease;
+    }
+    .toast-action-btn:hover, .toast-action-btn:focus-visible { filter: brightness(1.1); transform: translateY(-1px); outline: var(--focus-ring); }
 
     /* ===== HEADER ===== */
     .header {
@@ -1659,11 +1678,12 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: top center;
+      object-fit: contain;
+      object-position: center center;
+      background: var(--bg);
       display: block;
     }
-    .ba-hero-before img { width: calc(100vw); max-width: 480px; }
+    .ba-hero-before img { width: calc(100vw); max-width: 480px; object-fit: contain; object-position: center center; }
     .ba-hero-label {
       position: absolute;
       bottom: 10px;
@@ -2006,7 +2026,7 @@
       outline: var(--focus-ring);
     }
     .photo-upload-area.has-img { border-style: solid; padding: 0; overflow: hidden; aspect-ratio: 9/12; }
-    .photo-upload-area.has-img img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-upload-area.has-img img { width: 100%; height: 100%; object-fit: contain; background: var(--bg); }
     .photo-add-actions { display: flex; gap: 10px; margin-top: 16px; }
     .photo-add-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-family: 'Inter', sans-serif; font-weight: 600; font-size: .8rem; cursor: pointer; transition: all var(--transition); }
     .photo-add-actions .btn-save { background: var(--gold); color: #0a0808; }
@@ -2093,6 +2113,55 @@
     [data-theme="light"] .faq-answer { background: rgba(255, 252, 248, 0.98); color: var(--text); }
     .faq-item:hover .faq-answer, .faq-item:focus-within .faq-answer { opacity: 1; pointer-events: auto; transform: scale(1); }
     .faq-answer::before { content: "— "; color: var(--gold); font-weight: 400; }
+
+    /* ===== SOBRE · CONTEÚDO ATUALIZADO ===== */
+    .explanation-box {
+      margin-top: 20px;
+      padding: 24px 28px;
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .explanation-box:hover { border-color: var(--border-gold); }
+    .explanation-box p { font-size: .9rem; color: var(--text-sec); line-height: 1.8; font-weight: 300; }
+    .explanation-box p + p { margin-top: 10px; }
+    .explanation-box strong { color: var(--gold); font-weight: 600; }
+    .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+    .badge-item {
+      font-size: .6rem;
+      padding: 4px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      background: var(--bg);
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .badge-item.gold { border-color: var(--border-gold); color: var(--gold); background: var(--gold-glow); }
+    .sobre-card .footnote { margin-top: 12px; font-size: .65rem; color: var(--text-muted); opacity: .5; letter-spacing: .04em; }
+    .support-banner {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border-gold);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .support-banner:hover { border-color: var(--gold); }
+    .support-banner p { font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.8; max-width: 500px; margin: 0 auto; }
+    .support-banner p strong { color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; }
+    .support-banner .badge-row { justify-content: center; }
+    @media (max-width: 600px) {
+      .explanation-box, .support-banner { padding: 18px 16px; }
+      .explanation-box p { font-size: .82rem; }
+      .support-banner p { font-size: .78rem; }
+    }
 
     /* ===== CONTATO ===== */
     .contato-content { display: flex; flex-direction: column; gap: 0; }
@@ -2262,9 +2331,16 @@
       transition: all var(--transition);
       text-align: center;
     }
-    .perfil-btn:hover, .perfil-btn:focus-visible {
-      border-color: var(--gold);
+    .perfil-btn#btnVerFavs {
+      border-color: var(--border-gold);
       color: var(--gold);
+      background: rgba(201, 169, 110, .04);
+      box-shadow: 0 0 0 1px rgba(201, 169, 110, .04);
+    }
+    .perfil-btn:hover, .perfil-btn:focus-visible,
+    .perfil-btn#btnVerFavs:hover, .perfil-btn#btnVerFavs:focus-visible {
+      border-color: var(--gold);
+      color: var(--gold-light);
       background: var(--gold-glow);
       outline: var(--focus-ring);
     }
@@ -2557,7 +2633,16 @@
         </div>
         <div class="sobre-content">
           <div class="sobre-intro">
-            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>60 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações.</p>
+            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>60 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações do universo da beleza.</p>
+          </div>
+          <div class="explanation-box">
+            <p>As imagens são referências visuais coletadas do <strong>Pinterest</strong>, utilizadas exclusivamente como inspiração estética para nossa curadoria.</p>
+            <p>Os <strong>produtos</strong> exibidos em nossos kits e sugestões possuem <strong>links de afiliados</strong> para o <strong>Mercado Livre</strong>. Isso significa que, ao comprar através desses links, você apoia diretamente nosso projeto — <strong>sem nenhum custo adicional</strong> para você.</p>
+            <div class="badge-row">
+              <span class="badge-item">referências Pinterest</span>
+              <span class="badge-item gold">links de afiliados</span>
+              <span class="badge-item">curadoria profissional</span>
+            </div>
           </div>
           <div class="sobre-stats">
             <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
@@ -2566,36 +2651,31 @@
           </div>
           <div class="sobre-cards-row">
             <div class="sobre-card">
-              <div class="sobre-card-eyebrow">origem</div>
-              <h4>Estética atemporal</h4>
-              <p>Nascida da estética da Vogue Paris dos anos 1960, a HairOS reúne 60 estilos entre cortes, colorações e produtos.</p>
+              <div class="sobre-card-eyebrow">curadoria visual</div>
+              <h4>Referências do Pinterest</h4>
+              <p>Nossas imagens são referências estéticas cuidadosamente selecionadas do Pinterest, utilizadas para ilustrar tendências e estilos capilares atemporais e contemporâneos.</p>
+              <div class="footnote">imagens de referência visual</div>
             </div>
             <div class="sobre-card">
-              <div class="sobre-card-eyebrow">missão</div>
-              <h4>Curadoria viva</h4>
-              <p>Inspirar e revelar os estilos mais atuais através de uma curadoria visual e técnica, renovada continuamente.</p>
+              <div class="sobre-card-eyebrow">afiliados</div>
+              <h4>Parceria Mercado Livre</h4>
+              <p>Todos os produtos sugeridos nos Kits e rotinas de cuidados possuem links de afiliado para o Mercado Livre. Cada compra realizada através desses links ajuda a manter o HairOS.</p>
+              <div class="footnote">produtos com link de afiliado</div>
             </div>
           </div>
           <div class="faq-section">
-            <div class="faq-eyebrow">dúvidas</div>
+            <div class="faq-eyebrow">dúvidas frequentes</div>
             <div class="faq-grid">
-              <div class="faq-item">
-                <div class="faq-question">O que é a HairOS?</div>
-                <div class="faq-answer">HairOS é uma vitrine digital de inspirações capilares, com 60 estilos curados entre cortes, colorações, produtos e kits profissionais.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">Os estilos são atualizados com frequência?</div>
-                <div class="faq-answer">Sim! A curadoria é constantemente renovada com tendências sazonais, lançamentos e clássicos revisitados.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">Posso salvar meus estilos favoritos?</div>
-                <div class="faq-answer">Sim, basta clicar no ícone de coração em qualquer card ou modal. Seus favoritos ficam salvos na sua conta e sincronizados.</div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">Posso registrar meu progresso?</div>
-                <div class="faq-answer">Sim! Na aba "Perfil" você pode adicionar suas transformações de antes e depois, que serão salvas automaticamente nos favoritos.</div>
-              </div>
+              <div class="faq-item"><div class="faq-question">De onde vêm as imagens da HairOS?</div><div class="faq-answer">As imagens são referências visuais do Pinterest, utilizadas apenas para fins de inspiração estética e curadoria de estilos.</div></div>
+              <div class="faq-item"><div class="faq-question">Os produtos têm links de afiliados?</div><div class="faq-answer">Sim. Todos os produtos indicados em nossos Kits e rotinas de cuidados possuem links de afiliado para o Mercado Livre. Ao comprar por eles, você apoia o projeto.</div></div>
+              <div class="faq-item"><div class="faq-question">Isso encarece o produto para mim?</div><div class="faq-answer">Não. O preço é exatamente o mesmo. Apenas uma pequena comissão é destinada ao HairOS, sem custo extra para você.</div></div>
+              <div class="faq-item"><div class="faq-question">Como posso apoiar o HairOS?</div><div class="faq-answer">Você pode apoiar comprando produtos através dos links de afiliados, compartilhando os estilos ou fazendo uma contribuição via Pix.</div></div>
             </div>
+          </div>
+          <div class="support-banner">
+            <p><strong>Como funciona?</strong><br>As imagens são <strong>referências visuais do Pinterest</strong>. Os <strong>produtos</strong> têm <strong>links de afiliados para o Mercado Livre</strong>.</p>
+            <p style="margin-top:8px;font-size:0.75rem;color:var(--text-muted);opacity:0.6;">Ao comprar por esses links, você apoia o projeto sem custo extra.</p>
+            <div class="badge-row" style="justify-content:center;margin-top:12px;"><span class="badge-item">referências Pinterest</span><span class="badge-item gold">links de afiliados</span></div>
           </div>
         </div>
       </div>
@@ -2947,9 +3027,8 @@
         <button class="sheet-close-btn" id="sheetCloseBtn" aria-label="Fechar detalhes">✕</button>
       </div>
       <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
-      <div class="sheet-btns" role="tablist">
-        <button id="btnColoracao" role="tab" aria-selected="true">Coloração</button>
-        <button class="cuidados" id="btnCuidados" role="tab" aria-selected="false">Cuidados</button>
+      <div class="sheet-btns" id="sheetBtns" role="tablist">
+        <!-- Os botões serão renderizados dinamicamente pelo JavaScript -->
       </div>
       <div class="kit-lista show" id="listaColoracao" role="tabpanel">
         <div id="coloracaoItems"></div>
@@ -2991,6 +3070,8 @@
       duration = duration || 2500;
       var container = document.getElementById('toastContainer');
       if (!container) return;
+      var previous = container.querySelector('.toast');
+      if (previous) previous.remove();
       var toast = document.createElement('div');
       toast.className = 'toast';
       toast.textContent = message;
@@ -3002,14 +3083,120 @@
       }, duration);
     }
 
+    function showActionToast(message, actionText, action, duration) {
+      duration = duration || 12000;
+      var container = document.getElementById('toastContainer');
+      if (!container) return;
+      var previous = container.querySelector('.toast');
+      if (previous) previous.remove();
+      var toast = document.createElement('div');
+      toast.className = 'toast toast-action';
+      var text = document.createElement('span');
+      text.className = 'toast-action-text';
+      text.textContent = message;
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'toast-action-btn';
+      button.textContent = actionText;
+      button.addEventListener('click', function() {
+        toast.classList.remove('show');
+        setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 400);
+        if (typeof action === 'function') action();
+      });
+      toast.appendChild(text);
+      toast.appendChild(button);
+      container.appendChild(toast);
+      requestAnimationFrame(function() { toast.classList.add('show'); });
+      setTimeout(function() {
+        if (!toast.parentNode) return;
+        toast.classList.remove('show');
+        setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 400);
+      }, duration);
+    }
+
     // ============================================================
+    // PERSISTÊNCIA · INDEXEDDB
+    // ============================================================
+    var HAIROS_DB_NAME = 'hairos_db';
+    var HAIROS_DB_VERSION = 1;
+    var HAIROS_STORE_NAME = 'settings';
+    var hairosCache = Object.create(null);
+    var hairosDb = null;
+    var hairosDbReady = false;
+    var hairosDbQueue = [];
+
+    function openHairosDb() {
+      if (!window.indexedDB) return Promise.resolve(null);
+      return new Promise(function(resolve) {
+        var request = window.indexedDB.open(HAIROS_DB_NAME, HAIROS_DB_VERSION);
+        request.onupgradeneeded = function(event) {
+          var db = event.target.result;
+          if (!db.objectStoreNames.contains(HAIROS_STORE_NAME)) db.createObjectStore(HAIROS_STORE_NAME);
+        };
+        request.onsuccess = function(event) {
+          hairosDb = event.target.result;
+          hairosDbReady = true;
+          flushHairosDbQueue();
+          resolve(hairosDb);
+        };
+        request.onerror = function() { resolve(null); };
+      });
+    }
+
+    function flushHairosDbQueue() {
+      if (!hairosDbReady || !hairosDb) return;
+      var queue = hairosDbQueue.splice(0);
+      queue.forEach(function(item) { writeHairosValue(item.key, item.value); });
+    }
+
+    function writeHairosValue(key, value) {
+      if (!hairosDbReady || !hairosDb) return;
+      try {
+        var tx = hairosDb.transaction(HAIROS_STORE_NAME, 'readwrite');
+        tx.objectStore(HAIROS_STORE_NAME).put(value, key);
+      } catch (e) {}
+    }
+
+    function storageGet(key, fallback) {
+      return Object.prototype.hasOwnProperty.call(hairosCache, key) ? hairosCache[key] : fallback;
+    }
+
+    function storageSet(key, value) {
+      hairosCache[key] = value;
+      if (hairosDbReady) writeHairosValue(key, value);
+      else hairosDbQueue.push({ key: key, value: value });
+    }
+
+    function hydrateHairosStorage() {
+      openHairosDb().then(function(db) {
+        if (!db) return;
+        try {
+          var tx = db.transaction(HAIROS_STORE_NAME, 'readonly');
+          var request = tx.objectStore(HAIROS_STORE_NAME).openCursor();
+          request.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+              hairosCache[cursor.key] = cursor.value;
+              cursor.continue();
+            } else {
+              setTheme(getTheme());
+              favorites = getFavs();
+              updateFavCounter();
+              updateTransfCounter();
+              if (typeof renderPerfil === 'function') renderPerfil();
+            }
+          };
+        } catch (e) {}
+      });
+    }
+
     // TEMA
     // ============================================================
     function getTheme() {
-      try { return localStorage.getItem('hairos_theme') || 'dark'; } catch { return 'dark'; }
+      return storageGet('hairos_theme', 'dark') || 'dark';
     }
     function setTheme(theme) {
-      try { localStorage.setItem('hairos_theme', theme); } catch {}
+      storageSet('hairos_theme', theme);
       document.documentElement.setAttribute('data-theme', theme);
       var btn = document.getElementById('menuThemeToggle');
       if (btn) btn.textContent = theme === 'dark' ? 'claro' : 'escuro';
@@ -3021,16 +3208,17 @@
       showToast('Tema ' + (next === 'dark' ? 'escuro' : 'claro'));
     }
     setTheme(getTheme());
+    hydrateHairosStorage();
 
     // ============================================================
     // PERFIL FIXO
     // ============================================================
     function getPerfilData() {
       try {
-        var data = JSON.parse(localStorage.getItem('hairos_perfil_fixo') || 'null');
+        var data = storageGet('hairos_perfil_fixo', null);
         if (!data) {
           data = { nome: 'Visitante', descricao: 'Apaixonado por cabelos e estilo', foto: '' };
-          localStorage.setItem('hairos_perfil_fixo', JSON.stringify(data));
+          storageSet('hairos_perfil_fixo', data);
         }
         return data;
       } catch {
@@ -3038,7 +3226,7 @@
       }
     }
     function salvarPerfilData(data) {
-      try { localStorage.setItem('hairos_perfil_fixo', JSON.stringify(data)); } catch {}
+      storageSet('hairos_perfil_fixo', data);
     }
     function getAvatar() { return getPerfilData().foto || ''; }
     function setAvatar(dataUrl) {
@@ -3065,8 +3253,8 @@
     // ============================================================
     // FAVORITOS
     // ============================================================
-    function getFavs() { try { return JSON.parse(localStorage.getItem('hairos_favorites') || '[]'); } catch { return []; } }
-    function setFavs(arr) { try { localStorage.setItem('hairos_favorites', JSON.stringify(arr)); } catch {} }
+    function getFavs() { return storageGet('hairos_favorites', []) || []; }
+    function setFavs(arr) { storageSet('hairos_favorites', arr); }
 
     var favorites = getFavs();
     var currentFilter = 'all';
@@ -3142,10 +3330,10 @@
     var MAX_TRANSF = 5;
 
     function getTransfs() {
-      try { return JSON.parse(localStorage.getItem('hairos_transformacoes') || '[]'); } catch { return []; }
+      return storageGet('hairos_transformacoes', []) || [];
     }
     function saveTransfs(arr) {
-      try { localStorage.setItem('hairos_transformacoes', JSON.stringify(arr)); return true; } catch(e) { return false; }
+      storageSet('hairos_transformacoes', arr); return true;
     }
 
     function updateTransfCounter() {
@@ -3409,7 +3597,7 @@
         var perfil = getPerfilData();
         perfil.foto = dataUrl;
         try {
-          localStorage.setItem('hairos_perfil_fixo', JSON.stringify(perfil));
+          storageSet('hairos_perfil_fixo', perfil);
           closePhotoSheet();
           renderPerfil();
           showToast('Foto atualizada!');
@@ -3584,7 +3772,6 @@
         html += '</div>';
       });
 
-      // Botão "nova transformação" — só aparece se tiver menos de MAX_TRANSF
       var currentCount = transfs.length;
       if (currentCount < MAX_TRANSF) {
         html += '<div class="transf-add-card" id="transfAddCardBtn">'
@@ -3592,7 +3779,6 @@
           + '<span class="transf-add-label">nova transformação</span>'
           + '</div>';
       } else {
-        // Limite atingido — exibe CTA para contato
         html += '<div class="transf-add-card" style="border-color:var(--gold);opacity:1;cursor:pointer;" id="transfLimitCta">'
           + '<span style="font-size:1.6rem;line-height:1;">💛</span>'
           + '<span style="font-size:.7rem;font-weight:600;color:var(--gold);text-align:center;padding:0 8px;">5 transformações<br>incríveis!</span>'
@@ -3604,7 +3790,6 @@
       html += '</div>';
       container.innerHTML = html;
 
-      // Eventos dos cards
       container.querySelectorAll('.transf-card').forEach(function(card) {
         card.addEventListener('click', function(e) {
           if (e.target.closest('.transf-card-del')) return;
@@ -3629,14 +3814,11 @@
       if (limitCta) {
         limitCta.addEventListener('click', function(e) {
           if (e.target.closest('#transfLimitContactBtn')) return;
-          // Redirecionar para contato
           navigateTo('pageContato');
-          // Pré-preencher mensagem
           var msgEl = document.getElementById('contatoMensagem');
           if (msgEl) {
             msgEl.value = 'Olá! 💛 Já tenho 5 transformações salvas no meu progresso e gostaria de continuar minha jornada capilar. Como posso fazer? Aguardo contato.';
           }
-          // Abrir formulário
           var nomeEl = document.getElementById('contatoNome');
           var emailEl = document.getElementById('contatoEmail');
           var perfil = getPerfilData();
@@ -3644,13 +3826,11 @@
             nomeEl.value = perfil.nome;
           }
           if (emailEl) {
-            // Se tiver email salvo, preencher
             try {
-              var savedEmail = localStorage.getItem('hairos_contato_email');
+              var savedEmail = storageGet('hairos_contato_email', '');
               if (savedEmail) emailEl.value = savedEmail;
             } catch(e) {}
           }
-          // Focar no campo nome
           setTimeout(function() {
             if (nomeEl) nomeEl.focus();
           }, 300);
@@ -3659,7 +3839,6 @@
         if (contactBtn) {
           contactBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            // Redirecionar para contato
             navigateTo('pageContato');
             var msgEl = document.getElementById('contatoMensagem');
             if (msgEl) {
@@ -3673,7 +3852,7 @@
             }
             if (emailEl) {
               try {
-                var savedEmail = localStorage.getItem('hairos_contato_email');
+                var savedEmail = storageGet('hairos_contato_email', '');
                 if (savedEmail) emailEl.value = savedEmail;
               } catch(e) {}
             }
@@ -3889,7 +4068,9 @@
         updateTransfCounter();
         closeTransfCreate();
         renderTransformacoes();
-        showToast('Transformação salva! ✓');
+        showActionToast('Transformação adicionada ao seu Progresso', 'ver progresso', function() {
+          navigateTo('pageTransformacoes');
+        });
       });
 
       document.getElementById('transfViewClose').addEventListener('click', closeTransfView);
@@ -3969,10 +4150,10 @@
     var MAX_BA = 5;
 
     function getBaPairs(favKey) {
-      try { return JSON.parse(localStorage.getItem('hairos_ba_' + favKey) || '[]'); } catch { return []; }
+      return storageGet('hairos_ba_' + favKey, []) || [];
     }
     function setBaPairs(favKey, pairs) {
-      try { localStorage.setItem('hairos_ba_' + favKey, JSON.stringify(pairs)); } catch {}
+      storageSet('hairos_ba_' + favKey, pairs);
     }
 
     function openBaModal(favKey) {
@@ -4173,6 +4354,210 @@
     }
 
     // ============================================================
+    // RENDER SHEET - FUNÇÃO PRINCIPAL MODIFICADA
+    // ============================================================
+    function renderSheet(key) {
+      var data = styleData[key];
+      if (!data) return;
+
+      // Atualiza cabeçalho e descrição
+      document.getElementById('sheetTitle').textContent = data.corte;
+      document.getElementById('sheetSub').textContent = data.title;
+      document.getElementById('sheetDesc').textContent = data.desc;
+
+      var btnsContainer = document.getElementById('sheetBtns');
+      var listaColoracao = document.getElementById('listaColoracao');
+      var listaCuidados = document.getElementById('listaCuidados');
+      var coloracaoItems = document.getElementById('coloracaoItems');
+      var cuidadosItems = document.getElementById('cuidadosItems');
+
+      // Limpa containers
+      btnsContainer.innerHTML = '';
+      coloracaoItems.innerHTML = '';
+      cuidadosItems.innerHTML = '';
+
+      // ============================================================
+      // CASO 1: CORTE ou COLORAÇÃO → 2 botões + 5 links
+      // ============================================================
+      if (data.categoria === 'corte' || data.categoria === 'coloracao') {
+        // Cria botão Coloração
+        var btnColoracao = document.createElement('button');
+        btnColoracao.id = 'btnColoracao';
+        btnColoracao.textContent = 'Coloração';
+        btnColoracao.setAttribute('role', 'tab');
+        btnColoracao.setAttribute('aria-selected', 'true');
+        btnColoracao.classList.add('active');
+        btnsContainer.appendChild(btnColoracao);
+
+        // Cria botão Cuidados
+        var btnCuidados = document.createElement('button');
+        btnCuidados.id = 'btnCuidados';
+        btnCuidados.textContent = 'Cuidados';
+        btnCuidados.setAttribute('role', 'tab');
+        btnCuidados.setAttribute('aria-selected', 'false');
+        btnCuidados.classList.add('cuidados');
+        btnsContainer.appendChild(btnCuidados);
+
+        // Renderiza os 2 kits de coloração
+        if (data.coloracao && data.coloracao.kits) {
+          data.coloracao.kits.forEach(function(kit) {
+            var acordeao = criarAcordeao(kit);
+            coloracaoItems.appendChild(acordeao);
+          });
+        } else {
+          coloracaoItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de coloração disponível</div>';
+        }
+
+        // Renderiza os 3 kits de cuidados
+        if (data.cuidados && data.cuidados.kits) {
+          data.cuidados.kits.forEach(function(kit) {
+            var acordeao = criarAcordeao(kit);
+            cuidadosItems.appendChild(acordeao);
+          });
+        } else {
+          cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de cuidados disponível</div>';
+        }
+
+        // Mostra coloração por padrão, esconde cuidados
+        listaColoracao.classList.add('show');
+        listaCuidados.classList.remove('show');
+
+        // Eventos dos botões
+        btnColoracao.addEventListener('click', function() {
+          listaColoracao.classList.add('show');
+          listaCuidados.classList.remove('show');
+          this.classList.add('active');
+          btnCuidados.classList.remove('active');
+          this.setAttribute('aria-selected', 'true');
+          btnCuidados.setAttribute('aria-selected', 'false');
+        });
+
+        btnCuidados.addEventListener('click', function() {
+          listaCuidados.classList.add('show');
+          listaColoracao.classList.remove('show');
+          this.classList.add('active');
+          btnColoracao.classList.remove('active');
+          this.setAttribute('aria-selected', 'true');
+          btnColoracao.setAttribute('aria-selected', 'false');
+        });
+      }
+
+      // ============================================================
+      // CASO 2: PRODUTO ou KIT - botao Cuidados abre kit da marca
+      // ============================================================
+      else if (data.categoria === 'produto' || data.categoria === 'kit') {
+        var tituloLower = (data.corte || data.title || '').toLowerCase();
+        var kitMarca = null;
+
+        if (tituloLower.indexOf('kerastase') !== -1 || tituloLower.indexOf('k\u00e9rastase') !== -1) {
+          kitMarca = { nome: 'Kit K\u00e9rastase', badge: 'Premium', link: 'https://meli.la/1MwSY7v',
+            produtos: 'Shampoo Nutritive + Condicionador Resistance + M\u00e1scara Genesis + Leave-In Elixir Ultime' };
+        } else if (tituloLower.indexOf('joico') !== -1) {
+          kitMarca = { nome: 'Kit Joico', badge: 'Hidrata\u00e7\u00e3o', link: 'https://meli.la/2x9xqBe',
+            produtos: 'Shampoo Moisture Recovery + Condicionador + M\u00e1scara Intensa + Leave-In K-PAK' };
+        } else if (tituloLower.indexOf('expert') !== -1 || tituloLower.indexOf('loreal') !== -1) {
+          kitMarca = { nome: "Kit L'Or\u00e9al Expert", badge: 'Profissional', link: 'https://meli.la/2nmeunk',
+            produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + M\u00e1scara Nutrioil + S\u00e9rum Pro Longer' };
+        }
+
+        var btnCuidadosUnico = document.createElement('button');
+        btnCuidadosUnico.id = 'btnCuidadosUnico';
+        btnCuidadosUnico.textContent = 'Cuidados';
+        btnCuidadosUnico.setAttribute('role', 'tab');
+        btnCuidadosUnico.setAttribute('aria-selected', 'false');
+        btnCuidadosUnico.classList.add('cuidados');
+        btnsContainer.appendChild(btnCuidadosUnico);
+
+        if (kitMarca) {
+          cuidadosItems.appendChild(criarAcordeao(kitMarca));
+        } else {
+          cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Kit n\u00e3o encontrado para esta marca</div>';
+        }
+
+        listaColoracao.classList.remove('show');
+        listaCuidados.classList.remove('show');
+
+        btnCuidadosUnico.addEventListener('click', function() {
+          listaCuidados.classList.add('show');
+          listaColoracao.classList.remove('show');
+          this.classList.add('active');
+          this.setAttribute('aria-selected', 'true');
+        });
+      }
+
+      // ============================================================
+      // FUNÇÃO AUXILIAR: criarAcordeao
+      // ============================================================
+      function criarAcordeao(kit) {
+        var acordeao = document.createElement('div');
+        acordeao.className = 'kit-acordeao';
+
+        var header = document.createElement('div');
+        header.className = 'kit-acordeao-header';
+        header.setAttribute('role', 'button');
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('aria-expanded', 'false');
+
+        var left = document.createElement('div');
+        left.className = 'kit-acordeao-header-left';
+        var badge = document.createElement('span');
+        badge.className = 'kit-acordeao-badge';
+        badge.textContent = kit.badge || 'Kit';
+        left.appendChild(badge);
+        var title = document.createElement('span');
+        title.className = 'kit-acordeao-title';
+        title.textContent = kit.nome;
+        left.appendChild(title);
+        header.appendChild(left);
+
+        var arrow = document.createElement('span');
+        arrow.className = 'kit-acordeao-arrow';
+        arrow.textContent = '▾';
+        header.appendChild(arrow);
+        acordeao.appendChild(header);
+
+        var body = document.createElement('div');
+        body.className = 'kit-acordeao-body';
+
+        if (kit.produtos) {
+          var prodList = document.createElement('div');
+          prodList.className = 'kit-produtos-lista';
+          var produtos = kit.produtos.split(' + ');
+          produtos.forEach(function(p, idx) {
+            var span = document.createElement('span');
+            span.textContent = p;
+            prodList.appendChild(span);
+            if (idx < produtos.length - 1) {
+              var sep = document.createElement('span');
+              sep.className = 'sep';
+              sep.textContent = ' • ';
+              prodList.appendChild(sep);
+            }
+          });
+          body.appendChild(prodList);
+        }
+
+        var complete = document.createElement('a');
+        complete.className = 'kit-complete';
+        complete.href = kit.link || '#';
+        complete.target = '_blank';
+        complete.rel = 'noopener noreferrer';
+        complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
+        body.appendChild(complete);
+
+        acordeao.appendChild(body);
+
+        header.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isOpen = acordeao.classList.toggle('open');
+          header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        return acordeao;
+      }
+    }
+
+    // ============================================================
     // MODAL DETALHES
     // ============================================================
     function openModal(key) {
@@ -4201,7 +4586,7 @@
         };
       }
 
-      document.getElementById('heroCategoria').textContent = data.badge;
+      document.getElementById('heroCategoria').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
       document.getElementById('heroTitle').textContent = data.corte;
       document.getElementById('heroSub').textContent = data.title;
       document.getElementById('sideCollection').textContent = data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1);
@@ -4217,19 +4602,8 @@
       if (heroShareBtn) heroShareBtn.dataset.key = key;
       if (heroAddSimilarBtn) heroAddSimilarBtn.dataset.key = key;
 
-      document.getElementById('sheetTitle').textContent = data.corte;
-      document.getElementById('sheetSub').textContent = data.title;
-      document.getElementById('sheetDesc').textContent = data.desc;
-
-      renderKitList('coloracaoItems', data.coloracao);
-      renderKitList('cuidadosItems', data.cuidados);
-
-      document.getElementById('listaColoracao').classList.add('show');
-      document.getElementById('listaCuidados').classList.remove('show');
-      document.getElementById('btnColoracao').classList.add('active');
-      document.getElementById('btnCuidados').classList.remove('active');
-      document.getElementById('btnColoracao').setAttribute('aria-selected', 'true');
-      document.getElementById('btnCuidados').setAttribute('aria-selected', 'false');
+      // Renderiza a sheet com a lógica correta
+      renderSheet(key);
 
       renderModalMasonry(key);
 
@@ -4299,84 +4673,6 @@
       isSheetFull = !isSheetFull;
       var sheet = document.getElementById('modalSheet');
       if (sheet) sheet.classList.toggle('full');
-    }
-
-    // ============================================================
-    // RENDER KITS
-    // ============================================================
-    function renderKitList(containerId, kitsData) {
-      var container = document.getElementById(containerId);
-      if (!container) return;
-      container.innerHTML = '';
-
-      if (!kitsData || !kitsData.kits || kitsData.kits.length === 0) {
-        container.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit disponível</div>';
-        return;
-      }
-
-      kitsData.kits.forEach(function(kit) {
-        var acordeao = document.createElement('div');
-        acordeao.className = 'kit-acordeao';
-
-        var header = document.createElement('div');
-        header.className = 'kit-acordeao-header';
-        header.setAttribute('role', 'button');
-        header.setAttribute('tabindex', '0');
-        header.setAttribute('aria-expanded', 'false');
-        var left = document.createElement('div');
-        left.className = 'kit-acordeao-header-left';
-        var badge = document.createElement('span');
-        badge.className = 'kit-acordeao-badge';
-        badge.textContent = kit.badge || 'Kit';
-        left.appendChild(badge);
-        var title = document.createElement('span');
-        title.className = 'kit-acordeao-title';
-        title.textContent = kit.nome;
-        left.appendChild(title);
-        header.appendChild(left);
-        var arrow = document.createElement('span');
-        arrow.className = 'kit-acordeao-arrow';
-        arrow.textContent = '▾';
-        header.appendChild(arrow);
-        acordeao.appendChild(header);
-
-        var body = document.createElement('div');
-        body.className = 'kit-acordeao-body';
-
-        if (kit.produtos) {
-          var prodList = document.createElement('div');
-          prodList.className = 'kit-produtos-lista';
-          var produtos = kit.produtos.split(' + ');
-          produtos.forEach(function(p, idx) {
-            var span = document.createElement('span');
-            span.textContent = p;
-            prodList.appendChild(span);
-            if (idx < produtos.length - 1) {
-              var sep = document.createElement('span');
-              sep.className = 'sep';
-              sep.textContent = ' • ';
-              prodList.appendChild(sep);
-            }
-          });
-          body.appendChild(prodList);
-        }
-
-        var complete = document.createElement('a');
-        complete.className = 'kit-complete';
-        complete.href = kit.link || '#';
-        complete.target = '_blank';
-        complete.rel = 'noopener noreferrer';
-        complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
-        body.appendChild(complete);
-
-        acordeao.appendChild(body);
-        header.addEventListener('click', function(e) {
-          e.stopPropagation();
-          var isOpen = acordeao.classList.toggle('open');
-          header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        });
-        container.appendChild(acordeao);
-      });
     }
 
     // ============================================================
@@ -4815,40 +5111,33 @@
       photos.unshift(photo);
       setUserPhotos(photos);
 
-      var key = 'user_' + photo.id;
-      styleData[key] = {
-        key: key,
-        categoria: photo.categoria || 'corte',
-        badge: 'Antes & Depois',
-        corte: photo.title || 'Minha transformação',
+      var transfs = getTransfs();
+      transfs.unshift({
+        id: photo.id,
         title: photo.title || 'Minha transformação',
-        desc: photo.desc || 'Comparação antes e depois',
-        img: photo.afterImg,
-        beforeImg: photo.beforeImg,
-        isBeforeAfter: true,
-        variants: [photo.afterImg],
-        altura: 'h-lg',
-        coloracao: { kits: [] },
-        cuidados: { kits: [] }
-      };
-
-      if (!isFav(key)) {
-        favorites.push(key);
-        setFavs(favorites);
-        updateFavCounter();
+        createdAt: photo.createdAt,
+        before: photo.beforeImg,
+        after: photo.afterImg,
+        pairs: [{ before: photo.beforeImg, after: photo.afterImg, createdAt: photo.createdAt }]
+      });
+      if (!saveTransfs(transfs)) {
+        showToast('Imagens muito grandes. Tente outras.');
+        return;
       }
-
+      updateTransfCounter();
       closeAddPhotoModal();
       if (currentPage === 'pagePerfil') renderPerfil();
-      if (currentPage === 'pageFavoritos') renderFavorites();
-      showToast('Transformação adicionada aos favoritos');
+      if (currentPage === 'pageTransformacoes') renderTransformacoes();
+      showActionToast('Transformação adicionada ao seu Progresso', 'ver progresso', function() {
+        navigateTo('pageTransformacoes');
+      });
     }
 
     function getUserPhotos() {
-      try { return JSON.parse(localStorage.getItem('hairos_user_photos') || '[]'); } catch { return []; }
+      return storageGet('hairos_user_photos', []) || [];
     }
     function setUserPhotos(arr) {
-      try { localStorage.setItem('hairos_user_photos', JSON.stringify(arr)); } catch {}
+      storageSet('hairos_user_photos', arr);
     }
 
     // ============================================================
@@ -5052,24 +5341,6 @@
         }, 200);
       });
 
-      document.getElementById('btnColoracao').addEventListener('click', function() {
-        document.getElementById('listaColoracao').classList.add('show');
-        document.getElementById('listaCuidados').classList.remove('show');
-        this.classList.add('active');
-        document.getElementById('btnCuidados').classList.remove('active');
-        this.setAttribute('aria-selected', 'true');
-        document.getElementById('btnCuidados').setAttribute('aria-selected', 'false');
-      });
-
-      document.getElementById('btnCuidados').addEventListener('click', function() {
-        document.getElementById('listaCuidados').classList.add('show');
-        document.getElementById('listaColoracao').classList.remove('show');
-        this.classList.add('active');
-        document.getElementById('btnColoracao').classList.remove('active');
-        this.setAttribute('aria-selected', 'true');
-        document.getElementById('btnColoracao').setAttribute('aria-selected', 'false');
-      });
-
       document.getElementById('modalImg').addEventListener('click', toggleZoom);
       document.getElementById('zoomOverlay').addEventListener('click', toggleZoom);
 
@@ -5126,9 +5397,8 @@
         var email = emailEl.value.trim();
         var mensagem = msgEl.value.trim();
 
-        // Salvar email para pré-preenchimento futuro
         if (email) {
-          try { localStorage.setItem('hairos_contato_email', email); } catch(e) {}
+          storageSet('hairos_contato_email', email);
         }
 
         var valid = true;
@@ -5229,7 +5499,9 @@
         window.addEventListener('scroll', onScroll, { passive: true });
       })();
 
-      console.log('HairOS · Versão com limite de ' + MAX_TRANSF + ' transformações');
+      console.log('HairOS · Versão com estrutura diferenciada:');
+      console.log('  - Cortes e Colorações: 2 botões + 5 links');
+      console.log('  - Produtos e Kits: 1 botão + 1 link (da marca)');
       console.log('60 estilos carregados');
     }
 
