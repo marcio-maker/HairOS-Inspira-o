@@ -2632,14 +2632,16 @@
   <div class="ba-modal-overlay" id="transfViewOverlay" role="dialog" aria-modal="true">
     <div class="ba-modal">
       <div class="ba-modal-header">
-        <div class="ba-modal-title">
+        <div class="ba-modal-title" style="flex:1;min-width:0;">
           <span class="ba-modal-eyebrow">antes &amp; depois</span>
-          <h3 id="transfViewName">—</h3>
+          <div id="transfViewTitleWrap">
+            <h3 id="transfViewName">—</h3>
+          </div>
         </div>
         <button class="ba-modal-close" id="transfViewClose" aria-label="Fechar">✕</button>
       </div>
       <div class="ba-hero-wrap">
-        <div class="ba-hero-compare" id="transfViewCompare">
+        <div class="ba-hero-compare visible" id="transfViewCompare">
           <div class="ba-hero-after">
             <img id="transfViewAfterImg" src="" alt="Depois">
             <span class="ba-hero-label ba-label-after">depois</span>
@@ -2653,52 +2655,10 @@
             <div class="ba-hero-handle-btn">↔</div>
           </div>
         </div>
-        <div class="ba-hero-empty" id="transfViewEmpty">
-          <div class="ba-hero-empty-icon">◎</div>
-          <p>Nenhum par ainda</p>
-        </div>
       </div>
-      <div class="ba-variants-section">
-        <div class="ba-variants-label">
-          <span id="transfViewCount">0 / 5</span>
-          <span>variações</span>
-        </div>
-        <div class="ba-variants-row" id="transfViewThumbsRow"></div>
-      </div>
-      <button class="ba-add-btn" id="transfViewAddBtn">+ adicionar variação</button>
-    </div>
-  </div>
-
-  <!-- ===== MODAL ADICIONAR PAR ===== -->
-  <div class="ba-modal-overlay" id="transfAddPairOverlay" role="dialog" aria-modal="true" style="z-index:3100;">
-    <div class="ba-modal">
-      <div class="ba-modal-header">
-        <div class="ba-modal-title">
-          <span class="ba-modal-eyebrow">nova variação</span>
-          <h3>antes &amp; depois</h3>
-        </div>
-        <button class="ba-modal-close" id="transfAddPairClose" aria-label="Fechar">✕</button>
-      </div>
-      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div class="ba-upload-field">
-            <div class="ba-upload-label">antes</div>
-            <div class="ba-upload-area" id="transfPairBeforeArea" tabindex="0" role="button">
-              <span class="ba-upload-placeholder" id="transfPairBeforePh">toque para selecionar</span>
-              <img class="ba-upload-preview" id="transfPairBeforePreview" src="" alt="">
-            </div>
-            <input type="file" id="transfPairBeforeInput" accept="image/*" style="display:none">
-          </div>
-          <div class="ba-upload-field">
-            <div class="ba-upload-label">depois</div>
-            <div class="ba-upload-area" id="transfPairAfterArea" tabindex="0" role="button">
-              <span class="ba-upload-placeholder" id="transfPairAfterPh">toque para selecionar</span>
-              <img class="ba-upload-preview" id="transfPairAfterPreview" src="" alt="">
-            </div>
-            <input type="file" id="transfPairAfterInput" accept="image/*" style="display:none">
-          </div>
-        </div>
-        <button class="ba-upload-save" id="transfAddPairSave">salvar variação</button>
+      <div style="padding:16px 20px 0;display:flex;gap:10px;">
+        <button class="perfil-btn" id="transfViewEditTitle" style="flex:1;padding:12px;">✎ editar título</button>
+        <button class="perfil-btn" id="transfViewShare" style="flex:1;padding:12px;">↗ compartilhar</button>
       </div>
     </div>
   </div>
@@ -3501,9 +3461,8 @@
       }
 
       transfs.forEach(function(t) {
-        var pairs = t.pairs || [];
-        var hero = pairs.length ? pairs[pairs.length - 1] : null;
-        var thumb = hero ? (hero.after || hero.before || '') : '';
+        var imgs = getTransfImages(t);
+        var thumb = imgs.after || imgs.before || '';
         html += '<div class="transf-card" data-id="' + t.id + '">';
         html += '<div class="transf-card-thumb">';
         if (thumb) {
@@ -3511,8 +3470,6 @@
         } else {
           html += '<div class="transf-no-img">◑<span style="font-size:.58rem;opacity:.5;font-family:Inter,sans-serif">sem foto</span></div>';
         }
-        var pairCount = (t.pairs || []).length;
-        if (pairCount > 0) html += '<span class="transf-count-badge">' + pairCount + ' / ' + MAX_TRANSF + '</span>';
         html += '</div>';
         html += '<div class="transf-card-info">';
         html += '<div class="transf-card-name">' + (t.title || 'Transformação') + '</div>';
@@ -3626,14 +3583,23 @@
     // MODAL TRANSFORMAÇÕES
     // ============================================================
     var transfViewId = null;
-    var transfViewIdx = 0;
     var transfViewInited = false;
+
+    function getTransfImages(t) {
+      if (!t) return { before: '', after: '' };
+      if (t.before || t.after) return { before: t.before || '', after: t.after || '' };
+      var pairs = t.pairs || [];
+      if (pairs.length) {
+        var last = pairs[pairs.length - 1];
+        return { before: last.before || '', after: last.after || '' };
+      }
+      return { before: '', after: '' };
+    }
 
     function openTransfCreate() {
       var transfs = getTransfs();
       if (transfs.length >= MAX_TRANSF) {
         showToast('Você já atingiu o limite de ' + MAX_TRANSF + ' transformações.');
-        // Redirecionar para contato
         navigateTo('pageContato');
         var msgEl = document.getElementById('contatoMensagem');
         if (msgEl) {
@@ -3666,10 +3632,13 @@
       var transfs = getTransfs();
       var t = transfs.find(function(x) { return x.id === id; });
       if (!t) return;
-      var pairs = t.pairs || [];
-      transfViewIdx = Math.max(0, pairs.length - 1);
       var nameEl = document.getElementById('transfViewName');
-      if (nameEl) nameEl.textContent = t.title || 'Transformação';
+      var titleWrap = document.getElementById('transfViewTitleWrap');
+      if (titleWrap) {
+        titleWrap.innerHTML = '<h3 id="transfViewName">' + (t.title || 'Transformação') + '</h3>';
+      } else if (nameEl) {
+        nameEl.textContent = t.title || 'Transformação';
+      }
       renderTransfView();
       document.getElementById('transfViewOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -3686,78 +3655,18 @@
       var transfs = getTransfs();
       var t = transfs.find(function(x) { return x.id === transfViewId; });
       if (!t) return;
-      var pairs = t.pairs || [];
-      var active = pairs[transfViewIdx] || null;
+      var imgs = getTransfImages(t);
 
-      var compare = document.getElementById('transfViewCompare');
-      var empty = document.getElementById('transfViewEmpty');
       var afterImg = document.getElementById('transfViewAfterImg');
       var beforeImg = document.getElementById('transfViewBeforeImg');
       var beforeDiv = document.getElementById('transfViewBefore');
       var handle = document.getElementById('transfViewHandle');
 
-      if (active) {
-        afterImg.src = active.after || '';
-        beforeImg.src = active.before || '';
-        compare.classList.add('visible');
-        empty.classList.remove('visible');
-        beforeDiv.style.width = '50%';
-        if (handle) handle.style.left = '50%';
-        initTransfViewCompare();
-      } else {
-        compare.classList.remove('visible');
-        empty.classList.add('visible');
-      }
-
-      var row = document.getElementById('transfViewThumbsRow');
-      var countEl = document.getElementById('transfViewCount');
-      if (countEl) countEl.textContent = pairs.length + ' / ' + MAX_TRANSF;
-      row.innerHTML = '';
-
-      pairs.forEach(function(pair, idx) {
-        var thumb = document.createElement('div');
-        thumb.className = 'ba-variant-thumb' + (idx === transfViewIdx ? ' active' : '');
-        var imgSrc = pair.after || pair.before || '';
-        var labelText = (idx === pairs.length - 1) ? 'mais recente' : ('#' + (idx + 1));
-        if (idx === transfViewIdx) labelText = 'no hero';
-        thumb.innerHTML =
-          '<img src="' + imgSrc + '" alt="Variação ' + (idx + 1) + '" loading="lazy">' +
-          '<span class="ba-variant-label">' + labelText + '</span>' +
-          '<button class="ba-variant-del" data-idx="' + idx + '" aria-label="Remover">✕</button>';
-        thumb.addEventListener('click', function(e) {
-          if (e.target.closest('.ba-variant-del')) return;
-          transfViewIdx = idx;
-          transfViewInited = false;
-          renderTransfView();
-        });
-        thumb.querySelector('.ba-variant-del').addEventListener('click', function(e) {
-          e.stopPropagation();
-          var i = parseInt(this.dataset.idx);
-          var ts = getTransfs();
-          var tx = ts.find(function(x) { return x.id === transfViewId; });
-          if (!tx) return;
-          tx.pairs.splice(i, 1);
-          saveTransfs(ts);
-          if (transfViewIdx >= tx.pairs.length) {
-            transfViewIdx = Math.max(0, tx.pairs.length - 1);
-          }
-          transfViewInited = false;
-          renderTransfView();
-          renderTransformacoes();
-        });
-        row.appendChild(thumb);
-      });
-
-      if (pairs.length < MAX_TRANSF) {
-        var slot = document.createElement('div');
-        slot.className = 'ba-variant-add-slot';
-        slot.innerHTML = '+<span>nova</span>';
-        slot.addEventListener('click', openTransfAddPair);
-        row.appendChild(slot);
-      }
-
-      var addBtn = document.getElementById('transfViewAddBtn');
-      if (addBtn) addBtn.disabled = pairs.length >= MAX_TRANSF;
+      afterImg.src = imgs.after || '';
+      beforeImg.src = imgs.before || '';
+      beforeDiv.style.width = '50%';
+      if (handle) handle.style.left = '50%';
+      initTransfViewCompare();
     }
 
     function initTransfViewCompare() {
@@ -3793,31 +3702,68 @@
       });
     }
 
-    function openTransfAddPair() {
+    function shareTransf() {
+      if (!transfViewId) return;
       var transfs = getTransfs();
       var t = transfs.find(function(x) { return x.id === transfViewId; });
       if (!t) return;
-      if (t.pairs.length >= MAX_TRANSF) {
-        showToast('Limite de ' + MAX_TRANSF + ' pares atingido');
-        return;
+      var text = (t.title || 'Minha transformação') + ' — antes & depois\n\nVeja mais em HairOS!';
+      if (navigator.share) {
+        navigator.share({ title: 'HairOS - ' + (t.title || 'Transformação'), text: text }).catch(function(err) {
+          if (err.name !== 'AbortError') fallbackCopy(text);
+        });
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showToast('Copiado!'); }).catch(function() { fallbackCopy(text); });
+      } else {
+        fallbackCopy(text);
       }
-      var overlay = document.getElementById('transfAddPairOverlay');
-      if (!overlay) return;
-      ['transfPairBeforePreview','transfPairAfterPreview'].forEach(function(id) {
-        var el = document.getElementById(id); el.src = ''; el.classList.remove('visible');
-      });
-      ['transfPairBeforePh','transfPairAfterPh'].forEach(function(id) {
-        document.getElementById(id).style.display = '';
-      });
-      overlay.classList.add('open');
     }
 
-    function closeTransfAddPair() {
-      document.getElementById('transfAddPairOverlay').classList.remove('open');
-    }
+    function editTransfTitle() {
+      if (!transfViewId) return;
+      var transfs = getTransfs();
+      var t = transfs.find(function(x) { return x.id === transfViewId; });
+      if (!t) return;
+      var wrap = document.getElementById('transfViewTitleWrap');
+      if (!wrap) return;
+      var current = t.title || 'Transformação';
+      wrap.innerHTML = '';
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = current;
+      input.maxLength = 40;
+      input.style.cssText = 'background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:Inter,sans-serif;font-size:0.95rem;padding:8px 12px;width:100%;outline:none;';
+      wrap.appendChild(input);
+      var actions = document.createElement('div');
+      actions.style.cssText = 'display:flex;gap:6px;margin-top:8px;';
+      var saveBtn = document.createElement('button');
+      saveBtn.textContent = 'salvar';
+      saveBtn.style.cssText = 'padding:5px 14px;border-radius:6px;border:none;font-family:Inter,sans-serif;font-size:0.72rem;cursor:pointer;background:var(--gold);color:#0a0808;';
+      var cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'cancelar';
+      cancelBtn.style.cssText = 'padding:5px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:Inter,sans-serif;font-size:0.72rem;cursor:pointer;';
+      actions.appendChild(saveBtn);
+      actions.appendChild(cancelBtn);
+      wrap.appendChild(actions);
+      input.focus();
+      input.select();
 
-    function compressT(file, cb) {
-      compressImage(file, cb);
+      function finish(save) {
+        if (save) {
+          var val = input.value.trim() || 'Transformação';
+          t.title = val;
+          saveTransfs(transfs);
+          renderTransformacoes();
+          showToast('Título atualizado');
+        }
+        wrap.innerHTML = '<h3 id="transfViewName">' + (t.title || 'Transformação') + '</h3>';
+      }
+      saveBtn.addEventListener('click', function() { finish(true); });
+      cancelBtn.addEventListener('click', function() { finish(false); });
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') finish(true);
+        if (e.key === 'Escape') finish(false);
+      });
     }
 
     function setupTUpload(areaId, inputId, prevId, phId) {
@@ -3830,7 +3776,7 @@
       area.addEventListener('keydown', function(e) { if (e.key==='Enter'||e.key===' ') input.click(); });
       input.addEventListener('change', function() {
         var file = this.files[0]; if (!file) return;
-        compressT(file, function(d) { prev.src = d; prev.classList.add('visible'); ph.style.display = 'none'; });
+        compressImage(file, function(d) { prev.src = d; prev.classList.add('visible'); ph.style.display = 'none'; });
       });
     }
 
@@ -3858,7 +3804,7 @@
           return;
         }
         var id = Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,6);
-        transfs.unshift({ id: id, title: title, pairs: [{ before: bSrc, after: aSrc, createdAt: Date.now() }] });
+        transfs.unshift({ id: id, title: title, before: bSrc, after: aSrc, createdAt: Date.now() });
         if (!saveTransfs(transfs)) { showToast('Imagens muito grandes. Tente outras.'); return; }
         updateTransfCounter();
         closeTransfCreate();
@@ -3870,32 +3816,8 @@
       document.getElementById('transfViewOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeTransfView();
       });
-      document.getElementById('transfViewAddBtn').addEventListener('click', openTransfAddPair);
-
-      setupTUpload('transfPairBeforeArea','transfPairBeforeInput','transfPairBeforePreview','transfPairBeforePh');
-      setupTUpload('transfPairAfterArea', 'transfPairAfterInput', 'transfPairAfterPreview', 'transfPairAfterPh');
-      document.getElementById('transfAddPairClose').addEventListener('click', closeTransfAddPair);
-      document.getElementById('transfAddPairOverlay').addEventListener('click', function(e) {
-        if (e.target === this) closeTransfAddPair();
-      });
-      document.getElementById('transfAddPairSave').addEventListener('click', function() {
-        var bSrc = document.getElementById('transfPairBeforePreview').src;
-        var aSrc = document.getElementById('transfPairAfterPreview').src;
-        var loc = window.location.href;
-        if (!bSrc || !aSrc || bSrc === loc || aSrc === loc) { showToast('Adicione as duas fotos'); return; }
-        var ts = getTransfs();
-        var t = ts.find(function(x) { return x.id === transfViewId; });
-        if (!t) return;
-        if (t.pairs.length >= MAX_TRANSF) { showToast('Limite de ' + MAX_TRANSF + ' pares atingido'); return; }
-        t.pairs.push({ before: bSrc, after: aSrc, createdAt: Date.now() });
-        if (!saveTransfs(ts)) { showToast('Imagens muito grandes.'); return; }
-        transfViewIdx = t.pairs.length - 1;
-        transfViewInited = false;
-        closeTransfAddPair();
-        renderTransfView();
-        renderTransformacoes();
-        showToast('Par adicionado! ✓');
-      });
+      document.getElementById('transfViewEditTitle').addEventListener('click', editTransfTitle);
+      document.getElementById('transfViewShare').addEventListener('click', shareTransf);
     }
 
     // ============================================================
