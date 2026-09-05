@@ -746,7 +746,7 @@ var kitsData = [
   ['kit-expert-absolut-repair-mask', 'kit', 'Expert Absolut Repair Mask Kit', 'Reconstrução Profunda',
     'Kit com 2 unidades da Máscara Absolut Repair. Recupera a integridade da fibra capilar, devolvendo força, elasticidade e brilho a cabelos severamente danificados.',
     'https://i.pinimg.com/736x/11/51/da/1151da5401aa1ff0533a5a2e221488ab.jpg',
-    ['https://i.pinimg.com/736x/e5/5f/83/e55f83ba1959fc476a7d340f488c3a1a.jpg ',
+    ['https://i.pinimg.com/736x/e5/5f/83/e55f83ba1959fc476a7d340f488c3a1a.jpg',
      'https://i.pinimg.com/736x/79/9b/c9/799bc972103f05b8e50a5e4d3337c14b.jpg',
      'https://i.pinimg.com/736x/3a/43/ef/3a43efa8384793d904ed8aee02c9d172.jpg']
   ],
