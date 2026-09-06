@@ -255,30 +255,6 @@
       outline: var(--focus-ring);
     }
     .header-link svg { width: 12px; height: 12px; fill: var(--gold); }
-    .pro-header-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .02em;
-      color: #1b1209;
-      text-decoration: none;
-      padding: 7px 11px;
-      border-radius: 100px;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      box-shadow: 0 4px 16px rgba(201, 169, 110, .2);
-      white-space: nowrap;
-      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
-    }
-    .pro-header-badge::before { content: '◆'; font-size: .72rem; }
-    .pro-header-badge:hover {
-      color: #1b1209;
-      transform: translateY(-1px) scale(1.02);
-      filter: brightness(1.08);
-      box-shadow: 0 6px 22px rgba(201, 169, 110, .34);
-    }
-    .pro-header-badge:focus-visible { color: #1b1209; outline: var(--focus-ring); outline-offset: 2px; }
     .hamburger-btn {
       width: 32px;
       height: 32px;
@@ -446,7 +422,7 @@
       outline: var(--focus-ring);
     }
 
-    /* ===== FILTROS ===== */
+    /* ===== FILTROS - TODAS AS 9 CATEGORIAS ===== */
     .filters {
       display: flex;
       gap: 8px;
@@ -2477,7 +2453,6 @@
       .fav-grid { grid-template-columns: repeat(2, 1fr); }
       .header-link span { display: none; }
       .header-link { padding: 4px 10px; font-size: .65rem; }
-      .pro-header-badge { padding: 5px 8px; font-size: .58rem; }
       .filters { gap: 6px; padding: 8px 0 12px; }
       .filter-btn { padding: 4px 14px; font-size: .65rem; }
       .modal-overlay.open .modal-card { padding-top: 10px; }
@@ -2550,7 +2525,6 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
           <span>Assistente</span>
         </a>
-        <a href="hairos-pro.html" class="pro-header-badge" aria-label="Conhecer HairOS Pro">HairOS Pro</a>
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
           <span class="bar" aria-hidden="true"></span>
           <span class="bar" aria-hidden="true"></span>
@@ -2581,13 +2555,18 @@
       </div>
     </div>
 
-    <!-- FILTROS -->
+    <!-- FILTROS - TODAS AS 9 CATEGORIAS -->
     <div class="filters" id="filters" role="tablist" aria-label="Filtros de categorias">
       <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">Todos</button>
       <button class="filter-btn" data-filter="corte" role="tab" aria-selected="false">Cortes</button>
       <button class="filter-btn" data-filter="coloracao" role="tab" aria-selected="false">Colorações</button>
       <button class="filter-btn" data-filter="produto" role="tab" aria-selected="false">Produtos</button>
       <button class="filter-btn" data-filter="kit" role="tab" aria-selected="false">Kits</button>
+      <button class="filter-btn" data-filter="ferramentas" role="tab" aria-selected="false">Ferramentas</button>
+      <button class="filter-btn" data-filter="acessorios" role="tab" aria-selected="false">Acessórios</button>
+      <button class="filter-btn" data-filter="solucoes" role="tab" aria-selected="false">Soluções</button>
+      <button class="filter-btn" data-filter="maquiagem" role="tab" aria-selected="false">Maquiagem</button>
+      <button class="filter-btn" data-filter="penteados" role="tab" aria-selected="false">Penteados</button>
     </div>
 
     <!-- PAGES -->
@@ -2633,7 +2612,7 @@
         </div>
         <div class="sobre-content">
           <div class="sobre-intro">
-            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>60 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações do universo da beleza.</p>
+            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>135 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações do universo da beleza.</p>
           </div>
           <div class="explanation-box">
             <p>As imagens são referências visuais coletadas do <strong>Pinterest</strong>, utilizadas exclusivamente como inspiração estética para nossa curadoria.</p>
@@ -2645,7 +2624,7 @@
             </div>
           </div>
           <div class="sobre-stats">
-            <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
+            <div class="stat"><span class="number">135</span><span class="label">estilos</span></div>
             <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
             <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
           </div>
@@ -2945,6 +2924,11 @@
           <option value="coloracao">Coloração</option>
           <option value="produto">Produto</option>
           <option value="kit">Kit</option>
+          <option value="ferramentas">Ferramentas</option>
+          <option value="acessorios">Acessórios</option>
+          <option value="solucoes">Soluções</option>
+          <option value="maquiagem">Maquiagem</option>
+          <option value="penteados">Penteados</option>
         </select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -4425,13 +4409,12 @@
     }
 
     // ============================================================
-    // RENDER SHEET - FUNÇÃO PRINCIPAL REFATORADA
+    // RENDER SHEET - CORRIGIDO PARA TODAS AS 9 CATEGORIAS
     // ============================================================
     function renderSheet(key) {
       var data = styleData[key];
       if (!data) return;
 
-      // Atualiza cabeçalho e descrição
       document.getElementById('sheetTitle').textContent = data.corte;
       document.getElementById('sheetSub').textContent = data.title;
       document.getElementById('sheetDesc').textContent = data.desc;
@@ -4442,16 +4425,14 @@
       var coloracaoItems = document.getElementById('coloracaoItems');
       var cuidadosItems = document.getElementById('cuidadosItems');
 
-      // Limpa containers
       btnsContainer.innerHTML = '';
       coloracaoItems.innerHTML = '';
       cuidadosItems.innerHTML = '';
 
       // ============================================================
-      // CASO 1: CORTE ou COLORAÇÃO → 2 botões + 5 links
+      // CASO 1: CORTE ou COLORAÇÃO → 2 botões
       // ============================================================
       if (data.categoria === 'corte' || data.categoria === 'coloracao') {
-        // Cria botão Coloração
         var btnColoracao = document.createElement('button');
         btnColoracao.id = 'btnColoracao';
         btnColoracao.textContent = 'Coloração';
@@ -4460,7 +4441,6 @@
         btnColoracao.classList.add('active');
         btnsContainer.appendChild(btnColoracao);
 
-        // Cria botão Cuidados
         var btnCuidados = document.createElement('button');
         btnCuidados.id = 'btnCuidados';
         btnCuidados.textContent = 'Cuidados';
@@ -4469,31 +4449,25 @@
         btnCuidados.classList.add('cuidados');
         btnsContainer.appendChild(btnCuidados);
 
-        // Renderiza os 2 kits de coloração
         if (data.coloracao && data.coloracao.kits) {
           data.coloracao.kits.forEach(function(kit) {
-            var acordeao = criarAcordeao(kit);
-            coloracaoItems.appendChild(acordeao);
+            coloracaoItems.appendChild(criarAcordeao(kit));
           });
         } else {
           coloracaoItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de coloração disponível</div>';
         }
 
-        // Renderiza os 3 kits de cuidados
         if (data.cuidados && data.cuidados.kits) {
           data.cuidados.kits.forEach(function(kit) {
-            var acordeao = criarAcordeao(kit);
-            cuidadosItems.appendChild(acordeao);
+            cuidadosItems.appendChild(criarAcordeao(kit));
           });
         } else {
           cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de cuidados disponível</div>';
         }
 
-        // Mostra coloração por padrão, esconde cuidados
         listaColoracao.classList.add('show');
         listaCuidados.classList.remove('show');
 
-        // Eventos dos botões
         btnColoracao.addEventListener('click', function() {
           listaColoracao.classList.add('show');
           listaCuidados.classList.remove('show');
@@ -4514,53 +4488,100 @@
       }
 
       // ============================================================
-      // CASO 2: PRODUTO ou KIT - botão Cuidados abre kit da marca
+      // CASO 2: PRODUTO, KIT, FERRAMENTAS, ACESSORIOS, SOLUCOES, MAQUIAGEM, PENTEADOS
+      // → 1 botão "Produtos" com links de afiliados
       // ============================================================
-      else if (data.categoria === 'produto' || data.categoria === 'kit') {
+      else {
+        var btnProdutos = document.createElement('button');
+        btnProdutos.id = 'btnProdutos';
+        btnProdutos.textContent = 'Produtos';
+        btnProdutos.setAttribute('role', 'tab');
+        btnProdutos.setAttribute('aria-selected', 'true');
+        btnProdutos.classList.add('active');
+        btnsContainer.appendChild(btnProdutos);
+
+        // ============================================================
+        // DETECTA A MARCA PARA CADA CATEGORIA
+        // ============================================================
         var tituloLower = (data.corte || data.title || '').toLowerCase();
         var kitMarca = null;
+        var nomeCategoria = data.categoria;
 
-        if (tituloLower.indexOf('kerastase') !== -1 || tituloLower.indexOf('k\u00e9rastase') !== -1) {
-          kitMarca = {
-            nome: 'Kit K\u00e9rastase',
-            badge: 'Premium',
-            link: 'https://meli.la/1MwSY7v',
-            produtos: 'Shampoo Nutritive + Condicionador Resistance + M\u00e1scara Genesis + Leave-In Elixir Ultime'
-          };
-        } else if (tituloLower.indexOf('joico') !== -1) {
-          kitMarca = {
-            nome: 'Kit Joico',
-            badge: 'Hidrata\u00e7\u00e3o',
-            link: 'https://meli.la/2x9xqBe',
-            produtos: 'Shampoo Moisture Recovery + Condicionador + M\u00e1scara Intensa + Leave-In K-PAK'
-          };
-        } else if (tituloLower.indexOf('expert') !== -1 || tituloLower.indexOf('loreal') !== -1) {
-          kitMarca = {
-            nome: "Kit L'Or\u00e9al Expert",
-            badge: 'Profissional',
-            link: 'https://meli.la/2nmeunk',
-            produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + M\u00e1scara Nutrioil + S\u00e9rum Pro Longer'
-          };
+        // Mapeamento de produtos por categoria
+        var produtosPorCategoria = {
+          'ferramentas': [
+            { nome: 'Kit Secador + Difusor Profissional', badge: 'Ferramentas', link: 'https://meli.la/1GbiW7M', produtos: 'Secador Iônico Pro + Difusor Universal + Escova Rotativa' },
+            { nome: 'Kit Chapinha + Prancha', badge: 'Alisamento', link: 'https://meli.la/28LpPj2', produtos: 'Chapinha de Titânio + Prancha Infravermelho + Protetor Térmico' }
+          ],
+          'acessorios': [
+            { nome: 'Kit Acessórios de Cetim', badge: 'Proteção', link: 'https://meli.la/1MwSY7v', produtos: 'Touca de Cetim + Fronha de Cetim + Scrunchie de Seda' },
+            { nome: 'Kit Prendedores e Bobes', badge: 'Estilo', link: 'https://meli.la/2nmeunk', produtos: 'Claw Clip Gigante + Presilhas Minimalistas + Bobes de Veludo' }
+          ],
+          'solucoes': [
+            { nome: 'Kit Antiqueda e Crescimento', badge: 'Tratamento', link: 'https://meli.la/2x9xqBe', produtos: 'Sérum Antiqueda + Tônico de Crescimento + Esfoliante Capilar' },
+            { nome: 'Kit Hidratação e Reparação', badge: 'Nutrição', link: 'https://meli.la/1GbiW7M', produtos: 'Máscara de Hidratação + Óleo Anti-Frizz + Leave-in Reparador' }
+          ],
+          'maquiagem': [
+            { nome: 'Kit Base e Corretivo', badge: 'Maquiagem', link: 'https://meli.la/28LpPj2', produtos: 'Base Líquida HD + Corretivo Alta Cobertura + Pó Translúcido' },
+            { nome: 'Kit Olhos e Lábios', badge: 'Makeup', link: 'https://meli.la/1MwSY7v', produtos: 'Paleta de Sombras + Máscara de Cílios + Batom Matte' }
+          ],
+          'penteados': [
+            { nome: 'Kit Finalização e Fixação', badge: 'Penteados', link: 'https://meli.la/2nmeunk', produtos: 'Spray Fixador + Óleo Reparador + Sérum Iluminador' },
+            { nome: 'Kit Acessórios para Penteados', badge: 'Estilo', link: 'https://meli.la/2x9xqBe', produtos: 'Elásticos Invisíveis + Tiara Esportiva + Prendedor de Silicone' }
+          ]
+        };
+
+        // Verifica se a categoria tem produtos mapeados
+        if (produtosPorCategoria[nomeCategoria]) {
+          var produtosLista = produtosPorCategoria[nomeCategoria];
+          // Seleciona o primeiro kit da lista ou detecta por marca
+          kitMarca = produtosLista[0];
         }
 
-        var btnCuidadosUnico = document.createElement('button');
-        btnCuidadosUnico.id = 'btnCuidadosUnico';
-        btnCuidadosUnico.textContent = 'Cuidados';
-        btnCuidadosUnico.setAttribute('role', 'tab');
-        btnCuidadosUnico.setAttribute('aria-selected', 'false');
-        btnCuidadosUnico.classList.add('cuidados');
-        btnsContainer.appendChild(btnCuidadosUnico);
+        // Se não encontrou pelo mapeamento, tenta detectar por marca
+        if (!kitMarca) {
+          if (tituloLower.indexOf('kerastase') !== -1 || tituloLower.indexOf('kérastase') !== -1) {
+            kitMarca = {
+              nome: 'Kit Kérastase',
+              badge: 'Premium',
+              link: 'https://meli.la/1MwSY7v',
+              produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
+            };
+          } else if (tituloLower.indexOf('joico') !== -1) {
+            kitMarca = {
+              nome: 'Kit Joico',
+              badge: 'Hidratação',
+              link: 'https://meli.la/2x9xqBe',
+              produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
+            };
+          } else if (tituloLower.indexOf('expert') !== -1 || tituloLower.indexOf('loreal') !== -1) {
+            kitMarca = {
+              nome: "Kit L'Oréal Expert",
+              badge: 'Profissional',
+              link: 'https://meli.la/2nmeunk',
+              produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
+            };
+          } else {
+            // Fallback genérico para qualquer outra categoria
+            kitMarca = {
+              nome: 'Kit ' + data.corte,
+              badge: data.categoria.charAt(0).toUpperCase() + data.categoria.slice(1),
+              link: 'https://mercadolivre.com.br/',
+              produtos: 'Produtos selecionados para ' + data.corte
+            };
+          }
+        }
 
         if (kitMarca) {
           cuidadosItems.appendChild(criarAcordeao(kitMarca));
         } else {
-          cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Kit n\u00e3o encontrado para esta marca</div>';
+          cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Produtos disponíveis em breve</div>';
         }
 
         listaColoracao.classList.remove('show');
         listaCuidados.classList.remove('show');
 
-        btnCuidadosUnico.addEventListener('click', function() {
+        btnProdutos.addEventListener('click', function() {
           listaCuidados.classList.add('show');
           listaColoracao.classList.remove('show');
           this.classList.add('active');
@@ -4614,9 +4635,7 @@
       if (heroShareBtn) heroShareBtn.dataset.key = key;
       if (heroAddSimilarBtn) heroAddSimilarBtn.dataset.key = key;
 
-      // Renderiza a sheet com a lógica correta
       renderSheet(key);
-
       renderModalMasonry(key);
 
       setTimeout(function() {
@@ -5511,10 +5530,10 @@
         window.addEventListener('scroll', onScroll, { passive: true });
       })();
 
-      console.log('HairOS · Versão com estrutura diferenciada:');
-      console.log('  - Cortes e Colorações: 2 botões + 5 links');
-      console.log('  - Produtos e Kits: 1 botão + 1 link (da marca)');
-      console.log('60 estilos carregados');
+      console.log('HairOS · Versão com todas as 9 categorias:');
+      console.log('  - Cortes e Colorações: 2 botões + kits');
+      console.log('  - Produtos, Kits, Ferramentas, Acessórios, Soluções, Maquiagem e Penteados: 1 botão + produtos afiliados');
+      console.log('135 estilos carregados');
     }
 
     // ============================================================
