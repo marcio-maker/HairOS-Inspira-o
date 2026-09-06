@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>HairOS · Vitrine de Inspirações Capilares</title>
   <meta name="description" content="HairOS - A maior vitrine digital de inspirações capilares.">
-  <meta name="keywords" content="cabelo, cortes de cabelo, coloração capilar, produtos para cabelo, kits capilares, ferramentas, acessórios">
+  <meta name="keywords" content="cabelo, cortes de cabelo, coloração capilar, produtos para cabelo, kits capilares">
   <meta name="author" content="HairOS">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://hairos.com.br">
 
   <!-- Open Graph -->
   <meta property="og:title" content="HairOS · Vitrine de Inspirações Capilares">
-  <meta property="og:description" content="Descubra estilos entre cortes, colorações, produtos, kits, ferramentas, acessórios, soluções, maquiagem e penteados.">
+  <meta property="og:description" content="Descubra estilos entre cortes, colorações, produtos e kits profissionais.">
   <meta property="og:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -24,7 +24,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HairOS · Vitrine de Inspirações Capilares">
-  <meta name="twitter:description" content="Estilos entre cortes, colorações, produtos, kits, ferramentas, acessórios, soluções, maquiagem e penteados.">
+  <meta name="twitter:description" content="Estilos entre cortes, colorações, produtos e kits profissionais.">
   <meta name="twitter:image" content="https://i.pinimg.com/736x/1e/59/3c/1e593c46f134db1bc0233b96d12d555f.jpg">
 
   <!-- Favicon -->
@@ -111,23 +111,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1), background var(--transition);
+      transition: opacity 0.6s ease, visibility 0.6s ease, background var(--transition);
     }
-    .loading-screen.hidden { 
-      opacity: 0; 
-      visibility: hidden; 
-      pointer-events: none; 
-    }
-    @keyframes logoZoomIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.2);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+    .loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .loading-logo {
       font-family: 'Playfair Display', serif;
       font-size: 3.2rem;
@@ -138,69 +124,15 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      animation: logoZoomIn 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-      will-change: transform, opacity;
-      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.7s ease;
     }
-    .loading-logo.zoom-out-effect {
-      transform: scale(5.5);
-      opacity: 0;
-    }
-    .loading-logo span { 
-      color: var(--gold); 
-      font-size: 4rem; 
-      text-shadow: 0 0 60px var(--gold-glow); 
-    }
-    .loading-logo .dot { 
-      color: var(--gold); 
-      font-size: 3.8rem; 
-    }
-    .loading-bar { 
-      margin-top: 28px; 
-      width: min(210px, 64vw); 
-      height: 3px; 
-      background: var(--border); 
-      border-radius: 2px; 
-      overflow: hidden; 
-      transition: opacity 0.4s ease;
-    }
-    .loading-bar-inner { 
-      width: 0%; 
-      height: 100%; 
-      background: linear-gradient(90deg, var(--gold), var(--gold-light)); 
-      border-radius: 2px; 
-      transition: width 0.2s ease; 
-    }
-    .loading-text, .loading-percent {
-      transition: opacity 0.4s ease;
-    }
-    .loading-text { 
-      margin-top: 16px; 
-      font-size: 0.7rem; 
-      color: var(--text-muted); 
-      letter-spacing: 0.15em; 
-      text-transform: uppercase; 
-      font-weight: 300; 
-      opacity: 0.4; 
-    }
-    .loading-percent { 
-      margin-top: 6px; 
-      font-size: 0.65rem; 
-      color: var(--gold); 
-      font-weight: 400; 
-      opacity: 0.6; 
-    }
-    .main-content { 
-      opacity: 0; 
-      visibility: hidden; 
-      transform: translateY(15px);
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .main-content.visible { 
-      opacity: 1; 
-      visibility: visible; 
-      transform: translateY(0);
-    }
+    .loading-logo span { color: var(--gold); text-shadow: 0 0 60px var(--gold-glow); }
+    .loading-logo .dot { color: var(--gold); font-size: 3rem; }
+    .loading-bar { margin-top: 28px; width: min(210px, 64vw); height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .loading-bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.3s ease; }
+    .loading-text { margin-top: 16px; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 300; opacity: 0.4; }
+    .loading-percent { margin-top: 6px; font-size: 0.65rem; color: var(--gold); font-weight: 400; opacity: 0.6; }
+    .main-content { opacity: 0; visibility: hidden; }
+    .main-content.visible { opacity: 1; visibility: visible; transition: opacity 0.8s ease, visibility 0.8s ease; }
 
     /* ===== TOAST ===== */
     .toast-container {
@@ -238,6 +170,26 @@
       border-color: var(--gold);
     }
     .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+    .toast.toast-action {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 8px 18px;
+    }
+    .toast-action-text { line-height: 1.2; }
+    .toast-action-btn {
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      background: var(--gold);
+      color: #1b1209;
+      padding: 6px 11px;
+      font: 600 .68rem Inter, sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: filter .25s ease, transform .25s ease;
+    }
+    .toast-action-btn:hover, .toast-action-btn:focus-visible { filter: brightness(1.1); transform: translateY(-1px); outline: var(--focus-ring); }
 
     /* ===== HEADER ===== */
     .header {
@@ -352,6 +304,30 @@
     .hamburger-btn .bar:nth-child(2) { width: 11px; align-self: flex-end; }
     .hamburger-btn .bar:nth-child(3) { width: 7px; align-self: flex-end; }
     .hamburger-btn:hover .bar { background: var(--gold); }
+    .vitrine-badge {
+      font-size: .7rem;
+      color: var(--gold);
+      padding: 6px 12px;
+      border: 1px solid rgba(201, 169, 110, .25);
+      border-radius: 100px;
+      white-space: nowrap;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+    .vitrine-badge.visible { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .vitrine-badge:hover, .vitrine-badge:focus-visible {
+      background: rgba(201, 169, 110, .1);
+      border-color: var(--gold);
+      outline: var(--focus-ring);
+    }
 
     /* ===== MENU OVERLAY ===== */
     .menu-overlay {
@@ -410,7 +386,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 8px;
+      padding: 10px 8px;
       border-radius: 8px;
       cursor: pointer;
       transition: all var(--transition);
@@ -442,7 +418,7 @@
       text-align: center;
     }
     .menu-item .item-count.empty { background: var(--border); color: var(--text-muted); }
-    .menu-divider { height: 1px; background: var(--border); margin: 4px 0; }
+    .menu-divider { height: 1px; background: var(--border); margin: 6px 0; }
     .menu-theme {
       display: flex;
       align-items: center;
@@ -622,6 +598,84 @@
       border-color: var(--gold);
       background: rgba(10, 8, 8, .95);
     }
+
+    /* ===== COMPARADOR MINI ===== */
+    .ba-compare-mini {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9/12;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      cursor: ew-resize;
+      touch-action: none;
+      user-select: none;
+      isolation: isolate;
+      transition: all var(--transition);
+    }
+    .ba-compare-mini:hover {
+      border-color: rgba(201, 169, 110, .35);
+      transform: scale(1.02);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .5);
+      z-index: 10;
+    }
+    .ba-compare-mini img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; pointer-events: none; }
+    .ba-compare-mini .ba-before {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 2;
+      border-right: 2px solid rgba(255, 255, 255, 0.8);
+      width: 50%;
+    }
+    .ba-compare-mini .ba-before img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .ba-compare-mini .ba-after { position: absolute; inset: 0; z-index: 1; }
+    .ba-compare-mini .ba-after img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .ba-compare-mini .ba-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 32px;
+      height: 32px;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 8, 8, 0.8);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 0.7rem;
+      z-index: 5;
+      pointer-events: none;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+    .ba-compare-mini .ba-labels {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      right: 0;
+      z-index: 6;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 8px;
+      pointer-events: none;
+    }
+    .ba-compare-mini .ba-labels span {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 0.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .ba-compare-mini .ba-labels .label-before { background: rgba(201, 169, 110, 0.7); }
+    .ba-compare-mini .ba-labels .label-after { background: rgba(78, 205, 196, 0.7); }
 
     /* ===== MODAL ===== */
     .modal-overlay {
@@ -925,15 +979,6 @@
       letter-spacing: .02em;
     }
     .modal-card-item:hover .item-label, .modal-card-item:focus-within .item-label { opacity: 1; }
-    .modal-card-item.primary {
-      border-color: rgba(201, 169, 110, 0.4);
-      border-width: 2px;
-    }
-    .modal-card-item.primary .item-label {
-      background: rgba(201, 169, 110, 0.2);
-      color: var(--gold);
-      font-weight: 600;
-    }
 
     /* ===== SHEET ===== */
     .modal-sheet {
@@ -1060,8 +1105,6 @@
     .sheet-btns button:hover, .sheet-btns button:focus-visible { opacity: .85; transform: scale(1.02); outline: var(--focus-ring); }
     .kit-lista { display: none; margin-bottom: 5px; padding: 2px 0; border-radius: 10px; }
     .kit-lista.show { display: block; animation: fadeIn .3s ease; }
-    .sheet-subsection-label { margin: 2px 0 6px; color: var(--gold); font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
-
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
     .kit-acordeao {
       margin-bottom: 5px;
@@ -1087,7 +1130,7 @@
     .kit-acordeao-header-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .kit-acordeao-badge { font-size: .5rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); background: rgba(201, 169, 110, .1); padding: 2px 10px; border-radius: 10px; border: 1px solid rgba(201, 169, 110, .15); font-weight: 600; flex-shrink: 0; }
     .kit-acordeao-title { font-family: 'Playfair Display', serif; font-style: italic; font-size: .82rem; font-weight: 600; color: var(--text); }
-    .kit-acordeao-arrow { font-size: 1.4rem; color: var(--gold); text-shadow: 0 0 10px rgba(201, 169, 110, .6); transition: transform var(--transition); flex-shrink: 0; }
+    .kit-acordeao-arrow { font-size: .65rem; color: var(--text-muted); transition: transform var(--transition); flex-shrink: 0; }
     .kit-acordeao.open .kit-acordeao-arrow { transform: rotate(180deg); }
     .kit-acordeao-body { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.25, .46, .45, .94), padding .3s ease; padding: 0 10px; }
     .kit-acordeao.open .kit-acordeao-body { max-height: 600px; padding: 0 10px 10px 10px; }
@@ -1991,7 +2034,7 @@
     .photo-add-actions .btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
     .photo-add-actions .btn-cancel:hover, .photo-add-actions .btn-cancel:focus-visible { border-color: var(--text); color: var(--text); outline: var(--focus-ring); }
 
-    /* ===== SOBRE ===== */
+    /* ===== SOBRE COM FAQ ===== */
     .sobre-content { display: flex; flex-direction: column; gap: 0; }
     .sobre-intro { padding: 20px 0 0; margin-bottom: 28px; }
     .sobre-intro p { font-size: 1rem; color: var(--text-sec); line-height: 1.8; font-weight: 300; max-width: 480px; }
@@ -2024,34 +2067,6 @@
     .sobre-card-eyebrow { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 8px; opacity: .8; }
     .sobre-card h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--text); font-size: 1rem; margin-bottom: 8px; line-height: 1.3; }
     .sobre-card p { font-size: .85rem; color: var(--text-sec); line-height: 1.65; font-weight: 300; }
-    .explanation-box {
-      margin-top: 20px;
-      padding: 24px 28px;
-      background: var(--bg-card);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      transition: all var(--transition);
-    }
-    .explanation-box:hover { border-color: var(--border-gold); }
-    .explanation-box p { font-size: .9rem; color: var(--text-sec); line-height: 1.8; font-weight: 300; }
-    .explanation-box p + p { margin-top: 10px; }
-    .explanation-box strong { color: var(--gold); font-weight: 600; }
-    .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
-    .badge-item {
-      font-size: .6rem;
-      padding: 4px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      background: var(--bg);
-      transition: all var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-    .badge-item.gold { border-color: var(--border-gold); color: var(--gold); background: var(--gold-glow); }
     .faq-section { margin-bottom: 12px; }
     .faq-eyebrow { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; margin-bottom: 16px; }
     .faq-title { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--text); margin-bottom: 20px; }
@@ -2098,6 +2113,55 @@
     [data-theme="light"] .faq-answer { background: rgba(255, 252, 248, 0.98); color: var(--text); }
     .faq-item:hover .faq-answer, .faq-item:focus-within .faq-answer { opacity: 1; pointer-events: auto; transform: scale(1); }
     .faq-answer::before { content: "— "; color: var(--gold); font-weight: 400; }
+
+    /* ===== SOBRE · CONTEÚDO ATUALIZADO ===== */
+    .explanation-box {
+      margin-top: 20px;
+      padding: 24px 28px;
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .explanation-box:hover { border-color: var(--border-gold); }
+    .explanation-box p { font-size: .9rem; color: var(--text-sec); line-height: 1.8; font-weight: 300; }
+    .explanation-box p + p { margin-top: 10px; }
+    .explanation-box strong { color: var(--gold); font-weight: 600; }
+    .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+    .badge-item {
+      font-size: .6rem;
+      padding: 4px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      background: var(--bg);
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .badge-item.gold { border-color: var(--border-gold); color: var(--gold); background: var(--gold-glow); }
+    .sobre-card .footnote { margin-top: 12px; font-size: .65rem; color: var(--text-muted); opacity: .5; letter-spacing: .04em; }
+    .support-banner {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border-gold);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .support-banner:hover { border-color: var(--gold); }
+    .support-banner p { font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.8; max-width: 500px; margin: 0 auto; }
+    .support-banner p strong { color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; }
+    .support-banner .badge-row { justify-content: center; }
+    @media (max-width: 600px) {
+      .explanation-box, .support-banner { padding: 18px 16px; }
+      .explanation-box p { font-size: .82rem; }
+      .support-banner p { font-size: .78rem; }
+    }
 
     /* ===== CONTATO ===== */
     .contato-content { display: flex; flex-direction: column; gap: 0; }
@@ -2249,6 +2313,12 @@
     .perfil-identity h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.25rem; color: var(--text); line-height: 1.2; margin-bottom: 4px; }
     .perfil-identity .perfil-desc { font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; margin-bottom: 10px; word-break: break-word; }
     .perfil-edit-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .perfil-actions-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .perfil-btn {
       padding: 12px 16px;
       border-radius: 10px;
@@ -2399,20 +2469,31 @@
     /* ===== RESPONSIVO ===== */
     @media (max-width: 600px) {
       .modal-sheet { max-width: 100%; height: 58vh; max-height: 60vh; padding: 14px 14px 18px; }
-      .sheet-carousel-slide { min-width: calc((100% - 30px) / 3.5); width: calc((100% - 30px) / 3.5); }
-      .sheet-carousel-slide img { height: 100px; }
+      .kit-acordeao-title { font-size: .85rem; }
+      .kit-acordeao-badge { font-size: .45rem; padding: 1px 8px; }
+      .sheet-btns button { font-size: .7rem; padding: 8px; }
+      .kit-produtos-lista { font-size: .68rem; }
+      .kit-complete { font-size: .75rem; padding: 8px; }
       .fav-grid { grid-template-columns: repeat(2, 1fr); }
       .header-link span { display: none; }
       .header-link { padding: 4px 10px; font-size: .65rem; }
       .pro-header-badge { padding: 5px 8px; font-size: .58rem; }
+      .filters { gap: 6px; padding: 8px 0 12px; }
+      .filter-btn { padding: 4px 14px; font-size: .65rem; }
+      .modal-overlay.open .modal-card { padding-top: 10px; }
+      .sheet-carousel-slide { min-width: calc((100% - 30px) / 3.5); width: calc((100% - 30px) / 3.5); }
+      .sheet-carousel-slide img { height: 100px; }
     }
     @media (max-width: 400px) {
+      .kit-acordeao-header { padding: 8px 12px; }
+      .kit-acordeao-title { font-size: .78rem; }
+      .kit-produtos-lista { font-size: .62rem; }
+      .fav-grid { grid-template-columns: repeat(2, 1fr); }
       .brand { font-size: 1rem; }
       .brand-sub { font-size: .45rem; }
       .header { padding: 6px 12px; margin: 6px 0 12px; }
       .sheet-carousel-slide { min-width: calc((100% - 24px) / 3.5); width: calc((100% - 24px) / 3.5); }
       .sheet-carousel-slide img { height: 90px; }
-      .fav-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (min-width: 800px) {
       .sheet-carousel-slide { min-width: calc((100% - 48px) / 3.5); width: calc((100% - 48px) / 3.5); }
@@ -2446,8 +2527,8 @@
 
   <!-- ===== LOADING ===== -->
   <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Carregando HairOS">
-    <div class="loading-logo" id="loadingLogo">Hair<span>OS</span><span class="dot">.</span></div>
-    <div class="loading-bar" id="loadingBarContainer" aria-hidden="true">
+    <div class="loading-logo">Hair<span>OS</span><span class="dot">.</span></div>
+    <div class="loading-bar" aria-hidden="true">
       <div class="loading-bar-inner" id="loadingBar"></div>
     </div>
     <div class="loading-text" id="loadingText">carregando inspirações</div>
@@ -2464,6 +2545,12 @@
         <div class="brand-sub" id="brandSub">— <span class="highlight">Vitrine de inspirações</span></div>
       </div>
       <div class="header-actions">
+        <span class="vitrine-badge" id="vitrineBadge" role="button" tabindex="0">Ver Vitrine</span>
+        <a href="Chat.bot.html" class="header-link" aria-label="Assistente virtual">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          <span>Assistente</span>
+        </a>
+        <a href="hairos-pro.html" class="pro-header-badge" aria-label="Conhecer HairOS Pro">HairOS Pro</a>
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
           <span class="bar" aria-hidden="true"></span>
           <span class="bar" aria-hidden="true"></span>
@@ -2483,6 +2570,7 @@
         <button class="menu-item" id="menuFavs" role="menuitem"><span class="icon" aria-hidden="true">♡</span> favoritos <span class="item-count empty" id="menuFavCount">0</span></button>
         <button class="menu-item" id="menuTransformacoes" role="menuitem"><span class="icon" aria-hidden="true">◑</span> progresso <span class="item-count empty" id="menuTransfCount">0</span></button>
         <button class="menu-item" id="menuPerfil" role="menuitem"><span class="icon" aria-hidden="true">◈</span> perfil</button>
+        <div class="menu-divider" role="separator"></div>
         <button class="menu-item" id="menuSobre" role="menuitem"><span class="icon" aria-hidden="true">◎</span> sobre</button>
         <button class="menu-item" id="menuContato" role="menuitem"><span class="icon" aria-hidden="true">✉</span> contato</button>
         <div class="menu-divider" role="separator"></div>
@@ -2500,11 +2588,6 @@
       <button class="filter-btn" data-filter="coloracao" role="tab" aria-selected="false">Colorações</button>
       <button class="filter-btn" data-filter="produto" role="tab" aria-selected="false">Produtos</button>
       <button class="filter-btn" data-filter="kit" role="tab" aria-selected="false">Kits</button>
-      <button class="filter-btn" data-filter="ferramentas" role="tab" aria-selected="false">Ferramentas</button>
-      <button class="filter-btn" data-filter="acessorios" role="tab" aria-selected="false">Acessórios</button>
-      <button class="filter-btn" data-filter="solucoes" role="tab" aria-selected="false">Soluções</button>
-      <button class="filter-btn" data-filter="maquiagem" role="tab" aria-selected="false">Maquiagem</button>
-      <button class="filter-btn" data-filter="penteados" role="tab" aria-selected="false">Penteados</button>
     </div>
 
     <!-- PAGES -->
@@ -2550,20 +2633,20 @@
         </div>
         <div class="sobre-content">
           <div class="sobre-intro">
-            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>135 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações do universo da beleza.</p>
+            <p><strong style="color:var(--text);font-family:'Playfair Display',serif;font-style:italic;">HairOS</strong> é uma seleção de <strong>60 estilos</strong> capilares — um catálogo vivo que reúne tendências, clássicos e inspirações do universo da beleza.</p>
           </div>
           <div class="explanation-box">
-            <p>As imagens são referências visuais coletadas do <strong>Pinterest</strong>, utilizadas exclusivamente como inspiração estética para nossa galeria.</p>
+            <p>As imagens são referências visuais coletadas do <strong>Pinterest</strong>, utilizadas exclusivamente como inspiração estética para nossa curadoria.</p>
             <p>Os <strong>produtos</strong> exibidos em nossos kits e sugestões possuem <strong>links de afiliados</strong> para o <strong>Mercado Livre</strong>. Isso significa que, ao comprar através desses links, você apoia diretamente nosso projeto — <strong>sem nenhum custo adicional</strong> para você.</p>
             <div class="badge-row">
               <span class="badge-item">referências Pinterest</span>
               <span class="badge-item gold">links de afiliados</span>
-              <span class="badge-item">referências profissionais</span>
+              <span class="badge-item">curadoria profissional</span>
             </div>
           </div>
           <div class="sobre-stats">
-            <div class="stat"><span class="number">135</span><span class="label">estilos</span></div>
-            <div class="stat"><span class="number">9</span><span class="label">categorias</span></div>
+            <div class="stat"><span class="number">60</span><span class="label">estilos</span></div>
+            <div class="stat"><span class="number">4.8</span><span class="label">avaliação</span></div>
             <div class="stat"><span class="number" id="favCountStat">0</span><span class="label">favoritos</span></div>
           </div>
           <div class="sobre-cards-row">
@@ -2910,7 +2993,7 @@
             </svg>
           </button>
           <button class="modal-hero-side-btn fav-btn" id="heroFavBtn" title="Favoritar" aria-pressed="false">♡</button>
-          
+          <button class="modal-hero-side-btn" id="heroAddSimilarBtn" title="Adicionar transformação similar" aria-label="Adicionar transformação similar">+</button>
         </div>
         <div class="modal-hero-info" id="heroInfo">
           <span class="hero-categoria" id="heroCategoria">Corte</span>
@@ -2973,6 +3056,7 @@
 
   <!-- ===== DATA.JS ===== -->
   <script src="data.js"></script>
+
   <script>
     // ============================================================
     // FALLBACK IMAGEM
@@ -3285,6 +3369,7 @@
     function renderHome() {
       var container = document.getElementById('masonryHome');
       var title = document.getElementById('sectionTitle');
+      var vitrineBadge = document.getElementById('vitrineBadge');
       if (!container) return;
       container.innerHTML = '';
 
@@ -3293,8 +3378,10 @@
 
       if (showingFavorites) {
         if (title) title.innerHTML = '<span>—</span> <span class="highlight">Favoritos</span> <span>—</span>';
+        if (vitrineBadge) vitrineBadge.classList.add('visible');
       } else {
         if (title) title.innerHTML = '<span>—</span> <span class="highlight">Inspirações</span> <span>—</span>';
+        if (vitrineBadge) vitrineBadge.classList.remove('visible');
       }
 
       if (filteredKeys.length === 0) {
@@ -3492,7 +3579,7 @@
     }
 
     // ============================================================
-    // RENDER PERFIL
+    // RENDER PERFIL (SEM STATS)
     // ============================================================
     function openPhotoSheet() {
       var s = document.getElementById('photoSheet');
@@ -4323,8 +4410,7 @@
       complete.href = kit.link || '#';
       complete.target = '_blank';
       complete.rel = 'noopener noreferrer';
-      complete.innerHTML = '<span class="arrow">→</span> ' + (kit.ctaLabel || 'Obter Kit Completo');
-
+      complete.innerHTML = '<span class="arrow">→</span> Obter Kit Completo';
       body.appendChild(complete);
 
       acordeao.appendChild(body);
@@ -4339,7 +4425,7 @@
     }
 
     // ============================================================
-    // RENDER SHEET - ATUALIZADO COM AS 9 CATEGORIAS
+    // RENDER SHEET - FUNÇÃO PRINCIPAL REFATORADA
     // ============================================================
     function renderSheet(key) {
       var data = styleData[key];
@@ -4361,150 +4447,10 @@
       coloracaoItems.innerHTML = '';
       cuidadosItems.innerHTML = '';
 
-      var categoria = data.categoria;
-      var categoriasLayoutClean = ['corte', 'coloracao', 'produto', 'kit'];
-      var usarLayoutClean = categoriasLayoutClean.indexOf(categoria) !== -1;
-      btnsContainer.style.display = '';
-
-      if (usarLayoutClean) {
-        // ============================================================
-        // LAYOUT CLEAN: duas opções compactas para cortes e colorações
-        // ============================================================
-        var usarTabsColoracao = categoria === 'corte' || categoria === 'coloracao';
-        btnsContainer.style.display = usarTabsColoracao ? '' : 'none';
-        listaColoracao.classList.add('show');
-        listaCuidados.classList.remove('show');
-
-      var kitsUnificados = [];
-      var usarKitsColoracao = categoria === 'corte' || categoria === 'coloracao';
-      if (usarKitsColoracao && data.coloracao && Array.isArray(data.coloracao.kits)) {
-        data.coloracao.kits.slice(0, 2).forEach(function(kit) { kitsUnificados.push(kit); });
-      }
-
-      var textoMarca = [data.marca, data.brand, data.corte, data.title, data.desc]
-        .filter(function(valor) { return typeof valor === 'string'; })
-        .join(' ')
-        .toLowerCase();
-      var kitsMarcasCuidado = [
-        {
-          nome: 'Kit Kérastase',
-          badge: 'Premium',
-          link: 'https://meli.la/1MwSY7v',
-          produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
-        },
-        {
-          nome: 'Kit Joico',
-          badge: 'Hidratação',
-          link: 'https://meli.la/2x9xqBe',
-          produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
-        },
-        {
-          nome: "Kit L'Oréal Expert",
-          badge: 'Profissional',
-          link: 'https://meli.la/2nmeunk',
-          produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
-        }
-      ];
-      var kitMarcaUnificado = null;
-      if (textoMarca.indexOf('kerastase') !== -1 || textoMarca.indexOf('kérastase') !== -1) {
-        kitMarcaUnificado = kitsMarcasCuidado[0];
-      } else if (textoMarca.indexOf('joico') !== -1) {
-        kitMarcaUnificado = kitsMarcasCuidado[1];
-      } else if (textoMarca.indexOf('expert') !== -1 || textoMarca.indexOf('loreal') !== -1 || textoMarca.indexOf("l'oréal") !== -1 || textoMarca.indexOf('l’oréal') !== -1) {
-        kitMarcaUnificado = kitsMarcasCuidado[2];
-      }
-      if (usarKitsColoracao) {
-        var cuidadosTitulo = document.createElement('div');
-        cuidadosTitulo.className = 'sheet-subsection-label';
-        cuidadosTitulo.textContent = 'Cuidados recomendados';
-        cuidadosItems.appendChild(cuidadosTitulo);
-        kitsMarcasCuidado.forEach(function(cuidado) {
-          cuidadosItems.appendChild(criarAcordeao(Object.assign({}, cuidado, { ctaLabel: 'Obter produto' })));
-        });
-      } else if (kitMarcaUnificado) {
-        kitsUnificados.push(kitMarcaUnificado);
-      }
-
-      var categoriasDiretas = ['ferramentas', 'acessorios', 'solucoes', 'maquiagem', 'penteados'];
-      if (!kitsUnificados.length && categoriasDiretas.indexOf(categoria) !== -1) {
-        var nomesCategorias = {
-          ferramentas: 'Ferramentas',
-          acessorios: 'Acessórios',
-          solucoes: 'Soluções',
-          maquiagem: 'Maquiagem',
-          penteados: 'Penteados'
-        };
-        kitsUnificados.push({
-          nome: data.corte || data.title || 'Item',
-          badge: nomesCategorias[categoria] || categoria,
-          link: 'https://lista.mercadolivre.com.br/' + encodeURIComponent((data.corte || data.title || 'item') + ' profissional'),
-          produtos: 'Produto selecionado para ' + categoria
-        });
-      }
-      if (!kitsUnificados.length && !usarKitsColoracao) {
-        kitsUnificados.push({
-          nome: data.corte || data.title || 'Produto selecionado',
-          badge: categoria.charAt(0).toUpperCase() + categoria.slice(1),
-          link: 'https://lista.mercadolivre.com.br/' + encodeURIComponent((data.corte || data.title || 'produto') + ' profissional'),
-          produtos: 'Sugestão selecionada para você'
-        });
-      }
-      kitsUnificados.slice(0, 2).forEach(function(kit) {
-        coloracaoItems.appendChild(criarAcordeao(Object.assign({}, kit, { ctaLabel: 'Obter produto' })));
-      });
-
-      if (usarTabsColoracao) {
-        if (!cuidadosItems.children.length) {
-          var cuidadosTituloVazio = document.createElement('div');
-          cuidadosTituloVazio.className = 'sheet-subsection-label';
-          cuidadosTituloVazio.textContent = 'Cuidados recomendados';
-          cuidadosItems.appendChild(cuidadosTituloVazio);
-          cuidadosItems.insertAdjacentHTML('beforeend', '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de cuidados disponível</div>');
-        }
-
-        var btnColoracaoClean = document.createElement('button');
-        btnColoracaoClean.type = 'button';
-        btnColoracaoClean.textContent = 'Coloração';
-        btnColoracaoClean.setAttribute('role', 'tab');
-        btnColoracaoClean.setAttribute('aria-selected', 'true');
-        btnColoracaoClean.classList.add('active');
-        btnsContainer.appendChild(btnColoracaoClean);
-
-        var btnCuidadosClean = document.createElement('button');
-        btnCuidadosClean.type = 'button';
-        btnCuidadosClean.textContent = 'Cuidados';
-        btnCuidadosClean.setAttribute('role', 'tab');
-        btnCuidadosClean.setAttribute('aria-selected', 'false');
-        btnCuidadosClean.classList.add('cuidados');
-        btnsContainer.appendChild(btnCuidadosClean);
-
-        btnColoracaoClean.addEventListener('click', function() {
-          listaColoracao.classList.add('show');
-          listaCuidados.classList.remove('show');
-          btnColoracaoClean.classList.add('active');
-          btnCuidadosClean.classList.remove('active');
-          btnColoracaoClean.setAttribute('aria-selected', 'true');
-          btnCuidadosClean.setAttribute('aria-selected', 'false');
-        });
-        btnCuidadosClean.addEventListener('click', function() {
-          listaCuidados.classList.add('show');
-          listaColoracao.classList.remove('show');
-          btnCuidadosClean.classList.add('active');
-          btnColoracaoClean.classList.remove('active');
-          btnCuidadosClean.setAttribute('aria-selected', 'true');
-          btnColoracaoClean.setAttribute('aria-selected', 'false');
-        });
-      }
-
-        // O layout clean substitui as abas apenas nas quatro categorias antigas.
-        return;
-      }
-
       // ============================================================
-      // CASO 1: CORTE ou COLORAÇÃO → 2 botões
-
+      // CASO 1: CORTE ou COLORAÇÃO → 2 botões + 5 links
       // ============================================================
-      if (categoria === 'corte' || categoria === 'coloracao') {
+      if (data.categoria === 'corte' || data.categoria === 'coloracao') {
         // Cria botão Coloração
         var btnColoracao = document.createElement('button');
         btnColoracao.id = 'btnColoracao';
@@ -4523,49 +4469,27 @@
         btnCuidados.classList.add('cuidados');
         btnsContainer.appendChild(btnCuidados);
 
-        // Renderiza kits de coloração
+        // Renderiza os 2 kits de coloração
         if (data.coloracao && data.coloracao.kits) {
           data.coloracao.kits.forEach(function(kit) {
-            coloracaoItems.appendChild(criarAcordeao(kit));
+            var acordeao = criarAcordeao(kit);
+            coloracaoItems.appendChild(acordeao);
           });
         } else {
           coloracaoItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de coloração disponível</div>';
         }
 
-        // Renderiza kits de cuidados
-        var tituloLower = (data.corte || data.title || '').toLowerCase();
-        var kitMarca = null;
-
-        if (tituloLower.indexOf('kerastase') !== -1 || tituloLower.indexOf('k\u00e9rastase') !== -1) {
-          kitMarca = {
-            nome: 'Kit K\u00e9rastase',
-            badge: 'Premium',
-            link: 'https://meli.la/1MwSY7v',
-            produtos: 'Shampoo Nutritive + Condicionador Resistance + M\u00e1scara Genesis + Leave-In Elixir Ultime'
-          };
-        } else if (tituloLower.indexOf('joico') !== -1) {
-          kitMarca = {
-            nome: 'Kit Joico',
-            badge: 'Hidrata\u00e7\u00e3o',
-            link: 'https://meli.la/2x9xqBe',
-            produtos: 'Shampoo Moisture Recovery + Condicionador + M\u00e1scara Intensa + Leave-In K-PAK'
-          };
-        } else if (tituloLower.indexOf('expert') !== -1 || tituloLower.indexOf('loreal') !== -1) {
-          kitMarca = {
-            nome: "Kit L'Or\u00e9al Expert",
-            badge: 'Profissional',
-            link: 'https://meli.la/2nmeunk',
-            produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + M\u00e1scara Nutrioil + S\u00e9rum Pro Longer'
-          };
-        }
-
-        if (kitMarca) {
-          cuidadosItems.appendChild(criarAcordeao(kitMarca));
+        // Renderiza os 3 kits de cuidados
+        if (data.cuidados && data.cuidados.kits) {
+          data.cuidados.kits.forEach(function(kit) {
+            var acordeao = criarAcordeao(kit);
+            cuidadosItems.appendChild(acordeao);
+          });
         } else {
           cuidadosItems.innerHTML = '<div style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:20px 0;">Nenhum kit de cuidados disponível</div>';
         }
 
-        // Mostra coloração por padrão
+        // Mostra coloração por padrão, esconde cuidados
         listaColoracao.classList.add('show');
         listaCuidados.classList.remove('show');
 
@@ -4590,17 +4514,9 @@
       }
 
       // ============================================================
-      // CASO 2: PRODUTO ou KIT → 1 botão (Cuidados)
+      // CASO 2: PRODUTO ou KIT - botão Cuidados abre kit da marca
       // ============================================================
-      else if (categoria === 'produto' || categoria === 'kit') {
-        var btnCuidadosUnico = document.createElement('button');
-        btnCuidadosUnico.id = 'btnCuidadosUnico';
-        btnCuidadosUnico.textContent = 'Cuidados';
-        btnCuidadosUnico.setAttribute('role', 'tab');
-        btnCuidadosUnico.setAttribute('aria-selected', 'false');
-        btnCuidadosUnico.classList.add('cuidados');
-        btnsContainer.appendChild(btnCuidadosUnico);
-
+      else if (data.categoria === 'produto' || data.categoria === 'kit') {
         var tituloLower = (data.corte || data.title || '').toLowerCase();
         var kitMarca = null;
 
@@ -4627,6 +4543,14 @@
           };
         }
 
+        var btnCuidadosUnico = document.createElement('button');
+        btnCuidadosUnico.id = 'btnCuidadosUnico';
+        btnCuidadosUnico.textContent = 'Cuidados';
+        btnCuidadosUnico.setAttribute('role', 'tab');
+        btnCuidadosUnico.setAttribute('aria-selected', 'false');
+        btnCuidadosUnico.classList.add('cuidados');
+        btnsContainer.appendChild(btnCuidadosUnico);
+
         if (kitMarca) {
           cuidadosItems.appendChild(criarAcordeao(kitMarca));
         } else {
@@ -4642,47 +4566,6 @@
           this.classList.add('active');
           this.setAttribute('aria-selected', 'true');
         });
-      }
-
-      // ============================================================
-      // CASO 3: NOVAS CATEGORIAS → Ferramentas, Acessórios, Soluções, Maquiagem, Penteados
-      // ============================================================
-      else if (categoria === 'ferramentas' || categoria === 'acessorios' ||
-               categoria === 'solucoes' || categoria === 'maquiagem' ||
-               categoria === 'penteados') {
-
-        // Mapeia os nomes das categorias
-        var nomeCategoria = {
-          'ferramentas': 'Ferramentas',
-          'acessorios': 'Acessórios',
-          'solucoes': 'Soluções',
-          'maquiagem': 'Maquiagem',
-          'penteados': 'Penteados'
-        };
-
-        var labelCategoria = nomeCategoria[categoria] || categoria.charAt(0).toUpperCase() + categoria.slice(1);
-        
-        // Gera link personalizado para o item atual
-        var searchQuery = encodeURIComponent((data.corte || data.title || 'item') + ' profissional');
-        var linkML = 'https://lista.mercadolivre.com.br/' + searchQuery;
-
-        // Remove os botões de aba
-        btnsContainer.innerHTML = '';
-
-        // Apenas o item atual
-        coloracaoItems.innerHTML = '';
-
-        var acordeaoUnico = criarAcordeao({
-          nome: data.corte || data.title || 'Item',
-          badge: labelCategoria,
-          link: linkML,
-          produtos: 'Produto selecionado para ' + categoria
-        });
-        
-        coloracaoItems.appendChild(acordeaoUnico);
-
-        listaColoracao.classList.add('show');
-        listaCuidados.classList.remove('show');
       }
     }
 
@@ -4702,6 +4585,7 @@
 
       var heroFavBtn = document.getElementById('heroFavBtn');
       var heroShareBtn = document.getElementById('heroShareBtn');
+      var heroAddSimilarBtn = document.getElementById('heroAddSimilarBtn');
 
       var img = document.getElementById('modalImg');
       if (img) {
@@ -4728,16 +4612,14 @@
         heroFavBtn.setAttribute('aria-pressed', isFavorited ? 'true' : 'false');
       }
       if (heroShareBtn) heroShareBtn.dataset.key = key;
+      if (heroAddSimilarBtn) heroAddSimilarBtn.dataset.key = key;
 
-      // Renderiza a sheet
+      // Renderiza a sheet com a lógica correta
       renderSheet(key);
 
       renderModalMasonry(key);
-      var initialCard = document.querySelector('#modalMasonry .modal-card-item');
-      if (initialCard) initialCard.classList.add('primary');
 
       setTimeout(function() {
-
         renderCarouselSuggestions(key);
       }, 150);
 
@@ -4851,39 +4733,31 @@
         card.addEventListener('click', function(e) {
           e.stopPropagation();
           var imgSrc = this.dataset.imgUrl;
-          var dCorte = this.dataset.corte || data.corte || '';
-          var dTitle = this.dataset.title || data.title || '';
-          var dDesc = this.dataset.desc || data.desc || '';
+          var dCorte = this.dataset.corte;
+          var dTitle = this.dataset.title;
+          var dDesc = this.dataset.desc;
 
           var heroImg = document.getElementById('modalImg');
           if (heroImg) {
             heroImg.classList.add('loading');
             heroImg.src = imgSrc;
             heroImg.onload = function() { heroImg.classList.remove('loading'); };
-            heroImg.onerror = function() {
-              this.src = FALLBACK_IMG;
-              this.classList.remove('loading');
-            };
           }
-
-          var heroTitle = document.getElementById('heroTitle');
-          var heroSub = document.getElementById('heroSub');
-          var sheetTitle = document.getElementById('sheetTitle');
-          var sheetSub = document.getElementById('sheetSub');
-          var sheetDesc = document.getElementById('sheetDesc');
-          if (heroTitle) heroTitle.textContent = dCorte;
-          if (heroSub) heroSub.textContent = dTitle;
-          if (sheetTitle) sheetTitle.textContent = dCorte;
-          if (sheetSub) sheetSub.textContent = dTitle;
-          if (sheetDesc) sheetDesc.textContent = dDesc;
-
-          container.querySelectorAll('.modal-card-item.primary').forEach(function(activeCard) {
-            activeCard.classList.remove('primary');
-          });
-          this.classList.add('primary');
-
           var overlay = document.getElementById('modalOverlay');
           if (overlay) overlay.scrollTop = 0;
+
+          if (isProdutoKit) {
+            var heroTitle = document.getElementById('heroTitle');
+            var heroSub = document.getElementById('heroSub');
+            var sheetTitle = document.getElementById('sheetTitle');
+            var sheetSub = document.getElementById('sheetSub');
+            var sheetDesc = document.getElementById('sheetDesc');
+            if (heroTitle) heroTitle.textContent = dCorte;
+            if (heroSub) heroSub.textContent = dTitle;
+            if (sheetTitle) sheetTitle.textContent = dCorte;
+            if (sheetSub) sheetSub.textContent = dTitle;
+            if (sheetDesc) sheetDesc.textContent = dDesc;
+          }
 
           if (isSheetOpen) closeSheet();
         });
@@ -5498,7 +5372,16 @@
         if (key) shareStyle(key);
       });
 
-      
+      document.getElementById('heroAddSimilarBtn').addEventListener('click', function() {
+        var data = styleData[currentKey];
+        if (data) {
+          openAddPhotoModal({
+            title: 'Inspirado em ' + data.corte,
+            desc: 'Minha versão do ' + data.corte,
+            categoria: data.categoria
+          });
+        }
+      });
 
       setupPhotoUpload('addPhotoBeforeInput', 'addPhotoBeforeArea', 'addPhotoBeforePreview', 'addPhotoBeforeData', 'addPhotoBeforePlaceholder');
       setupPhotoUpload('addPhotoAfterInput', 'addPhotoAfterArea', 'addPhotoAfterPreview', 'addPhotoAfterData', 'addPhotoAfterPlaceholder');
@@ -5628,80 +5511,53 @@
         window.addEventListener('scroll', onScroll, { passive: true });
       })();
 
-      console.log('HairOS · Versão com 9 categorias e 135 estilos');
-      console.log('Categorias: corte, coloracao, produto, kit, ferramentas, acessorios, solucoes, maquiagem, penteados');
+      console.log('HairOS · Versão com estrutura diferenciada:');
+      console.log('  - Cortes e Colorações: 2 botões + 5 links');
+      console.log('  - Produtos e Kits: 1 botão + 1 link (da marca)');
+      console.log('60 estilos carregados');
     }
 
     // ============================================================
-    // LOADING (com zoom-in + zoom-out dramático)
+    // LOADING
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
       var loadingScreen = document.getElementById('loadingScreen');
-      var loadingLogo = document.getElementById('loadingLogo');
       var loadingBar = document.getElementById('loadingBar');
-      var loadingBarContainer = document.getElementById('loadingBarContainer');
       var loadingPercent = document.getElementById('loadingPercent');
       var loadingText = document.getElementById('loadingText');
       var mainContent = document.getElementById('mainContent');
 
       var progress = 0;
       var interval = setInterval(function() {
-        progress += Math.random() * 3 + 1.5;
+        progress += Math.random() * 8 + 2;
         if (progress > 100) progress = 100;
-
         if (loadingBar) loadingBar.style.width = progress + '%';
         if (loadingPercent) loadingPercent.textContent = Math.round(progress) + '%';
-
-        if (progress >= 90 && loadingText) {
-          loadingText.textContent = 'inspirações prontas';
-        }
-
+        if (loadingText && progress >= 90) loadingText.textContent = 'experiência pronta';
         if (progress >= 100) {
           clearInterval(interval);
-
-          // 1. Esconde barra e textos suavemente
-          if (loadingBarContainer) loadingBarContainer.style.opacity = '0';
-          if (loadingText) loadingText.style.opacity = '0';
-          if (loadingPercent) loadingPercent.style.opacity = '0';
-
-          // 2. Dispara o zoom ampliado no logo
-          setTimeout(function() {
-            if (loadingLogo) loadingLogo.classList.add('zoom-out-effect');
-          }, 100);
-
-          // 3. Esconde a tela de loading e revela a página
           setTimeout(function() {
             if (loadingScreen) loadingScreen.classList.add('hidden');
             if (mainContent) mainContent.classList.add('visible');
             initApp();
-          }, 700);
+          }, 400);
         }
-      }, 90);
+      }, 120);
 
-      // Fallback de segurança (máximo 6 segundos)
       setTimeout(function() {
         if (progress < 100) {
           progress = 100;
           if (loadingBar) loadingBar.style.width = '100%';
           if (loadingPercent) loadingPercent.textContent = '100%';
-          if (loadingText) loadingText.textContent = 'inspirações prontas';
+          if (loadingText) loadingText.textContent = 'experiência pronta';
           clearInterval(interval);
-
-          if (loadingBarContainer) loadingBarContainer.style.opacity = '0';
-          if (loadingText) loadingText.style.opacity = '0';
-          if (loadingPercent) loadingPercent.style.opacity = '0';
-
-          setTimeout(function() {
-            if (loadingLogo) loadingLogo.classList.add('zoom-out-effect');
-          }, 100);
-
           setTimeout(function() {
             if (loadingScreen) loadingScreen.classList.add('hidden');
             if (mainContent) mainContent.classList.add('visible');
             initApp();
-          }, 700);
+          }, 400);
         }
-      }, 6000);
+      }, 5000);
     });
   </script>
 </body>
