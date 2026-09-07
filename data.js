@@ -1,5 +1,5 @@
 // ============================================================
-// DATA.JS - HAIROS COMPLETO (9 CATEGORIAS | 135 ITENS) - CORRIGIDO
+// DATA.JS - HAIROS COMPLETO (9 CATEGORIAS | 135 ITENS) - FINAL
 // ============================================================
 
 // ============================================================
@@ -114,64 +114,206 @@ var cuidadosKits = {
   kits: [{
     nome: 'Kit Kerastase',
     badge: 'Premium',
-    marca: 'kerastase',
     link: 'https://meli.la/1MwSY7v',
     produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
   }, {
     nome: 'Kit L\'Oréal Expert',
     badge: 'Profissional',
-    marca: 'loreal',
     link: 'https://meli.la/2nmeunk',
     produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
   }, {
     nome: 'Kit Joico',
     badge: 'Hidratação',
-    marca: 'joico',
     link: 'https://meli.la/2x9xqBe',
     produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
   }]
 };
 
 // ============================================================
-// FUNÇÃO CREATE CARD - CORRIGIDA PARA TODAS AS 9 CATEGORIAS
+// KITS PARA DEMAIS CATEGORIAS
+// ============================================================
+var protetoresKits = {
+  kits: [
+    {
+      nome: 'Kit Protetor Térmico + Leave-in',
+      badge: 'Proteção',
+      link: 'https://meli.la/1MwSY7v',
+      produtos: 'Protetor Térmico + Leave-in Reparador + Óleo Anti-Frizz'
+    },
+    {
+      nome: 'Kit Escova + Pente Profissional',
+      badge: 'Acessórios',
+      link: 'https://meli.la/2nmeunk',
+      produtos: 'Escova Polvo + Pente Desenrolador + Kit Pentes de Corte'
+    }
+  ]
+};
+
+var ferramentasKits = {
+  kits: [
+    {
+      nome: 'Kit Secador + Difusor',
+      badge: 'Ferramentas',
+      link: 'https://meli.la/2x9xqBe',
+      produtos: 'Secador Iônico Pro + Difusor Profissional + Escova Rotativa'
+    },
+    {
+      nome: 'Kit Chapinha + Prancha',
+      badge: 'Alisamento',
+      link: 'https://meli.la/1GbiW7M',
+      produtos: 'Chapinha de Titânio + Prancha Infravermelho + Protetor Térmico'
+    }
+  ]
+};
+
+var solucoesKits = {
+  kits: [
+    {
+      nome: 'Kit Antiqueda + Crescimento',
+      badge: 'Tratamento',
+      link: 'https://meli.la/2x9xqBe',
+      produtos: 'Sérum Antiqueda + Tônico de Crescimento + Esfoliante Capilar'
+    },
+    {
+      nome: 'Kit Hidratação + Reparação',
+      badge: 'Nutrição',
+      link: 'https://meli.la/1GbiW7M',
+      produtos: 'Máscara de Hidratação + Óleo Anti-Frizz + Leave-in Reparador'
+    }
+  ]
+};
+
+var maquiagemKits = {
+  kits: [
+    {
+      nome: 'Kit Base + Corretivo + Pó',
+      badge: 'Makeup',
+      link: 'https://meli.la/2nmeunk',
+      produtos: 'Base Líquida HD + Corretivo Alta Cobertura + Pó Translúcido'
+    },
+    {
+      nome: 'Kit Olhos + Lábios',
+      badge: 'Makeup',
+      link: 'https://meli.la/2x9xqBe',
+      produtos: 'Paleta de Sombras + Máscara de Cílios + Batom Matte + Delineador'
+    },
+    {
+      nome: 'Kit Pincéis Profissionais',
+      badge: 'Pincéis',
+      link: 'https://meli.la/1GbiW7M',
+      produtos: 'Kit Pincéis + Esponja + Iluminador Líquido'
+    }
+  ]
+};
+
+var finalizadoresKits = {
+  kits: [
+    {
+      nome: 'Kit Spray Fixador + Sérum',
+      badge: 'Finalização',
+      link: 'https://meli.la/1GbiW7M',
+      produtos: 'Spray Fixador + Sérum Iluminador + Óleo Reparador'
+    },
+    {
+      nome: 'Kit Leave-in + Protetor Térmico',
+      badge: 'Proteção',
+      link: 'https://meli.la/28LpPj2',
+      produtos: 'Leave-in Reparador + Protetor Térmico + Óleo Anti-Frizz'
+    },
+    {
+      nome: 'Kit Acessórios para Penteados',
+      badge: 'Acessórios',
+      link: 'https://meli.la/2nmeunk',
+      produtos: 'Elásticos Invisíveis + Tiara Esportiva + Prendedor de Silicone'
+    }
+  ]
+};
+
+var complementosKits = {
+  kits: [
+    {
+      nome: 'Kit Acessórios de Proteção',
+      badge: 'Complementos',
+      link: 'https://meli.la/28LpPj2',
+      produtos: 'Touca de Cetim + Fronha de Cetim + Scrunchie de Seda'
+    },
+    {
+      nome: 'Kit Finalizadores Básicos',
+      badge: 'Complementos',
+      link: 'https://meli.la/1GbiW7M',
+      produtos: 'Spray Fixador + Sérum Iluminador + Óleo Reparador'
+    }
+  ]
+};
+
+// ============================================================
+// styleData GLOBAL
 // ============================================================
 var styleData = {};
 
+// ============================================================
+// FUNÇÃO CREATE CARD
+// ============================================================
 function createCard(id, categoria, corte, title, desc, img, variants) {
   var finalVariants = [];
   
-  // ============================================================
-  // 1. SEMPRE usa as próprias imagens do item (variants) 
-  //    ou fallback para a imagem principal
-  // ============================================================
+  var isCorteOuColoracao = (categoria === 'corte' || categoria === 'coloracao');
+  var maxOwnImages = isCorteOuColoracao ? 10 : 3;
+  
   var ownImages = Array.isArray(variants) && variants.length > 0 
-    ? variants.slice(0, 3) 
+    ? variants.slice(0, maxOwnImages) 
     : [img];
   
   if (ownImages.length === 0) ownImages = [img];
 
-  // Adiciona as imagens próprias como variações (marcadas como own: true)
   ownImages.forEach(function(imgUrl) {
     finalVariants.push({ 
       img: imgUrl, 
       corte: corte, 
       title: title, 
       desc: desc, 
-      own: true 
+      own: true,
+      key: id,
+      categoria: categoria
     });
   });
 
-  // ============================================================
-  // 2. Busca outros itens da MESMA CATEGORIA para completar 10 variações
-  //    - CORREÇÃO: TODAS as 9 categorias estão mapeadas aqui
-  // ============================================================
+  if (isCorteOuColoracao) {
+    while (finalVariants.length < 10) {
+      var fallbackImg = ownImages[Math.floor(Math.random() * ownImages.length)];
+      finalVariants.push({ 
+        img: fallbackImg, 
+        corte: corte, 
+        title: title, 
+        desc: desc, 
+        own: true,
+        key: id,
+        categoria: categoria,
+        isFallback: true
+      });
+    }
+    
+    return {
+      id: id,
+      categoria: categoria,
+      corte: corte,
+      title: title,
+      desc: desc,
+      img: img,
+      variants: finalVariants,
+      otherProductsData: [],
+      coloracao: coloracaoKits,
+      cuidados: cuidadosKits,
+      linkML: 'https://mercadolivre.com.br/' + id,
+      altura: Math.random() < 0.5 ? 'h-md' : 'h-lg',
+      isUserPhoto: id && id.startsWith('user_')
+    };
+  }
+
   var allProducts = [];
   var sourceData = [];
 
-  // MAPEAMENTO COMPLETO DAS 9 CATEGORIAS
-  if (categoria === 'corte') sourceData = cortesData;
-  else if (categoria === 'coloracao') sourceData = coloracoesData;
-  else if (categoria === 'produto') sourceData = produtosData;
+  if (categoria === 'produto') sourceData = produtosData;
   else if (categoria === 'kit') sourceData = kitsData;
   else if (categoria === 'ferramentas') sourceData = ferramentasData;
   else if (categoria === 'acessorios') sourceData = acessoriosData;
@@ -179,7 +321,6 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
   else if (categoria === 'maquiagem') sourceData = maquiagemData;
   else if (categoria === 'penteados') sourceData = penteadosData;
 
-  // Coleta todos os itens da mesma categoria, EXCETO o atual
   if (sourceData && sourceData.length > 0) {
     sourceData.forEach(function(item) {
       var idItem = item[0];
@@ -198,7 +339,6 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     });
   }
 
-  // Embaralha para ter variedade
   for (var i = allProducts.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var temp = allProducts[i];
@@ -206,7 +346,6 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     allProducts[j] = temp;
   }
 
-  // Remove duplicatas (por id)
   var unique = [];
   var seen = {};
   allProducts.forEach(function(product) {
@@ -216,14 +355,9 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     }
   });
 
-  // ============================================================
-  // 3. Pega 7 itens de outros produtos da mesma categoria
-  //    (ou menos, se não houver suficientes)
-  // ============================================================
-  var needed = 10 - finalVariants.length; // 10 - 3 = 7
+  var needed = 10 - finalVariants.length;
   var otherProducts = unique.slice(0, needed);
   
-  // Se não houver 7 outros itens, repete alguns próprios para completar
   while (otherProducts.length < needed) {
     var fallbackImg = ownImages[Math.floor(Math.random() * ownImages.length)];
     otherProducts.push({
@@ -237,7 +371,6 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     });
   }
 
-  // Adiciona os outros produtos como variações (marcadas como own: false)
   otherProducts.forEach(function(product) {
     var otherImg = (product.variants && product.variants.length > 0) 
       ? product.variants[0] 
@@ -248,13 +381,12 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
       title: product.title, 
       desc: product.desc, 
       own: false,
-      isFallback: product.isFallback || false
+      isFallback: product.isFallback || false,
+      key: product.id,
+      categoria: product.categoria
     });
   });
 
-  // ============================================================
-  // 4. GARANTE que temos exatamente 10 variações
-  // ============================================================
   while (finalVariants.length < 10) {
     var fallbackImg = ownImages[Math.floor(Math.random() * ownImages.length)];
     finalVariants.push({ 
@@ -263,13 +395,12 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
       title: title, 
       desc: desc, 
       own: true,
+      key: id,
+      categoria: categoria,
       isFallback: true
     });
   }
 
-  // ============================================================
-  // 5. Retorna o objeto do card
-  // ============================================================
   return {
     id: id,
     categoria: categoria,
@@ -295,7 +426,7 @@ function addItemsToStyleData(dataArray) {
       title = item[3],
       desc = item[4],
       img = item[5],
-      variants = item[6];
+      variants = item[6] || [];
     styleData[id] = createCard(id, cat, corte, title, desc, img, variants);
   });
 }
@@ -760,7 +891,7 @@ var kitsData = [
 ];
 
 // ============================================================
-// 5. FERRAMENTAS (15 itens) - NOVA CATEGORIA
+// 5. FERRAMENTAS (15 itens)
 // ============================================================
 var ferramentasData = [
   ['secador-ionico-pro', 'ferramentas', 'Secador Iônico Pro', 'Potência e Brilho',
@@ -871,7 +1002,7 @@ var ferramentasData = [
 ];
 
 // ============================================================
-// 6. ACESSÓRIOS (15 itens) - NOVA CATEGORIA
+// 6. ACESSÓRIOS (15 itens)
 // ============================================================
 var acessoriosData = [
   ['touca-cetim', 'acessorios', 'Touca de Cetim', 'Proteção Noturna',
@@ -982,7 +1113,7 @@ var acessoriosData = [
 ];
 
 // ============================================================
-// 7. SOLUÇÕES (15 itens) - NOVA CATEGORIA
+// 7. SOLUÇÕES (15 itens)
 // ============================================================
 var solucoesData = [
   ['serum-antiqueda', 'solucoes', 'Sérum Antiqueda', 'Fortalecimento Intensivo',
@@ -1093,7 +1224,7 @@ var solucoesData = [
 ];
 
 // ============================================================
-// 8. MAQUIAGEM (15 itens) - NOVA CATEGORIA
+// 8. MAQUIAGEM (15 itens)
 // ============================================================
 var maquiagemData = [
   ['base-hd', 'maquiagem', 'Base Líquida HD', 'Cobertura Perfeita',
@@ -1204,7 +1335,7 @@ var maquiagemData = [
 ];
 
 // ============================================================
-// 9. PENTEADOS (15 itens) - NOVA CATEGORIA
+// 9. PENTEADOS (15 itens)
 // ============================================================
 var penteadosData = [
   ['coque-baixo', 'penteados', 'Coque Baixo Elegante', 'Clássico e Sofisticado',
