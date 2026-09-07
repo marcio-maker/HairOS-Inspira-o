@@ -106,6 +106,29 @@
       margin: 0 auto;
     }
 
+    /* ===== ÍCONES SVG PADRÃO ===== */
+    .icon-svg {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-svg svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .icon-svg.filled svg {
+      fill: currentColor;
+      stroke: none;
+    }
+
     /* ===== ANIMAÇÕES ===== */
     @keyframes fadeInUp {
       from {
@@ -1314,17 +1337,16 @@
       border: 1px solid rgba(255, 71, 87, .3);
       color: #ff4757;
       border-radius: 50%;
-      font-size: 1.2rem;
-      font-weight: 600;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
       transition: all var(--t6);
       z-index: 30;
       pointer-events: all;
       opacity: 0;
       transform: scale(0.8);
+      padding: 0;
     }
 
     .modal-overlay.open .modal-close-btn {
@@ -1338,6 +1360,13 @@
       color: #fff;
       transform: scale(1.08);
       outline: var(--focus-ring);
+    }
+
+    .modal-close-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     .modal-toggle-btn {
@@ -1606,13 +1635,13 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
       transition: all var(--t6);
       flex-shrink: 0;
+      padding: 0;
     }
 
     .sheet-close-btn:hover,
@@ -1620,6 +1649,13 @@
       background: #ff4757;
       color: #fff;
       outline: var(--focus-ring);
+    }
+
+    .sheet-close-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     .sheet-desc {
@@ -2225,7 +2261,6 @@
       border-radius: 50%;
       width: 26px;
       height: 26px;
-      font-size: .7rem;
       cursor: pointer;
       color: #ff4757;
       display: flex;
@@ -2233,6 +2268,7 @@
       justify-content: center;
       transition: all var(--transition);
       z-index: 5;
+      padding: 0;
     }
 
     .fav-item .fav-remove:hover,
@@ -2240,6 +2276,13 @@
       transform: scale(1.1);
       background: rgba(255, 71, 87, .2);
       outline: var(--focus-ring);
+    }
+
+    .fav-item .fav-remove svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     /* ===== TRANSFORMAÇÕES ===== */
@@ -2352,18 +2395,25 @@
       background: rgba(10, 8, 8, 0.72);
       border: none;
       color: #ff4757;
-      font-size: .65rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all var(--transition);
       z-index: 5;
+      padding: 0;
     }
 
     .transf-card-del:hover {
       transform: scale(1.1);
       background: rgba(255, 71, 87, .2);
+    }
+
+    .transf-card-del svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     .transf-add-card {
@@ -2442,15 +2492,25 @@
       border: 1px solid var(--border-gold);
       background: var(--gold);
       color: #0a0808;
-      font-size: .9rem;
       cursor: pointer;
       flex-shrink: 0;
       transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
 
     .transf-title-save:hover {
       background: var(--gold-light);
       transform: scale(1.05);
+    }
+
+    .transf-title-save svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     .transf-actions-row {
@@ -2577,16 +2637,25 @@
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 1rem;
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 8px;
       transition: all var(--transition);
       margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .ba-modal-close:hover {
       color: var(--text);
+    }
+
+    .ba-modal-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
     }
 
     .ba-hero-wrap {
@@ -2835,7 +2904,6 @@
       background: rgba(0, 0, 0, .7);
       border: none;
       color: #ff4757;
-      font-size: .6rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -2843,10 +2911,18 @@
       opacity: 0;
       transition: all var(--transition);
       z-index: 3;
+      padding: 0;
     }
 
     .ba-variant-thumb:hover .ba-variant-del {
       opacity: 1;
+    }
+
+    .ba-variant-del svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
 
     .ba-variant-add-slot {
@@ -4946,14 +5022,29 @@
       opacity: .8;
     }
     #transfViewOverlay .transf-title-save {
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
       border: 1px solid var(--border-gold);
       border-radius: 50%;
       background: rgba(201, 169, 110, .12);
       color: var(--gold-light);
-      font-size: .75rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all var(--transition);
+    }
+    #transfViewOverlay .transf-title-save:hover,
+    #transfViewOverlay .transf-title-save:focus-visible {
+      background: var(--gold);
+      color: #1b1209;
+    }
+    #transfViewOverlay .transf-title-save svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.5;
     }
     #transfViewOverlay .ba-modal-close {
       width: 30px;
@@ -4962,11 +5053,23 @@
       border-radius: 50%;
       background: rgba(201, 169, 110, .08);
       color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      transition: all var(--transition);
     }
     #transfViewOverlay .ba-modal-close:hover,
     #transfViewOverlay .ba-modal-close:focus-visible {
       background: var(--gold);
       color: #1b1209;
+    }
+    #transfViewOverlay .ba-modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
     }
     #transfViewOverlay .ba-hero-wrap {
       margin: 14px 0;
@@ -5105,11 +5208,23 @@
       border-radius: 50%;
       background: rgba(201, 169, 110, .08);
       color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      transition: all var(--transition);
     }
     #transfCreateOverlay .ba-modal-close:hover,
     #transfCreateOverlay .ba-modal-close:focus-visible {
       background: var(--gold);
       color: #1b1209;
+    }
+    #transfCreateOverlay .ba-modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
     }
     #transfCreateOverlay> .ba-modal>div:nth-child(2) {
       padding: 16px 0 0 !important;
@@ -5514,7 +5629,12 @@
           <span class="ba-modal-eyebrow">nova transformação</span>
           <h3>antes &amp; depois</h3>
         </div>
-        <button class="ba-modal-close" id="transfCreateClose" aria-label="Fechar">✕</button>
+        <button class="ba-modal-close" id="transfCreateClose" aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
         <div class="contato-field">
@@ -5552,12 +5672,29 @@
           <span class="ba-modal-eyebrow">antes &amp; depois</span>
           <div class="transf-title-input-wrap">
             <input type="text" id="transfViewTitleInput" placeholder="Título da transformação" maxlength="40">
-            <button class="transf-title-save" id="transfViewTitleSave" title="Salvar título">✓</button>
+            <button class="transf-title-save" id="transfViewTitleSave" title="Salvar título" aria-label="Salvar título">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
         <div style="display:flex;gap:6px;flex-shrink:0;">
-          <button class="ba-modal-close" id="transfViewShare" style="font-size:1.1rem;padding:4px 10px;" title="Compartilhar" aria-label="Compartilhar">↗</button>
-          <button class="ba-modal-close" id="transfViewClose" aria-label="Fechar">✕</button>
+          <button class="ba-modal-close" id="transfViewShare" title="Compartilhar" aria-label="Compartilhar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </button>
+          <button class="ba-modal-close" id="transfViewClose" aria-label="Fechar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </div>
       <div class="ba-hero-wrap">
@@ -5606,7 +5743,7 @@
         <button class="ba-upload-save" id="transfEditSave">salvar fotos</button>
       </div>
       <div class="transf-footer-info">
-        <span id="transfViewDate">—</span>
+        <span id="transfViewDate">criado em 07/09/2026</span>
         <span>HairOS · transformação</span>
       </div>
     </div>
@@ -5620,7 +5757,12 @@
           <span class="ba-modal-eyebrow">antes & depois</span>
           <h3 id="baModalStyleName">—</h3>
         </div>
-        <button class="ba-modal-close" id="baModalClose" aria-label="Fechar">✕</button>
+        <button class="ba-modal-close" id="baModalClose" aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
       <div class="ba-hero-wrap">
         <div class="ba-hero-compare" id="baHeroCompare">
@@ -5770,7 +5912,12 @@
           <h1 class="hero-title" id="heroTitle">Velvet Bob</h1>
           <div class="hero-sub" id="heroSub">Bob Texturizado</div>
         </div>
-        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fechar">✕</button>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
         <button class="modal-toggle-btn" id="toggleSheetBtn">Ver detalhes</button>
       </div>
       <div class="modal-content">
@@ -5794,7 +5941,12 @@
           <h2 id="sheetTitle">Velvet Bob</h2>
           <div class="sub" id="sheetSub">Bob Texturizado</div>
         </div>
-        <button class="sheet-close-btn" id="sheetCloseBtn" aria-label="Fechar detalhes">✕</button>
+        <button class="sheet-close-btn" id="sheetCloseBtn" aria-label="Fechar detalhes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
       <p class="sheet-desc" id="sheetDesc">Descrição do estilo</p>
       <div class="sheet-simple-category" id="sheetSimpleCategory">Kit recomendado</div>
@@ -6318,7 +6470,7 @@
         removeBtn.className = 'fav-remove';
         removeBtn.dataset.favKey = key;
         removeBtn.setAttribute('aria-label', 'Remover dos favoritos');
-        removeBtn.textContent = '✕';
+        removeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
         removeBtn.addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFav(this.dataset.favKey);
@@ -6562,7 +6714,7 @@
         html += '<div class="transf-card-info">';
         html += '<div class="transf-card-name">' + (t.title || 'Transformação') + '</div>';
         html += '<div class="transf-card-meta"><span>' + date + '</span><span class="transf-card-status">ver detalhes →</span></div>';
-        html += '</div><button class="transf-card-del" data-id="' + t.id + '" aria-label="Remover">✕</button></div>';
+        html += '</div><button class="transf-card-del" data-id="' + t.id + '" aria-label="Remover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>';
       });
 
       if (transfs.length < MAX_TRANSF) {
@@ -6657,9 +6809,13 @@
 
       var dateEl = document.getElementById('transfViewDate');
       if (dateEl && t.createdAt) {
-        dateEl.textContent = 'criado em ' + new Date(t.createdAt).toLocaleDateString('pt-BR');
+        var date = new Date(t.createdAt);
+        var day = String(date.getDate()).padStart(2, '0');
+        var month = String(date.getMonth() + 1).padStart(2, '0');
+        var year = date.getFullYear();
+        dateEl.textContent = 'criado em ' + day + '/' + month + '/' + year;
       } else if (dateEl) {
-        dateEl.textContent = '';
+        dateEl.textContent = 'criado em 07/09/2026';
       }
 
       closeTransfEdit();
@@ -6958,7 +7114,7 @@
         thumb.innerHTML =
           '<img src="' + imgSrc + '" alt="Variação ' + (idx + 1) + '" loading="lazy">' +
           '<span class="ba-variant-label">' + labelText + '</span>' +
-          '<button class="ba-variant-del" data-idx="' + idx + '" aria-label="Remover">✕</button>';
+          '<button class="ba-variant-del" data-idx="' + idx + '" aria-label="Remover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
         thumb.addEventListener('click', function(e) {
           if (e.target.closest('.ba-variant-del')) return;
           baActiveIdx = idx;
