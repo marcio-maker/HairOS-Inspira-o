@@ -1105,11 +1105,8 @@
 
     <script src="data.js"></script>
     <script>
-
         // ============================================================
-        // HAIR·OS ASSISTENTE — CHAT COMPLETO
-        // 100% baseado no data.js (76 estilos + ferramentas)
-        // Inclui: Curtain Bang + Quiz de Ferramentas
+        // HAIR·OS ASSISTENTE — CHAT COMPLETO (v2 corrigido)
         // ============================================================
 
         var VITRINE_URL = 'index.html';
@@ -1139,7 +1136,7 @@
         }
 
         // ============================================================
-        // FUNÇÃO GETMLLINK — LINKS AFILIADOS (+ ferramentas)
+        // GETMLLINK — links afiliados (+ ferramentas)
         // ============================================================
         function getMlLink(item) {
             if (!item) return ML_SEARCH;
@@ -1198,6 +1195,7 @@
 
         function pickAlternatives(item, categoria, count) {
             count = count || 3;
+            if (!item || !styleData) return [];
             var keys = Object.keys(styleData).filter(function (k) {
                 return styleData[k] && styleData[k].categoria === categoria &&
                     styleData[k].id !== item.id && !String(k).startsWith('user_');
@@ -1211,6 +1209,7 @@
 
         function buscarPorPalavra(palavra) {
             var results = [];
+            if (!palavra || typeof styleData === 'undefined') return results;
             var lower = palavra.toLowerCase();
             Object.keys(styleData).forEach(function (k) {
                 var item = styleData[k];
@@ -1343,29 +1342,39 @@
                 return 'kerastase-resistance-shampoo';
             },
 
-            // NOVO: resolver ferramenta
             resolverFerramenta: function (necessidade, textura) {
                 necessidade = necessidade || 'secagem';
                 textura = textura || 'liso';
 
-                if (necessidade === 'secagem') return 'secador-ionico-pro';
-                if (necessidade === 'alisamento') return 'prancha-titanium';
-                if (necessidade === 'ondas') return 'modelador-ondas';
-                if (necessidade === 'cachos') {
-                    return textura === 'cacheado' ? 'difusor-universal' : 'babyliss-ceramica';
-                }
-                if (necessidade === 'volume') return 'escova-rotativa';
-                if (necessidade === 'corte') return 'tesoura-profissional';
-                if (necessidade === 'degrade') return 'maquina-corte';
-                if (necessidade === 'desembaracar') return 'escova-paddle';
-                if (necessidade === 'acabamento') return 'escova-termica-alisadora';
-                if (necessidade === 'coloracao') return 'escova-cerdas-naturais';
-                if (necessidade === 'protecao') return 'touca-termica';
-                if (necessidade === 'relaxamento') return 'massageador-capilar';
-                if (necessidade === 'antiestatico') return 'escova-madeira';
-                if (necessidade === 'modelagem') return 'escova-ceramica';
+                var mapa = {
+                    secagem: 'secador-ionico-pro',
+                    alisamento: 'prancha-titanium',
+                    ondas: 'modelador-ondas',
+                    cachos: textura === 'cacheado' ? 'difusor-universal' : 'babyliss-ceramica',
+                    volume: 'escova-rotativa',
+                    corte: 'tesoura-profissional',
+                    degrade: 'maquina-corte',
+                    desembaracar: 'escova-paddle',
+                    acabamento: 'escova-termica-alisadora',
+                    coloracao: 'escova-cerdas-naturais',
+                    protecao: 'touca-termica',
+                    relaxamento: 'massageador-capilar',
+                    antiestatico: 'escova-madeira',
+                    modelagem: 'escova-ceramica'
+                };
 
-                return 'secador-ionico-pro';
+                var escolhido = mapa[necessidade] || 'secador-ionico-pro';
+
+                if (typeof styleData !== 'undefined' && styleData) {
+                    if (!styleData[escolhido]) {
+                        var ferramentas = Object.keys(styleData).filter(function (k) {
+                            return styleData[k] && styleData[k].categoria === 'ferramentas';
+                        });
+                        if (ferramentas.length) return ferramentas[0];
+                        return 'secador-ionico-pro';
+                    }
+                }
+                return escolhido;
             },
 
             resolverKit: function (foco, queixa) {
@@ -1395,39 +1404,44 @@
         };
 
         // ============================================================
-        // ANALISADOR DE IMAGEM
+        // ANALISADOR DE IMAGEM — v2 (com try/catch)
         // ============================================================
         var AnalisadorImagem = {
             extrairCoresDominantes: function (imgElement, numCores) {
                 numCores = numCores || 5;
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var width = 150, height = 150;
-                canvas.width = width;
-                canvas.height = height;
-                try { ctx.drawImage(imgElement, 0, 0, width, height); } catch (e) { return []; }
-                var imageData = ctx.getImageData(0, 0, width, height);
-                var data = imageData.data;
-                var colorMap = {};
-                var step = 4;
-                for (var y = 0; y < height; y += step) {
-                    for (var x = 0; x < width; x += step) {
-                        var idx = (y * width + x) * 4;
-                        if (data[idx + 3] < 128) continue;
-                        var r = Math.round(data[idx] / 16) * 16;
-                        var g = Math.round(data[idx + 1] / 16) * 16;
-                        var b = Math.round(data[idx + 2] / 16) * 16;
-                        var key = r + ',' + g + ',' + b;
-                        colorMap[key] = (colorMap[key] || 0) + 1;
+                try {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    var width = 150, height = 150;
+                    canvas.width = width;
+                    canvas.height = height;
+                    try { ctx.drawImage(imgElement, 0, 0, width, height); } catch (e) { return []; }
+                    var imageData;
+                    try { imageData = ctx.getImageData(0, 0, width, height); } catch (e) { return []; }
+                    var data = imageData.data;
+                    var colorMap = {};
+                    var step = 4;
+                    for (var y = 0; y < height; y += step) {
+                        for (var x = 0; x < width; x += step) {
+                            var idx = (y * width + x) * 4;
+                            if (data[idx + 3] < 128) continue;
+                            var r = Math.round(data[idx] / 16) * 16;
+                            var g = Math.round(data[idx + 1] / 16) * 16;
+                            var b = Math.round(data[idx + 2] / 16) * 16;
+                            var key = r + ',' + g + ',' + b;
+                            colorMap[key] = (colorMap[key] || 0) + 1;
+                        }
                     }
+                    var sorted = Object.keys(colorMap).sort(function (a, b) { return colorMap[b] - colorMap[a]; });
+                    var result = [];
+                    for (var j = 0; j < Math.min(numCores, sorted.length); j++) {
+                        var parts = sorted[j].split(',').map(Number);
+                        result.push({ r: parts[0], g: parts[1], b: parts[2], freq: colorMap[sorted[j]] });
+                    }
+                    return result;
+                } catch (e) {
+                    return [];
                 }
-                var sorted = Object.keys(colorMap).sort(function (a, b) { return colorMap[b] - colorMap[a]; });
-                var result = [];
-                for (var j = 0; j < Math.min(numCores, sorted.length); j++) {
-                    var parts = sorted[j].split(',').map(Number);
-                    result.push({ r: parts[0], g: parts[1], b: parts[2], freq: colorMap[sorted[j]] });
-                }
-                return result;
             },
             classificarCorCabelo: function (cores) {
                 if (!cores || !cores.length) return 'castanho';
@@ -1456,39 +1470,45 @@
                 return 'curto';
             },
             estimarTextura: function (imgElement) {
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var width = 160, height = 160;
-                canvas.width = width;
-                canvas.height = height;
-                try { ctx.drawImage(imgElement, 0, 0, width, height); } catch (e) { return 'liso'; }
-                var data = ctx.getImageData(0, 0, width, height).data;
-                var soma = 0, total = 0, variacoes = [];
-                for (var y = 2; y < height - 2; y += 2) {
-                    for (var x = 2; x < width - 2; x += 2) {
-                        var idx = (y * width + x) * 4;
-                        var brilho = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
-                        var diffs = [];
-                        for (var dy = -1; dy <= 1; dy++) {
-                            for (var dx = -1; dx <= 1; dx++) {
-                                if (!dx && !dy) continue;
-                                var iv = ((y + dy) * width + (x + dx)) * 4;
-                                var bv = (data[iv] + data[iv + 1] + data[iv + 2]) / 3;
-                                diffs.push(Math.abs(brilho - bv));
+                try {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    var width = 160, height = 160;
+                    canvas.width = width;
+                    canvas.height = height;
+                    try { ctx.drawImage(imgElement, 0, 0, width, height); } catch (e) { return 'liso'; }
+                    var imageData;
+                    try { imageData = ctx.getImageData(0, 0, width, height); } catch (e) { return 'liso'; }
+                    var data = imageData.data;
+                    var soma = 0, total = 0, variacoes = [];
+                    for (var y = 2; y < height - 2; y += 2) {
+                        for (var x = 2; x < width - 2; x += 2) {
+                            var idx = (y * width + x) * 4;
+                            var brilho = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
+                            var diffs = [];
+                            for (var dy = -1; dy <= 1; dy++) {
+                                for (var dx = -1; dx <= 1; dx++) {
+                                    if (!dx && !dy) continue;
+                                    var iv = ((y + dy) * width + (x + dx)) * 4;
+                                    var bv = (data[iv] + data[iv + 1] + data[iv + 2]) / 3;
+                                    diffs.push(Math.abs(brilho - bv));
+                                }
                             }
+                            var dm = diffs.reduce(function (a, b) { return a + b; }, 0) / diffs.length;
+                            soma += dm;
+                            variacoes.push(dm);
+                            total++;
                         }
-                        var dm = diffs.reduce(function (a, b) { return a + b; }, 0) / diffs.length;
-                        soma += dm;
-                        variacoes.push(dm);
-                        total++;
                     }
+                    if (!total) return 'liso';
+                    variacoes.sort(function (a, b) { return a - b; });
+                    var score = (soma / total + variacoes[Math.floor(variacoes.length / 2)]) / 2;
+                    if (score > 55) return 'cacheado';
+                    if (score > 32) return 'ondulado';
+                    return 'liso';
+                } catch (e) {
+                    return 'liso';
                 }
-                if (!total) return 'liso';
-                variacoes.sort(function (a, b) { return a - b; });
-                var score = (soma / total + variacoes[Math.floor(variacoes.length / 2)]) / 2;
-                if (score > 55) return 'cacheado';
-                if (score > 32) return 'ondulado';
-                return 'liso';
             },
             analisar: function (imgElement) {
                 var cores = this.extrairCoresDominantes(imgElement, 6);
@@ -1654,21 +1674,40 @@
             var kitKeys = Object.keys(styleData).filter(function (k) {
                 return styleData[k] && styleData[k].categoria === 'kit' && !String(k).startsWith('user_');
             });
-            for (var i = prodKeys.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var t = prodKeys[i]; prodKeys[i] = prodKeys[j]; prodKeys[j] = t;
+            var ferramentaKeys = Object.keys(styleData).filter(function (k) {
+                return styleData[k] && styleData[k].categoria === 'ferramentas' && !String(k).startsWith('user_');
+            });
+
+            function shuffle(arr) {
+                for (var i = arr.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+                }
+                return arr;
             }
+            shuffle(prodKeys);
+            shuffle(kitKeys);
+            shuffle(ferramentaKeys);
+
             var html = '';
+
             if (prodKeys[0] || prodKeys[1]) {
                 html += '<div class="consultoria-title">Para manter o resultado</div>';
                 if (prodKeys[0]) html += buildMiniProduct(styleData[prodKeys[0]]);
                 if (prodKeys[1]) html += buildMiniProduct(styleData[prodKeys[1]]);
             }
+
+            if (ferramentaKeys[0]) {
+                html += '<div class="consultoria-title">Ferramenta recomendada</div>';
+                html += buildMiniProduct(styleData[ferramentaKeys[0]]);
+            }
+
             if (kitKeys.length) {
                 var kit = styleData[kitKeys[Math.floor(Math.random() * kitKeys.length)]];
                 html += '<div class="consultoria-title">Kit Ideal</div>';
                 html += buildMainCard(kit, 'Kit recomendado');
             }
+
             return html;
         }
 
@@ -1749,7 +1788,7 @@
         }
 
         // ============================================================
-        // QUIZZES (5 incluindo Ferramentas)
+        // QUIZZES
         // ============================================================
         var QUIZZES = {
             corte: {
@@ -1923,7 +1962,7 @@
         };
 
         // ============================================================
-        // DÚVIDAS (12 incluindo ferramentas)
+        // DÚVIDAS
         // ============================================================
         var DUVIDAS = [
             {
@@ -2053,6 +2092,7 @@
                 removeTyping();
                 var html = '<div class="consultoria-block">';
                 var tem = false;
+
                 var corteItem = analise.sugestaoCorte ? styleData[analise.sugestaoCorte] : null;
                 var corItem = analise.sugestaoCor ? styleData[analise.sugestaoCor] : null;
 
@@ -2076,8 +2116,14 @@
                 }
                 if (tem) html += gerarProdutosEKit();
                 html += '<span class="refazer-link" onclick="resetAll()">Refazer análise</span></div>';
-                if (tem) addMsg('Recomendações baseadas na sua foto:', 'bot', html);
-                else addMsg('Não foi possível montar recomendações. Tente outra foto ou um quiz.', 'bot');
+
+                if (tem) {
+                    var resumo = 'Detectei: <strong>' + analise.comprimento + '</strong> · <strong>' +
+                        analise.textura + '</strong> · <strong>' + analise.cor + '</strong>';
+                    addMsg(resumo + '<br>Recomendações baseadas na sua foto:', 'bot', html);
+                } else {
+                    addMsg('Não foi possível montar recomendações. Tente outra foto ou um quiz.', 'bot');
+                }
                 resetState();
             }, 1800);
         }
@@ -2117,8 +2163,8 @@
                 if (!p || !p.opcoes[di] || btn.disabled) return;
                 state.answers.push(p.opcoes[di].v);
                 state.step++;
-                var opts = btn.closest('.options');
-                if (opts) opts.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+                var opts2 = btn.closest('.options');
+                if (opts2) opts2.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
                 setTimeout(function () { askDiagnostico(); }, 450);
                 return;
             }
@@ -2133,7 +2179,7 @@
                         if (p.length > 2) {
                             var r = buscarPorPalavra(p);
                             r.forEach(function (item) {
-                                if (encontrados.length < 3 && !encontrados.some(function (e) { return e.id === item.id; })) {
+                                if (encontrados.length < 3 && !encontrados.some(function (ee) { return ee.id === item.id; })) {
                                     encontrados.push(item);
                                 }
                             });
@@ -2223,10 +2269,15 @@
                 addMsg(
                     'Comandos disponíveis:<br>' +
                     '<strong>/reset</strong> — reiniciar conversa<br>' +
-                    '<strong>/ajuda</strong> — esta mensagem<br><br>' +
+                    '<strong>/ajuda</strong> — esta mensagem<br>' +
+                    '<strong>/foto</strong> — abrir câmera<br><br>' +
                     'Use os botões <strong>Cortes, Cores, Produtos, Ferramentas, Kits, Diagnóstico</strong> ou <strong>Dúvidas</strong>.',
                     'bot'
                 );
+                return;
+            }
+            if (lower === '/foto') {
+                if (photoInput) photoInput.click();
                 return;
             }
 
@@ -2261,7 +2312,7 @@
                         addMsg(
                             'Use os quizzes (<strong>Corte, Cor, Produto, Ferramentas ou Kit</strong>), <strong>Diagnóstico</strong> (recomenda kit), ' +
                             'ou busque por palavras-chave.<br><br>' +
-                            'Comandos: /reset, /ajuda',
+                            'Comandos: /reset, /ajuda, /foto',
                             'bot'
                         );
                     }
