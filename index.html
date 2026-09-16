@@ -5982,7 +5982,7 @@
       </div>
       <div class="photo-add-actions">
         <button class="btn-cancel" id="btnAddPhotoCancel">Cancelar</button>
-        <button class="btn-save" id="btnAddPhotoSave">Adicionar aos favoritos</button>
+        <button class="btn-save" id="btnAddPhotoSave">Adicionar ao progresso</button>
       </div>
     </div>
   </div>
@@ -6577,7 +6577,12 @@
           if (e.target.closest('.fav-remove')) return;
           if (e.target.closest('.ba-handle')) return;
           if (e.target.closest('.ba-labels')) return;
-          openBaModal(key);
+          // Fotos do usuário (antes/depois) abrem o comparador; estilos do catálogo abrem o modal normal
+          if (isBeforeAfter || key.startsWith('user_')) {
+            openBaModal(key);
+          } else {
+            openModal(key);
+          }
         });
 
         grid.appendChild(item);
