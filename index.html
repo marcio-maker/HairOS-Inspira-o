@@ -100,7 +100,6 @@
       margin: 0 auto;
     }
 
-    /* Scrollbars transparentes / quase invisíveis em todo o app */
     * {
       scrollbar-width: none;
       scrollbar-color: transparent transparent;
@@ -887,8 +886,8 @@
     .card-home-img {
       width: 100%;
       display: block;
-      transition: transform .6s cubic-bezier(.25, .46, .45, .94);
-      will-change: transform;
+      transition: opacity 0.5s ease, transform .6s cubic-bezier(.25, .46, .45, .94);
+      will-change: transform, opacity;
       object-fit: cover;
       object-position: center top;
     }
@@ -5498,11 +5497,11 @@
   </style>
 </head>
 
+
 <body>
   <a href="#mainContent" class="skip-link">Pular para o conteúdo</a>
   <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
-  <!-- ===== LOADING ===== -->
   <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Carregando HairOS">
     <div class="loading-logo" id="loadingLogo">Hair<span>OS</span><span class="dot">.</span></div>
     <div class="loading-bar" id="loadingBarContainer" aria-hidden="true">
@@ -5512,7 +5511,6 @@
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
 
-  <!-- ===== MAIN ===== -->
   <div class="main-content" id="mainContent" role="main">
     <header class="header" id="mainHeader" role="banner">
       <div class="header-left">
@@ -5537,7 +5535,6 @@
       </div>
     </header>
 
-    <!-- MENU -->
     <div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu de navegação">
       <div class="menu-panel">
         <div class="menu-header">
@@ -5564,7 +5561,6 @@
       </div>
     </div>
 
-    <!-- FILTROS — 6 categorias -->
     <div class="filters" id="filters" role="tablist" aria-label="Filtros de categorias">
       <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">Todos</button>
       <button class="filter-btn" data-filter="corte" role="tab" aria-selected="false">Cortes</button>
@@ -5574,9 +5570,7 @@
       <button class="filter-btn" data-filter="ferramentas" role="tab" aria-selected="false">Ferramentas</button>
     </div>
 
-    <!-- PAGES -->
     <div class="page-container">
-      <!-- HOME -->
       <div class="page active-page" id="pageHome" role="tabpanel">
         <div class="section-title" id="sectionTitle"><span>—</span> <span class="highlight">Inspirações</span>
           <span>—</span>
@@ -5584,7 +5578,6 @@
         <div class="masonry-home" id="masonryHome"></div>
       </div>
 
-      <!-- FAVORITOS -->
       <div class="page" id="pageFavoritos" role="tabpanel">
         <div class="page-header">
           <h2>favoritos <span class="page-count" id="favCountHeader">(0)</span></h2>
@@ -5593,7 +5586,6 @@
         <div class="fav-grid" id="favGrid"></div>
       </div>
 
-      <!-- PERFIL -->
       <div class="page" id="pagePerfil" role="tabpanel">
         <div class="page-header">
           <h2>perfil</h2>
@@ -5602,7 +5594,6 @@
         <div id="perfilContent"></div>
       </div>
 
-      <!-- TRANSFORMAÇÕES -->
       <div class="page" id="pageTransformacoes" role="tabpanel">
         <div class="page-header">
           <h2>meu progresso</h2>
@@ -5611,7 +5602,6 @@
         <div id="transfContent"></div>
       </div>
 
-      <!-- SOBRE -->
       <div class="page" id="pageSobre" role="tabpanel">
         <div class="page-header">
           <h2>sobre</h2>
@@ -5693,7 +5683,6 @@
         </div>
       </div>
 
-      <!-- CONTATO -->
       <div class="page" id="pageContato" role="tabpanel">
         <div class="page-header">
           <h2>contato</h2>
@@ -5743,7 +5732,6 @@
       </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="footer" id="footerBar" role="navigation" aria-label="Navegação principal">
       <div class="footer-links" id="footerLinks">
         <a class="active-link" data-page="pageHome" data-icon="⌂" role="button" tabindex="0">home</a>
@@ -5755,7 +5743,6 @@
     </footer>
   </div>
 
-  <!-- ===== MODAL CRIAR TRANSFORMAÇÃO ===== -->
   <div class="ba-modal-overlay" id="transfCreateOverlay" role="dialog" aria-modal="true">
     <div class="ba-modal">
       <div class="ba-modal-header">
@@ -5801,7 +5788,6 @@
     </div>
   </div>
 
-  <!-- ===== MODAL VISUALIZAR TRANSFORMAÇÃO ===== -->
   <div class="ba-modal-overlay" id="transfViewOverlay" role="dialog" aria-modal="true">
     <div class="ba-modal">
       <div class="ba-modal-header">
@@ -5889,7 +5875,6 @@
     </div>
   </div>
 
-  <!-- ===== MODAL ANTES & DEPOIS (FAVORITOS) ===== -->
   <div class="ba-modal-overlay" id="baModalOverlay" role="dialog" aria-modal="true" aria-label="Antes e Depois">
     <div class="ba-modal" id="baModal">
       <div class="ba-modal-header">
@@ -5961,7 +5946,6 @@
     </div>
   </div>
 
-  <!-- ===== PHOTO SHEET ===== -->
   <div class="photo-sheet" id="photoSheet" role="dialog" aria-modal="true" aria-label="Atualizar foto de perfil">
     <div class="photo-sheet-handle" aria-hidden="true"></div>
     <h4>Foto de perfil</h4>
@@ -5977,7 +5961,6 @@
       aria-label="Escolher foto da galeria">
   </div>
 
-  <!-- ===== MODAL ADICIONAR FOTO ===== -->
   <div class="photo-add-overlay" id="photoAddOverlay" role="dialog" aria-modal="true"
     aria-label="Adicionar transformação capilar">
     <div class="photo-add-modal">
@@ -6027,7 +6010,6 @@
     </div>
   </div>
 
-  <!-- ===== MODAL DETALHES ===== -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Detalhes do estilo">
     <div class="modal-card" id="modalCard">
       <div class="modal-hero" id="modalHero">
@@ -6069,12 +6051,10 @@
     </div>
   </div>
 
-  <!-- ===== ZOOM ===== -->
   <div class="zoom-overlay" id="zoomOverlay" role="dialog" aria-modal="true" aria-label="Zoom da imagem">
     <img id="zoomImage" src="" alt="">
   </div>
 
-  <!-- ===== SHEET DINÂMICO ===== -->
   <div class="modal-sheet sheet-layout-tabs" id="modalSheet" role="dialog" aria-modal="true"
     aria-label="Detalhes do estilo - expandido">
     <div class="sheet-handle" id="sheetHandle" role="button" tabindex="0" aria-label="Expandir ou recolher"></div>
@@ -6121,7 +6101,6 @@
     </div>
   </div>
 
-  <!-- ===== DATA.JS ===== -->
   <script src="data.js"></script>
 
   <script>
@@ -6291,7 +6270,7 @@
           storageSet('hairos_perfil_fixo', data);
         }
         return data;
-      } catch {
+      } catch (e) {
         return { nome: 'Visitante', descricao: 'Apaixonado por cabelos e estilo', foto: '' };
       }
     }
@@ -6337,6 +6316,15 @@
     var isSheetFull = false;
     var currentKey = null;
     var currentPage = 'pageHome';
+
+    // ============================================================
+    // ROTAÇÃO AUTOMÁTICA — variáveis globais
+    // ============================================================
+    var heroRotationTimer = null;
+    var heroRotationPool = [];
+    var heroRotationIndex = 0;
+    var heroRotationPaused = false;
+    var cardRotationTimers = []; // 🧹 rastreia timers dos cards da vitrine
 
     function updateFavCounter() {
       var headerCount = document.getElementById('favCountHeader');
@@ -6440,6 +6428,10 @@
     }
 
     function renderHome() {
+      // 🧹 Limpa timers dos cards antigos (evita memory leak)
+      cardRotationTimers.forEach(function (t) { clearTimeout(t); });
+      cardRotationTimers = [];
+
       var container = document.getElementById('masonryHome');
       var title = document.getElementById('sectionTitle');
       var vitrineBadge = document.getElementById('vitrineBadge');
@@ -6483,6 +6475,54 @@
         img.addEventListener('error', function () { this.src = FALLBACK_IMG; });
         card.appendChild(img);
 
+        // 🎬 Rotação automática do card (10–14s)
+        (function (cardImg, cardData) {
+          var pool = [];
+          var variants = Array.isArray(cardData.variants) ? cardData.variants : [];
+          variants.forEach(function (v) {
+            var url = (typeof v === 'object' && v !== null) ? v.img : v;
+            if (url && url !== cardData.img) pool.push(url);
+          });
+          if (pool.length === 0) return;
+
+          var cardTimer = null;
+          var cardPoolIdx = 0;
+          for (var ii = pool.length - 1; ii > 0; ii--) {
+            var jj = Math.floor(Math.random() * (ii + 1));
+            var tt = pool[ii]; pool[ii] = pool[jj]; pool[jj] = tt;
+          }
+
+          function agendar() {
+            clearTimeout(cardTimer);
+            var d = 10000 + Math.floor(Math.random() * 4000);
+            cardTimer = setTimeout(trocar, d);
+            cardRotationTimers.push(cardTimer);
+          }
+
+          function trocar() {
+            // 🛡️ Guarda: só troca se o card ainda estiver no DOM
+            if (!document.body.contains(cardImg)) return;
+
+            var next = pool[cardPoolIdx % pool.length];
+            cardPoolIdx++;
+            var preload = new Image();
+            preload.onload = function () {
+              if (!document.body.contains(cardImg)) return;
+              cardImg.style.opacity = '0';
+              setTimeout(function () {
+                if (!document.body.contains(cardImg)) return;
+                cardImg.src = next;
+                cardImg.style.opacity = '1';
+              }, 300);
+            };
+            preload.src = next;
+            agendar();
+          }
+
+          cardImg.style.transition = 'opacity 0.5s ease, transform .6s cubic-bezier(.25,.46,.45,.94)';
+          agendar();
+        })(img, data);
+
         var titleEl = document.createElement('div');
         titleEl.className = 'card-home-title';
         titleEl.textContent = data.corte;
@@ -6522,9 +6562,6 @@
       });
     }
 
-    // ============================================================
-    // Gera card com imagem + faixa de texto + link
-    // ============================================================
     function gerarCardComTexto(data, key) {
       return new Promise(function (resolve) {
         var proxied = 'https://images.weserv.nl/?url=' +
@@ -6539,61 +6576,12 @@
           var MAX_W = 1080;
           if (W > MAX_W) { H = Math.round(H * MAX_W / W); W = MAX_W; }
 
-          var FAIXA = Math.round(H * 0.30);
           var canvas = document.createElement('canvas');
           canvas.width = W;
-          canvas.height = H + FAIXA;
+          canvas.height = H;
           var ctx = canvas.getContext('2d');
 
           ctx.drawImage(img, 0, 0, W, H);
-          ctx.fillStyle = '#0a0808';
-          ctx.fillRect(0, H, W, FAIXA);
-          ctx.fillStyle = '#c9a96e';
-          ctx.fillRect(0, H, W, 3);
-
-          var titulo = data.corte + ' — ' + data.title;
-          var tituloSize = Math.round(W * 0.045);
-          ctx.fillStyle = '#f0ebe4';
-          ctx.font = 'italic 700 ' + tituloSize + 'px Georgia, serif';
-          ctx.textAlign = 'left';
-          ctx.textBaseline = 'top';
-          ctx.fillText(titulo, W * 0.05, H + FAIXA * 0.10, W * 0.9);
-
-          var descSize = Math.round(W * 0.028);
-          ctx.fillStyle = '#d4c9bc';
-          ctx.font = '300 ' + descSize + 'px Helvetica, Arial, sans-serif';
-          var maxW = W * 0.9;
-          var palavras = (data.desc || '').split(' ');
-          var linhas = [];
-          var linha = '';
-          for (var i = 0; i < palavras.length; i++) {
-            var teste = linha ? linha + ' ' + palavras[i] : palavras[i];
-            if (ctx.measureText(teste).width > maxW && linha) {
-              linhas.push(linha);
-              linha = palavras[i];
-              if (linhas.length === 2) break;
-            } else {
-              linha = teste;
-            }
-          }
-          if (linha && linhas.length < 2) linhas.push(linha);
-
-          var yDesc = H + FAIXA * 0.38;
-          linhas.forEach(function (l, idx) {
-            ctx.fillText(l, W * 0.05, yDesc + idx * descSize * 1.4, maxW);
-          });
-
-          var linkSize = Math.round(W * 0.026);
-          ctx.fillStyle = '#c9a96e';
-          ctx.font = '600 ' + linkSize + 'px Helvetica, Arial, sans-serif';
-          ctx.textAlign = 'left';
-          ctx.fillText('hairos.com.br', W * 0.05, H + FAIXA - linkSize * 2.2);
-
-          var marcaSize = Math.round(W * 0.032);
-          ctx.fillStyle = '#c9a96e';
-          ctx.font = 'italic 700 ' + marcaSize + 'px Georgia, serif';
-          ctx.textAlign = 'right';
-          ctx.fillText('HairOS.', W * 0.95, H + FAIXA - marcaSize * 1.6);
 
           canvas.toBlob(function (blob) {
             if (!blob) { resolve(null); return; }
@@ -6606,20 +6594,18 @@
       });
     }
 
-    // ============================================================
-    // Compartilha: imagem primeiro, depois texto com link
-    // ============================================================
     function shareStyle(key) {
       var data = styleData[key];
       if (!data) { showToast('Erro ao compartilhar'); return; }
 
       var SITE_URL = 'https://marcio-maker.github.io/HairOS-Inspira-o/';
+      var ML_URL = 'https://meli.la/1MwSY7v';
       var titulo = data.corte + ' — HairOS';
       var texto =
         '✨ ' + data.corte + ' — ' + data.title + '\n\n' +
         data.desc + '\n\n' +
-        '🌐 Veja mais no HairOS 👇\n' +
-        SITE_URL;
+        '🌐 Veja mais no HairOS 👇\n' + SITE_URL + '\n\n' +
+        '💡 Sugestão: ' + ML_URL;
 
       function compartilharSoTexto() {
         if (navigator.share) {
@@ -6649,9 +6635,6 @@
       });
     }
 
-    // ============================================================
-    // Fallback: copia o texto
-    // ============================================================
     function fallbackCopy(text) {
       try {
         var textarea = document.createElement('textarea');
@@ -6664,7 +6647,7 @@
         document.execCommand('copy');
         document.body.removeChild(textarea);
         showToast('Link copiado para compartilhar!');
-      } catch {
+      } catch (e) {
         showToast('Não foi possível copiar');
       }
     }
@@ -6696,15 +6679,14 @@
           var compareDiv = document.createElement('div');
           compareDiv.className = 'ba-compare-mini';
           compareDiv.style.aspectRatio = '9/12';
-          compareDiv.innerHTML = `
-            <div class="ba-after"><img src="${data.img}" alt="Depois" loading="lazy"></div>
-            <div class="ba-before" style="width:50%;"><img src="${beforeImg}" alt="Antes" loading="lazy"></div>
-            <div class="ba-handle">↔</div>
-            <div class="ba-labels">
-              <span class="label-before">antes</span>
-              <span class="label-after">depois</span>
-            </div>
-          `;
+          compareDiv.innerHTML = ''
+            + '<div class="ba-after"><img src="' + data.img + '" alt="Depois" loading="lazy"></div>'
+            + '<div class="ba-before" style="width:50%;"><img src="' + beforeImg + '" alt="Antes" loading="lazy"></div>'
+            + '<div class="ba-handle">↔</div>'
+            + '<div class="ba-labels">'
+            + '<span class="label-before">antes</span>'
+            + '<span class="label-after">depois</span>'
+            + '</div>';
           item.appendChild(compareDiv);
           setTimeout(function () { initCompareMini(compareDiv); }, 50);
         } else {
@@ -6747,9 +6729,6 @@
       });
     }
 
-    // ============================================================
-    // COMPARADOR MINI
-    // ============================================================
     function initCompareMini(container) {
       var before = container.querySelector('.ba-before');
       if (!before) return;
@@ -6807,32 +6786,27 @@
       var initial = nome.charAt(0).toUpperCase();
       var avatarHtml = avatar ? '<img src="' + avatar + '" alt="Foto de perfil">' : initial;
 
-      var html = `
-        <div class="perfil-hero">
-          <div class="perfil-avatar-wrap">
-            <div class="perfil-avatar" id="avatarClick" role="button" tabindex="0" aria-label="Alterar foto">
-              ${avatarHtml}
-            </div>
-            <span class="perfil-avatar-edit" id="avatarEditBtn" role="button" tabindex="0" aria-label="Editar foto">✎</span>
-          </div>
-          <div class="perfil-identity">
-            <div id="nomeWrapper">
-              <h3 id="nomeDisplay">${nome}</h3>
-            </div>
-            <div id="descWrapper">
-              <p class="perfil-desc" id="descDisplay">${descricao || 'Adicione uma breve descrição'}</p>
-            </div>
-            <div class="perfil-edit-row">
-              <button class="perfil-btn" id="editNomeBtn">✎ nome</button>
-              <button class="perfil-btn" id="editDescBtn">✎ bio</button>
-            </div>
-          </div>
-        </div>
-        <div class="perfil-actions-section">
-          <button class="perfil-btn" id="btnVerFavs">ver favoritos</button>
-          <button class="btn-gold" id="btnAddTransformacao">+ adicionar transformação</button>
-        </div>
-      `;
+      var html = ''
+        + '<div class="perfil-hero">'
+        + '<div class="perfil-avatar-wrap">'
+        + '<div class="perfil-avatar" id="avatarClick" role="button" tabindex="0" aria-label="Alterar foto">'
+        + avatarHtml
+        + '</div>'
+        + '<span class="perfil-avatar-edit" id="avatarEditBtn" role="button" tabindex="0" aria-label="Editar foto">✎</span>'
+        + '</div>'
+        + '<div class="perfil-identity">'
+        + '<div id="nomeWrapper"><h3 id="nomeDisplay">' + nome + '</h3></div>'
+        + '<div id="descWrapper"><p class="perfil-desc" id="descDisplay">' + (descricao || 'Adicione uma breve descrição') + '</p></div>'
+        + '<div class="perfil-edit-row">'
+        + '<button class="perfil-btn" id="editNomeBtn">✎ nome</button>'
+        + '<button class="perfil-btn" id="editDescBtn">✎ bio</button>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+        + '<div class="perfil-actions-section">'
+        + '<button class="perfil-btn" id="btnVerFavs">ver favoritos</button>'
+        + '<button class="btn-gold" id="btnAddTransformacao">+ adicionar transformação</button>'
+        + '</div>';
 
       container.innerHTML = html;
 
@@ -7242,7 +7216,7 @@
         var ts = getTransfs();
         var t = ts.find(function (x) { return x.id === transfViewId; });
         if (!t) return;
-        var text = '' + (t.title || 'Transformação') + ' — Antes e Depois\n\nVeja meu progresso capilar no HairOS!';
+        var text = '✨ ' + (t.title || 'Transformação') + ' — Antes e Depois\n\nVeja meu progresso capilar no HairOS!';
         if (navigator.share) {
           navigator.share({ title: t.title || 'Transformação HairOS', text: text }).catch(function (err) {
             if (err.name !== 'AbortError') fallbackCopy(text);
@@ -7618,7 +7592,11 @@
       btnsContainer.innerHTML = '';
       coloracaoItems.innerHTML = '';
       cuidadosItems.innerHTML = '';
-      simpleCategory.textContent = isBeautySheet ? '' : (data.categoria === 'produto' || data.categoria === 'kit' || data.categoria === 'ferramentas' ? 'RECOMENDAÇÃO' : String(data.categoria || 'RECOMENDAÇÃO').toUpperCase());
+      simpleCategory.textContent = isBeautySheet
+        ? ''
+        : (data.categoria === 'produto' || data.categoria === 'kit' || data.categoria === 'ferramentas'
+          ? 'RECOMENDAÇÃO'
+          : String(data.categoria || 'RECOMENDAÇÃO').toUpperCase());
       coloracaoTitle.textContent = 'Coloração';
       cuidadosTitle.textContent = isBeautySheet ? 'Cuidados' : 'Recomendação';
 
@@ -7671,13 +7649,13 @@
       } else {
         var btnProdutos = document.createElement('button');
         btnProdutos.id = 'btnProdutos';
-        btnProdutos.textContent = 'Produtos';
+        btnProdutos.textContent = data.categoria === 'ferramentas' ? 'Ferramentas' : 'Produtos';
         btnProdutos.setAttribute('role', 'tab');
         btnProdutos.setAttribute('aria-selected', 'true');
         btnProdutos.className = 'active';
         btnsContainer.appendChild(btnProdutos);
 
-        var produtosPorCategoria = {
+        var kitsPorCategoria = {
           ferramentas: {
             nome: 'Kit Ferramentas Profissionais',
             badge: 'Ferramentas',
@@ -7686,25 +7664,208 @@
           }
         };
 
-        var kit = produtosPorCategoria[data.categoria];
+        var kit = kitsPorCategoria[data.categoria];
         if (!kit) {
           var lower = (data.corte || data.title || '').toLowerCase();
           if (lower.indexOf('kerastase') !== -1 || lower.indexOf('kérastase') !== -1) {
-            kit = { nome: 'Kit Kérastase', badge: 'Premium', link: 'https://meli.la/1MwSY7v', produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime' };
+            kit = {
+              nome: 'Kit Kérastase',
+              badge: 'Premium',
+              link: 'https://meli.la/1MwSY7v',
+              produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
+            };
           } else if (lower.indexOf('joico') !== -1) {
-            kit = { nome: 'Kit Joico', badge: 'Hidratação', link: 'https://meli.la/2x9xqBe', produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK' };
+            kit = {
+              nome: 'Kit Joico',
+              badge: 'Hidratação',
+              link: 'https://meli.la/2x9xqBe',
+              produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
+            };
           } else if (lower.indexOf('expert') !== -1 || lower.indexOf('loreal') !== -1 || lower.indexOf("l'oréal") !== -1) {
-            kit = { nome: "Kit L'Oréal Expert", badge: 'Profissional', link: 'https://meli.la/2nmeunk', produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer' };
+            kit = {
+              nome: "Kit L'Oréal Expert",
+              badge: 'Profissional',
+              link: 'https://meli.la/2nmeunk',
+              produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
+            };
           } else if (data.categoria === 'ferramentas') {
-            kit = { nome: 'Kit ' + (data.corte || data.title), badge: 'Ferramentas', link: 'https://mercadolivre.com.br/', produtos: 'Secador + Prancha + Escova Rotativa' };
+            kit = {
+              nome: 'Kit ' + (data.corte || data.title),
+              badge: 'Ferramentas',
+              link: 'https://meli.la/1GbiW7M',
+              produtos: 'Secador + Prancha + Escova Rotativa'
+            };
           } else {
-            kit = { nome: 'Kit ' + (data.corte || data.title), badge: data.categoria || 'Produtos', link: 'https://mercadolivre.com.br/', produtos: 'Produtos selecionados para ' + (data.corte || data.title) };
+            kit = {
+              nome: 'Kit ' + (data.corte || data.title),
+              badge: data.categoria || 'Produtos',
+              link: 'https://meli.la/1GbiW7M',
+              produtos: 'Produtos selecionados para ' + (data.corte || data.title)
+            };
           }
         }
         preencherLista(cuidadosItems, [kit], 'Produtos disponíveis em breve');
         listaColoracao.classList.remove('show');
         listaCuidados.classList.add('show');
       }
+    }
+
+    // ============================================================
+    // ROTAÇÃO AUTOMÁTICA DO HERO (10–14s)
+    // ============================================================
+    function pararRotacaoHero() {
+      if (heroRotationTimer) {
+        clearTimeout(heroRotationTimer);
+        heroRotationTimer = null;
+      }
+      if (window._retomadaHeroTimeout) {
+        clearTimeout(window._retomadaHeroTimeout);
+        window._retomadaHeroTimeout = null;
+      }
+      heroRotationPaused = false;
+    }
+
+    function pausarRotacaoHero() {
+      heroRotationPaused = true;
+      if (heroRotationTimer) {
+        clearTimeout(heroRotationTimer);
+        heroRotationTimer = null;
+      }
+    }
+
+    function retomarRotacaoHero() {
+      if (!currentKey) return;
+      heroRotationPaused = false;
+      agendarProximaTrocaHero();
+    }
+
+    function montarPoolRotacaoHero(key) {
+      var data = styleData[key];
+      if (!data) return [];
+
+      var pool = [];
+      var seen = {};
+
+      var variants = Array.isArray(data.variants) ? data.variants : [];
+      variants.forEach(function (v) {
+        var url = (typeof v === 'object' && v !== null) ? v.img : v;
+        if (url && !seen[url]) {
+          seen[url] = true;
+          pool.push({
+            img: url,
+            corte: (typeof v === 'object' && v !== null && v.corte) ? v.corte : data.corte,
+            title: (typeof v === 'object' && v !== null && v.title) ? v.title : data.title,
+            desc: (typeof v === 'object' && v !== null && v.desc) ? v.desc : data.desc
+          });
+        }
+      });
+
+      for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      }
+
+      if (pool.length < 2) {
+        var categoria = data.categoria;
+        var extras = Object.keys(styleData)
+          .filter(function (k) {
+            return styleData[k] &&
+              styleData[k].categoria === categoria &&
+              k !== key &&
+              !k.startsWith('user_') &&
+              styleData[k].img;
+          });
+        for (var m = extras.length - 1; m > 0; m--) {
+          var n = Math.floor(Math.random() * (m + 1));
+          var t2 = extras[m]; extras[m] = extras[n]; extras[n] = t2;
+        }
+        extras.slice(0, 6).forEach(function (k) {
+          var it = styleData[k];
+          if (it && it.img && !seen[it.img]) {
+            seen[it.img] = true;
+            pool.push({
+              img: it.img,
+              corte: it.corte,
+              title: it.title,
+              desc: it.desc,
+              externalKey: k
+            });
+          }
+        });
+      }
+
+      return pool;
+    }
+
+    function agendarProximaTrocaHero() {
+      if (heroRotationPaused) return;
+      if (heroRotationTimer) clearTimeout(heroRotationTimer);
+      var delay = 10000 + Math.floor(Math.random() * 4000);
+      heroRotationTimer = setTimeout(trocarImagemHero, delay);
+    }
+
+    function trocarImagemHero() {
+      heroRotationTimer = null;
+      if (heroRotationPaused) return;
+      if (!currentKey || !isModalOpen()) return;
+
+      var heroImg = document.getElementById('modalImg');
+      if (!heroImg || heroRotationPool.length < 2) return;
+
+      var tentativas = 0;
+      var proximo;
+      do {
+        heroRotationIndex = Math.floor(Math.random() * heroRotationPool.length);
+        proximo = heroRotationPool[heroRotationIndex];
+        tentativas++;
+      } while (proximo.img === heroImg.src && tentativas < 5);
+
+      if (!proximo || proximo.img === heroImg.src) {
+        agendarProximaTrocaHero();
+        return;
+      }
+
+      var preload = new Image();
+      preload.onload = function () {
+        if (!currentKey || !isModalOpen()) return;
+        if (heroRotationPaused) return;
+
+        heroImg.classList.add('loading');
+        heroImg.src = proximo.img;
+
+        if (!proximo.externalKey) {
+          var heroTitle = document.getElementById('heroTitle');
+          var heroSub = document.getElementById('heroSub');
+          if (heroTitle && proximo.corte) heroTitle.textContent = proximo.corte;
+          if (heroSub && proximo.title) heroSub.textContent = proximo.title;
+        }
+
+        heroImg.onload = function () {
+          heroImg.classList.remove('loading');
+        };
+      };
+      preload.onerror = function () {
+        if (!heroRotationPaused && currentKey) {
+          heroRotationTimer = setTimeout(trocarImagemHero, 2000);
+        }
+      };
+      preload.src = proximo.img;
+
+      agendarProximaTrocaHero();
+    }
+
+    function iniciarRotacaoHero(key) {
+      pararRotacaoHero();
+      heroRotationPool = montarPoolRotacaoHero(key);
+      heroRotationIndex = 0;
+      if (heroRotationPool.length >= 2) {
+        agendarProximaTrocaHero();
+      }
+    }
+
+    function isModalOpen() {
+      var overlay = document.getElementById('modalOverlay');
+      return overlay && overlay.classList.contains('open');
     }
 
     // ============================================================
@@ -7715,6 +7876,8 @@
       if (!data) { showToast('Erro ao abrir o estilo'); return; }
       currentKey = key;
       if (isSheetOpen) closeSheet();
+
+      pararRotacaoHero();
 
       var header = document.getElementById('mainHeader');
       var footer = document.getElementById('footerBar');
@@ -7765,6 +7928,8 @@
         if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 100);
       }
       document.body.style.overflow = 'hidden';
+
+      iniciarRotacaoHero(key);
     }
 
     function closeModal() {
@@ -7773,6 +7938,8 @@
       if (isSheetOpen) closeSheet();
       document.body.style.overflow = '';
       currentKey = null;
+
+      pararRotacaoHero();
 
       carouselItems = [];
       carouselCurrentIndex = 0;
@@ -7798,6 +7965,8 @@
       if (sheet) sheet.classList.remove('full');
       isSheetFull = false;
 
+      pausarRotacaoHero();
+
       if (currentKey) {
         setTimeout(function () {
           renderCarouselSuggestions(currentKey);
@@ -7812,6 +7981,10 @@
       if (toggleBtn) toggleBtn.classList.remove('hidden');
       isSheetOpen = false;
       isSheetFull = false;
+
+      if (isModalOpen() && currentKey) {
+        retomarRotacaoHero();
+      }
     }
 
     function toggleSheetFull() {
@@ -7843,21 +8016,23 @@
           : { corte: data.corte, title: data.title, desc: data.desc };
         if (!imgUrl) return;
 
+        var isOtherProduct = isProdutoKit && (meta.own === false);
+
         var hClass = alturasModal[idx % alturasModal.length];
         var card = document.createElement('div');
         card.className = 'modal-card-item';
         card.dataset.imgUrl = imgUrl;
-        card.dataset.corte = meta.corte || '';
-        card.dataset.title = meta.title || '';
-        card.dataset.desc = meta.desc || '';
-        card.dataset.key = meta.key || key;
-        card.dataset.categoria = meta.categoria || data.categoria;
+        card.dataset.corte = isOtherProduct ? data.corte : (meta.corte || '');
+        card.dataset.title = isOtherProduct ? data.title : (meta.title || '');
+        card.dataset.desc = isOtherProduct ? data.desc : (meta.desc || '');
+        card.dataset.key = key;
+        card.dataset.categoria = data.categoria;
         card.style.animationDelay = (idx * 0.05) + 's';
 
         var img = document.createElement('img');
         img.className = hClass;
         img.src = imgUrl;
-        img.alt = meta.corte + ' - variação ' + (idx + 1);
+        img.alt = (meta.corte || data.corte) + ' - variação ' + (idx + 1);
         img.loading = 'lazy';
         img.addEventListener('error', function () { this.src = FALLBACK_IMG; });
         card.appendChild(img);
@@ -7870,14 +8045,19 @@
         card.addEventListener('click', function (e) {
           e.stopPropagation();
 
+          // 🔄 Pausa a rotação e agenda retomada (cancelando a anterior)
+          pausarRotacaoHero();
+          if (window._retomadaHeroTimeout) clearTimeout(window._retomadaHeroTimeout);
+          window._retomadaHeroTimeout = setTimeout(function () {
+            window._retomadaHeroTimeout = null;
+            if (isModalOpen() && currentKey) retomarRotacaoHero();
+          }, 8000);
+
           var imgSrc = this.dataset.imgUrl;
           var dCorte = this.dataset.corte;
           var dTitle = this.dataset.title;
           var dDesc = this.dataset.desc;
-          var targetKey = this.dataset.key;
-          var targetCategoria = this.dataset.categoria;
 
-          // --- Troca imagem do hero ---
           var heroImg = document.getElementById('modalImg');
           if (heroImg) {
             heroImg.classList.add('loading');
@@ -7885,53 +8065,20 @@
             heroImg.onload = function () { heroImg.classList.remove('loading'); };
           }
 
-          // --- Atualiza textos (hero + sheet) ---
           var heroTitle = document.getElementById('heroTitle');
           var heroSub = document.getElementById('heroSub');
           var sheetTitle = document.getElementById('sheetTitle');
           var sheetSub = document.getElementById('sheetSub');
           var sheetDesc = document.getElementById('sheetDesc');
-          var heroCategoria = document.getElementById('heroCategoria');
 
           if (heroTitle) heroTitle.textContent = dCorte;
           if (heroSub) heroSub.textContent = dTitle;
           if (sheetTitle) sheetTitle.textContent = dCorte;
           if (sheetSub) sheetSub.textContent = dTitle;
           if (sheetDesc) sheetDesc.textContent = dDesc;
-          if (heroCategoria) {
-            heroCategoria.textContent = targetCategoria.charAt(0).toUpperCase() + targetCategoria.slice(1);
-          }
-
-          // --- Atualiza botões (favorito / compartilhar) ---
-          var heroFavBtn = document.getElementById('heroFavBtn');
-          if (heroFavBtn && targetKey) {
-            var isFavorited = isFav(targetKey);
-            heroFavBtn.classList.toggle('favorited', isFavorited);
-            heroFavBtn.textContent = isFavorited ? '♥' : '♡';
-            heroFavBtn.dataset.key = targetKey;
-            heroFavBtn.setAttribute('aria-pressed', isFavorited ? 'true' : 'false');
-          }
-
-          var heroShareBtn = document.getElementById('heroShareBtn');
-          if (heroShareBtn && targetKey) {
-            heroShareBtn.dataset.key = targetKey;
-          }
-
-          // --- Troca sheet + carrossel (só se for outro item) ---
-          if (targetKey && targetKey !== key) {
-            var newData = styleData[targetKey];
-            if (newData) {
-              currentKey = targetKey;
-              renderSheet(targetKey);
-              setTimeout(function () {
-                renderCarouselSuggestions(targetKey);
-              }, 100);
-            }
-          }
 
           if (isSheetOpen) closeSheet();
 
-          // --- Sobe o modal até o hero para ver a troca ---
           var overlay = document.getElementById('modalOverlay');
           if (overlay) {
             overlay.scrollTo({ top: 0, behavior: 'smooth' });
@@ -8202,6 +8349,7 @@
         if (closeBtn) closeBtn.classList.remove('fade-out');
         if (toggleBtn) toggleBtn.classList.remove('fade-out');
         if (heroInfo) heroInfo.classList.remove('fade-out');
+        retomarRotacaoHero();
       } else {
         zoomImg.src = heroImg.src;
         zo.classList.add('active');
@@ -8210,6 +8358,7 @@
         if (closeBtn) closeBtn.classList.add('fade-out');
         if (toggleBtn) toggleBtn.classList.add('fade-out');
         if (heroInfo) heroInfo.classList.add('fade-out');
+        pausarRotacaoHero();
       }
     }
 
@@ -8308,36 +8457,56 @@
       if (!overlay) return;
 
       var data = initialData || {};
-      document.getElementById('addPhotoTitle').value = data.title || '';
-      document.getElementById('addPhotoDesc').value = data.desc || '';
-      document.getElementById('addPhotoCategoria').value = data.categoria || 'corte';
+      var titleEl = document.getElementById('addPhotoTitle');
+      var descEl = document.getElementById('addPhotoDesc');
+      var catEl = document.getElementById('addPhotoCategoria');
+      if (titleEl) titleEl.value = data.title || '';
+      if (descEl) descEl.value = data.desc || '';
+      if (catEl) catEl.value = data.categoria || 'corte';
 
-      document.getElementById('addPhotoBeforeData').value = '';
-      document.getElementById('addPhotoAfterData').value = '';
-      document.getElementById('addPhotoBeforePreview').innerHTML = '';
-      document.getElementById('addPhotoAfterPreview').innerHTML = '';
-      document.getElementById('addPhotoBeforeArea').classList.remove('has-img');
-      document.getElementById('addPhotoAfterArea').classList.remove('has-img');
-      document.getElementById('addPhotoBeforePlaceholder').style.display = '';
-      document.getElementById('addPhotoAfterPlaceholder').style.display = '';
+      var beforeDataEl = document.getElementById('addPhotoBeforeData');
+      var afterDataEl = document.getElementById('addPhotoAfterData');
+      if (beforeDataEl) beforeDataEl.value = '';
+      if (afterDataEl) afterDataEl.value = '';
+
+      var beforePreview = document.getElementById('addPhotoBeforePreview');
+      var afterPreview = document.getElementById('addPhotoAfterPreview');
+      if (beforePreview) beforePreview.innerHTML = '';
+      if (afterPreview) afterPreview.innerHTML = '';
+
+      var beforeArea = document.getElementById('addPhotoBeforeArea');
+      var afterArea = document.getElementById('addPhotoAfterArea');
+      if (beforeArea) beforeArea.classList.remove('has-img');
+      if (afterArea) afterArea.classList.remove('has-img');
+
+      var beforePh = document.getElementById('addPhotoBeforePlaceholder');
+      var afterPh = document.getElementById('addPhotoAfterPlaceholder');
+      if (beforePh) beforePh.style.display = '';
+      if (afterPh) afterPh.style.display = '';
 
       overlay.classList.add('open');
       setTimeout(function () {
-        var firstInput = document.getElementById('addPhotoTitle');
-        if (firstInput) firstInput.focus();
+        if (titleEl) titleEl.focus();
       }, 100);
     }
 
     function closeAddPhotoModal() {
-      document.getElementById('photoAddOverlay').classList.remove('open');
+      var overlay = document.getElementById('photoAddOverlay');
+      if (overlay) overlay.classList.remove('open');
     }
 
     function handleAddPhotoSubmit() {
-      var title = document.getElementById('addPhotoTitle').value.trim();
-      var desc = document.getElementById('addPhotoDesc').value.trim();
-      var categoria = document.getElementById('addPhotoCategoria').value;
-      var beforeData = document.getElementById('addPhotoBeforeData').value;
-      var afterData = document.getElementById('addPhotoAfterData').value;
+      var titleEl = document.getElementById('addPhotoTitle');
+      var descEl = document.getElementById('addPhotoDesc');
+      var catEl = document.getElementById('addPhotoCategoria');
+      var beforeDataEl = document.getElementById('addPhotoBeforeData');
+      var afterDataEl = document.getElementById('addPhotoAfterData');
+
+      var title = titleEl ? titleEl.value.trim() : '';
+      var desc = descEl ? descEl.value.trim() : '';
+      var categoria = catEl ? catEl.value : 'corte';
+      var beforeData = beforeDataEl ? beforeDataEl.value : '';
+      var afterData = afterDataEl ? afterDataEl.value : '';
 
       if (!title) { showToast('Dê um título para sua transformação'); return; }
       if (!beforeData || !afterData) { showToast('Selecione as duas fotos (Antes e Depois)'); return; }
@@ -8394,7 +8563,6 @@
       initTransfModals();
       updateTransfCounter();
 
-      // MENU
       var hamburgerBtn = document.getElementById('hamburgerBtn');
       var menuOverlay = document.getElementById('menuOverlay');
       var menuClose = document.getElementById('menuClose');
@@ -8447,7 +8615,6 @@
 
       document.getElementById('menuThemeToggle').addEventListener('click', toggleTheme);
 
-      // PHOTO SHEET
       document.getElementById('btnPhotoCamera').addEventListener('click', function () {
         document.getElementById('inputPhotoCamera').click();
       });
@@ -8470,10 +8637,8 @@
         this.value = '';
       });
 
-      // BRAND
       document.getElementById('brandLogo').addEventListener('click', function () { navigateTo('pageHome'); });
 
-      // FOOTER
       document.querySelectorAll('.footer-links a').forEach(function (link) {
         link.addEventListener('click', function (e) {
           e.preventDefault();
@@ -8487,12 +8652,10 @@
         });
       });
 
-      // BACK BUTTONS
       document.querySelectorAll('.back-home').forEach(function (btn) {
         btn.addEventListener('click', function () { navigateTo('pageHome'); });
       });
 
-      // FILTERS
       document.querySelectorAll('.filter-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
           showingFavorites = false;
@@ -8507,7 +8670,6 @@
         });
       });
 
-      // MODAL
       document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
       document.getElementById('modalOverlay').addEventListener('click', function (e) {
         if (e.target === this) closeModal();
@@ -8667,11 +8829,11 @@
               var delta = currentY - lastY;
               if (Math.abs(delta) > 4) {
                 if (delta > 0 && currentY > 60) {
-                  header && header.classList.add('hide');
-                  footer && footer.classList.add('hide');
+                  if (header) header.classList.add('hide');
+                  if (footer) footer.classList.add('hide');
                 } else {
-                  header && header.classList.remove('hide');
-                  footer && footer.classList.remove('hide');
+                  if (header) header.classList.remove('hide');
+                  if (footer) footer.classList.remove('hide');
                 }
                 lastY = currentY;
               }
@@ -8691,7 +8853,7 @@
     }
 
     // ============================================================
-    // LOADING — zoom-in lento (4.5s) + barra suave + zoom-out dramático
+    // LOADING
     // ============================================================
     document.addEventListener('DOMContentLoaded', function () {
       var loadingScreen = document.getElementById('loadingScreen');
@@ -8703,17 +8865,14 @@
       var mainContent = document.getElementById('mainContent');
 
       function finishLoading() {
-        // Fase 2 finaliza: some barra e textos
         if (loadingBarContainer) loadingBarContainer.style.opacity = '0';
         if (loadingText) loadingText.style.opacity = '0';
         if (loadingPercent) loadingPercent.style.opacity = '0';
 
-        // Fase 3: zoom-out dramático após 500ms
         setTimeout(function () {
           if (loadingLogo) loadingLogo.classList.add('zoom-out');
         }, 500);
 
-        // Fase 3 termina: mostra conteúdo
         setTimeout(function () {
           if (loadingScreen) loadingScreen.classList.add('hidden');
           if (mainContent) mainContent.classList.add('visible');
@@ -8721,7 +8880,6 @@
         }, 1800);
       }
 
-      // Fase 1 (paralela): barra de 0→100 em 45ms × 100 = 4.5s
       var currentVal = 0;
       var progressInterval = setInterval(function () {
         currentVal += 1;
@@ -8735,7 +8893,6 @@
         }
       }, 45);
 
-      // Fallback de segurança: máximo 8 segundos
       setTimeout(function () {
         if (currentVal < 100) {
           clearInterval(progressInterval);
