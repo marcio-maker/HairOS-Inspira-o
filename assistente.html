@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>HairOS · Assistente</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg: #0a0808;
@@ -25,7 +28,13 @@
             --green: #3d9a6a;
             --radius: 16px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -34,6 +43,7 @@
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
+
         .app-container {
             display: flex;
             flex-direction: column;
@@ -43,6 +53,7 @@
             margin: 0 auto;
             background: var(--bg);
         }
+
         .header {
             flex-shrink: 0;
             padding: 12px 16px;
@@ -52,6 +63,7 @@
             align-items: center;
             gap: 12px;
         }
+
         .header-avatar {
             width: 36px;
             height: 36px;
@@ -67,6 +79,7 @@
             font-weight: 700;
             flex-shrink: 0;
         }
+
         .header-info h1 {
             font-family: 'Playfair Display', serif;
             font-style: italic;
@@ -74,6 +87,7 @@
             font-weight: 600;
             color: var(--text);
         }
+
         .header-info p {
             font-size: 10px;
             color: var(--muted);
@@ -81,6 +95,7 @@
             letter-spacing: 0.04em;
             opacity: 0.6;
         }
+
         .header-actions {
             margin-left: auto;
             display: flex;
@@ -88,6 +103,7 @@
             gap: 8px;
             flex-shrink: 0;
         }
+
         .header-link {
             font-size: 9px;
             color: var(--gold);
@@ -105,18 +121,21 @@
             font-weight: 500;
             letter-spacing: 0.03em;
         }
+
         .header-link:hover,
         .header-link:focus-visible {
             background: var(--gold-dim);
             border-color: var(--gold);
             outline: none;
         }
+
         .header-link svg {
             width: 11px;
             height: 11px;
             fill: var(--gold);
             flex-shrink: 0;
         }
+
         .header-status {
             font-size: 9px;
             color: var(--green);
@@ -127,6 +146,7 @@
             letter-spacing: 0.06em;
             text-transform: uppercase;
         }
+
         .header-status::before {
             content: '';
             width: 6px;
@@ -135,10 +155,19 @@
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
         }
+
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
         }
+
         .chat {
             flex: 1;
             overflow-y: auto;
@@ -148,9 +177,20 @@
             gap: 8px;
             scroll-behavior: smooth;
         }
-        .chat::-webkit-scrollbar { width: 3px; }
-        .chat::-webkit-scrollbar-track { background: transparent; }
-        .chat::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .chat::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .chat::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
         .msg {
             max-width: 88%;
             padding: 10px 14px;
@@ -160,28 +200,44 @@
             animation: fadeIn .3s ease;
             font-weight: 300;
         }
+
         .msg.bot:has(.result-card),
         .msg.bot:has(.consultoria-block) {
             max-width: 94%;
             padding: 8px 10px;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: none; }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
         }
+
         .msg.bot {
             align-self: flex-start;
             background: var(--bot);
             border: 1px solid var(--border);
             border-bottom-left-radius: 4px;
         }
+
         .msg.user {
             align-self: flex-end;
             background: var(--user);
             border: 1px solid var(--border-gold);
             border-bottom-right-radius: 4px;
         }
-        .msg strong { color: var(--gold); font-weight: 600; }
+
+        .msg strong {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
         .user-photo {
             max-width: 150px;
             border-radius: 12px;
@@ -191,7 +247,11 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-        .user-photo:hover { transform: scale(1.02); }
+
+        .user-photo:hover {
+            transform: scale(1.02);
+        }
+
         .result-card {
             margin-top: 10px;
             background: var(--surface2);
@@ -201,10 +261,12 @@
             transition: border-color 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
+
         .result-card:hover {
             border-color: rgba(201, 169, 110, 0.35);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
         }
+
         .result-hero {
             position: relative;
             width: 100%;
@@ -216,6 +278,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .result-hero img {
             width: 100%;
             height: 100%;
@@ -226,17 +289,22 @@
             cursor: pointer;
             background: var(--surface2);
         }
-        .result-card:hover .result-hero img { transform: scale(1.04); }
+
+        .result-card:hover .result-hero img {
+            transform: scale(1.04);
+        }
+
         .result-hero-overlay {
             position: absolute;
             inset: 0;
             background: linear-gradient(to bottom,
-                rgba(10, 8, 8, 0) 45%,
-                rgba(10, 8, 8, 0.30) 70%,
-                rgba(10, 8, 8, 0.85) 100%);
+                    rgba(10, 8, 8, 0) 45%,
+                    rgba(10, 8, 8, 0.30) 70%,
+                    rgba(10, 8, 8, 0.85) 100%);
             pointer-events: none;
             z-index: 1;
         }
+
         .result-hero-info {
             position: absolute;
             bottom: 12px;
@@ -245,6 +313,7 @@
             z-index: 2;
             text-align: left;
         }
+
         .result-hero-info .badge {
             display: inline-block;
             font-size: 8px;
@@ -259,6 +328,7 @@
             margin-bottom: 4px;
             font-weight: 600;
         }
+
         .result-hero-info h3 {
             font-family: 'Playfair Display', serif;
             font-style: italic;
@@ -269,6 +339,7 @@
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
             margin: 0;
         }
+
         .result-hero-info .subtitle {
             font-size: 0.65rem;
             color: var(--text-sec);
@@ -277,9 +348,11 @@
             margin-top: 2px;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
         }
+
         .result-body {
             padding: 10px 12px;
         }
+
         .result-body p {
             font-size: 11px;
             color: var(--muted);
@@ -287,11 +360,13 @@
             font-weight: 300;
             margin-bottom: 10px;
         }
+
         .result-actions {
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
+
         .result-actions a {
             display: flex;
             align-items: center;
@@ -307,27 +382,35 @@
             width: 100%;
             letter-spacing: 0.02em;
         }
+
         .result-actions a.btn-ml {
             background: var(--gold);
             color: #0a0808;
             border: none;
         }
+
         .result-actions a.btn-ml:hover {
             background: var(--gold-light);
             transform: translateY(-1px);
         }
+
         .result-actions a.btn-vitrine {
             background: var(--surface2);
             border: 1px solid var(--gold);
             color: var(--gold);
             font-weight: 600;
         }
+
         .result-actions a.btn-vitrine:hover {
             background: var(--gold);
             color: #0a0808;
             border-color: var(--gold);
         }
-        .consultoria-block { margin-top: 4px; }
+
+        .consultoria-block {
+            margin-top: 4px;
+        }
+
         .consultoria-title {
             font-family: 'Playfair Display', serif;
             font-style: italic;
@@ -336,7 +419,11 @@
             margin: 14px 0 6px 0;
             letter-spacing: 0.01em;
         }
-        .consultoria-title:first-child { margin-top: 4px; }
+
+        .consultoria-title:first-child {
+            margin-top: 4px;
+        }
+
         .alt-scroll {
             display: flex;
             gap: 6px;
@@ -345,7 +432,11 @@
             -webkit-overflow-scrolling: touch;
             scroll-snap-type: x mandatory;
         }
-        .alt-scroll::-webkit-scrollbar { display: none; }
+
+        .alt-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
         .alt-item {
             min-width: 70px;
             max-width: 80px;
@@ -361,10 +452,12 @@
             cursor: pointer;
             text-decoration: none;
         }
+
         .alt-item:hover {
             border-color: rgba(201, 169, 110, 0.35);
             transform: translateY(-2px);
         }
+
         .alt-item-img {
             width: 100%;
             height: 60px;
@@ -375,7 +468,11 @@
             cursor: pointer;
             transition: transform 0.3s;
         }
-        .alt-item-img:hover { transform: scale(1.05); }
+
+        .alt-item-img:hover {
+            transform: scale(1.05);
+        }
+
         .alt-item span {
             display: block;
             font-size: 8.5px;
@@ -390,6 +487,7 @@
             font-style: italic;
             pointer-events: none;
         }
+
         .mini-product {
             display: flex;
             flex-direction: column;
@@ -403,15 +501,18 @@
             text-decoration: none;
             cursor: pointer;
         }
+
         .mini-product:hover {
             border-color: rgba(201, 169, 110, 0.3);
             transform: translateY(-1px);
         }
+
         .mini-product-row {
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         .mini-product-img {
             width: 38px;
             height: 38px;
@@ -424,8 +525,15 @@
             cursor: pointer;
             transition: transform 0.3s;
         }
-        .mini-product-img:hover { transform: scale(1.08); }
-        .mini-product-info { flex: 1; }
+
+        .mini-product-img:hover {
+            transform: scale(1.08);
+        }
+
+        .mini-product-info {
+            flex: 1;
+        }
+
         .mini-product-info h4 {
             font-size: 10.5px;
             color: var(--text);
@@ -433,6 +541,7 @@
             margin-bottom: 1px;
             font-family: 'Inter', sans-serif;
         }
+
         .mini-product-info p {
             font-size: 9px;
             color: var(--muted);
@@ -440,12 +549,14 @@
             line-height: 1.3;
             font-weight: 300;
         }
+
         .mini-product-actions {
             display: flex;
             gap: 5px;
             margin-top: 6px;
             flex-wrap: wrap;
         }
+
         .mini-product-actions a {
             font-size: 9px;
             padding: 4px 12px;
@@ -459,24 +570,29 @@
             flex: 1;
             min-width: 70px;
         }
+
         .mini-product-actions a.btn-ml-mini {
             background: var(--gold);
             color: #0a0808;
             border: none;
         }
+
         .mini-product-actions a.btn-ml-mini:hover {
             background: var(--gold-light);
             transform: translateY(-1px);
         }
+
         .mini-product-actions a.btn-vitrine-mini {
             background: var(--surface2);
             border: 1px solid var(--gold);
             color: var(--gold);
         }
+
         .mini-product-actions a.btn-vitrine-mini:hover {
             background: var(--gold);
             color: #0a0808;
         }
+
         .refazer-link {
             display: block;
             text-align: center;
@@ -490,7 +606,11 @@
             opacity: 0.85;
             transition: opacity 0.2s;
         }
-        .refazer-link:hover { opacity: 1; }
+
+        .refazer-link:hover {
+            opacity: 1;
+        }
+
         .quick {
             flex-shrink: 0;
             padding: 6px 12px 4px;
@@ -502,7 +622,11 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        .quick::-webkit-scrollbar { display: none; }
+
+        .quick::-webkit-scrollbar {
+            display: none;
+        }
+
         .quick button {
             flex-shrink: 0;
             padding: 5px 12px;
@@ -518,18 +642,21 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: 0.04em;
         }
+
         .quick button:active,
         .quick button:hover {
             border-color: var(--gold);
             color: var(--gold);
             background: var(--gold-dim);
         }
+
         .options {
             display: flex;
             flex-direction: column;
             gap: 5px;
             margin-top: 6px;
         }
+
         .options button {
             text-align: left;
             padding: 8px 12px;
@@ -543,12 +670,14 @@
             transition: all 0.2s;
             font-family: 'Inter', sans-serif;
         }
+
         .options button:active,
         .options button:hover {
             border-color: var(--gold);
             background: var(--gold-dim);
             color: var(--gold);
         }
+
         .options button:disabled {
             opacity: 0.3;
             cursor: not-allowed;
@@ -556,6 +685,7 @@
             background: transparent;
             color: var(--muted);
         }
+
         .composer {
             flex-shrink: 0;
             padding: 6px 10px 10px;
@@ -565,6 +695,7 @@
             gap: 5px;
             align-items: flex-end;
         }
+
         .icon-btn {
             width: 34px;
             height: 34px;
@@ -580,10 +711,12 @@
             justify-content: center;
             transition: all 0.2s;
         }
+
         .icon-btn:active {
             background: var(--gold-dim);
             transform: scale(0.95);
         }
+
         .composer textarea {
             flex: 1;
             resize: none;
@@ -599,11 +732,16 @@
             outline: none;
             transition: border 0.2s;
         }
-        .composer textarea:focus { border-color: var(--gold); }
+
+        .composer textarea:focus {
+            border-color: var(--gold);
+        }
+
         .composer textarea::placeholder {
             color: var(--muted);
             opacity: 0.4;
         }
+
         .composer button.send {
             width: 34px;
             height: 34px;
@@ -617,16 +755,22 @@
             flex-shrink: 0;
             transition: all 0.2s;
         }
+
         .composer button.send:hover {
             background: var(--gold-light);
             transform: scale(1.03);
         }
-        .composer button.send:active { transform: scale(0.95); }
+
+        .composer button.send:active {
+            transform: scale(0.95);
+        }
+
         .typing-indicator {
             display: inline-flex;
             gap: 4px;
             padding: 4px 0;
         }
+
         .typing-indicator span {
             width: 6px;
             height: 6px;
@@ -634,12 +778,30 @@
             background: var(--muted);
             animation: typingBounce 1.4s ease-in-out infinite;
         }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
-            30% { transform: translateY(-6px); opacity: 1; }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
         }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+
+            30% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
         .chat-loading {
             position: fixed;
             inset: 0;
@@ -652,11 +814,13 @@
             color: var(--text);
             transition: opacity .7s cubic-bezier(.23, 1, .32, 1), visibility .7s ease;
         }
+
         .chat-loading.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+
         .chat-loading .loading-logo {
             font: italic 700 clamp(2.5rem, 8vw, 3.4rem)/1 'Playfair Display', serif;
             letter-spacing: -.02em;
@@ -664,11 +828,13 @@
             transform: translateY(16px) scale(.97);
             animation: chatLoadingIn .7s cubic-bezier(.23, 1, .32, 1) forwards;
         }
+
         .chat-loading .loading-logo span,
         .chat-loading .loading-logo b {
             color: var(--gold);
             text-shadow: 0 0 60px var(--gold-dim);
         }
+
         .chat-loading .loading-track {
             width: min(210px, 64vw);
             height: 3px;
@@ -677,6 +843,7 @@
             border-radius: 99px;
             background: var(--border);
         }
+
         .chat-loading .loading-fill {
             width: 0%;
             height: 100%;
@@ -685,6 +852,7 @@
             box-shadow: 0 0 18px var(--gold-dim);
             transition: width .28s cubic-bezier(.23, 1, .32, 1);
         }
+
         .chat-loading p {
             margin-top: 16px;
             color: var(--muted);
@@ -693,6 +861,7 @@
             text-align: center;
             text-transform: uppercase;
         }
+
         .chat-loading .loading-percent {
             margin-top: 6px;
             color: var(--gold);
@@ -700,10 +869,19 @@
             letter-spacing: .04em;
             opacity: .75;
         }
+
         @keyframes chatLoadingIn {
-            from { opacity: 0; transform: translateY(16px) scale(.97); }
-            to { opacity: 1; transform: none; }
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
         }
+
         .image-modal {
             display: none;
             position: fixed;
@@ -716,7 +894,11 @@
             padding: 20px;
             cursor: zoom-out;
         }
-        .image-modal.active { display: flex; }
+
+        .image-modal.active {
+            display: flex;
+        }
+
         .image-modal img {
             max-width: 90vw;
             max-height: 85vh;
@@ -726,6 +908,7 @@
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
             cursor: default;
         }
+
         .image-modal .close-modal {
             position: absolute;
             top: 20px;
@@ -743,10 +926,12 @@
             justify-content: center;
             transition: all 0.3s;
         }
+
         .image-modal .close-modal:hover {
             background: var(--gold-dim);
             border-color: var(--gold);
         }
+
         .image-modal .modal-actions {
             position: absolute;
             bottom: 40px;
@@ -755,6 +940,7 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .image-modal .modal-actions a {
             padding: 8px 24px;
             border-radius: 100px;
@@ -765,24 +951,29 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: 0.03em;
         }
+
         .image-modal .modal-actions .btn-vitrine-modal {
             background: var(--surface2);
             border: 1px solid var(--gold);
             color: var(--gold);
         }
+
         .image-modal .modal-actions .btn-vitrine-modal:hover {
             background: var(--gold);
             color: #0a0808;
         }
+
         .image-modal .modal-actions .btn-ml-modal {
             background: var(--gold);
             color: #0a0808;
             border: none;
         }
+
         .image-modal .modal-actions .btn-ml-modal:hover {
             background: var(--gold-light);
             transform: translateY(-1px);
         }
+
         .image-modal .modal-title {
             position: absolute;
             top: 80px;
@@ -793,35 +984,73 @@
             text-align: center;
             max-width: 80%;
         }
+
         .compare-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-top: 8px;
         }
+
         .compare-grid .result-card {
             margin-top: 0;
         }
+
         .compare-grid .result-hero {
             max-height: 140px;
         }
+
         @media (max-width: 480px) {
-            .header-info h1 { font-size: 13px; }
-            .header-info p { font-size: 9px; }
-            .msg { font-size: 12px; padding: 8px 12px; }
-            .quick button { font-size: 9px; padding: 4px 10px; }
-            .composer textarea { font-size: 12px; padding: 5px 10px; }
-            .result-hero { max-height: 160px; }
-            .image-modal .modal-title { font-size: 0.9rem; top: 70px; }
-            .image-modal .modal-actions a { font-size: 0.7rem; padding: 6px 16px; }
-            .compare-grid { grid-template-columns: 1fr; }
+            .header-info h1 {
+                font-size: 13px;
+            }
+
+            .header-info p {
+                font-size: 9px;
+            }
+
+            .msg {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .quick button {
+                font-size: 9px;
+                padding: 4px 10px;
+            }
+
+            .composer textarea {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+
+            .result-hero {
+                max-height: 160px;
+            }
+
+            .image-modal .modal-title {
+                font-size: 0.9rem;
+                top: 70px;
+            }
+
+            .image-modal .modal-actions a {
+                font-size: 0.7rem;
+                padding: 6px 16px;
+            }
+
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="chat-loading" id="chatLoading">
         <div class="loading-logo">Hair<span>OS</span><b>.</b></div>
-        <div class="loading-track"><div class="loading-fill" id="chatLoadingFill"></div></div>
+        <div class="loading-track">
+            <div class="loading-fill" id="chatLoadingFill"></div>
+        </div>
         <p id="chatLoadingText">Preparando sua conversa</p>
         <span class="loading-percent" id="chatLoadingPercent">0%</span>
     </div>
@@ -846,7 +1075,7 @@
             <div class="header-actions">
                 <a href="index.html" class="header-link" aria-label="Voltar para a vitrine">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                     </svg>
                     <span>Vitrine</span>
                 </a>
@@ -860,6 +1089,7 @@
             <button data-action="quiz-corte">Cortes</button>
             <button data-action="quiz-cor">Cores</button>
             <button data-action="quiz-produto">Produtos</button>
+            <button data-action="quiz-ferramentas">Ferramentas</button>
             <button data-action="quiz-kit">Kits</button>
             <button data-action="duvidas">Dúvidas</button>
             <button data-action="diagnostico">Diagnóstico</button>
@@ -875,10 +1105,11 @@
 
     <script src="data.js"></script>
     <script>
+
         // ============================================================
         // HAIR·OS ASSISTENTE — CHAT COMPLETO
-        // 100% baseado no data.js (75 estilos + ferramentas)
-        // Inclui: Curtain Bang, links reais dos kits
+        // 100% baseado no data.js (76 estilos + ferramentas)
+        // Inclui: Curtain Bang + Quiz de Ferramentas
         // ============================================================
 
         var VITRINE_URL = 'index.html';
@@ -908,12 +1139,10 @@
         }
 
         // ============================================================
-        // FUNÇÃO GETMLLINK — LINKS AFILIADOS (coloracaoKits / cuidadosKits)
+        // FUNÇÃO GETMLLINK — LINKS AFILIADOS (+ ferramentas)
         // ============================================================
         function getMlLink(item) {
             if (!item) return ML_SEARCH;
-
-            // Link direto no item (se existir)
             if (item.link) return item.link;
 
             var haystack = (
@@ -930,11 +1159,9 @@
                     var kit = source.kits[i];
                     if (!kit || !kit.link) continue;
                     var nome = (kit.nome || '').toLowerCase().replace(/^kit\s+/, '');
-                    // tokens da marca (ex.: kerastase, joico, expert, keune, l'oréal)
                     var tokens = nome.split(/\s+/).filter(function (t) { return t.length > 2; });
                     for (var t = 0; t < tokens.length; t++) {
                         var tok = tokens[t];
-                        // normaliza acentos simples para casar kérastase/kerastase
                         var tokPlain = tok.normalize ? tok.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : tok;
                         var hayPlain = haystack.normalize ? haystack.normalize('NFD').replace(/[\u0300-\u036f]/g, '') : haystack;
                         if (haystack.indexOf(tok) !== -1 || hayPlain.indexOf(tokPlain) !== -1) {
@@ -945,23 +1172,21 @@
                 return null;
             }
 
-            // Cuidados primeiro (produtos / kits), depois coloração
             var link = null;
             if (typeof cuidadosKits !== 'undefined') link = matchKits(cuidadosKits);
             if (!link && typeof coloracaoKits !== 'undefined') link = matchKits(coloracaoKits);
 
-            // Fallbacks explícitos por marca (mesmos links do data.js)
             if (!link) {
                 if (/kerastase|kérastase/.test(haystack)) link = 'https://meli.la/1MwSY7v';
                 else if (/joico/.test(haystack)) link = 'https://meli.la/2x9xqBe';
                 else if (/expert|l['']oréal|loreal|vitamino|absolut|metal.?detox/.test(haystack)) link = 'https://meli.la/2nmeunk';
                 else if (/keune/.test(haystack)) link = 'https://meli.la/1GbiW7M';
                 else if (/inoa|dia.?color|coloração técnica|coloracao tecnica/.test(haystack)) link = 'https://meli.la/28LpPj2';
+                else if (/ferramenta|secador|prancha|babyliss|escova|tesoura|navalha|máquina|maquina|difusor|pente|pincel|capa|massageador|luva|touca/.test(haystack)) link = 'https://meli.la/1GbiW7M';
             }
 
             if (link) return link;
 
-            // Genérico: busca no ML pelo nome do item
             var q = getItemName(item) || item.title || '';
             return ML_SEARCH + encodeURIComponent(q);
         }
@@ -1001,12 +1226,12 @@
         }
 
         // ============================================================
-        // MOTOR DE RECOMENDAÇÃO — CURTAIN BANG + SOFT LAYERS
+        // MOTOR DE RECOMENDAÇÃO — COM FERRAMENTAS
         // ============================================================
         var MotorRecomendacao = {
             poolsCorte: {
-                curto: ['pixie-cut', 'bixie-cut', 'french-bob', 'modern-mullet', 'curtain-bang'],
-                medio: ['long-bob', 'italian-bob', 'blunt-cut', 'wolf-cut', 'shaggy-hair', 'clavicut', 'velvet-bob', 'soft-layers'],
+                curto: ['pixie-cut', 'bixie-cut', 'french-bob', 'modern-mullet'],
+                medio: ['long-bob', 'italian-bob', 'blunt-cut', 'wolf-cut', 'shaggy-hair', 'clavicut', 'velvet-bob', 'curtain-bang'],
                 longo: ['butterfly-cut', 'hush-cut', 'octopus-cut', 'clavicut', 'soft-layers']
             },
             texturaCorte: {
@@ -1053,7 +1278,7 @@
                 }
                 var listaEstilo = estilo === 'classico' ? this.estiloClassico
                     : estilo === 'alternativo' ? this.estiloAlternativo
-                    : this.estiloModerno;
+                        : this.estiloModerno;
                 var porEstilo = pool.filter(function (id) { return listaEstilo.indexOf(id) !== -1; });
                 if (porEstilo.length) pool = porEstilo;
                 if (!pool.length) {
@@ -1116,6 +1341,31 @@
                 if (queixa === 'metal' || queixa === 'pre_color') return 'expert-metal-detox';
                 if (queixa === 'seco') return 'joico-moisture-shampoo';
                 return 'kerastase-resistance-shampoo';
+            },
+
+            // NOVO: resolver ferramenta
+            resolverFerramenta: function (necessidade, textura) {
+                necessidade = necessidade || 'secagem';
+                textura = textura || 'liso';
+
+                if (necessidade === 'secagem') return 'secador-ionico-pro';
+                if (necessidade === 'alisamento') return 'prancha-titanium';
+                if (necessidade === 'ondas') return 'modelador-ondas';
+                if (necessidade === 'cachos') {
+                    return textura === 'cacheado' ? 'difusor-universal' : 'babyliss-ceramica';
+                }
+                if (necessidade === 'volume') return 'escova-rotativa';
+                if (necessidade === 'corte') return 'tesoura-profissional';
+                if (necessidade === 'degrade') return 'maquina-corte';
+                if (necessidade === 'desembaracar') return 'escova-paddle';
+                if (necessidade === 'acabamento') return 'escova-termica-alisadora';
+                if (necessidade === 'coloracao') return 'escova-cerdas-naturais';
+                if (necessidade === 'protecao') return 'touca-termica';
+                if (necessidade === 'relaxamento') return 'massageador-capilar';
+                if (necessidade === 'antiestatico') return 'escova-madeira';
+                if (necessidade === 'modelagem') return 'escova-ceramica';
+
+                return 'secador-ionico-pro';
             },
 
             resolverKit: function (foco, queixa) {
@@ -1451,8 +1701,8 @@
                 var prioridade = a[1] || 'hidro';
                 if (queixa === 'quimica' || queixa === 'danificado') {
                     return prioridade === 'cor' ? 'kit-expert-vitamino-color' :
-                           prioridade === 'hidro' ? 'kit-joico-moisture' :
-                           'kit-expert-absolut-repair';
+                        prioridade === 'hidro' ? 'kit-joico-moisture' :
+                            'kit-expert-absolut-repair';
                 }
                 if (queixa === 'seco') {
                     return prioridade === 'cor' ? 'kit-expert-vitamino-color' : 'kit-joico-moisture';
@@ -1499,7 +1749,7 @@
         }
 
         // ============================================================
-        // QUIZZES
+        // QUIZZES (5 incluindo Ferramentas)
         // ============================================================
         var QUIZZES = {
             corte: {
@@ -1610,6 +1860,36 @@
                 categoria: 'produto',
                 label: 'Produto sugerido'
             },
+            ferramentas: {
+                titulo: 'Quiz de Ferramentas',
+                perguntas: [
+                    {
+                        q: 'Para que você precisa da ferramenta?',
+                        opcoes: [
+                            { t: 'Secagem rápida e sem frizz', v: 'secagem' },
+                            { t: 'Alisamento perfeito', v: 'alisamento' },
+                            { t: 'Ondas naturais e regulares', v: 'ondas' },
+                            { t: 'Definir cachos', v: 'cachos' },
+                            { t: 'Volume e modelagem', v: 'volume' },
+                            { t: 'Corte de precisão', v: 'corte' },
+                            { t: 'Degradê e aparo', v: 'degrade' },
+                            { t: 'Desembaraçar cabelos longos', v: 'desembaracar' },
+                            { t: 'Acabamento com brilho', v: 'acabamento' }
+                        ]
+                    },
+                    {
+                        q: 'Como é a textura predominante?',
+                        opcoes: [
+                            { t: 'Liso', v: 'liso' },
+                            { t: 'Ondulado', v: 'ondulado' },
+                            { t: 'Cacheado', v: 'cacheado' }
+                        ]
+                    }
+                ],
+                resolver: function (a) { return MotorRecomendacao.resolverFerramenta(a[0], a[1]); },
+                categoria: 'ferramentas',
+                label: 'Ferramenta sugerida'
+            },
             kit: {
                 titulo: 'Quiz de Kit',
                 perguntas: [
@@ -1643,7 +1923,7 @@
         };
 
         // ============================================================
-        // DÚVIDAS
+        // DÚVIDAS (12 incluindo ferramentas)
         // ============================================================
         var DUVIDAS = [
             {
@@ -1676,7 +1956,7 @@
             },
             {
                 q: 'Cabelo cacheado: qual corte e produto?',
-                a: 'O <strong>Wolf Cut</strong>, <strong>Shaggy Hair</strong> e <strong>Octopus Cut</strong> são ótimos para cachos. Use <strong>Joico Moisture Mask</strong> para hidratação.'
+                a: 'O <strong>Wolf Cut</strong>, <strong>Shaggy Hair</strong> e <strong>Octopus Cut</strong> são ótimos para cachos. Use <strong>Joico Moisture Mask</strong> para hidratação e o <strong>Difusor Universal</strong> para finalizar.'
             },
             {
                 q: 'Como manter o brilho do cabelo?',
@@ -1689,6 +1969,10 @@
             {
                 q: 'O que é "Curtain Bang"?',
                 a: 'É uma <strong>franja cortininha</strong> dividida ao meio que emoldura o rosto suavemente. Versátil, de baixa manutenção e combina com qualquer comprimento. Está no catálogo de cortes.'
+            },
+            {
+                q: 'Qual ferramenta usar para cachos?',
+                a: 'O <strong>Difusor Universal</strong> é ideal para preservar a definição dos cachos sem frizz. Já o <strong>Babyliss Cerâmica</strong> cria cachos definidos. Ambos no catálogo de ferramentas.'
             }
         ];
 
@@ -1728,7 +2012,7 @@
             var html = '<div class="consultoria-block">';
             html += gerarResultadoCompleto(item, label, categoria);
 
-            if (categoria === 'produto' || categoria === 'kit') {
+            if (categoria === 'produto' || categoria === 'kit' || categoria === 'ferramentas') {
                 html += gerarProdutosEKit();
             }
 
@@ -1753,7 +2037,7 @@
                 html += '<button type="button" data-action="doubt-' + i + '">' + escapeHtml(d.q) + '</button>';
             });
             html += '</div>';
-            addMsg('Qual sua dúvida? (11 perguntas baseadas no catálogo)', 'bot', html);
+            addMsg('Qual sua dúvida? (' + DUVIDAS.length + ' perguntas baseadas no catálogo)', 'bot', html);
         }
 
         function resetAll() {
@@ -1772,12 +2056,22 @@
                 var corteItem = analise.sugestaoCorte ? styleData[analise.sugestaoCorte] : null;
                 var corItem = analise.sugestaoCor ? styleData[analise.sugestaoCor] : null;
 
+                var ferramentaId = MotorRecomendacao.resolverFerramenta(
+                    analise.textura === 'cacheado' ? 'cachos' : 'secagem',
+                    analise.textura
+                );
+                var ferramentaItem = ferramentaId ? styleData[ferramentaId] : null;
+
                 if (corteItem) {
                     html += gerarResultadoCompleto(corteItem, 'Corte sugerido', 'corte');
                     tem = true;
                 }
                 if (corItem) {
                     html += gerarResultadoCompleto(corItem, 'Cor sugerida', 'coloracao');
+                    tem = true;
+                }
+                if (ferramentaItem) {
+                    html += gerarResultadoCompleto(ferramentaItem, 'Ferramenta sugerida', 'ferramentas');
                     tem = true;
                 }
                 if (tem) html += gerarProdutosEKit();
@@ -1799,6 +2093,7 @@
             if (action === 'quiz-corte') return startQuiz('corte');
             if (action === 'quiz-cor') return startQuiz('cor');
             if (action === 'quiz-produto') return startQuiz('produto');
+            if (action === 'quiz-ferramentas') return startQuiz('ferramentas');
             if (action === 'quiz-kit') return startQuiz('kit');
             if (action === 'duvidas') return showDuvidasMenu();
             if (action === 'diagnostico') return startDiagnostico();
@@ -1929,7 +2224,7 @@
                     'Comandos disponíveis:<br>' +
                     '<strong>/reset</strong> — reiniciar conversa<br>' +
                     '<strong>/ajuda</strong> — esta mensagem<br><br>' +
-                    'Use os botões <strong>Cortes, Cores, Produtos, Kits, Diagnóstico</strong> ou <strong>Dúvidas</strong>.',
+                    'Use os botões <strong>Cortes, Cores, Produtos, Ferramentas, Kits, Diagnóstico</strong> ou <strong>Dúvidas</strong>.',
                     'bot'
                 );
                 return;
@@ -1938,8 +2233,9 @@
             showTyping();
             setTimeout(function () {
                 removeTyping();
-                if (/corte|cabelo curto|bob|pixie|camadas|curtain|franja/.test(lower)) startQuiz('corte');
+                if (/corte|cabelo curto|bob|pixie|camadas|curtain|franja|soft layers|hush/.test(lower)) startQuiz('corte');
                 else if (/cor\b|mecha|luzes|loiro|ruivo|grisalh|coloraç|colorac/.test(lower)) startQuiz('cor');
+                else if (/ferramenta|secador|prancha|babyliss|escova|tesoura|navalha|máquina|maquina|difusor|pente|pincel|capa|massageador|luva|touca/.test(lower)) startQuiz('ferramentas');
                 else if (/produto|shampoo|máscara|mascara|condicionador/.test(lower)) startQuiz('produto');
                 else if (/\bkit\b/.test(lower)) startQuiz('kit');
                 else if (/d[uú]vida|ajuda|como|o que/.test(lower)) showDuvidasMenu();
@@ -1953,7 +2249,7 @@
                         html += '<div class="consultoria-title">🔍 Encontrei ' + results.length + ' resultados para "' + escapeHtml(text) + '"</div>';
                         results.slice(0, 3).forEach(function (item) {
                             var cat = item.categoria || 'estilo';
-                            var label = cat === 'corte' ? 'Corte' : cat === 'coloracao' ? 'Cor' : cat === 'kit' ? 'Kit' : 'Produto';
+                            var label = cat === 'corte' ? 'Corte' : cat === 'coloracao' ? 'Cor' : cat === 'kit' ? 'Kit' : cat === 'ferramentas' ? 'Ferramenta' : 'Produto';
                             html += buildMainCard(item, label);
                         });
                         if (results.length > 3) {
@@ -1963,7 +2259,7 @@
                         addMsg('Busca:', 'bot', html);
                     } else {
                         addMsg(
-                            'Use os quizzes (<strong>Corte, Cor, Produto ou Kit</strong>), <strong>Diagnóstico</strong> (recomenda kit), ' +
+                            'Use os quizzes (<strong>Corte, Cor, Produto, Ferramentas ou Kit</strong>), <strong>Diagnóstico</strong> (recomenda kit), ' +
                             'ou busque por palavras-chave.<br><br>' +
                             'Comandos: /reset, /ajuda',
                             'bot'
@@ -1984,7 +2280,7 @@
             if (!overlay) return;
             var steps = [
                 [20, 'Preparando sua conversa'],
-                [40, 'Carregando 75 estilos'],
+                [40, 'Carregando 76 estilos'],
                 [60, 'Conectando quizzes'],
                 [80, 'Diagnóstico e busca prontos'],
                 [100, 'Assistente pronto']
@@ -2019,6 +2315,7 @@
                 '• <strong>Cortes</strong> — quiz para encontrar o corte ideal (inclui <strong>Curtain Bang</strong>)<br>' +
                 '• <strong>Cores</strong> — quiz para escolher a cor perfeita<br>' +
                 '• <strong>Produtos</strong> — quiz para recomendar um produto específico<br>' +
+                '• <strong>Ferramentas</strong> — quiz para escolher a ferramenta ideal<br>' +
                 '• <strong>Kits</strong> — quiz para recomendar um kit completo<br>' +
                 '• <strong>Diagnóstico</strong> — avaliação para recomendar um kit<br>' +
                 '• <strong>Dúvidas</strong> — perguntas frequentes sobre o catálogo<br><br>' +
@@ -2033,4 +2330,5 @@
         });
     </script>
 </body>
+
 </html>
