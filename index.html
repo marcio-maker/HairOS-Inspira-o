@@ -100,6 +100,27 @@
       margin: 0 auto;
     }
 
+    /* Scrollbars transparentes / quase invisíveis em todo o app */
+    * {
+      scrollbar-width: none;
+      scrollbar-color: transparent transparent;
+    }
+    *::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+      background: transparent;
+    }
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    *::-webkit-scrollbar-thumb {
+      background: transparent;
+      border: none;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background: transparent;
+    }
+
     .icon-svg {
       display: inline-flex;
       align-items: center;
@@ -601,12 +622,12 @@
     }
 
     .menu-panel::-webkit-scrollbar {
-      width: 3px;
+      width: 0;
+      background: transparent;
     }
 
     .menu-panel::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 4px;
+      background: transparent;
     }
 
     .menu-header {
@@ -1097,7 +1118,8 @@
     }
 
     .modal-overlay::-webkit-scrollbar {
-      width: 4px;
+      width: 0;
+      background: transparent;
     }
 
     .modal-overlay::-webkit-scrollbar-track {
@@ -1105,8 +1127,7 @@
     }
 
     .modal-overlay::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 10px;
+      background: transparent;
     }
 
     .modal-card {
@@ -1610,13 +1631,14 @@
       overflow-y: auto;
       padding-right: 10px;
       margin-right: 0;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(201, 169, 110, .7) transparent;
+      scrollbar-width: none;
+      scrollbar-color: transparent transparent;
       overscroll-behavior: contain;
     }
 
     .sheet-scroll::-webkit-scrollbar {
-      width: 3px;
+      width: 0;
+      background: transparent;
     }
 
     .sheet-scroll::-webkit-scrollbar-track {
@@ -1624,8 +1646,7 @@
     }
 
     .sheet-scroll::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 10px;
+      background: transparent;
     }
 
     .sheet-header {
@@ -4696,12 +4717,13 @@
       overflow-x: auto;
       padding: 2px 0 7px;
       margin: 0 0 2px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(201, 169, 110, .55) transparent;
+      scrollbar-width: none;
+      scrollbar-color: transparent transparent;
     }
 
     .kit-itens-carousel::-webkit-scrollbar {
-      height: 3px;
+      height: 0;
+      background: transparent;
     }
 
     .kit-itens-carousel::-webkit-scrollbar-track {
@@ -4709,8 +4731,7 @@
     }
 
     .kit-itens-carousel::-webkit-scrollbar-thumb {
-      background: rgba(201, 169, 110, .55);
-      border-radius: 10px;
+      background: transparent;
     }
 
     .kit-item-badge {
@@ -6577,7 +6598,6 @@
           if (e.target.closest('.fav-remove')) return;
           if (e.target.closest('.ba-handle')) return;
           if (e.target.closest('.ba-labels')) return;
-          // Fotos do usuário (antes/depois) abrem o comparador; estilos do catálogo abrem o modal normal
           if (isBeforeAfter || key.startsWith('user_')) {
             openBaModal(key);
           } else {
