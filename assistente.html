@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -18,15 +18,19 @@
             --gold: #c9a96e;
             --gold-dim: rgba(201, 169, 110, 0.15);
             --gold-light: #e8d5a8;
+            --gold-glow: rgba(201, 169, 110, .12);
             --text: #f0ebe4;
             --text-sec: #d4c9bc;
             --muted: #8a8278;
-            --border: rgba(255, 255, 255, 0.04);
-            --border-gold: rgba(201, 169, 110, 0.12);
+            --border: rgba(201, 169, 110, 0.08);
+            --border-soft: rgba(255, 255, 255, 0.04);
+            --border-gold: rgba(201, 169, 110, 0.25);
             --user: #1a1612;
             --bot: #12100e;
             --green: #3d9a6a;
             --radius: 16px;
+            --ease-luxury: cubic-bezier(.23, 1, .32, 1);
+            --focus-ring: 0 0 0 3px rgba(201, 169, 110, 0.5);
         }
 
         * {
@@ -44,6 +48,121 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ============================================================
+           LOADING — idêntico ao index.html
+           ============================================================ */
+        @keyframes logoZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes logoZoomOut {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(8);
+                opacity: 0;
+            }
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            animation: logoZoomIn 4.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            will-change: transform, opacity;
+        }
+
+        .loading-logo.zoom-out {
+            animation: logoZoomOut 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+
+        .loading-logo span {
+            color: var(--gold);
+            text-shadow: 0 0 60px var(--gold-glow);
+        }
+
+        .loading-logo .dot {
+            color: var(--gold);
+            font-size: 3rem;
+        }
+
+        .loading-bar {
+            margin-top: 28px;
+            width: min(210px, 64vw);
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: opacity 0.6s ease;
+        }
+
+        .loading-bar-inner {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .loading-text {
+            margin-top: 16px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.4;
+            transition: opacity 0.6s ease;
+        }
+
+        .loading-percent {
+            margin-top: 6px;
+            font-size: 0.65rem;
+            color: var(--gold);
+            font-weight: 400;
+            opacity: 0.6;
+            transition: opacity 0.6s ease;
+        }
+
+        /* ============================================================
+           APP
+           ============================================================ */
         .app-container {
             display: flex;
             flex-direction: column;
@@ -57,27 +176,43 @@
         .header {
             flex-shrink: 0;
             padding: 12px 16px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
+            background: rgba(18, 14, 12, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-gold);
             display: flex;
             align-items: center;
             gap: 12px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 16px;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            pointer-events: none;
         }
 
         .header-avatar {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--gold), #8b6914);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 17px;
             font-family: 'Playfair Display', serif;
             font-style: italic;
             color: #0a0808;
             font-weight: 700;
             flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(201, 169, 110, 0.25);
+            border: 1px solid rgba(232, 213, 168, 0.35);
         }
 
         .header-info h1 {
@@ -86,14 +221,16 @@
             font-size: 15px;
             font-weight: 600;
             color: var(--text);
+            letter-spacing: 0.01em;
         }
 
         .header-info p {
             font-size: 10px;
             color: var(--muted);
             font-weight: 300;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.08em;
             opacity: 0.6;
+            text-transform: uppercase;
         }
 
         .header-actions {
@@ -108,18 +245,19 @@
             font-size: 9px;
             color: var(--gold);
             text-decoration: none;
-            padding: 5px 11px;
+            padding: 5px 12px;
             border: 1px solid rgba(201, 169, 110, 0.25);
             border-radius: 100px;
             white-space: nowrap;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-luxury);
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             font-weight: 500;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .header-link:hover,
@@ -127,6 +265,7 @@
             background: var(--gold-dim);
             border-color: var(--gold);
             outline: none;
+            box-shadow: 0 0 14px rgba(201, 169, 110, 0.25);
         }
 
         .header-link svg {
@@ -143,7 +282,7 @@
             align-items: center;
             gap: 5px;
             font-weight: 500;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
@@ -154,6 +293,7 @@
             background: var(--green);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(61, 154, 106, 0.6);
         }
 
         @keyframes pulse {
@@ -161,20 +301,22 @@
             0%,
             100% {
                 opacity: 1;
+                transform: scale(1);
             }
 
             50% {
-                opacity: 0.3;
+                opacity: 0.4;
+                transform: scale(0.85);
             }
         }
 
         .chat {
             flex: 1;
             overflow-y: auto;
-            padding: 14px;
+            padding: 16px 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             scroll-behavior: smooth;
         }
 
@@ -187,17 +329,21 @@
         }
 
         .chat::-webkit-scrollbar-thumb {
-            background: var(--gold);
+            background: var(--gold-dim);
             border-radius: 10px;
+        }
+
+        .chat::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
         }
 
         .msg {
             max-width: 88%;
-            padding: 10px 14px;
+            padding: 11px 15px;
             border-radius: var(--radius);
             font-size: 13px;
-            line-height: 1.5;
-            animation: fadeIn .3s ease;
+            line-height: 1.55;
+            animation: fadeIn .35s var(--ease-luxury);
             font-weight: 300;
         }
 
@@ -263,8 +409,8 @@
         }
 
         .result-card:hover {
-            border-color: rgba(201, 169, 110, 0.35);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+            border-color: rgba(201, 169, 110, 0.45);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 20px rgba(201, 169, 110, 0.1);
         }
 
         .result-hero {
@@ -318,14 +464,14 @@
             display: inline-block;
             font-size: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             color: var(--gold);
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(8px);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 20px;
             border: 1px solid rgba(201, 169, 110, 0.25);
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             font-weight: 600;
         }
 
@@ -350,13 +496,13 @@
         }
 
         .result-body {
-            padding: 10px 12px;
+            padding: 11px 13px;
         }
 
         .result-body p {
             font-size: 11px;
             color: var(--muted);
-            line-height: 1.5;
+            line-height: 1.55;
             font-weight: 300;
             margin-bottom: 10px;
         }
@@ -364,7 +510,7 @@
         .result-actions {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
         .result-actions a {
@@ -372,15 +518,16 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            padding: 7px 10px;
+            padding: 8px 10px;
             font-size: 10px;
             font-weight: 600;
             border-radius: 10px;
             text-decoration: none;
-            transition: all 0.25s;
+            transition: all 0.25s var(--ease-luxury);
             font-family: 'Inter', sans-serif;
             width: 100%;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .result-actions a.btn-ml {
@@ -392,6 +539,7 @@
         .result-actions a.btn-ml:hover {
             background: var(--gold-light);
             transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(201, 169, 110, 0.25);
         }
 
         .result-actions a.btn-vitrine {
@@ -438,8 +586,8 @@
         }
 
         .alt-item {
-            min-width: 70px;
-            max-width: 80px;
+            min-width: 72px;
+            max-width: 82px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -454,13 +602,14 @@
         }
 
         .alt-item:hover {
-            border-color: rgba(201, 169, 110, 0.35);
+            border-color: rgba(201, 169, 110, 0.4);
             transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
         }
 
         .alt-item-img {
             width: 100%;
-            height: 60px;
+            height: 62px;
             object-fit: cover;
             object-position: center center;
             display: block;
@@ -505,6 +654,7 @@
         .mini-product:hover {
             border-color: rgba(201, 169, 110, 0.3);
             transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
 
         .mini-product-row {
@@ -514,8 +664,8 @@
         }
 
         .mini-product-img {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             object-fit: cover;
             object-position: center center;
@@ -546,7 +696,7 @@
             font-size: 9px;
             color: var(--muted);
             margin: 0;
-            line-height: 1.3;
+            line-height: 1.35;
             font-weight: 300;
         }
 
@@ -565,10 +715,11 @@
             font-weight: 600;
             transition: all 0.25s;
             font-family: 'Inter', sans-serif;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.04em;
             text-align: center;
             flex: 1;
             min-width: 70px;
+            text-transform: uppercase;
         }
 
         .mini-product-actions a.btn-ml-mini {
@@ -596,26 +747,28 @@
         .refazer-link {
             display: block;
             text-align: center;
-            margin-top: 12px;
+            margin-top: 14px;
             color: var(--gold);
             font-size: 10px;
             text-decoration: underline;
             cursor: pointer;
             font-weight: 500;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
             opacity: 0.85;
             transition: opacity 0.2s;
         }
 
         .refazer-link:hover {
             opacity: 1;
+            text-shadow: 0 0 10px rgba(201, 169, 110, 0.5);
         }
 
         .quick {
             flex-shrink: 0;
-            padding: 6px 12px 4px;
+            padding: 8px 12px 6px;
             display: flex;
-            gap: 5px;
+            gap: 6px;
             overflow-x: auto;
             border-top: 1px solid var(--border);
             background: var(--surface);
@@ -629,7 +782,7 @@
 
         .quick button {
             flex-shrink: 0;
-            padding: 5px 12px;
+            padding: 6px 13px;
             background: var(--surface2);
             border: 1px solid var(--border);
             color: var(--text);
@@ -638,9 +791,10 @@
             font-weight: 500;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-luxury);
             font-family: 'Inter', sans-serif;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .quick button:active,
@@ -648,18 +802,19 @@
             border-color: var(--gold);
             color: var(--gold);
             background: var(--gold-dim);
+            box-shadow: 0 0 14px rgba(201, 169, 110, 0.2);
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            margin-top: 6px;
+            gap: 6px;
+            margin-top: 8px;
         }
 
         .options button {
             text-align: left;
-            padding: 8px 12px;
+            padding: 10px 14px;
             background: var(--surface2);
             border: 1px solid var(--border);
             color: var(--text);
@@ -667,8 +822,9 @@
             font-size: 12px;
             font-weight: 400;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-luxury);
             font-family: 'Inter', sans-serif;
+            line-height: 1.4;
         }
 
         .options button:active,
@@ -676,6 +832,7 @@
             border-color: var(--gold);
             background: var(--gold-dim);
             color: var(--gold);
+            transform: translateX(2px);
         }
 
         .options button:disabled {
@@ -688,17 +845,17 @@
 
         .composer {
             flex-shrink: 0;
-            padding: 6px 10px 10px;
+            padding: 8px 12px 12px;
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: flex;
-            gap: 5px;
+            gap: 6px;
             align-items: flex-end;
         }
 
         .icon-btn {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid var(--border);
             background: var(--surface2);
@@ -709,7 +866,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-luxury);
+        }
+
+        .icon-btn:hover,
+        .icon-btn:focus-visible {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            box-shadow: 0 0 14px rgba(201, 169, 110, 0.25);
+            outline: none;
         }
 
         .icon-btn:active {
@@ -723,42 +888,45 @@
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 6px 12px;
+            padding: 7px 14px;
             color: var(--text);
-            font-size: 12px;
+            font-size: 12.5px;
             font-family: 'Inter', sans-serif;
             font-weight: 300;
             max-height: 70px;
             outline: none;
-            transition: border 0.2s;
+            transition: border 0.25s, box-shadow 0.25s;
+            line-height: 1.4;
         }
 
         .composer textarea:focus {
             border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.12);
         }
 
         .composer textarea::placeholder {
             color: var(--muted);
-            opacity: 0.4;
+            opacity: 0.45;
         }
 
         .composer button.send {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: none;
             background: var(--gold);
             color: #0a0808;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             flex-shrink: 0;
-            transition: all 0.2s;
+            transition: all 0.25s var(--ease-luxury);
         }
 
         .composer button.send:hover {
             background: var(--gold-light);
-            transform: scale(1.03);
+            transform: scale(1.04);
+            box-shadow: 0 0 18px rgba(201, 169, 110, 0.4);
         }
 
         .composer button.send:active {
@@ -775,7 +943,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--muted);
+            background: var(--gold);
+            opacity: 0.5;
             animation: typingBounce 1.4s ease-in-out infinite;
         }
 
@@ -802,86 +971,9 @@
             }
         }
 
-        .chat-loading {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg);
-            color: var(--text);
-            transition: opacity .7s cubic-bezier(.23, 1, .32, 1), visibility .7s ease;
-        }
-
-        .chat-loading.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .chat-loading .loading-logo {
-            font: italic 700 clamp(2.5rem, 8vw, 3.4rem)/1 'Playfair Display', serif;
-            letter-spacing: -.02em;
-            opacity: 0;
-            transform: translateY(16px) scale(.97);
-            animation: chatLoadingIn .7s cubic-bezier(.23, 1, .32, 1) forwards;
-        }
-
-        .chat-loading .loading-logo span,
-        .chat-loading .loading-logo b {
-            color: var(--gold);
-            text-shadow: 0 0 60px var(--gold-dim);
-        }
-
-        .chat-loading .loading-track {
-            width: min(210px, 64vw);
-            height: 3px;
-            margin-top: 28px;
-            overflow: hidden;
-            border-radius: 99px;
-            background: var(--border);
-        }
-
-        .chat-loading .loading-fill {
-            width: 0%;
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            box-shadow: 0 0 18px var(--gold-dim);
-            transition: width .28s cubic-bezier(.23, 1, .32, 1);
-        }
-
-        .chat-loading p {
-            margin-top: 16px;
-            color: var(--muted);
-            font: 300 .68rem/1.4 Inter, sans-serif;
-            letter-spacing: .16em;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .chat-loading .loading-percent {
-            margin-top: 6px;
-            color: var(--gold);
-            font: 400 .65rem/1 Inter, sans-serif;
-            letter-spacing: .04em;
-            opacity: .75;
-        }
-
-        @keyframes chatLoadingIn {
-            from {
-                opacity: 0;
-                transform: translateY(16px) scale(.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: none;
-            }
-        }
-
+        /* ============================================================
+           MODAL IMAGEM
+           ============================================================ */
         .image-modal {
             display: none;
             position: fixed;
@@ -1011,17 +1103,17 @@
 
             .msg {
                 font-size: 12px;
-                padding: 8px 12px;
+                padding: 9px 13px;
             }
 
             .quick button {
                 font-size: 9px;
-                padding: 4px 10px;
+                padding: 5px 11px;
             }
 
             .composer textarea {
                 font-size: 12px;
-                padding: 5px 10px;
+                padding: 6px 12px;
             }
 
             .result-hero {
@@ -1041,18 +1133,37 @@
             .compare-grid {
                 grid-template-columns: 1fr;
             }
+
+            .loading-logo {
+                font-size: 2.6rem;
+            }
+
+            .loading-logo .dot {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="chat-loading" id="chatLoading">
-        <div class="loading-logo">Hair<span>OS</span><b>.</b></div>
-        <div class="loading-track">
-            <div class="loading-fill" id="chatLoadingFill"></div>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo" id="loadingLogo">Hair<span>OS</span><span class="dot">.</span></div>
+        <div class="loading-bar" id="loadingBarContainer">
+            <div class="loading-bar-inner" id="loadingBar"></div>
         </div>
-        <p id="chatLoadingText">Preparando sua conversa</p>
-        <span class="loading-percent" id="chatLoadingPercent">0%</span>
+        <div class="loading-text" id="loadingText">preparando sua conversa</div>
+        <div class="loading-percent" id="loadingPercent">0%</div>
     </div>
 
     <div class="image-modal" id="imageModal" onclick="closeModal()">
@@ -1106,13 +1217,13 @@
     <script src="data.js"></script>
     <script>
         // ============================================================
-        // HAIR·OS ASSISTENTE — CHAT COMPLETO (v2 corrigido)
+        // HAIR·OS ASSISTENTE — CHAT COMPLETO (v3 · diagnóstico com foto)
         // ============================================================
 
         var VITRINE_URL = 'index.html';
         var ML_SEARCH = 'https://www.mercadolivre.com.br/busca?word=';
 
-        var state = { mode: 'idle', quiz: null, step: 0, answers: [] };
+        var state = { mode: 'idle', quiz: null, step: 0, answers: [], analiseFoto: null };
         var quizTimer = null;
         var chatEl = document.getElementById('chat');
         var inputEl = document.getElementById('input');
@@ -1135,9 +1246,6 @@
             return '';
         }
 
-        // ============================================================
-        // GETMLLINK — links afiliados (+ ferramentas)
-        // ============================================================
         function getMlLink(item) {
             if (!item) return ML_SEARCH;
             if (item.link) return item.link;
@@ -1225,7 +1333,7 @@
         }
 
         // ============================================================
-        // MOTOR DE RECOMENDAÇÃO — COM FERRAMENTAS
+        // MOTOR DE RECOMENDAÇÃO
         // ============================================================
         var MotorRecomendacao = {
             poolsCorte: {
@@ -1404,7 +1512,7 @@
         };
 
         // ============================================================
-        // ANALISADOR DE IMAGEM — v2 (com try/catch)
+        // ANALISADOR DE IMAGEM
         // ============================================================
         var AnalisadorImagem = {
             extrairCoresDominantes: function (imgElement, numCores) {
@@ -1558,6 +1666,7 @@
             state.quiz = null;
             state.step = 0;
             state.answers = [];
+            // NÃO limpa analiseFoto aqui — ela é limpa no final do diagnóstico
         }
 
         // ============================================================
@@ -1712,7 +1821,7 @@
         }
 
         // ============================================================
-        // DIAGNÓSTICO
+        // DIAGNÓSTICO (com foto opcional)
         // ============================================================
         var DIAGNOSTICO = {
             perguntas: [
@@ -1758,8 +1867,49 @@
             state.mode = 'diagnostico';
             state.step = 0;
             state.answers = [];
-            addMsg('Vamos fazer um diagnóstico rápido do seu cabelo para recomendar um <strong>kit completo</strong>.', 'bot');
-            setTimeout(function () { askDiagnostico(); }, 400);
+            state.analiseFoto = null;
+            addMsg(
+                'Vamos fazer um diagnóstico completo do seu cabelo 💛<br><br>' +
+                'Primeiro, você pode enviar uma <strong>foto do seu cabelo</strong> para uma análise visual. ' +
+                'Se preferir, clique em <strong>Pular foto</strong> para seguir só com as perguntas.',
+                'bot',
+                '<div class="options">' +
+                '<button type="button" data-action="diag-foto">📷 Enviar foto do cabelo</button>' +
+                '<button type="button" data-action="diag-skip-foto">Pular foto e responder perguntas</button>' +
+                '</div>'
+            );
+        }
+
+        function askDiagnosticoImagem() {
+            state.mode = 'diagnostico-foto';
+            if (photoInput) photoInput.click();
+        }
+
+        function pularFotoDiagnostico() {
+            state.mode = 'diagnostico';
+            state.step = 0;
+            state.answers = [];
+            state.analiseFoto = null;
+            addMsg('Sem problemas! Vamos direto às perguntas.', 'bot');
+            setTimeout(function () { askDiagnostico(); }, 350);
+        }
+
+        function processarDiagnosticoComFoto(analise) {
+            state.analiseFoto = analise;
+            state.mode = 'diagnostico';
+            state.step = 0;
+            state.answers = [];
+            showTyping();
+            setTimeout(function () {
+                removeTyping();
+                addMsg(
+                    'Detectei na sua foto: <strong>' + analise.comprimento + '</strong> · <strong>' +
+                    analise.textura + '</strong> · <strong>' + analise.cor + '</strong>.<br><br>' +
+                    'Agora me conta mais para eu fechar o diagnóstico:',
+                    'bot'
+                );
+                askDiagnostico();
+            }, 1400);
         }
 
         function askDiagnostico() {
@@ -1767,14 +1917,56 @@
             if (state.step >= perguntas.length) {
                 var key = DIAGNOSTICO.resolver(state.answers);
                 var item = styleData[key];
-                if (item) {
-                    var html = '<div class="consultoria-block">';
-                    html += gerarResultadoCompleto(item, 'Kit recomendado', 'kit');
-                    html += '<span class="refazer-link" onclick="resetAll()">Refazer diagnóstico</span></div>';
-                    addMsg('Com base no diagnóstico, recomendo este <strong>kit</strong>:', 'bot', html);
-                } else {
+                if (!item) {
                     addMsg('Não encontrei um kit exato. Tente o Quiz de Kits.', 'bot');
+                    state.analiseFoto = null;
+                    resetState();
+                    return;
                 }
+
+                var html = '<div class="consultoria-block">';
+                html += gerarResultadoCompleto(item, 'Kit recomendado', 'kit');
+
+                var analise = state.analiseFoto;
+                if (analise) {
+                    var corteItem = analise.sugestaoCorte ? styleData[analise.sugestaoCorte] : null;
+                    var corItem = analise.sugestaoCor ? styleData[analise.sugestaoCor] : null;
+                    var ferramentaId = MotorRecomendacao.resolverFerramenta(
+                        analise.textura === 'cacheado' ? 'cachos' : 'secagem',
+                        analise.textura
+                    );
+                    var ferramentaItem = ferramentaId ? styleData[ferramentaId] : null;
+
+                    if (corteItem) {
+                        html += gerarResultadoCompleto(corteItem, 'Corte sugerido pela foto', 'corte');
+                    }
+                    if (corItem) {
+                        html += gerarResultadoCompleto(corItem, 'Cor sugerida pela foto', 'coloracao');
+                    }
+                    if (ferramentaItem) {
+                        html += gerarResultadoCompleto(ferramentaItem, 'Ferramenta sugerida', 'ferramentas');
+                    }
+                }
+
+                html += gerarProdutosEKit();
+
+                var alts = pickAlternatives(item, 'kit', 2);
+                if (alts.length >= 1) {
+                    html += '<div class="consultoria-title">Comparar kits</div>';
+                    html += '<div class="compare-grid">';
+                    html += buildMainCard(item, 'Kit recomendado');
+                    html += buildMainCard(alts[0], 'Alternativa');
+                    html += '</div>';
+                }
+
+                html += '<span class="refazer-link" onclick="resetAll()">Refazer diagnóstico</span></div>';
+                addMsg(
+                    'Com base no diagnóstico' + (analise ? ' + análise da foto' : '') + ', aqui está sua consultoria completa:',
+                    'bot',
+                    html
+                );
+
+                state.analiseFoto = null;
                 resetState();
                 return;
             }
@@ -2082,6 +2274,7 @@
         function resetAll() {
             resetState();
             state.mode = 'idle';
+            state.analiseFoto = null;
             addMsg('Vamos de novo. Use os botões abaixo ou digite sua dúvida.', 'bot');
         }
         window.resetAll = resetAll;
@@ -2143,6 +2336,18 @@
             if (action === 'quiz-kit') return startQuiz('kit');
             if (action === 'duvidas') return showDuvidasMenu();
             if (action === 'diagnostico') return startDiagnostico();
+
+            // 🔀 Diagnóstico — foto ou pulo
+            if (action === 'diag-foto') {
+                var optsFoto = btn.closest('.options');
+                if (optsFoto) optsFoto.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+                return askDiagnosticoImagem();
+            }
+            if (action === 'diag-skip-foto') {
+                var optsSkip = btn.closest('.options');
+                if (optsSkip) optsSkip.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+                return pularFotoDiagnostico();
+            }
 
             if (action.indexOf('opt-') === 0 && state.mode === 'quiz') {
                 var idx = parseInt(action.split('-')[1], 10);
@@ -2234,7 +2439,13 @@
                         addMsg('Foto enviada:', 'user',
                             '<img src="' + event.target.result + '" class="user-photo" alt="Cabelo" onclick="openModal(this.src, \'Sua foto\')">');
                         if (inputEl) inputEl.value = '';
-                        processarAnaliseImagem(analise);
+
+                        // 🔀 Se veio do diagnóstico, rota diferente
+                        if (state.mode === 'diagnostico-foto') {
+                            processarDiagnosticoComFoto(analise);
+                        } else {
+                            processarAnaliseImagem(analise);
+                        }
                     };
                     img.onerror = function () {
                         addMsg('Não consegui ler essa imagem. Tente outra.', 'bot');
@@ -2259,6 +2470,10 @@
 
             if (state.mode === 'quiz' || state.mode === 'diagnostico') {
                 addMsg('Responda usando os botões acima.', 'bot');
+                return;
+            }
+            if (state.mode === 'diagnostico-foto') {
+                addMsg('Use o botão <strong>📷 Enviar foto</strong> ou clique em <strong>Pular foto</strong> acima.', 'bot');
                 return;
             }
 
@@ -2321,32 +2536,54 @@
         }
 
         // ============================================================
-        // LOADING E INICIALIZAÇÃO
+        // LOADING — igual ao index.html
         // ============================================================
         function initChatLoading() {
-            var overlay = document.getElementById('chatLoading');
-            var fill = document.getElementById('chatLoadingFill');
-            var percent = document.getElementById('chatLoadingPercent');
-            var label = document.getElementById('chatLoadingText');
-            if (!overlay) return;
-            var steps = [
-                [20, 'Preparando sua conversa'],
-                [40, 'Carregando 76 estilos'],
-                [60, 'Conectando quizzes'],
-                [80, 'Diagnóstico e busca prontos'],
-                [100, 'Assistente pronto']
-            ];
-            var index = 0;
-            var advance = function () {
-                var step = steps[index++];
-                if (!step) return;
-                if (fill) fill.style.width = step[0] + '%';
-                if (percent) percent.textContent = step[0] + '%';
-                if (label) label.textContent = step[1];
-                if (index < steps.length) setTimeout(advance, 250);
-                else setTimeout(function () { overlay.classList.add('hidden'); }, 360);
-            };
-            advance();
+            var loadingScreen = document.getElementById('loadingScreen');
+            var loadingLogo = document.getElementById('loadingLogo');
+            var loadingBar = document.getElementById('loadingBar');
+            var loadingBarContainer = document.getElementById('loadingBarContainer');
+            var loadingPercent = document.getElementById('loadingPercent');
+            var loadingText = document.getElementById('loadingText');
+            if (!loadingScreen) return;
+
+            function finishLoading() {
+                if (loadingBarContainer) loadingBarContainer.style.opacity = '0';
+                if (loadingText) loadingText.style.opacity = '0';
+                if (loadingPercent) loadingPercent.style.opacity = '0';
+
+                setTimeout(function () {
+                    if (loadingLogo) loadingLogo.classList.add('zoom-out');
+                }, 500);
+
+                setTimeout(function () {
+                    if (loadingScreen) loadingScreen.classList.add('hidden');
+                }, 1800);
+            }
+
+            var currentVal = 0;
+            var progressInterval = setInterval(function () {
+                currentVal += 1;
+                if (currentVal > 100) currentVal = 100;
+                if (loadingBar) loadingBar.style.width = currentVal + '%';
+                if (loadingPercent) loadingPercent.textContent = currentVal + '%';
+                if (currentVal >= 90 && loadingText) loadingText.textContent = 'assistente pronto';
+                if (currentVal >= 100) {
+                    clearInterval(progressInterval);
+                    finishLoading();
+                }
+            }, 45);
+
+            setTimeout(function () {
+                if (currentVal < 100) {
+                    clearInterval(progressInterval);
+                    currentVal = 100;
+                    if (loadingBar) loadingBar.style.width = '100%';
+                    if (loadingPercent) loadingPercent.textContent = '100%';
+                    if (loadingText) loadingText.textContent = 'assistente pronto';
+                    finishLoading();
+                }
+            }, 8000);
         }
 
         function initApp() {
@@ -2368,7 +2605,7 @@
                 '• <strong>Produtos</strong> — quiz para recomendar um produto específico<br>' +
                 '• <strong>Ferramentas</strong> — quiz para escolher a ferramenta ideal<br>' +
                 '• <strong>Kits</strong> — quiz para recomendar um kit completo<br>' +
-                '• <strong>Diagnóstico</strong> — avaliação para recomendar um kit<br>' +
+                '• <strong>Diagnóstico</strong> — análise (com foto opcional) para recomendar um kit<br>' +
                 '• <strong>Dúvidas</strong> — perguntas frequentes sobre o catálogo<br><br>' +
                 'Envie uma <strong>foto</strong> ou digite sua dúvida!',
                 'bot'
