@@ -105,18 +105,22 @@
       scrollbar-width: none;
       scrollbar-color: transparent transparent;
     }
+
     *::-webkit-scrollbar {
       width: 0px;
       height: 0px;
       background: transparent;
     }
+
     *::-webkit-scrollbar-track {
       background: transparent;
     }
+
     *::-webkit-scrollbar-thumb {
       background: transparent;
       border: none;
     }
+
     *::-webkit-scrollbar-thumb:hover {
       background: transparent;
     }
@@ -191,12 +195,27 @@
     }
 
     @keyframes logoZoomIn {
-      0%   { opacity: 0; transform: scale(0.1); }
-      100% { opacity: 1; transform: scale(1); }
+      0% {
+        opacity: 0;
+        transform: scale(0.1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
+
     @keyframes logoZoomOut {
-      0%   { transform: scale(1); opacity: 1; }
-      100% { transform: scale(8); opacity: 0; }
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(8);
+        opacity: 0;
+      }
     }
 
     .loading-screen {
@@ -6503,19 +6522,136 @@
       });
     }
 
+    // ============================================================
+    // Gera card com imagem + faixa de texto + link
+    // ============================================================
+    function gerarCardComTexto(data, key) {
+      return new Promise(function (resolve) {
+        var proxied = 'https://images.weserv.nl/?url=' +
+          encodeURIComponent(data.img.replace(/^https?:\/\//, ''));
+
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+
+        img.onload = function () {
+          var W = img.naturalWidth;
+          var H = img.naturalHeight;
+          var MAX_W = 1080;
+          if (W > MAX_W) { H = Math.round(H * MAX_W / W); W = MAX_W; }
+
+          var FAIXA = Math.round(H * 0.30);
+          var canvas = document.createElement('canvas');
+          canvas.width = W;
+          canvas.height = H + FAIXA;
+          var ctx = canvas.getContext('2d');
+
+          ctx.drawImage(img, 0, 0, W, H);
+          ctx.fillStyle = '#0a0808';
+          ctx.fillRect(0, H, W, FAIXA);
+          ctx.fillStyle = '#c9a96e';
+          ctx.fillRect(0, H, W, 3);
+
+          var titulo = data.corte + ' — ' + data.title;
+          var tituloSize = Math.round(W * 0.045);
+          ctx.fillStyle = '#f0ebe4';
+          ctx.font = 'italic 700 ' + tituloSize + 'px Georgia, serif';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'top';
+          ctx.fillText(titulo, W * 0.05, H + FAIXA * 0.10, W * 0.9);
+
+          var descSize = Math.round(W * 0.028);
+          ctx.fillStyle = '#d4c9bc';
+          ctx.font = '300 ' + descSize + 'px Helvetica, Arial, sans-serif';
+          var maxW = W * 0.9;
+          var palavras = (data.desc || '').split(' ');
+          var linhas = [];
+          var linha = '';
+          for (var i = 0; i < palavras.length; i++) {
+            var teste = linha ? linha + ' ' + palavras[i] : palavras[i];
+            if (ctx.measureText(teste).width > maxW && linha) {
+              linhas.push(linha);
+              linha = palavras[i];
+              if (linhas.length === 2) break;
+            } else {
+              linha = teste;
+            }
+          }
+          if (linha && linhas.length < 2) linhas.push(linha);
+
+          var yDesc = H + FAIXA * 0.38;
+          linhas.forEach(function (l, idx) {
+            ctx.fillText(l, W * 0.05, yDesc + idx * descSize * 1.4, maxW);
+          });
+
+          var linkSize = Math.round(W * 0.026);
+          ctx.fillStyle = '#c9a96e';
+          ctx.font = '600 ' + linkSize + 'px Helvetica, Arial, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText('hairos.com.br', W * 0.05, H + FAIXA - linkSize * 2.2);
+
+          var marcaSize = Math.round(W * 0.032);
+          ctx.fillStyle = '#c9a96e';
+          ctx.font = 'italic 700 ' + marcaSize + 'px Georgia, serif';
+          ctx.textAlign = 'right';
+          ctx.fillText('HairOS.', W * 0.95, H + FAIXA - marcaSize * 1.6);
+
+          canvas.toBlob(function (blob) {
+            if (!blob) { resolve(null); return; }
+            resolve(new File([blob], 'hairos-' + key + '.jpg', { type: 'image/jpeg' }));
+          }, 'image/jpeg', 0.92);
+        };
+
+        img.onerror = function () { resolve(null); };
+        img.src = proxied;
+      });
+    }
+
+    // ============================================================
+    // Compartilha: imagem primeiro, depois texto com link
+    // ============================================================
     function shareStyle(key) {
       var data = styleData[key];
       if (!data) { showToast('Erro ao compartilhar'); return; }
-      var text = data.corte + ' - ' + data.title + '\n' + data.desc + '\n\nVeja mais em HairOS!';
-      if (navigator.share) {
-        navigator.share({ title: 'HairOS - ' + data.corte, text: text }).catch(function (err) {
-          if (err.name !== 'AbortError') { console.warn('Share failed:', err); fallbackCopy(text); }
-        });
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function () { showToast('Link copiado!'); }).catch(function () { fallbackCopy(text); });
-      } else { fallbackCopy(text); }
+
+      var SITE_URL = 'https://marcio-maker.github.io/HairOS-Inspira-o/';
+      var titulo = data.corte + ' — HairOS';
+      var texto =
+        '✨ ' + data.corte + ' — ' + data.title + '\n\n' +
+        data.desc + '\n\n' +
+        '🌐 Veja mais no HairOS 👇\n' +
+        SITE_URL;
+
+      function compartilharSoTexto() {
+        if (navigator.share) {
+          navigator.share({ title: titulo, text: texto })
+            .catch(function (err) {
+              if (err && err.name !== 'AbortError') fallbackCopy(texto);
+            });
+        } else {
+          fallbackCopy(texto);
+        }
+      }
+
+      if (!navigator.share || !navigator.canShare) {
+        compartilharSoTexto();
+        return;
+      }
+
+      gerarCardComTexto(data, key).then(function (file) {
+        if (file && navigator.canShare({ files: [file] })) {
+          return navigator.share({ files: [file], title: titulo, text: texto })
+            .catch(function (err) {
+              if (err && err.name === 'AbortError') return;
+              compartilharSoTexto();
+            });
+        }
+        compartilharSoTexto();
+      });
     }
 
+    // ============================================================
+    // Fallback: copia o texto
+    // ============================================================
     function fallbackCopy(text) {
       try {
         var textarea = document.createElement('textarea');
@@ -6528,7 +6664,9 @@
         document.execCommand('copy');
         document.body.removeChild(textarea);
         showToast('Link copiado para compartilhar!');
-      } catch { showToast('Não foi possível copiar'); }
+      } catch {
+        showToast('Não foi possível copiar');
+      }
     }
 
     // ============================================================
@@ -8556,18 +8694,18 @@
     // LOADING — zoom-in lento (4.5s) + barra suave + zoom-out dramático
     // ============================================================
     document.addEventListener('DOMContentLoaded', function () {
-      var loadingScreen    = document.getElementById('loadingScreen');
-      var loadingLogo      = document.getElementById('loadingLogo');
-      var loadingBar       = document.getElementById('loadingBar');
+      var loadingScreen = document.getElementById('loadingScreen');
+      var loadingLogo = document.getElementById('loadingLogo');
+      var loadingBar = document.getElementById('loadingBar');
       var loadingBarContainer = document.getElementById('loadingBarContainer');
-      var loadingPercent   = document.getElementById('loadingPercent');
-      var loadingText      = document.getElementById('loadingText');
-      var mainContent      = document.getElementById('mainContent');
+      var loadingPercent = document.getElementById('loadingPercent');
+      var loadingText = document.getElementById('loadingText');
+      var mainContent = document.getElementById('mainContent');
 
       function finishLoading() {
         // Fase 2 finaliza: some barra e textos
         if (loadingBarContainer) loadingBarContainer.style.opacity = '0';
-        if (loadingText)    loadingText.style.opacity    = '0';
+        if (loadingText) loadingText.style.opacity = '0';
         if (loadingPercent) loadingPercent.style.opacity = '0';
 
         // Fase 3: zoom-out dramático após 500ms
@@ -8578,7 +8716,7 @@
         // Fase 3 termina: mostra conteúdo
         setTimeout(function () {
           if (loadingScreen) loadingScreen.classList.add('hidden');
-          if (mainContent)   mainContent.classList.add('visible');
+          if (mainContent) mainContent.classList.add('visible');
           if (typeof initApp === 'function') initApp();
         }, 1800);
       }
@@ -8588,8 +8726,8 @@
       var progressInterval = setInterval(function () {
         currentVal += 1;
         if (currentVal > 100) currentVal = 100;
-        if (loadingBar)     loadingBar.style.width         = currentVal + '%';
-        if (loadingPercent) loadingPercent.textContent      = currentVal + '%';
+        if (loadingBar) loadingBar.style.width = currentVal + '%';
+        if (loadingPercent) loadingPercent.textContent = currentVal + '%';
         if (currentVal >= 90 && loadingText) loadingText.textContent = 'inspirações prontas';
         if (currentVal >= 100) {
           clearInterval(progressInterval);
@@ -8602,9 +8740,9 @@
         if (currentVal < 100) {
           clearInterval(progressInterval);
           currentVal = 100;
-          if (loadingBar)     loadingBar.style.width    = '100%';
+          if (loadingBar) loadingBar.style.width = '100%';
           if (loadingPercent) loadingPercent.textContent = '100%';
-          if (loadingText)    loadingText.textContent    = 'inspirações prontas';
+          if (loadingText) loadingText.textContent = 'inspirações prontas';
           finishLoading();
         }
       }, 8000);
