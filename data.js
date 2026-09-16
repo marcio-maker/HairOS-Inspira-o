@@ -1,8 +1,6 @@
 // data.js
 // Base de dados completa do HairOS - 76 estilos
 // ============================================================
-// ESTRUTURA ORGANIZADA PARA IMAGENS
-// ============================================================
 
 // ============================================================
 // VARIAÇÕES DE ALTURA PARA CARDS
@@ -27,7 +25,7 @@ function shuffleArray(arr) {
 }
 
 // ============================================================
-// FUNÇÃO PARA BUSCAR PRODUTOS COMPLETOS (imagem + dados)
+// FUNÇÃO PARA BUSCAR PRODUTOS COMPLETOS
 // ============================================================
 function getOtherProductsData(currentId, categoria, count) {
   var allProducts = [];
@@ -83,7 +81,7 @@ function createCard(id, categoria, corte, title, desc, img, variants) {
     var ownImages = Array.isArray(variants) ? variants.slice(0, 3) : [img];
     if (ownImages.length === 0) ownImages = [img];
 
-    ownImages.forEach(function(imgUrl) {
+    ownImages.forEach(function (imgUrl) {
       finalVariants.push({ img: imgUrl, corte: corte, title: title, desc: desc, own: true });
     });
 
@@ -160,7 +158,7 @@ var cuidadosKits = {
 };
 
 // ============================================================
-// DADOS: CORTES (16 itens — incluindo Curtain Bang)
+// DADOS: CORTES (16 itens)
 // ============================================================
 var cortesData = [
   ['velvet-bob', 'corte', 'Velvet Bob', 'Bob Texturizado',
@@ -719,9 +717,9 @@ var produtosData = [
     'Shampoo hidratante da linha Moisture Recovery com tecnologia Bio-Advanced Peptide Complex. Restaura a umidade dos cabelos secos e danificados, devolvendo maciez e brilho.',
     'https://i.pinimg.com/736x/76/24/51/7624516be549ec68f4b74a9d481fe8c2.jpg',
     [
-      'https://thekit.ca/wp-content/uploads/2023/07/Sized-Inline-2-Metal-Detox.jpg',
       'https://i.pinimg.com/736x/aa/91/ef/aa91ef7f58d2efed392dea3444690a5d.jpg',
-      'https://i.pinimg.com/1200x/e3/93/4c/e3934c0c465aa33ef0c295d9fb6e5e65.jpg'
+      'https://i.pinimg.com/1200x/e3/93/4c/e3934c0c465aa33ef0c295d9fb6e5e65.jpg',
+      'https://i.pinimg.com/736x/76/24/51/7624516be549ec68f4b74a9d481fe8c2.jpg'
     ]
   ],
   ['joico-moisture-conditioner', 'produto', 'Joico Moisture Conditioner',
@@ -959,48 +957,34 @@ var kitsData = [
 
 // ============================================================
 // DADOS: FERRAMENTAS (15 itens)
-// IMAGENS REVISADAS E COERENTES COM CADA FERRAMENTA
 // ============================================================
-
 var ferramentasData = [
-
-  // ==========================================================
-  // 01 — SECADOR IÔNICO PRO
-  // ==========================================================
   [
     'secador-ionico-pro',
     'ferramentas',
     'Secador Iônico Pro',
     'Secagem Rápida e Antifrizz',
     'Secador profissional com tecnologia iônica que reduz o frizz, acelera a secagem e ajuda a proporcionar um acabamento mais alinhado e brilhante. Indicado para uso profissional e diferentes tipos de cabelo.',
-    'https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=800&q=80',
+    'https://i.pinimg.com/736x/7f/4d/8b/7f4d8b424f29dffaa67ad8856df09263.jpg',
     [
-      'https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=800&q=80',
-      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
+      'https://i.pinimg.com/1200x/ef/ef/f4/efeff4b83e8aecf58644af080c24e4ac.jpg',
+      'https://i.pinimg.com/736x/41/31/08/4131089e2d531379ade8f1ac547246bd.jpg',
       'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 02 — PRANCHA DE TITÂNIO
-  // ==========================================================
   [
     'prancha-titanium',
     'ferramentas',
     'Prancha de Titânio',
     'Alisamento Uniforme',
     'Prancha profissional com placas de titânio que proporcionam alta condução de calor e distribuição uniforme da temperatura. Indicada para alisamento, modelagem e finalização de diferentes tipos de cabelo.',
-    'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+    'https://i.pinimg.com/1200x/e7/b6/e1/e7b6e1de363429ccf8f85d02f6c3abbc.jpg',
     [
       'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
       'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=800&q=80',
       'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 03 — MODELADOR DE ONDAS
-  // ==========================================================
   [
     'modelador-ondas',
     'ferramentas',
@@ -1014,10 +998,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 04 — BABYLISS CERÂMICA
-  // ==========================================================
   [
     'babyliss-ceramica',
     'ferramentas',
@@ -1031,10 +1011,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 05 — ESCOVA ROTATIVA
-  // ==========================================================
   [
     'escova-rotativa',
     'ferramentas',
@@ -1048,10 +1024,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 06 — TESOURA PROFISSIONAL
-  // ==========================================================
   [
     'tesoura-profissional',
     'ferramentas',
@@ -1065,10 +1037,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 07 — ESCOVA DE CERDAS NATURAIS
-  // ==========================================================
   [
     'escova-cerdas-naturais',
     'ferramentas',
@@ -1082,10 +1050,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 08 — MÁQUINA DE CORTE
-  // ==========================================================
   [
     'maquina-corte',
     'ferramentas',
@@ -1099,10 +1063,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 09 — DIFUSOR UNIVERSAL
-  // ==========================================================
   [
     'difusor-universal',
     'ferramentas',
@@ -1116,10 +1076,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 10 — ESCOVA TÉRMICA ALISADORA
-  // ==========================================================
   [
     'escova-termica-alisadora',
     'ferramentas',
@@ -1133,10 +1089,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 11 — ESCOVA PADDLE
-  // ==========================================================
   [
     'escova-paddle',
     'ferramentas',
@@ -1150,10 +1102,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 12 — ESCOVA DE CERÂMICA
-  // ==========================================================
   [
     'escova-ceramica',
     'ferramentas',
@@ -1167,10 +1115,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 13 — ESCOVA DE MADEIRA
-  // ==========================================================
   [
     'escova-madeira',
     'ferramentas',
@@ -1184,10 +1128,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 14 — MASSAGEADOR CAPILAR
-  // ==========================================================
   [
     'massageador-capilar',
     'ferramentas',
@@ -1201,10 +1141,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
     ]
   ],
-
-  // ==========================================================
-  // 15 — TOUCA TÉRMICA
-  // ==========================================================
   [
     'touca-termica',
     'ferramentas',
@@ -1218,7 +1154,6 @@ var ferramentasData = [
       'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
     ]
   ]
-
 ];
 
 // ============================================================
