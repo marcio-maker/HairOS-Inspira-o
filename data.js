@@ -71,38 +71,122 @@ function getOtherProductsData(currentId, categoria, count) {
 }
 
 // ============================================================
-// FUNÇÃO PARA CRIAR UM CARD
+// HELPERS INTERNOS DO createCard
+// ============================================================
+
+/**
+ * Extrai a URL de uma variante, que pode ser string ou objeto { img, ... }.
+ */
+function _getVariantUrl(variant) {
+  if (typeof variant === 'object' && variant !== null) return variant.img;
+  return variant;
+}
+
+/**
+ * Remove variantes com URLs duplicadas (mantém a primeira ocorrência).
+ */
+function _dedupeVariantsByUrl(variants) {
+  var seen = {};
+  var unique = [];
+  variants.forEach(function (v) {
+    var url = _getVariantUrl(v);
+    if (url && !seen[url]) {
+      seen[url] = true;
+      unique.push(v);
+    }
+  });
+  return unique;
+}
+
+/**
+ * Monta as variações para produtos/kits/ferramentas:
+ * - Próprias imagens (marcadas como `own: true`)
+ * - Produtos relacionados (marcados como `own: false`)
+ * - Completa com próprias até atingir 10 itens
+ */
+function _buildProdutoKitVariants(id, categoria, corte, title, desc, img, variants) {
+  var finalVariants = [];
+
+  var ownImages = Array.isArray(variants) && variants.length > 0
+    ? variants.slice(0, 3)
+    : [img];
+
+  ownImages.forEach(function (imgUrl) {
+    finalVariants.push({
+      img: imgUrl,
+      corte: corte,
+      title: title,
+      desc: desc,
+      own: true
+    });
+  });
+
+  var otherProducts = getOtherProductsData(id, categoria, 7);
+
+  otherProducts.forEach(function (product) {
+    var otherImg = (product.variants && product.variants.length > 0)
+      ? product.variants[0]
+      : product.img;
+
+    finalVariants.push({
+      img: otherImg,
+      corte: product.corte,
+      title: product.title,
+      desc: product.desc,
+      own: false,
+      productId: product.id
+    });
+  });
+
+  // Completa com imagens próprias até atingir 10
+  while (finalVariants.length < 10) {
+    var randomImg = ownImages[Math.floor(Math.random() * ownImages.length)];
+    finalVariants.push({
+      img: randomImg,
+      corte: corte,
+      title: title,
+      desc: desc,
+      own: true
+    });
+  }
+
+  return { finalVariants: finalVariants, otherProducts: otherProducts };
+}
+
+/**
+ * Monta as variações para cortes/colorações:
+ * - Remove duplicatas por URL
+ * - NÃO replica a última imagem até 10 (mantém apenas as variações reais)
+ * - Garante ao menos a imagem principal
+ */
+function _buildCorteColoracaoVariants(img, variants) {
+  var rawVariants = Array.isArray(variants) && variants.length > 0
+    ? variants.slice(0, 10)
+    : [img];
+
+  var unique = _dedupeVariantsByUrl(rawVariants);
+
+  if (unique.length === 0) unique = [img];
+
+  return unique;
+}
+
+// ============================================================
+// FUNÇÃO PRINCIPAL
 // ============================================================
 function createCard(id, categoria, corte, title, desc, img, variants) {
   var finalVariants = [];
   var otherProductsData = [];
 
-  if (categoria === 'produto' || categoria === 'kit' || categoria === 'ferramentas') {
-    var ownImages = Array.isArray(variants) ? variants.slice(0, 3) : [img];
-    if (ownImages.length === 0) ownImages = [img];
+  var isProdutoKit = (categoria === 'produto' || categoria === 'kit' || categoria === 'ferramentas');
+  var isCorteColoracao = (categoria === 'corte' || categoria === 'coloracao');
 
-    ownImages.forEach(function (imgUrl) {
-      finalVariants.push({ img: imgUrl, corte: corte, title: title, desc: desc, own: true });
-    });
-
-    otherProductsData = getOtherProductsData(id, categoria, 7);
-
-    otherProductsData.forEach(function (product) {
-      var otherImg = (product.variants && product.variants.length > 0)
-        ? product.variants[0]
-        : product.img;
-      finalVariants.push({ img: otherImg, corte: product.corte, title: product.title, desc: product.desc, own: false });
-    });
-
-    while (finalVariants.length < 10) {
-      finalVariants.push({ img: ownImages[Math.floor(Math.random() * ownImages.length)], corte: corte, title: title, desc: desc, own: true });
-    }
-  } else if (categoria === 'corte' || categoria === 'coloracao') {
-    finalVariants = Array.isArray(variants) ? variants.slice(0, 10) : [img];
-    while (finalVariants.length < 10 && finalVariants.length > 0) {
-      finalVariants.push(finalVariants[finalVariants.length - 1]);
-    }
-    if (finalVariants.length === 0) finalVariants = [img];
+  if (isProdutoKit) {
+    var resultado = _buildProdutoKitVariants(id, categoria, corte, title, desc, img, variants);
+    finalVariants = resultado.finalVariants;
+    otherProductsData = resultado.otherProducts;
+  } else if (isCorteColoracao) {
+    finalVariants = _buildCorteColoracaoVariants(img, variants);
   }
 
   return {
@@ -129,12 +213,14 @@ var coloracaoKits = {
     nome: 'Kit Keune',
     badge: 'Comercial',
     link: 'https://meli.la/1GbiW7M',
-    produtos: 'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor'
+    produtos: 'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor',
+    imagem: 'https://i.pinimg.com/736x/f9/71/b6/f971b6679e2c7fda2f777c25d6e49b66.jpg'
   }, {
     nome: 'Kit L\'Oréal',
     badge: 'Técnico',
     link: 'https://meli.la/28LpPj2',
-    produtos: 'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol'
+    produtos: 'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol',
+    imagem: 'https://i.pinimg.com/1200x/8a/c7/0e/8ac70e6de8ca914b0a3e53ff6b93a0cc.jpg'
   }]
 };
 
@@ -143,17 +229,20 @@ var cuidadosKits = {
     nome: 'Kit Kerastase',
     badge: 'Premium',
     link: 'https://meli.la/1MwSY7v',
-    produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime'
+    produtos: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime',
+    imagem: 'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg'
   }, {
     nome: 'Kit L\'Oréal Expert',
     badge: 'Profissional',
     link: 'https://meli.la/2nmeunk',
-    produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer'
+    produtos: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer',
+    imagem: 'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg'
   }, {
     nome: 'Kit Joico',
     badge: 'Hidratação',
     link: 'https://meli.la/2x9xqBe',
-    produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK'
+    produtos: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK',
+    imagem: 'https://i.pinimg.com/1200x/55/d6/10/55d610f599b3c10b5fe4cafceb5104fc.jpg'
   }]
 };
 
@@ -407,7 +496,13 @@ var cortesData = [
     [
       'https://i.pinimg.com/736x/ac/71/25/ac7125df02150a4f398ba23f8cb8e343.jpg',
       'https://i.pinimg.com/736x/00/36/fc/0036fc75d702f60260c763706898f947.jpg',
-      'https://i.pinimg.com/736x/e1/69/0a/e1690a55e7cc557de8fc4d8d9a29b171.jpg'
+      'https://i.pinimg.com/736x/e1/69/0a/e1690a55e7cc557de8fc4d8d9a29b171.jpg',
+      'https://i.pinimg.com/736x/a0/07/f5/a007f51006c175ee7019d7ba8922029f.jpg',
+      'https://i.pinimg.com/1200x/10/75/c6/1075c68d4b35292480d95cea2225915f.jpg',
+      'https://i.pinimg.com/1200x/8e/9b/88/8e9b8865119a4916a22b3546005dfe22.jpg',
+      'https://i.pinimg.com/736x/2b/58/8f/2b588f820afd53270b38996609f090a8.jpg',
+      'https://i.pinimg.com/736x/55/04/99/550499a1e9250d771ae1a51ce23eccd1.jpg',
+      'https://i.pinimg.com/736x/11/1c/77/111c7701a0ceed64db41619a6041f7c8.jpg'
     ]
   ]
 ];
@@ -417,7 +512,7 @@ var cortesData = [
 // ============================================================
 var coloracoesData = [
   ['ombre-tiger-eye', 'coloracao', 'Ombré Tiger Eye', 'Transição Dourada',
-    'Transição suave do escuro para o dourado. Efeito olho de tigre.',
+    'Transição suave do escuro para o dourado. Efeito olho de tigre. Ex.: base 5.0/6.0 + mechas 8.3/9.3 (dourado).',
     'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
     [
       'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
@@ -433,7 +528,7 @@ var coloracoesData = [
     ]
   ],
   ['babylights-morena', 'coloracao', 'Babylights Morena', 'Luzes Finíssimas',
-    'Luzes finíssimas que imitam o efeito natural do sol.',
+    'Luzes finíssimas que imitam o efeito natural do sol. Ex.: base 4.0/5.0 + babylights 7.3/8.3 (caramelo dourado).',
     'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg',
     [
       'https://i.pinimg.com/736x/69/c8/3b/69c83bfd72fd3022f6a6dc49b2b3f232.jpg',
@@ -449,7 +544,7 @@ var coloracoesData = [
     ]
   ],
   ['contour-highlights', 'coloracao', 'Contour Highlights', 'Luzes Estratégicas',
-    'Luzes estratégicas que valorizam o formato do rosto.',
+    'Luzes estratégicas que valorizam o formato do rosto. Ex.: contorno facial 8.3/9.0 ou 7.3 + 8.0.',
     'https://i.pinimg.com/736x/a2/8b/0d/a28b0d206e5cc72f3ba38aafa9ad8031.jpg',
     [
       'https://i.pinimg.com/736x/81/cf/e1/81cfe196df3e580425a842f6af8f12e3.jpg',
@@ -465,7 +560,7 @@ var coloracoesData = [
     ]
   ],
   ['balayage-loira', 'coloracao', 'Balayage Loira', 'Luzes Naturais',
-    'Técnica de luzes naturais com efeito degradê e movimento.',
+    'Técnica de luzes naturais com efeito degradê e movimento. Ex.: base 6.0/7.0 + balayage 8.3/9.3 + gloss 9.0.',
     'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
     [
       'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
@@ -481,7 +576,7 @@ var coloracoesData = [
     ]
   ],
   ['californianas', 'coloracao', 'Californianas', 'Efeito Sol',
-    'Luzes que criam um efeito de sol californiano.',
+    'Luzes que criam um efeito de sol californiano. Ex.: base 5.0/6.0 + pontas 8.3/9.3 (dourado quente).',
     'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
     [
       'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
@@ -497,14 +592,13 @@ var coloracoesData = [
     ]
   ],
   ['mechas-contour', 'coloracao', 'Mechas Contour', 'Contorno Facial',
-    'Luzes que contornam o rosto, iluminando e valorizando.',
+    'Luzes que contornam o rosto, iluminando e valorizando. Ex.: mechas frontais 8.0/9.0 ou 8.3 + 9.0.',
     'https://i.pinimg.com/1200x/05/42/66/05426622b672a5271cdfcd4813595269.jpg',
     [
       'https://i.pinimg.com/1200x/05/42/66/05426622b672a5271cdfcd4813595269.jpg',
       'https://i.pinimg.com/1200x/ba/ea/88/baea88db56d4ee70ac25ef7ebe6b4bfa.jpg',
       'https://i.pinimg.com/1200x/48/ee/44/48ee440c6712e07c385f64752e866ae9.jpg',
       'https://i.pinimg.com/1200x/2a/6d/e8/2a6de8b2b6a20546d876e41872a8120d.jpg',
-      'https://i.pinimg.com/1200x/79/59/76/795976cd1ec7cfce7cd0baff0cc0e8d5.jpg',
       'https://i.pinimg.com/1200x/79/59/76/795976cd1ec7cfce7cd0baff0cc0e8d5.jpg',
       'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg',
       'https://i.pinimg.com/736x/c7/92/25/c7922574476f525938331938daf277f7.jpg',
@@ -513,7 +607,7 @@ var coloracoesData = [
     ]
   ],
   ['highlights-loira', 'coloracao', 'Highlights Loira', 'Luzes Loiras',
-    'Luzes suaves que adicionam dimensão e brilho ao cabelo loiro.',
+    'Luzes suaves que adicionam dimensão e brilho ao cabelo loiro. Ex.: 8.1/9.1 (acinzentado) ou 8.3/9.3 (dourado).',
     'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
     [
       'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
@@ -529,7 +623,7 @@ var coloracoesData = [
     ]
   ],
   ['cherry-cola', 'coloracao', 'Cherry Cola', 'Vermelho Cereja',
-    'Tom ruivo intenso com nuances de cereja e cola. Vibrante.',
+    'Tom ruivo intenso com nuances de cereja e cola. Vibrante. Ex.: 4.6/5.6 ou 5.62 + 6.45 (vermelho-marrom).',
     'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
     [
       'https://i.pinimg.com/736x/d8/23/26/d823267f6084eb8dbea4746f9e460be2.jpg',
@@ -545,7 +639,7 @@ var coloracoesData = [
     ]
   ],
   ['cowgirl-copper', 'coloracao', 'Cowgirl Copper', 'Cobre Western',
-    'Tom cobre intenso com inspiração western. Moderno e ousado.',
+    'Tom cobre intenso com inspiração western. Moderno e ousado. Ex.: 6.4/7.4 ou 7.43 + 6.45 (cobre).',
     'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
     [
       'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
@@ -561,7 +655,7 @@ var coloracoesData = [
     ]
   ],
   ['ruivo-doce-leite', 'coloracao', 'Ruivo Doce de Leite', 'Ruivo Caramelo',
-    'Tom ruivo com nuances carameladas e suaves. Sofisticado.',
+    'Tom ruivo com nuances carameladas e suaves. Sofisticado. Ex.: 7.4/8.34 ou 7.43 + 8.3 (caramelo).',
     'https://i.pinimg.com/736x/8a/7c/d4/8a7cd4c0523d1384c8ac71d6b97b1541.jpg',
     [
       'https://i.pinimg.com/736x/8a/7c/d4/8a7cd4c0523d1384c8ac71d6b97b1541.jpg',
@@ -577,7 +671,7 @@ var coloracoesData = [
     ]
   ],
   ['grisalhos-frios', 'coloracao', 'Grisalhos Frios', 'Cinza Prateado',
-    'Transição natural com tons de cinza prateado. Sofisticação.',
+    'Transição natural com tons de cinza prateado. Sofisticação. Ex.: 7.1/8.1 ou 8.11 + 9.1 (acinzentado).',
     'https://i.pinimg.com/1200x/0f/8b/f7/0f8bf776c83fa00d99150792aac564fd.jpg',
     [
       'https://i.pinimg.com/1200x/50/4e/3e/504e3eb7e864269f264fab931c66029d.jpg',
@@ -593,7 +687,7 @@ var coloracoesData = [
     ]
   ],
   ['grisalhos-quentes', 'coloracao', 'Grisalhos Quentes', 'Cinza Avermelhado',
-    'Transição com tons de cinza mais quentes e acinzentados.',
+    'Transição com tons de cinza mais quentes e acinzentados. Ex.: 7.13/8.13 ou 8.3 + 8.1 (cinza quente).',
     'https://i.pinimg.com/736x/1e/aa/75/1eaa7549f9babe98cf52aee19771aa68.jpg',
     [
       'https://i.pinimg.com/736x/1e/aa/75/1eaa7549f9babe98cf52aee19771aa68.jpg',
@@ -609,7 +703,7 @@ var coloracoesData = [
     ]
   ],
   ['mocha-mousse', 'coloracao', 'Mocha Mousse', 'Marrom Café',
-    'Marrom intenso com nuances suaves que lembram o café com leite.',
+    'Marrom intenso com nuances suaves que lembram o café com leite. Ex.: 5.0/6.0 ou 6.7 + 5.3 (bege-marrom).',
     'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg',
     [
       'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
@@ -625,7 +719,7 @@ var coloracoesData = [
     ]
   ],
   ['expensive-brunette', 'coloracao', 'Expensive Brunette', 'Morena Premium',
-    'Morena com reflexos estratégicos que criam um visual caro e sofisticado.',
+    'Morena com reflexos estratégicos que criam um visual caro e sofisticado. Ex.: base 4.0/5.0 + reflexos 6.3/7.3.',
     'https://i.pinimg.com/736x/9b/15/b9/9b15b9e256a6114b5148bee2650c1364.jpg',
     [
       'https://i.pinimg.com/1200x/3e/b2/3d/3eb23d9fc16593ff95825fe42012d267.jpg',
@@ -641,7 +735,7 @@ var coloracoesData = [
     ]
   ],
   ['vanilla-blonde', 'coloracao', 'Vanilla Blonde', 'Loira Baunilha',
-    'Loira suave e cremosa com tons de baunilha e caramelo.',
+    'Loira suave e cremosa com tons de baunilha e caramelo. Exemplos aproximados: 9.7 / 9.3 ou mistura 8.3 + 9.0 (oxidante 10 vol).',
     'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg',
     [
       'https://i.pinimg.com/736x/36/2e/76/362e768aeb7ed3f16afb82c85bf8bb7e.jpg',
@@ -969,7 +1063,7 @@ var ferramentasData = [
     [
       'https://i.pinimg.com/1200x/ef/ef/f4/efeff4b83e8aecf58644af080c24e4ac.jpg',
       'https://i.pinimg.com/736x/41/31/08/4131089e2d531379ade8f1ac547246bd.jpg',
-      'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
+      'https://i.pinimg.com/736x/51/d7/fe/51d7fe3f8c05b4ddfbfc1ca2e0c4e996.jpg'
     ]
   ],
   [
@@ -980,9 +1074,9 @@ var ferramentasData = [
     'Prancha profissional com placas de titânio que proporcionam alta condução de calor e distribuição uniforme da temperatura. Indicada para alisamento, modelagem e finalização de diferentes tipos de cabelo.',
     'https://i.pinimg.com/1200x/e7/b6/e1/e7b6e1de363429ccf8f85d02f6c3abbc.jpg',
     [
-      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
-      'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=800&q=80',
-      'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=800&q=80'
+      'https://i.pinimg.com/736x/69/a2/4c/69a24ce045d17b1f16c50789eafc00fb.jpg',
+      'https://i.pinimg.com/736x/5e/12/e6/5e12e630cc54a79d81b0e6c504eed9d5.jpg',
+      'https://i.pinimg.com/1200x/21/0c/ec/210cec95d149ae3e8622ae3441d830ed.jpg'
     ]
   ],
   [
@@ -990,12 +1084,12 @@ var ferramentasData = [
     'ferramentas',
     'Modelador de Ondas',
     'Ondas Perfeitas',
-    'Modelador térmico de três cilindros desenvolvido para criar ondas marcadas e regulares. O formato permite trabalhar mechas de maneira uniforme, criando efeito ondulado com acabamento definido.',
-    'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80',
+    'Modelador térmico de um cilindros desenvolvido para criar ondas marcadas e regulares. O formato permite trabalhar mechas de maneira uniforme, criando efeito ondulado com acabamento definido.',
+    'https://i.pinimg.com/736x/e5/5c/8d/e55c8d124b8fbd55f7a2a45f6a238dd7.jpg',
     [
-      'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80',
-      'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=800&q=80',
-      'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
+      'https://i.pinimg.com/736x/2c/ee/a8/2ceea8d25dc03ce7b4961da20d619a77.jpg',
+      'https://i.pinimg.com/736x/cc/b2/64/ccb2645665518c74182d633f4586b005.jpg',
+      'https://i.pinimg.com/736x/14/12/e1/1412e160d106839a11b2a8cdfae2654c.jpg'
     ]
   ],
   [
@@ -1004,11 +1098,11 @@ var ferramentasData = [
     'Babyliss Cerâmica',
     'Cachos Definidos',
     'Modelador cilíndrico com revestimento cerâmico indicado para criar cachos e ondas com controle de temperatura. O diâmetro do cilindro influencia diretamente o tamanho e a definição do resultado.',
-    'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=800&q=80',
+    'https://i.pinimg.com/736x/ff/a3/ae/ffa3ae40d17685e0321de9ca3e27a41d.jpg',
     [
-      'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=800&q=80',
-      'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80',
-      'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
+      'https://i.pinimg.com/1200x/6e/b6/79/6eb6797d78cbe5606ad9d29998eb75e5.jpg',
+      'https://i.pinimg.com/736x/5d/9f/97/5d9f9707aaf6d4c444e2d65da38fcd5b.jpg',
+      'https://i.pinimg.com/1200x/b9/58/75/b95875d1a7945aaab782f67e382ba4ff.jpg'
     ]
   ],
   [
@@ -1017,11 +1111,11 @@ var ferramentasData = [
     'Escova Rotativa',
     'Modelagem e Volume',
     'Escova rotativa de ar quente que combina secagem e modelagem. O movimento rotativo ajuda a criar volume, movimento e acabamento alinhado durante a secagem.',
-    'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80',
+    'https://i.pinimg.com/736x/26/b8/ba/26b8ba113a222d08c5a7ececcf00cecf.jpg',
     [
-      'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80',
-      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80',
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80'
+      'https://i.pinimg.com/736x/73/5a/0e/735a0e7eda137b5fd090530a3f7321d0.jpg',
+      'https://i.pinimg.com/736x/73/5a/0e/735a0e7eda137b5fd090530a3f7321d0.jpg',
+      'https://i.pinimg.com/1200x/1d/4f/38/1d4f389fec6dfa518585926148342c42.jpg'
     ]
   ],
   [
@@ -1030,24 +1124,24 @@ var ferramentasData = [
     'Tesoura Profissional',
     'Corte de Precisão',
     'Tesoura profissional desenvolvida para cortes técnicos e acabamento de precisão. O formato ergonômico favorece controle e estabilidade durante o trabalho do cabeleireiro.',
-    'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80',
+    'https://i.pinimg.com/736x/6b/05/1d/6b051d5086bf9f85682e686e181bcf10.jpg',
     [
-      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80',
-      'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80',
-      'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80'
+      'https://i.pinimg.com/1200x/7c/2e/ea/7c2eea5dd695bd9df6ab6524387652c6.jpg',
+      'https://i.pinimg.com/1200x/aa/2d/20/aa2d2071d977ea08ae16bab3ee8b8466.jpg',
+      'https://i.pinimg.com/1200x/20/d4/05/20d4052d35ab73cb838683fdc18df058.jpg'
     ]
   ],
   [
-    'escova-cerdas-naturais',
+    'Kit de Escova de Cerdas Naturais',
     'ferramentas',
     'Escova de Cerdas Naturais',
     'Acabamento e Brilho',
     'Escova com cerdas naturais indicada para pentear, distribuir a oleosidade natural ao longo dos fios e proporcionar um acabamento mais polido. Pode ser especialmente útil em cabelos lisos e ondulados.',
-    'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80',
+    'https://i.pinimg.com/736x/32/2f/20/322f20b363ee6487911c3817f293dd21.jpg',
     [
-      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80',
-      'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=800&q=80',
-      'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=800&q=80'
+      'https://i.pinimg.com/736x/f0/a4/11/f0a411143156c8668bd4f6ae64e55f25.jpg',
+      'https://i.pinimg.com/1200x/02/42/35/024235cc5d211b0a9e05b2e9883886e7.jpg',
+      'https://i.pinimg.com/1200x/62/31/ba/6231ba96187c6edeb9cc78a99fc823de.jpg'
     ]
   ],
   [
@@ -1056,11 +1150,11 @@ var ferramentasData = [
     'Máquina de Corte',
     'Degradê e Aparo',
     'Máquina profissional de corte com lâmina ajustável, indicada para cortes masculinos, contornos, aparos e construção de degradês. O controle da lâmina permite trabalhar diferentes comprimentos.',
-    'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80',
+    'https://i.pinimg.com/736x/00/2b/50/002b5062b94512b47d3916ecf55212d3.jpg',
     [
-      'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80',
-      'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80',
-      'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&q=80'
+      'https://i.pinimg.com/736x/fd/46/b1/fd46b19a09a5a83e1eedd7a544be466b.jpg',
+      'https://i.pinimg.com/736x/dc/f8/3e/dcf83e5930d2ff7b0af588b1f7ba1791.jpg',
+      'https://i.pinimg.com/736x/be/3d/a8/be3da8c62a5a3bdd21cc5605abd23e54.jpg'
     ]
   ],
   [
@@ -1069,11 +1163,11 @@ var ferramentasData = [
     'Difusor Universal',
     'Cachos sem Frizz',
     'Acessório para secador que distribui o fluxo de ar de maneira mais ampla e suave. Indicado principalmente para cabelos ondulados, cacheados e crespos, ajudando a preservar a formação natural dos cachos.',
-    'https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=800&q=80',
+    'https://i.pinimg.com/736x/de/d6/1f/ded61f2c199f9e13e40fd64d3aa51708.jpg',
     [
-      'https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=800&q=80',
-      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
-      'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
+      'https://i.pinimg.com/1200x/3e/15/a6/3e15a66f16a649716a2b7c69b611062a.jpg',
+      'https://i.pinimg.com/1200x/fe/97/ff/fe97ff246be6747be32d4c6af87789ce.jpg',
+      'https://i.pinimg.com/736x/40/94/40/409440dabf1d219f45e92534b7da1e8d.jpg'
     ]
   ],
   [
@@ -1082,11 +1176,11 @@ var ferramentasData = [
     'Escova Térmica Alisadora',
     'Alisamento e Modelagem',
     'Escova elétrica com superfície aquecida que permite alinhar e modelar os fios durante o penteado. Indicada principalmente para retoques, redução de volume e acabamento mais liso.',
-    'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80',
+    'https://i.pinimg.com/736x/fe/02/a6/fe02a6570cf649da1defec4455a46b2d.jpg',
     [
-      'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80',
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
-      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80'
+      'https://i.pinimg.com/736x/5e/c3/db/5ec3dbbf91dba4dbff59fdd7f3c57c00.jpg',
+      'https://i.pinimg.com/736x/7e/72/8d/7e728d6281c3f99dec672f9cfe638375.jpg',
+      'https://i.pinimg.com/736x/74/e2/a6/74e2a672b7ebe13187e0d7ec5ed2a36d.jpg'
     ]
   ],
   [
@@ -1095,24 +1189,24 @@ var ferramentasData = [
     'Escova Paddle',
     'Desembaraçar e Alisar',
     'Escova de base larga e formato plano indicada para desembaraçar e alinhar cabelos médios e longos. Sua área ampla permite trabalhar grandes seções de cabelo com rapidez.',
-    'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
+    'https://i.pinimg.com/1200x/49/36/a0/4936a0c18a5b237312f90b674f9b45db.jpg',
     [
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
-      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80',
-      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
+      'https://i.pinimg.com/1200x/5f/f6/73/5ff673fcb94edbaa319ec3da502cc7a6.jpg',
+      'https://i.pinimg.com/736x/91/b1/90/91b1905d8a7c17206f3a1671d1954a05.jpg',
+      'https://i.pinimg.com/736x/45/c4/4b/45c44b757a8b4a1191d7276048e597b8.jpg'
     ]
   ],
   [
-    'escova-ceramica',
+    'escova-termica',
     'ferramentas',
-    'Escova de Cerâmica',
+    'Escova Térmica',
     'Modelagem com Brilho',
     'Escova redonda com cilindro cerâmico desenvolvida para uso durante a secagem. A superfície ajuda a distribuir o calor de maneira uniforme e facilita a criação de volume, movimento e acabamento polido.',
-    'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=800&q=80',
+    'https://i.pinimg.com/736x/f3/b8/14/f3b8140efec0fd25bee16ede2f9effb2.jpg',
     [
-      'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=800&q=80',
-      'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=800&q=80',
-      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
+      'https://i.pinimg.com/736x/80/79/77/8079773d48fc57850c5ed932e3ae69b8.jpg',
+      'https://i.pinimg.com/736x/5d/47/ff/5d47ffffde26ab74dfadee1bdf9dfcd3.jpg',
+      'https://i.pinimg.com/736x/8d/5b/e7/8d5be7313f6720b5cfe57b3da3523b7a.jpg'
     ]
   ],
   [
@@ -1121,11 +1215,11 @@ var ferramentasData = [
     'Escova de Madeira',
     'Antiestática e Natural',
     'Escova com corpo de madeira e cerdas naturais indicada para pentear e massagear suavemente o couro cabeludo. Pode ajudar a reduzir a eletricidade estática e proporcionar um acabamento mais natural.',
-    'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=800&q=80',
+    'https://i.pinimg.com/1200x/c5/8b/07/c58b07b61ad05709df43c3b92cd24e5c.jpg',
     [
-      'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=800&q=80',
-      'https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=800&q=80',
-      'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80'
+      'https://i.pinimg.com/1200x/34/f1/0b/34f10b055e1b0b0d107737fa5ae04fed.jpg',
+      'https://i.pinimg.com/736x/b5/0b/3b/b50b3bccf7ab2db949e26faafdbbb339.jpg',
+      'https://i.pinimg.com/736x/9c/17/50/9c1750c276319824a659ce755c652be4.jpg'
     ]
   ],
   [
@@ -1134,11 +1228,11 @@ var ferramentasData = [
     'Massageador Capilar',
     'Estímulo e Relaxamento',
     'Massageador com pontas de silicone desenvolvido para massagear o couro cabeludo. Pode ser utilizado durante a higienização ou como parte de uma rotina de relaxamento e cuidados com o couro cabeludo.',
-    'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=800&q=80',
+    'https://i.pinimg.com/1200x/3d/a9/f2/3da9f25d3ffb632da87d0f1fb4189250.jpg',
     [
-      'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?w=800&q=80',
-      'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80',
-      'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=800&q=80'
+      'https://i.pinimg.com/1200x/37/84/ad/3784ad0486d8e36d4dad6dfc1bbc646c.jpg',
+      'https://i.pinimg.com/736x/2e/4b/35/2e4b353192b23a4a4314aa72693dc6ae.jpg',
+      'https://i.pinimg.com/736x/4b/37/53/4b375331adfc3ab8dd94c27cfd6e5e37.jpg'
     ]
   ],
   [
@@ -1147,11 +1241,11 @@ var ferramentasData = [
     'Touca Térmica',
     'Potencializa Tratamentos',
     'Touca térmica utilizada durante determinados tratamentos capilares para manter o cabelo aquecido de maneira uniforme. Deve ser utilizada de acordo com as instruções do produto ou tratamento aplicado.',
-    'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80',
+    'https://i.pinimg.com/736x/e0/fd/95/e0fd9535ba1eea5eeaff20e49bfc7308.jpg',
     [
-      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80',
-      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
-      'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=800&q=80'
+      'https://i.pinimg.com/1200x/8c/5f/e7/8c5fe75321e624f96287da2885a79201.jpg',
+      'https://i.pinimg.com/736x/4f/cd/7f/4fcd7f37e266061e2d8691fb59e2e5d3.jpg',
+      'https://i.pinimg.com/736x/04/79/1f/04791ffd29b9c9ceac9f42102bd01031.jpg'
     ]
   ]
 ];
