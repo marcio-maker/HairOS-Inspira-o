@@ -4887,6 +4887,31 @@
       letter-spacing: 1.5px;
     }
 
+    /* ============================================================
+       ABAS COLORAÇÃO / CUIDADOS — Glow Amarelo + Verde
+       ============================================================ */
+    @keyframes softGlowGold {
+      0%, 100% {
+        text-shadow: 0 0 4px rgba(232, 213, 168, 0.45),
+                     0 0 10px rgba(201, 169, 110, 0.25);
+      }
+      50% {
+        text-shadow: 0 0 8px rgba(232, 213, 168, 0.75),
+                     0 0 18px rgba(201, 169, 110, 0.4);
+      }
+    }
+
+    @keyframes softGlowGreen {
+      0%, 100% {
+        text-shadow: 0 0 4px rgba(46, 204, 113, 0.45),
+                     0 0 10px rgba(46, 204, 113, 0.25);
+      }
+      50% {
+        text-shadow: 0 0 8px rgba(46, 204, 113, 0.75),
+                     0 0 18px rgba(46, 204, 113, 0.4);
+      }
+    }
+
     .sheet-btns {
       gap: 20px;
       padding: 0 0 6px;
@@ -4906,41 +4931,66 @@
       letter-spacing: 1.2px;
       font-weight: 400;
       text-transform: uppercase;
-    }
-
-    .sheet-btns button.active {
-      position: relative;
-      color: #f5f5f5;
       background: transparent;
       border: 0;
       box-shadow: none;
-      font-weight: 700;
+      transition: color .3s ease, text-shadow .3s ease;
     }
 
-    .sheet-btns button.active::after {
+    /* COLORAÇÃO — inativa */
+    .sheet-btns button:not(.cuidados):not(.active) {
+      color: #c9a96e;
+      animation: softGlowGold 2.6s ease-in-out infinite;
+    }
+
+    /* COLORAÇÃO — ativa */
+    .sheet-btns button.active:not(.cuidados) {
+      position: relative;
+      color: #e8d5a8;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(232, 213, 168, 0.7),
+                   0 0 18px rgba(201, 169, 110, 0.4);
+      animation: softGlowGold 2.6s ease-in-out infinite;
+    }
+
+    .sheet-btns button.active:not(.cuidados)::after {
       content: '';
       position: absolute;
       left: 0;
       right: 0;
       bottom: -7px;
       height: 2px;
-      background: #d4af37;
+      background: linear-gradient(90deg, #c9a96e, #e8d5a8);
+      box-shadow: 0 0 8px rgba(201, 169, 110, 0.6),
+                  0 0 14px rgba(201, 169, 110, 0.3);
     }
 
-    .sheet-btns button.cuidados,
-    .sheet-btns button.cuidados.active {
-      color: #777;
-      background: transparent;
-      border-color: transparent;
-      box-shadow: none;
+    /* CUIDADOS — inativa */
+    .sheet-btns button.cuidados:not(.active) {
+      color: #2ecc71;
+      animation: softGlowGreen 2.6s ease-in-out infinite;
     }
 
+    /* CUIDADOS — ativa */
     .sheet-btns button.cuidados.active {
-      color: #f5f5f5;
+      position: relative;
+      color: #5efc9a;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(46, 204, 113, 0.7),
+                   0 0 18px rgba(46, 204, 113, 0.4);
+      animation: softGlowGreen 2.6s ease-in-out infinite;
     }
 
     .sheet-btns button.cuidados.active::after {
-      background: #d4af37;
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -7px;
+      height: 2px;
+      background: linear-gradient(90deg, #1e9e55, #2ecc71);
+      box-shadow: 0 0 8px rgba(46, 204, 113, 0.6),
+                  0 0 14px rgba(46, 204, 113, 0.3);
     }
 
     .sheet-tab-section-title {
@@ -5496,7 +5546,6 @@
     }
   </style>
 </head>
-
 
 <body>
   <a href="#mainContent" class="skip-link">Pular para o conteúdo</a>
@@ -6102,7 +6151,6 @@
   </div>
 
   <script src="data.js"></script>
-
   <script>
     // ============================================================
     // FALLBACK IMAGEM
@@ -6494,7 +6542,7 @@
 
           function agendar() {
             clearTimeout(cardTimer);
-            var d = 10000 + Math.floor(Math.random() * 4000);
+            var d = 20000 + Math.floor(Math.random() * 10000);
             cardTimer = setTimeout(trocar, d);
             cardRotationTimers.push(cardTimer);
           }
@@ -7659,7 +7707,7 @@
           ferramentas: {
             nome: 'Kit Ferramentas Profissionais',
             badge: 'Ferramentas',
-            link: 'https://meli.la/1GbiW7M',
+            link: 'https://meli.la/2H5F4mn',
             produtos: 'Secador Iônico Pro + Prancha de Titânio + Escova Rotativa'
           }
         };
@@ -7692,14 +7740,14 @@
             kit = {
               nome: 'Kit ' + (data.corte || data.title),
               badge: 'Ferramentas',
-              link: 'https://meli.la/1GbiW7M',
+              link: 'https://meli.la/2H5F4mn',
               produtos: 'Secador + Prancha + Escova Rotativa'
             };
           } else {
             kit = {
               nome: 'Kit ' + (data.corte || data.title),
               badge: data.categoria || 'Produtos',
-              link: 'https://meli.la/1GbiW7M',
+              link: 'https://meli.la/2H5F4mn',
               produtos: 'Produtos selecionados para ' + (data.corte || data.title)
             };
           }
@@ -7800,7 +7848,7 @@
     function agendarProximaTrocaHero() {
       if (heroRotationPaused) return;
       if (heroRotationTimer) clearTimeout(heroRotationTimer);
-      var delay = 10000 + Math.floor(Math.random() * 4000);
+      var delay = 20000 + Math.floor(Math.random() * 10000);
       heroRotationTimer = setTimeout(trocarImagemHero, delay);
     }
 
@@ -7996,6 +8044,7 @@
 
     // ============================================================
     // RENDER MODAL MASONRY
+    // ✅ CORREÇÃO: filtra URLs duplicadas antes de renderizar
     // ============================================================
     function renderModalMasonry(key) {
       var container = document.getElementById('modalMasonry');
@@ -8009,6 +8058,18 @@
       var alturasModal = ['h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md', 'h-lg', 'h-xl', 'h-md'];
       var isProdutoKit = (data.categoria === 'produto' || data.categoria === 'kit' || data.categoria === 'ferramentas');
 
+      // ✅ CORREÇÃO: remove URLs duplicadas antes de renderizar
+      var seenUrls = {};
+      var uniqueVariants = [];
+      variants.forEach(function (variant) {
+        var imgUrl = (typeof variant === 'object' && variant !== null) ? variant.img : variant;
+        if (imgUrl && !seenUrls[imgUrl]) {
+          seenUrls[imgUrl] = true;
+          uniqueVariants.push(variant);
+        }
+      });
+      variants = uniqueVariants;
+
       variants.forEach(function (variant, idx) {
         var imgUrl = (typeof variant === 'object' && variant !== null) ? variant.img : variant;
         var meta = (typeof variant === 'object' && variant !== null)
@@ -8017,16 +8078,18 @@
         if (!imgUrl) return;
 
         var isOtherProduct = isProdutoKit && (meta.own === false);
+        var productId = (meta.productId && styleData[meta.productId]) ? meta.productId : null;
 
         var hClass = alturasModal[idx % alturasModal.length];
         var card = document.createElement('div');
         card.className = 'modal-card-item';
         card.dataset.imgUrl = imgUrl;
-        card.dataset.corte = isOtherProduct ? data.corte : (meta.corte || '');
-        card.dataset.title = isOtherProduct ? data.title : (meta.title || '');
-        card.dataset.desc = isOtherProduct ? data.desc : (meta.desc || '');
+        card.dataset.corte = meta.corte || data.corte || '';
+        card.dataset.title = meta.title || data.title || '';
+        card.dataset.desc = meta.desc || data.desc || '';
         card.dataset.key = key;
         card.dataset.categoria = data.categoria;
+        if (productId) card.dataset.productId = productId;
         card.style.animationDelay = (idx * 0.05) + 's';
 
         var img = document.createElement('img');
@@ -8039,13 +8102,22 @@
 
         var label = document.createElement('div');
         label.className = 'item-label';
-        label.textContent = isProdutoKit && idx >= 3 ? meta.corte : '#' + (idx + 1);
+        label.textContent = isProdutoKit && idx >= 3 ? (meta.corte || '#' + (idx + 1)) : '#' + (idx + 1);
         card.appendChild(label);
 
         card.addEventListener('click', function (e) {
           e.stopPropagation();
 
-          // 🔄 Pausa a rotação e agenda retomada (cancelando a anterior)
+          var targetProductId = this.dataset.productId;
+
+          // Produtos/Kits/Ferramentas: se for outro produto, abre o modal completo dele
+          if (targetProductId && styleData[targetProductId] && targetProductId !== key) {
+            if (isSheetOpen) closeSheet();
+            openModal(targetProductId);
+            return;
+          }
+
+          // Cortes/Colorações ou variação própria: só troca a imagem/hero
           pausarRotacaoHero();
           if (window._retomadaHeroTimeout) clearTimeout(window._retomadaHeroTimeout);
           window._retomadaHeroTimeout = setTimeout(function () {
@@ -8091,6 +8163,7 @@
 
     // ============================================================
     // CARROSSEL DE SUGESTÕES
+    // ✅ CORREÇÃO: filtra sugestões com imagens duplicadas
     // ============================================================
     var carouselItems = [];
     var carouselCurrentIndex = 0;
@@ -8140,6 +8213,14 @@
         });
         suggestions = suggestions.slice(0, 15);
       }
+
+      // ✅ CORREÇÃO: remove sugestões com imagens duplicadas
+      var seenSug = {};
+      suggestions = suggestions.filter(function (s) {
+        if (!s.img || seenSug[s.img]) return false;
+        seenSug[s.img] = true;
+        return true;
+      });
 
       carouselItems = suggestions;
       carouselCurrentIndex = 0;
