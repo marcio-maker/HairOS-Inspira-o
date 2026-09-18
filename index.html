@@ -392,9 +392,14 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 16px;
-      margin: 10px 0 20px;
-      position: sticky;
+
+      position: fixed;
       top: 10px;
+      left: 50%;
+      width: calc(100% - 24px);
+      max-width: 1200px;
+      transform: translateX(-50%);
+
       z-index: 500;
       background: rgba(18, 14, 12, 0.82);
       backdrop-filter: blur(24px);
@@ -407,7 +412,7 @@
 
     .header.modal-open {
       opacity: 0 !important;
-      transform: translateY(-100%) !important;
+      transform: translateX(-50%) translateY(-100%) !important;
       pointer-events: none !important;
     }
 
@@ -418,7 +423,7 @@
     }
 
     .header.hide {
-      transform: translateY(calc(-100% - 20px));
+      transform: translateX(-50%) translateY(calc(-100% - 20px));
       opacity: 0;
       pointer-events: none;
     }
@@ -5222,6 +5227,7 @@
     }
 
     .main-content {
+      padding-top: 92px;
       padding-bottom: 88px;
     }
 
@@ -5551,6 +5557,65 @@
   <a href="#mainContent" class="skip-link">Pular para o conteúdo</a>
   <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
+  <header class="header" id="mainHeader" role="banner">
+    <div class="header-left">
+      <div class="brand" id="brandLogo" role="button" tabindex="0" aria-label="HairOS - Página inicial">
+        <span>Hair<span>OS</span></span>
+      </div>
+      <div class="brand-sub" id="brandSub">— <span class="highlight">Vitrine de inspirações</span></div>
+    </div>
+    <div class="header-actions">
+      <span class="vitrine-badge" id="vitrineBadge" role="button" tabindex="0">Ver Vitrine</span>
+      <a href="assistente.html" class="header-link" aria-label="Assistente virtual">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+        </svg>
+        <span>Assistente</span>
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+    <div class="menu-panel">
+      <div class="menu-header">
+        <span>Menu</span>
+        <button class="menu-close" id="menuClose" aria-label="Fechar menu">×</button>
+      </div>
+      <button class="menu-item" id="menuHome" role="menuitem"><span class="icon" aria-hidden="true">⌂</span>
+        home</button>
+      <button class="menu-item" id="menuFavs" role="menuitem"><span class="icon" aria-hidden="true">♡</span> favoritos
+        <span class="item-count empty" id="menuFavCount">0</span></button>
+      <button class="menu-item" id="menuTransformacoes" role="menuitem"><span class="icon" aria-hidden="true">◑</span>
+        progresso <span class="item-count empty" id="menuTransfCount">0</span></button>
+      <button class="menu-item" id="menuPerfil" role="menuitem"><span class="icon" aria-hidden="true">◈</span>
+        perfil</button>
+      <button class="menu-item" id="menuSobre" role="menuitem"><span class="icon" aria-hidden="true">◎</span>
+        sobre</button>
+      <button class="menu-item" id="menuContato" role="menuitem"><span class="icon" aria-hidden="true">✉</span>
+        contato</button>
+      <div class="menu-divider" role="separator"></div>
+      <div class="menu-theme">
+        <span>Tema</span>
+        <button class="theme-switch" id="menuThemeToggle" aria-label="Alternar tema">dark</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer" id="footerBar" role="navigation" aria-label="Navegação principal">
+    <div class="footer-links" id="footerLinks">
+      <a class="active-link" data-page="pageHome" data-icon="⌂" role="button" tabindex="0">home</a>
+      <a data-page="pageFavoritos" data-icon="♡" role="button" tabindex="0">favs</a>
+      <a data-page="pagePerfil" data-icon="◈" role="button" tabindex="0">perfil</a>
+      <a data-page="pageTransformacoes" data-icon="◑" role="button" tabindex="0">progresso</a>
+      <a data-page="pageContato" data-icon="✉" role="button" tabindex="0">contato</a>
+    </div>
+  </footer>
+
   <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Carregando HairOS">
     <div class="loading-logo" id="loadingLogo">Hair<span>OS</span><span class="dot">.</span></div>
     <div class="loading-bar" id="loadingBarContainer" aria-hidden="true">
@@ -5561,55 +5626,6 @@
   </div>
 
   <div class="main-content" id="mainContent" role="main">
-    <header class="header" id="mainHeader" role="banner">
-      <div class="header-left">
-        <div class="brand" id="brandLogo" role="button" tabindex="0" aria-label="HairOS - Página inicial">
-          <span>Hair<span>OS</span></span>
-        </div>
-        <div class="brand-sub" id="brandSub">— <span class="highlight">Vitrine de inspirações</span></div>
-      </div>
-      <div class="header-actions">
-        <span class="vitrine-badge" id="vitrineBadge" role="button" tabindex="0">Ver Vitrine</span>
-        <a href="assistente.html" class="header-link" aria-label="Assistente virtual">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
-          </svg>
-          <span>Assistente</span>
-        </a>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
-          <span class="bar" aria-hidden="true"></span>
-          <span class="bar" aria-hidden="true"></span>
-          <span class="bar" aria-hidden="true"></span>
-        </button>
-      </div>
-    </header>
-
-    <div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu de navegação">
-      <div class="menu-panel">
-        <div class="menu-header">
-          <span>Menu</span>
-          <button class="menu-close" id="menuClose" aria-label="Fechar menu">×</button>
-        </div>
-        <button class="menu-item" id="menuHome" role="menuitem"><span class="icon" aria-hidden="true">⌂</span>
-          home</button>
-        <button class="menu-item" id="menuFavs" role="menuitem"><span class="icon" aria-hidden="true">♡</span> favoritos
-          <span class="item-count empty" id="menuFavCount">0</span></button>
-        <button class="menu-item" id="menuTransformacoes" role="menuitem"><span class="icon" aria-hidden="true">◑</span>
-          progresso <span class="item-count empty" id="menuTransfCount">0</span></button>
-        <button class="menu-item" id="menuPerfil" role="menuitem"><span class="icon" aria-hidden="true">◈</span>
-          perfil</button>
-        <button class="menu-item" id="menuSobre" role="menuitem"><span class="icon" aria-hidden="true">◎</span>
-          sobre</button>
-        <button class="menu-item" id="menuContato" role="menuitem"><span class="icon" aria-hidden="true">✉</span>
-          contato</button>
-        <div class="menu-divider" role="separator"></div>
-        <div class="menu-theme">
-          <span>Tema</span>
-          <button class="theme-switch" id="menuThemeToggle" aria-label="Alternar tema">dark</button>
-        </div>
-      </div>
-    </div>
-
     <div class="filters" id="filters" role="tablist" aria-label="Filtros de categorias">
       <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">Todos</button>
       <button class="filter-btn" data-filter="corte" role="tab" aria-selected="false">Cortes</button>
@@ -5781,15 +5797,6 @@
       </div>
     </div>
 
-    <footer class="footer" id="footerBar" role="navigation" aria-label="Navegação principal">
-      <div class="footer-links" id="footerLinks">
-        <a class="active-link" data-page="pageHome" data-icon="⌂" role="button" tabindex="0">home</a>
-        <a data-page="pageFavoritos" data-icon="♡" role="button" tabindex="0">favs</a>
-        <a data-page="pagePerfil" data-icon="◈" role="button" tabindex="0">perfil</a>
-        <a data-page="pageTransformacoes" data-icon="◑" role="button" tabindex="0">progresso</a>
-        <a data-page="pageContato" data-icon="✉" role="button" tabindex="0">contato</a>
-      </div>
-    </footer>
   </div>
 
   <div class="ba-modal-overlay" id="transfCreateOverlay" role="dialog" aria-modal="true">
